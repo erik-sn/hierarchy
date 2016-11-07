@@ -1,0 +1,112 @@
+@import "style";
+
+.main__sites {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: flex-start;
+  overflow-y: auto;
+  height: calc(100vh - 90px);
+  padding: 10px;
+}
+
+.main__departments {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - 90px);
+  padding: 10px;
+}
+
+a {
+  text-decoration: none;
+  color: $secondary;
+}
+
+.main__site-container {
+  flex: 0 1 275px;
+  margin: 10px;
+  padding: 15px;
+  border-radius: 2px;
+  transition: all 0.45s;
+}
+
+.main__site-container:hover {
+  transform: scale(1.05);
+}
+
+.main__site-title {
+  background: $primary;
+}
+
+.main__site-title > span {
+  font-family: 'Maven Pro';
+  color: whitesmoke !important;
+  font-weight: 600;
+  margin-left: 25px;
+}
+.main__department-title {
+  background: $primary;
+}
+.main__department-title > span {
+  font-size: 2rem !important;
+  font-family: 'Maven Pro';
+  font-weight: 600;
+  color: whitesmoke !important;
+}
+
+.main__site-place {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin-top: 20px;
+  height: 36px !important;
+  width: 36px !important;
+  float: left;
+  fill: whitesmoke !important;
+}
+
+
+.main__site-place:hover {
+  fill: lighten($primary, 40%) !important;
+  transform: rotate(0.5turn);
+}
+
+.main__department-container:hover {
+  background: lighten($primary, 70%) !important;
+}
+
+.main__machine-container {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+	justify-content: center;
+}
+
+.main__machine-label {
+  margin-left: 1%;
+  font-size: 20px;
+}
+
+.main__machine-item {
+  display: flex;
+  flex: 0 1 100px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+
+  @media (max-width: 350px) {
+    flex: 0 1 75px;
+  }
+}
+
+.main__machine-item-name {
+  cursor: pointer !important;
+}
+
+.main__machine-item-name:hover {
+  transform: scale(1.2);
+  background: lighten($primary, 60%) !important;
+}
+
