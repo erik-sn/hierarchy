@@ -13,24 +13,19 @@ describe('application.test.js |', () => {
   let component;
   let fetchAuth;
   let fetchHierarchy;
-  const defaultProps = Map({
+  const defaultProps = {
     user: Map({ username: 'test_user', ip: '0.0.0.0' }),
     userError: false,
     sites: List(['site1', 'site2', 'site3']),
     siteError: false,
     location: { pathname: '/' },
     modal: Map({ showModal: false, component: undefined }),
-  });
+  };
 
   describe('Expected | >>>', () => {
     beforeEach(() => {
       component = shallow(
-        <Application
-          sites={defaultProps.get('sites')}
-          user={defaultProps.get('user')}
-          modal={defaultProps.get('modal')}
-          location={{ pathname: '/' }}
-        >
+        <Application {...defaultProps} >
           <h3>Child</h3>
         </Application>
       );
@@ -52,7 +47,7 @@ describe('application.test.js |', () => {
       fetchHierarchy = sinon.spy();
       component = mountWithTheme(
         <Application
-          user={defaultProps.get('user')}
+          {...defaultProps}
           sites={List([])}
           fetchAuth={fetchAuth}
           fetchHierarchy={fetchHierarchy}
@@ -80,10 +75,8 @@ describe('application.test.js |', () => {
       fetchHierarchy = sinon.spy();
       component = mountWithTheme(reduxWrap(
         <Application
-          
+          {...defaultProps}
           siteError
-          fetchAuth={fetchAuth}
-          fetchHierarchy={fetchHierarchy}
         />
       ));
     });
@@ -135,8 +128,6 @@ describe('application.test.js |', () => {
         <Application
           {...defaultProps}
           userError
-          fetchAuth={fetchAuth}
-          fetchHierarchy={fetchHierarchy}
         />
       ));
     });
@@ -154,7 +145,7 @@ describe('application.test.js |', () => {
   describe('Container | >>>', () => {
     beforeEach(() => {
       moxios.install();
-      component = mountWithTheme(reduxWrap(<ApplicationContainer />));
+      component = mountWithTheme(reduxWrap(<ApplicationContainer location={{ pathname: '/' }}/>));
     });
 
     afterEach(() => {
@@ -174,8 +165,7 @@ describe('application.test.js |', () => {
       const modal = fromJS({ showModal: true, component: <h1>Test Modal</h1> });
       component = shallow(
         <Application
-          user={defaultProps.get('user')}
-          sites={defaultProps.get('sites')}
+          {...defaultProps}
           modal={modal}
         />
       );

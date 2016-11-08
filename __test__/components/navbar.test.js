@@ -3,9 +3,10 @@ import { expect } from 'chai';
 import { mount, shallow } from 'enzyme';
 import { fromJS, Map } from 'immutable';
 
-import { Navbar } from '../../src/components/navbar';
+import Navbar from '../../src/components/navbar';
 import { sites } from '../../__test__/sample';
 import { resolvePath } from '../../src/utils/resolver';
+import { mountWithTheme } from '../helper';
 
 const data = fromJS(JSON.parse(sites));
 
@@ -15,6 +16,7 @@ describe('navbar.test.js |', () => {
     const props = {
       user: Map({ username: 'test_user', ip: '0.0.0.0' }),
       hierarchy: resolvePath(data, '/ox/extrusion/ox11'),
+      path: '/ox/extrusion/ox11'
     };
 
     beforeEach(() => {
@@ -41,9 +43,10 @@ describe('navbar.test.js |', () => {
 
     it('4. hierarchy items should have the correct values', () => {
       const items = component.find('.navbar__hierarchy-item-child');
-      expect(items.at(0).text()).to.equal('OX');
-      expect(items.at(1).text()).to.equal('Extrusion');
-      expect(items.at(2).text()).to.equal('OX11');
+      expect(items.at(0).text()).to.equal('');
+      expect(items.at(1).text()).to.equal('Oak River');
+      expect(items.at(2).text()).to.equal('Extrusion');
+      expect(items.at(3).text()).to.equal('OX11');
     });
   });
 
@@ -56,7 +59,7 @@ describe('navbar.test.js |', () => {
     };
 
     beforeEach(() => {
-      component = shallow(<Navbar {...props} />);
+      component = shallow(<Navbar {...props} />, {});
     });
 
     it('1. displays unavailable if the user is undefined', () => {
@@ -72,6 +75,7 @@ describe('navbar.test.js |', () => {
       user: Map({ username: 'hello', ip: undefined }),
       error: false,
       hierarchy: undefined,
+      path: '/'
     };
 
     beforeEach(() => {

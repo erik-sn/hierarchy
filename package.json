@@ -32,7 +32,7 @@
     "test-one": "mocha -R min --compilers js:babel-core/register --require ./__test__/helper.js --recursive ./__test__",
     "test": "npm run test-one -- --watch",
     "coverage": "jest --coverage",
-    "lint": "eslint ./src ./test",
+    "lint": "eslint ./src ./test --fix",
     "build": "webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
     "start": "nodemon ./config/server.production.js --exec babel-node"
   },
