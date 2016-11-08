@@ -4,10 +4,10 @@ import { shallow } from 'enzyme';
 import { Map, List, fromJS } from 'immutable';
 import sinon from 'sinon';
 
-import { mountWithTheme } from '../helper';
-import { Main, Site, Department, MachineContainer, MachineItem } from '../../src/components/main';
-import { sites } from '../../__test__/sample';
-import { resolvePath } from '../../src/utils/resolver';
+import { mountWithTheme } from '../../helper';
+import { Main, Site, Department, MachineContainer, MachineItem } from '../../../src/components/hierarchy/main';
+import { sites } from '../../../__test__/sample';
+import { resolvePath } from '../../../src/utils/resolver';
 
 const data = fromJS(JSON.parse(sites));
 

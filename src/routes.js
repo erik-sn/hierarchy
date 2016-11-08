@@ -5,7 +5,7 @@ import Application from './components/application';
 import Admin from './components/admin';
 import NotFound from './components/notfound';
 import About from './components/about';
-import Main from './components/main';
+import Main from './components/hierarchy/main';
 
 import Department from './components/hierarchy/department';
 import Machine from './components/hierarchy/machine';

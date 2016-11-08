@@ -6,12 +6,15 @@ import Chip from 'material-ui/Chip';
 import GoogleMap from 'google-map-react';
 import Place from 'material-ui/svg-icons/maps/place';
 
-import { showModal, hideModal } from '../actions/index';
+import { showModal, hideModal } from '../../actions/index';
+import { alphaNumSort } from '../../utils/sort';
 
 export const MachineContainer = props => (
   <CardText className="main__site-machinecount">
     <div className="main__machine-container">
-      {props.dpt.get('machines').map((mch, j) => <MachineItem key={j} name={mch.get('name')} url={props.url} />)}
+      {props.dpt.get('machines').map(mch => mch.get('name')).sort(alphaNumSort).map((mch, j) => (
+        <MachineItem key={j} name={mch} url={props.url} />
+      ))}
     </div>
   </CardText>
 );

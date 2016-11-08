@@ -6,11 +6,12 @@ import MenuItem from 'material-ui/MenuItem';
 import { is } from 'immutable';
 
 import { getBoundingBox } from '../utils/dom';
+import { alphaNumSort } from '../utils/sort';
 
-export const Neighbor = (props) => {
+const Neighbor = (props) => {
   const { path, hide, name } = props;
   const rootIndex = path ? path.lastIndexOf('/') + 1 : 0;
-  const newPath = path ? path.substring(0, rootIndex) + name : '';
+  const newPath = path ? path.substring(0, rootIndex) + name.toLowerCase() : '';
   return (
     <Link to={newPath} onClick={hide} >
       <MenuItem className="navbar__neighbor-item" value={name} primaryText={name} />
@@ -80,8 +81,7 @@ class Navbar extends Component {
           width: elementWidth < 150 ? 150 : elementWidth,
         }}
       >
-        <Menu>
-          {neighbors.sort((a, b) => a > b).map((name, i) => (
+        <Menu>.sort(alphaNumSort).map((name, i) => (
             <Neighbor path={path} hide={this.hideNeighbors} key={i} name={name} />
           ))}
         </Menu>
@@ -157,7 +157,5 @@ class Navbar extends Component {
   }
 }
 
-const NavbarContainer = Navbar;
-
-export default NavbarContainer;
+export default Navbar;
 
