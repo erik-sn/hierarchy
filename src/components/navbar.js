@@ -12,7 +12,7 @@ export const Neighbor = (props) => {
   const rootIndex = path ? path.lastIndexOf('/') + 1 : 0;
   const newPath = path ? path.substring(0, rootIndex) + name : '';
   return (
-    <Link to={newPath} onClick={() => hide()} >
+    <Link to={newPath} onClick={hide} >
       <MenuItem className="navbar__neighbor-item" value={name} primaryText={name} />
     </Link>
   );
@@ -81,7 +81,7 @@ class Navbar extends Component {
         }}
       >
         <Menu>
-          {neighbors.map((name, i) => (
+          {neighbors.sort((a, b) => a > b).map((name, i) => (
             <Neighbor path={path} hide={this.hideNeighbors} key={i} name={name} />
           ))}
         </Menu>
@@ -103,7 +103,7 @@ class Navbar extends Component {
       );
     }
     return (
-      <Link to={to.toLowerCase()} onClick={() => this.hideNeighbors()}>
+      <Link to={to.toLowerCase()} onClick={this.hideNeighbors}>
         <div className="navbar__hierarchy-item-parent" >
           <div className="navbar__hierarchy-item-child">{component.get('name')}</div>
         </div>
@@ -130,12 +130,12 @@ class Navbar extends Component {
     return (
       <header className="navbar__container">
         {this.state.dropdownContainer}
-        <Link to="/">
+        <Link to="/" onClick={this.hideNeighbors} >
           <div className="navbar__icon-container">
             <img alt="Logo" className="nav-bar-logo" src="/static/media/logo.png" height="40px" />
           </div>
         </Link>
-        <Link to="/">
+        <Link to="/" onClick={this.hideNeighbors}>
           <div className="navbar__app-label">process workshop</div>
         </Link>
         <nav className="navbar__hierarchy-container">
