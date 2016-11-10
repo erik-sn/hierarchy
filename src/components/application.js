@@ -49,7 +49,12 @@ export class Application extends Component {
     let hierarchy;
     let content;
     if (sites.size > 0 && location) {
-      hierarchy = resolvePath(sites, location.pathname);
+      // check to see if hiearchy exists, if not do not resolve path
+      try {
+        hierarchy = resolvePath(sites, location.pathname);
+      } catch (e) {
+        hierarchy = undefined;
+      }
       content = React.Children.map(children, child => (
         React.cloneElement(child, { sites, hierarchy }))
       );
