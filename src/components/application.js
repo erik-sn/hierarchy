@@ -63,7 +63,11 @@ export class Application extends Component {
       <div className="application__container">
         <Navbar user={user} hierarchy={hierarchy} path={location.pathname} />
         <div className="application__content-container">
-          <Card className="application__content-card" style={{ padding: '25px', width: '100%' }} >
+          <Card
+            className="application__content-card"
+            style={{ padding: '25px', width: '100%' }}
+            containerStyle={{ width: '100%' }}
+          >
             {error || loader || modalComponent || content}
           </Card>
         </div>

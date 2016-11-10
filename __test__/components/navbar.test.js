@@ -16,7 +16,7 @@ describe('navbar.test.js |', () => {
     const props = {
       user: Map({ username: 'test_user', ip: '0.0.0.0' }),
       hierarchy: resolvePath(data, '/ox/extrusion/ox11'),
-      path: '/ox/extrusion/ox11'
+      path: '/ox/extrusion/ox11',
     };
 
     beforeEach(() => {
@@ -67,8 +67,6 @@ describe('navbar.test.js |', () => {
     });
   });
 
-
-
   describe('No Hierarchy | >>>', () => {
     let component;
     const props = {
@@ -85,6 +83,5 @@ describe('navbar.test.js |', () => {
     it('1. shows no hierarchy items if no hierarchy is present', () => {
       expect(component.find('.navbar__hierarchy-item-parent')).to.have.length(0);
     });
-
   });
 });

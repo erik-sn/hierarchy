@@ -3,8 +3,8 @@ import { expect } from 'chai';
 import { shallow, mount } from 'enzyme';
 import sinon from 'sinon';
 
-import { reduxWrap } from '../helper';
-import AdminContainer, { Admin } from '../../src/components/admin';
+import { mountWithTheme } from '../../helper';
+import Admin from '../../../src/components/admin/admin';
 
 describe('admin.test.js |', () => {
   describe('Expected | >>>', () => {

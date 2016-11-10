@@ -4,6 +4,7 @@
 .idea
 .vscode
 *.error
+*.log
 
 npm-debug.log
 webpack-assets.json

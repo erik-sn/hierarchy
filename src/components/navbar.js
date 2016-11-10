@@ -81,7 +81,8 @@ class Navbar extends Component {
           width: elementWidth < 150 ? 150 : elementWidth,
         }}
       >
-        <Menu>.sort(alphaNumSort).map((name, i) => (
+        <Menu>
+          {neighbors.sort(alphaNumSort).map((name, i) => (
             <Neighbor path={path} hide={this.hideNeighbors} key={i} name={name} />
           ))}
         </Menu>
