@@ -22,7 +22,7 @@ export class Application extends Component {
   }
 
   render() {
-    const { user, location, userError, sites, siteError, children, modal } = this.props;
+    const { user, location, userError, sites, siteError, children, modal, config } = this.props;
     // check to see if there are any errors
     let error;
     if (userError || siteError) {
@@ -61,7 +61,7 @@ export class Application extends Component {
     }
     return (
       <div className="application__container">
-        <Navbar user={user} hierarchy={hierarchy} path={location.pathname} />
+        <Navbar user={user} hierarchy={hierarchy} path={location.pathname} config={config} />
         <div className="application__content-container">
           <Card
             className="application__content-card"
@@ -83,6 +83,7 @@ function mapStateToProps(state) {
     sites: state.get('hierarchy').get('sites'),
     siteError: state.get('hierarchy').get('error'),
     modal: state.get('display').get('modal'),
+    config: state.get('display').get('config'),
   };
 }
 

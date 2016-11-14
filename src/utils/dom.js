@@ -10,3 +10,7 @@ export function getBoundingBox(e) {
     elementWidth: dropdownRight - dropdownX,
   };
 }
+
+export function test() {
+  return 'test';
+}

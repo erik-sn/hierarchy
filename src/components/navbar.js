@@ -113,7 +113,7 @@ class Navbar extends Component {
   }
 
   render() {
-    const { user, hierarchy } = this.props;
+    const { user, hierarchy, config } = this.props;
     const name = !user || !user.get('username') ? '' : user.get('username');
     const site = hierarchy ? hierarchy.get('site') : undefined;
 
@@ -137,7 +137,7 @@ class Navbar extends Component {
           </div>
         </Link>
         <Link to="/" onClick={this.hideNeighbors}>
-          <div className="navbar__app-label">process workshop</div>
+          <div className="navbar__app-label">{config.get('name')}</div>
         </Link>
         <nav className="navbar__hierarchy-container">
           <div className="navbar__hierarchy-item-holder">
@@ -159,4 +159,3 @@ class Navbar extends Component {
 }
 
 export default Navbar;
-

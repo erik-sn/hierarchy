@@ -1,8 +1,10 @@
 import { Map, fromJS } from 'immutable';
 
 import types from '../actions/types';
+import config from '../../appconfig.json';
 
 export const initialState = Map({
+  config: fromJS(config),
   modal: Map({ showModal: false, component: undefined }),
 });
 

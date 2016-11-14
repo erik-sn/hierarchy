@@ -27,7 +27,7 @@ class AdminHierarchy extends Component {
     }
     return (
       <div className="admin__hierarchy-container">
-        {activeSite ? <SiteAdmin site={activeSite} /> : <SiteList sites={sites} />}
+        {activeSite ? <SiteAdmin site={activeSite} splat={splat} /> : <SiteList sites={sites} />}
       </div>
     );
   }

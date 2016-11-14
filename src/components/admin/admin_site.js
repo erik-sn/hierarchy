@@ -1,11 +1,37 @@
 import React from 'react';
-import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
+import { browserHistory } from 'react-router';
+import { CardTitle } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
-import ContentSend from 'material-ui/svg-icons/content/send';
-import ActionGrade from 'material-ui/svg-icons/action/grade';
+import Settings from 'material-ui/svg-icons/action/settings';
+import Business from 'material-ui/svg-icons/communication/business';
+import Layers from 'material-ui/svg-icons/maps/layers';
+import PinDrop from 'material-ui/svg-icons/maps/pin-drop';
+import Router from 'material-ui/svg-icons/hardware/router';
 
-const AdminSite = ({ site }) => (
+import ConfigurationForm from './forms/admin_configuration';
+import DepartmentForm from './forms/admin_departments';
+import MachineForm from './forms/admin_machines';
+
+const ROOT = '/admin/hierarchy';
+
+const getConfig = (site, config) => {
+  switch (config) {
+    case 'departments':
+      return <DepartmentForm site={site} />;
+    case 'machines':
+      return <MachineForm site={site} />;
+    default:
+      return <ConfigurationForm site={site} />;
+  }
+};
+
+const renderConfig = (site, splat) => {
+  const siteCode = site.get('code').toLowerCase();
+  const config = splat.replace(`/${siteCode}`.toLowerCase(), '').replace('/', '');
+  return getConfig(site, config);
+};
+
+const AdminSite = ({ site, splat }) => (
   <div className="admin__site-container">
     <div className="admin__site-sidebar">
       <div className="admin__site-title">
@@ -17,31 +43,25 @@ const AdminSite = ({ site }) => (
       <div className="admin__site-options">
         <List>
           <ListItem
-            primaryText="Site Options"
-            leftIcon={<ContentSend />}
-            nestedItems={[
-              <ListItem
-                key={1}
-                primaryText="Starred"
-                leftIcon={<ActionGrade />}
-              />,
-              <ListItem
-                key={2}
-                primaryText="Starred"
-                leftIcon={<ActionGrade />}
-              />,
-              <ListItem
-                key={3}
-                primaryText="Starred"
-                leftIcon={<ActionGrade />}
-              />,
-            ]}
+            onClick={() => browserHistory.push(`${ROOT}/${site.get('code')}/`.toLowerCase())}
+            primaryText="Configuration"
+            leftIcon={<Settings />}
+          />
+          <ListItem
+            onClick={() => browserHistory.push(`${ROOT}/${site.get('code')}/departments/`.toLowerCase())}
+            primaryText="Departments"
+            leftIcon={<Business />}
+          />
+          <ListItem
+            onClick={() => browserHistory.push(`${ROOT}/${site.get('code')}/machines/`.toLowerCase())}
+            primaryText="Machines"
+            leftIcon={<Router />}
           />
         </List>
       </div>
     </div>
     <div className="admin__site-content">
-      <h3>do stuff here</h3>
+      {renderConfig(site, splat)}
     </div>
   </div>
 );

@@ -59,6 +59,10 @@ module.exports = {
         include: path.join(__dirname, '../src'),
       },
       {
+        test: /\.json$/,
+        loader: 'json',
+      },
+      {
       // send all SASS files into the ExtractTextPlugin
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('css!postcss!sass'),

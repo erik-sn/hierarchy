@@ -1,6 +1,8 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import { List, ListItem } from 'material-ui/List';
+import FlatButton from 'material-ui/FlatButton';
+import Add from 'material-ui/svg-icons/content/add';
 
 const AdminSiteList = props => (
   <List>
@@ -12,6 +14,11 @@ const AdminSiteList = props => (
         secondaryText={site.get('location')}
       />
     ))}
+    <FlatButton
+      label="Add Site"
+      icon={<Add />}
+      primary
+    />
   </List>
 );
 
