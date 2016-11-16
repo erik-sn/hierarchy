@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form/immutable';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 
+import NewModule from './admin_module';
 import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
 class Department extends Component {
@@ -33,6 +34,18 @@ class Department extends Component {
     this.setState({ department });
   }
 
+  renderDepartmentForm(department) {
+    return (
+      <div>
+        <Field className="admin__form-field" name="name" component={renderTextField} label="Name" />
+        <div style={{ width: '100%', height: '20px' }} />
+        <Field className="admin__form-field" name="active" component={renderCheckbox} label="Active" />
+        <div style={{ width: '100%', height: '20px' }} />
+        <NewModule type="department" target={department} />
+      </div>
+    )
+  }
+
   render() {
     const { site, handleSubmit } = this.props;
     const { department } = this.state;
@@ -47,10 +60,8 @@ class Department extends Component {
             >
               {this.getDepartments(site)}
             </SelectField>
+            {department ? this.renderDepartmentForm(department) : <h3>Select a Department</h3>}
           </div>
-          <Field className="admin__form-field" name="name" component={renderTextField} label="Name" />
-          <div style={{ width: '100%', height: '20px' }} />
-          <Field className="admin__form-field" name="active" component={renderCheckbox} label="Active" />
         </div>
       </form>
     );

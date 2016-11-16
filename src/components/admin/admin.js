@@ -29,6 +29,7 @@ class Admin extends Component {
   renderMenu() {
     const { menu, splat } = this.props.params;
     switch (menu) {
+      case undefined:
       case 'hierarchy':
         return <AdminHierarchy splat={splat} sites={this.props.sites} />;
       case 'specifications':

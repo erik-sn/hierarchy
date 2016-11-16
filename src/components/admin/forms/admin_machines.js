@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
+import { cloneDeep } from 'lodash';
 import { Field, reduxForm } from 'redux-form/immutable';
-import { browserHistory } from 'react-router';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
-import { List, ListItem } from 'material-ui/List';
+import { List } from 'material-ui/List';
+
+import NewModule from './admin_module';
 
 import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
-
-const ROOT = '/admin/hierarchy';
 
 class Machine extends Component {
 
@@ -15,6 +15,8 @@ class Machine extends Component {
     super(props);
     this.state = {
       department: undefined,
+      machine: undefined,
+      module: undefined,
     };
   }
 
@@ -29,44 +31,82 @@ class Machine extends Component {
     ));
   }
 
-  setActiveDepartment(department) {
-    const { change } = this.props;
-    change('name', department.get('name'));
-    change('active', department.get('active'));
-    this.setState({ department });
-  }
-
-  renderMachines() {
-    if (!this.state.department) {
+  getMachines(department) {
+    if (!department) {
       return [];
     }
-    const { site } = this.props;
-    return this.state.department.get('machines').map((machine, i) => (
-      <ListItem
+    return department.get('machines').map((machine, i) => (
+      <MenuItem
         key={i}
-        onClick={() => browserHistory.push(`${ROOT}/${site.get('code')}/machines/${machine.get('name')}`.toLowerCase())}
+        value={machine.get('name')}
         primaryText={machine.get('name')}
+        onClick={() => this.setActiveMachine(machine)}
       />
     ));
   }
 
+  setActiveDepartment(department) {
+    const { change } = this.props;
+    change('department', department.get('name'));
+    this.setState({ department });
+  }
+
+  setActiveMachine(machine) {
+    const { change } = this.props;
+    change('machine', machine.get('name'));
+    change('name', machine.get('name'));
+    change('type', machine.get('type'));
+    change('active', machine.get('active'));
+    this.setState({ machine });
+  }
+
+  renderMachine() {
+    const { department, machine } = this.state;
+    if (!department) {
+      return <h3>Select a Department</h3>;
+    } else if (!machine) {
+      return <h3>Select a Machine</h3>;
+    }
+    return (
+      <div className="admin__machine-container">
+        <Field className="admin__form-field" name="name" component={renderTextField} label="Name" />
+        <Field className="admin__form-field" name="type" component={renderTextField} label="Type" />
+        <div style={{ width: '100%', height: '20px' }} />
+        <Field className="admin__form-field" name="active" component={renderCheckbox} label="Active" />
+        <div style={{ width: '100%', height: '20px' }} />
+        <NewModule type="machine" target={machine} />
+      </div>
+    );
+  }
+
+
   render() {
     const { site, handleSubmit } = this.props;
-    const { department } = this.state;
+    const { department, machine, showNewModule } = this.state;
     return (
       <form onSubmit={handleSubmit} className="admin__form-container" >
+        {showNewModule ? this.renderNewModuleModal() : ''}
         <div className="admin__form-section">
           <div className="mui-form-component">
             <SelectField
               className="admin__form-field"
+              hintText="Department"
               label="Department"
               value={department ? department.get('name') : ''}
             >
               {this.getDepartments(site)}
             </SelectField>
+            <SelectField
+              className="admin__form-field"
+              hintText="Machine"
+              label="Machine"
+              value={machine ? machine.get('name') : ''}
+            >
+              {this.getMachines(department)}
+            </SelectField>
           </div>
           <List>
-            {this.renderMachines()}
+            {this.renderMachine()}
           </List>
         </div>
       </form>

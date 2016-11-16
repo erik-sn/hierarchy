@@ -20,7 +20,7 @@ class AdminHierarchy extends Component {
 
   render() {
     const { sites, splat } = this.props;
-    const code = splat.split('/')[1]; // parse remainder url for parameters
+    const code = splat ? splat.split('/')[1] : undefined; // parse remainder url for parameters
     let activeSite;
     if (code) {
       activeSite = sites.find(site => code.toUpperCase() === site.get('code'));

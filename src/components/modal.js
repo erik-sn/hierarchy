@@ -9,16 +9,29 @@ import AppBar from 'material-ui/AppBar';
 import { hideModal } from '../actions/index';
 
 export const Modal = (props) => {
-  const { message, children, modal, title } = props;
+  const { message, children, modal, title, onSubmit, onCancel } = props;
 
   let actions = [
     <FlatButton
       label="Ok"
       primary
       keyboardFocused
-      onTouchTap={props.hideModal}
+      onTouchTap={onSubmit || props.hideModal}
     />,
   ];
+
+  const cancel = (
+    <FlatButton
+      label="Cancel"
+      primary
+      keyboardFocused
+      onTouchTap={onCancel}
+    />
+  );
+
+  if (onCancel) {
+    actions.push(cancel);
+  }
 
   const errorIconStyle = { marginLeft: '25px', height: '40px', width: '40px', display: 'none' };
   if (props.error) {

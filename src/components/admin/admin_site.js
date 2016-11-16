@@ -4,8 +4,6 @@ import { CardTitle } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Business from 'material-ui/svg-icons/communication/business';
-import Layers from 'material-ui/svg-icons/maps/layers';
-import PinDrop from 'material-ui/svg-icons/maps/pin-drop';
 import Router from 'material-ui/svg-icons/hardware/router';
 
 import ConfigurationForm from './forms/admin_configuration';

@@ -3,9 +3,10 @@ import { Field, reduxForm } from 'redux-form/immutable';
 import { toJS } from 'immutable';
 import { connect } from 'react-redux';
 
+import NewModule from './admin_module';
 import { renderTextField as Text, renderCheckbox as Check } from '../../../utils/form_renderer';
 
-const Configuration = ({ handleSubmit }) => (
+const Configuration = ({ handleSubmit, site }) => (
   <form onSubmit={handleSubmit} className="admin__form-container" >
     <div className="admin__form-section" >
       <h3>General</h3>
@@ -22,6 +23,9 @@ const Configuration = ({ handleSubmit }) => (
       <Field className="admin__form-field" name="address" component={Text} label="Address" />
       <Field className="admin__form-field" name="latitude" component={Text} label="Latitude" />
       <Field className="admin__form-field" name="longitude" component={Text} label="Longitude" />
+    </div>
+    <div className="admin__form-section">
+      <NewModule type="site" target={site} />
     </div>
   </form>
 );
