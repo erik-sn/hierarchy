@@ -4,12 +4,12 @@ import { List, ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
 import Add from 'material-ui/svg-icons/content/add';
 
-const AdminSiteList = props => (
-  <List>
-    {props.sites.map((site, i) => (
+const AdminSiteList = ({ sites, navigate }) => (
+  <List className="admin__site-list-container">
+    {sites.map((site, i) => (
       <ListItem
         key={i}
-        onClick={() => browserHistory.push(`/admin/hierarchy/${site.get('code').toLowerCase()}/`)}
+        onClick={() => navigate(site.get('code'))}
         primaryText={`${site.get('name')} - ${site.get('code')}`}
         secondaryText={site.get('location')}
       />

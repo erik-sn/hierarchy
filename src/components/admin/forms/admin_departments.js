@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { toJS } from 'immutable';
 import { Field, reduxForm } from 'redux-form/immutable';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
@@ -7,7 +6,7 @@ import SelectField from 'material-ui/SelectField';
 import NewModule from './admin_module';
 import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
-class Department extends Component {
+export class Department extends Component {
 
   constructor(props) {
     super(props);
@@ -43,7 +42,7 @@ class Department extends Component {
         <div style={{ width: '100%', height: '20px' }} />
         <NewModule type="department" target={department} />
       </div>
-    )
+    );
   }
 
   render() {

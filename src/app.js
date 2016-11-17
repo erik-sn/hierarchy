@@ -4,6 +4,8 @@ import { createStore, applyMiddleware } from 'redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { cyan500 } from 'material-ui/styles/colors';
 import promise from 'redux-promise';
 
 import reducers from './reducers';
@@ -22,9 +24,18 @@ const history = syncHistoryWithStore(browserHistory, store, {
   },
 });
 
+const muiTheme = getMuiTheme({
+  palette: {
+    primary1Color: '#0D1313',
+    primary2Color: '#0D1313',
+    primary3Color: '#0D1313',
+    accent1Color: '#999',
+  },
+});
+
 const App = () => (
   <Provider store={store}>
-    <MuiThemeProvider>
+    <MuiThemeProvider muiTheme={muiTheme}>
       <Router history={history} routes={routes} />
     </MuiThemeProvider>
   </Provider>

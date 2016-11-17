@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { cloneDeep } from 'lodash';
 import { Field, reduxForm } from 'redux-form/immutable';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
@@ -9,7 +8,7 @@ import NewModule from './admin_module';
 
 import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
-class Machine extends Component {
+export class Machine extends Component {
 
   constructor(props) {
     super(props);
@@ -89,7 +88,7 @@ class Machine extends Component {
         <div className="admin__form-section">
           <div className="mui-form-component">
             <SelectField
-              className="admin__form-field"
+              className="admin__form-field admin__department_select"
               hintText="Department"
               label="Department"
               value={department ? department.get('name') : ''}
@@ -97,7 +96,7 @@ class Machine extends Component {
               {this.getDepartments(site)}
             </SelectField>
             <SelectField
-              className="admin__form-field"
+              className="admin__form-field admin__machine_select"
               hintText="Machine"
               label="Machine"
               value={machine ? machine.get('name') : ''}

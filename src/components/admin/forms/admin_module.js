@@ -5,6 +5,8 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import Add from 'material-ui/svg-icons/content/add';
+import Remove from 'material-ui/svg-icons/content/remove';
+import Edit from 'material-ui/svg-icons/editor/mode-edit';
 
 import Modal from '../../modal';
 
@@ -14,6 +16,7 @@ class NewModule extends Component {
     super(props);
     this.state = {
       showNewModule: false,
+      showDeleteModule: false,
       newModuleText: '',
       module: undefined,
     };
@@ -23,7 +26,7 @@ class NewModule extends Component {
   }
 
   getModules(item) {
-    if (!item) {
+    if (!item || !item.get('modules')) {
       return [];
     }
     return item.get('modules').map((module, i) => (
@@ -31,23 +34,14 @@ class NewModule extends Component {
         key={i}
         value={module.get('name')}
         primaryText={module.get('name')}
-        onClick={() => this.setActive('module', module)}
+        onClick={() => this.setState({ module })}
       />
     ));
-  }
-
-  setActive(type, object) {
-    const { change } = this.props;
-    change(type, object.get('name'));
-    const newState = cloneDeep(this.state);
-    newState[type] = object;
-    this.setState(newState);
   }
 
   addNewModule() {
     const { type, target } = this.props;
     const name = this.state.newModuleText;
-    console.log('adding module: ', target, this.state.newModuleText);
     this.hideNewModule();
   }
 
@@ -99,6 +93,22 @@ class NewModule extends Component {
           icon={<Add />}
           primary
         />
+        {module ?
+          <FlatButton
+            label="Edit Module"
+            onClick={() => this.setState({ showDeleteModule: true })}
+            icon={<Edit />}
+            primary
+          /> : undefined
+        }
+        {module ?
+          <FlatButton
+            label="Delete Module"
+            onClick={() => this.setState({ showDeleteModule: true })}
+            icon={<Remove />}
+            primary
+          /> : undefined
+        }
       </div>
     );
   }

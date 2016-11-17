@@ -1,8 +1,10 @@
 import { fromJS, List } from 'immutable';
 import { expect } from 'chai';
+import * as router from 'react-router';
+import sinon from 'sinon';
 
 import { getSite, getDepartment, getDepartments, getMachines, lowIfStr,
-  getMachine, resolvePath } from '../../src/utils/resolver';
+  getMachine, resolvePath, buildNavigate } from '../../src/utils/resolver';
 import { sites } from '../../__test__/sample';
 
 
@@ -15,7 +17,21 @@ describe('resolver.test.js |', () => {
     it('2. returns lowercase string if it is a string', () => {
       expect(lowIfStr('HELLO')).to.equal('hello');
     });
+  });
 
+  describe('buildNavigate | >>>', () => {
+
+    it('1. throws an error if input string is empty', () => {
+      expect(() => buildNavigate('')).to.throw('A base string is required');
+    });
+
+    it('2. calls browserhistory.push with the correct input', () => {
+      router.browserHistory = { push: () => {} };
+      sinon.stub(router.browserHistory, 'push', target => target);
+      const navigate = buildNavigate('/testMe');
+      expect(navigate('tohere')).to.equal('/testme/tohere/');
+      expect(navigate('tOHERE/and/there')).to.equal('/testme/tohere/and/there/');
+    });
   });
 
   describe('Hierarchy Searching | >>>', () => {

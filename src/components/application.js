@@ -87,7 +87,6 @@ function mapStateToProps(state) {
   };
 }
 
-
 const ApplicationContainer = connect(mapStateToProps, {
   showModal, fetchAuth, fetchHierarchy })(Application);
 

@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import NewModule from './admin_module';
 import { renderTextField as Text, renderCheckbox as Check } from '../../../utils/form_renderer';
 
-const Configuration = ({ handleSubmit, site }) => (
+export const Configuration = ({ handleSubmit, site }) => (
   <form onSubmit={handleSubmit} className="admin__form-container" >
     <div className="admin__form-section" >
       <h3>General</h3>

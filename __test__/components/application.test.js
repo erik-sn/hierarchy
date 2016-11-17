@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-import { shallow, mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import { fromJS, List, Map } from 'immutable';
 import moxios from 'moxios';
@@ -20,6 +20,7 @@ describe('application.test.js |', () => {
     siteError: false,
     location: { pathname: '/' },
     modal: Map({ showModal: false, component: undefined }),
+    config: Map({ name: 'Test name' }),
   };
 
   describe('Expected | >>>', () => {
@@ -49,6 +50,7 @@ describe('application.test.js |', () => {
         <Application
           {...defaultProps}
           sites={List([])}
+          config={Map({ name: 'Test name' })}
           fetchAuth={fetchAuth}
           fetchHierarchy={fetchHierarchy}
         />

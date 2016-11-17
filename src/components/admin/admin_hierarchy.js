@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 
 import SiteList from './admin_site_list';
 import SiteAdmin from './admin_site';
+import { buildNavigate } from '../../utils/resolver';
+
+const navigate = buildNavigate('/admin/hierarchy');
 
 class AdminHierarchy extends Component {
 
@@ -25,9 +28,10 @@ class AdminHierarchy extends Component {
     if (code) {
       activeSite = sites.find(site => code.toUpperCase() === site.get('code'));
     }
+    const siteList = <SiteList navigate={navigate} sites={sites} />;
     return (
       <div className="admin__hierarchy-container">
-        {activeSite ? <SiteAdmin site={activeSite} splat={splat} /> : <SiteList sites={sites} />}
+        {activeSite ? <SiteAdmin site={activeSite} splat={splat} /> : siteList}
       </div>
     );
   }

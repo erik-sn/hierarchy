@@ -5,6 +5,9 @@ import { is } from 'immutable';
 import Modal from '../modal';
 import AdminTabs from './admin_tabs';
 import AdminHierarchy from './admin_hierarchy';
+import { buildNavigate } from '../../utils/resolver';
+
+const navigate = buildNavigate('/admin');
 
 class Admin extends Component {
 
@@ -60,7 +63,7 @@ class Admin extends Component {
           title="Admin"
           subtitle="Application administration menu"
         />
-        <AdminTabs activeMenu={this.state.activeMenu} changeMenu={this.changeMenu} />
+        <AdminTabs navigate={navigate} />
         {this.renderMenu()}
       </Card>
     );

@@ -15,6 +15,7 @@ describe('navbar.test.js |', () => {
     let component;
     const props = {
       user: Map({ username: 'test_user', ip: '0.0.0.0' }),
+      config: Map({ name: 'Test Name!' }),
       hierarchy: resolvePath(data, '/ox/extrusion/ox11'),
       path: '/ox/extrusion/ox11',
     };
@@ -37,11 +38,15 @@ describe('navbar.test.js |', () => {
       expect(component.find('.navbar__username').text()).to.equal('test_user');
     });
 
-    it('3. should have three hierarchy items', () => {
+    it('3. displays the correct application name', () => {
+      expect(component.find('.navbar__app-label').text()).to.equal('Test Name!');
+    });
+
+    it('4. should have three hierarchy items', () => {
       expect(component.find('.navbar__hierarchy-item-parent')).to.have.length(3);
     });
 
-    it('4. hierarchy items should have the correct values', () => {
+    it('5. hierarchy items should have the correct values', () => {
       const items = component.find('.navbar__hierarchy-item-child');
       expect(items.at(0).text()).to.equal('');
       expect(items.at(1).text()).to.equal('Oak River');
@@ -54,6 +59,7 @@ describe('navbar.test.js |', () => {
     let component;
     const props = {
       user: Map({ username: undefined, ip: undefined }),
+      config: Map({ name: 'Test Name! '}),
       error: true,
       hierarchy: resolvePath(data, '/ox/extrusion/ox11')
     };
@@ -71,9 +77,10 @@ describe('navbar.test.js |', () => {
     let component;
     const props = {
       user: Map({ username: 'hello', ip: undefined }),
+      config: Map({ name: 'Test Name! '}),
       error: false,
       hierarchy: undefined,
-      path: '/'
+      path: '/',
     };
 
     beforeEach(() => {

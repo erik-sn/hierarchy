@@ -1,4 +1,5 @@
 import { Map } from 'immutable';
+import { browserHistory } from 'react-router';
 
 const defaultKeys = Map({
   site: 'id',
@@ -80,4 +81,16 @@ export function resolvePath(hierarchy, route) {
   const department = path[1] ? getDepartment(hierarchy, path[0], path[1], keys) : undefined;
   const machine = path[2] ? getMachine(hierarchy, path[0], path[1], path[2], keys) : undefined;
   return Map({ site, department, machine });
+}
+
+/**
+ * Generate a function that pushes to react-router history based on
+ * a specified base string
+ * @param  {string} base - the base url of the string
+ */
+export function buildNavigate(base) {
+  if (!base) {
+    throw Error('A base string is required');
+  }
+  return target => browserHistory.push(`${base.toLowerCase()}/${target.toLowerCase()}/`);
 }
