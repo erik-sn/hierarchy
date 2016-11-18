@@ -147,7 +147,7 @@ describe('application.test.js |', () => {
   describe('Container | >>>', () => {
     beforeEach(() => {
       moxios.install();
-      component = mountWithTheme(reduxWrap(<ApplicationContainer location={{ pathname: '/' }}/>));
+      component = mountWithTheme(reduxWrap(<ApplicationContainer location={{ pathname: '/' }} />));
     });
 
     afterEach(() => {
@@ -175,6 +175,22 @@ describe('application.test.js |', () => {
 
     it('1. renders a modal when shown', () => {
       expect(component.contains(<h1>Test Modal</h1>)).to.equal(true);
+    });
+  });
+
+  describe('Non-Hierarchy | >>>', () => {
+    beforeEach(() => {
+      component = shallow(
+        <Application
+          {...defaultProps}
+          location={{ pathname: '/nope' }}
+        />
+      );
+    });
+
+    it('1. correctly defines hierarchy as undefined if it does not exist', () => {
+      expect(component).to.exist();
+      expect(component.find('Navbar').props().hierarchy).to.equal(undefined);
     });
   });
 });

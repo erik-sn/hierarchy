@@ -1,6 +1,6 @@
 import React from 'react';
 import { expect } from 'chai';
-
+import { shallow } from 'enzyme';
 import { mountWithTheme } from '../helper';
 import { Modal } from '../../src/components/modal';
 
@@ -17,10 +17,10 @@ describe('modal.test.js |', () => {
     };
 
     beforeEach(() => {
-      component = mountWithTheme(<Modal {...props} />);
+      component = shallow(<Modal {...props} />);
       const appBar = component.find('Dialog').props().title;
       const child = component.find('Dialog').props().children;
-      children = mountWithTheme(<div>{child}</div>);
+      children = shallow(<div>{child}</div>);
       AppBar = mountWithTheme(appBar);
     });
 
@@ -43,6 +43,18 @@ describe('modal.test.js |', () => {
 
     it('5. has the ok action when modal is false ', () => {
       expect(component.find('Dialog').props().actions).to.have.length(1);
+    });
+
+    it('5. has the ok action when modal is false ', () => {
+      const updateProps = {
+        title: 'test title',
+        message: 'test message',
+        children: <h1>Child JSX!</h1>,
+        modal: false,
+        onCancel: () => 'hi!',
+      };
+      component = shallow(<Modal {...updateProps} />);
+      expect(component.find('Dialog').props().actions).to.have.length(2);
     });
   });
 

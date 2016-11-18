@@ -1,5 +1,4 @@
 import React from 'react';
-import { browserHistory } from 'react-router';
 import { List, ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
 import Add from 'material-ui/svg-icons/content/add';

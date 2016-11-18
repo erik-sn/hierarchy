@@ -71,7 +71,12 @@ export class Machine extends Component {
         <Field className="admin__form-field" name="name" component={renderTextField} label="Name" />
         <Field className="admin__form-field" name="type" component={renderTextField} label="Type" />
         <div style={{ width: '100%', height: '20px' }} />
-        <Field className="admin__form-field" name="active" component={renderCheckbox} label="Active" />
+        <Field
+          className="admin__form-field"
+          name="active"
+          component={renderCheckbox}
+          label="Active"
+        />
         <div style={{ width: '100%', height: '20px' }} />
         <NewModule type="machine" target={machine} />
       </div>
@@ -81,10 +86,9 @@ export class Machine extends Component {
 
   render() {
     const { site, handleSubmit } = this.props;
-    const { department, machine, showNewModule } = this.state;
+    const { department, machine } = this.state;
     return (
       <form onSubmit={handleSubmit} className="admin__form-container" >
-        {showNewModule ? this.renderNewModuleModal() : ''}
         <div className="admin__form-section">
           <div className="mui-form-component">
             <SelectField

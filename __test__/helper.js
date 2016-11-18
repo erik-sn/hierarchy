@@ -17,7 +17,7 @@ chai.use(dirtyChai);
 chai.use(chaiImmutable);
 
 
-global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
+global.document = jsdom.jsdom('<!doctype html><html><body><div id="root" /></body></html>');
 global.window = global.document.defaultView;
 
 global.navigator = {
@@ -67,6 +67,11 @@ function storageMock() {
   };
 }
 
+export function triggerResize() {
+  const evt = window.document.createEvent('UIEvents'); 
+  evt.initUIEvent('resize', true, false, window, 0); 
+  window.dispatchEvent(evt);
+}
 
 
 window.localStorage = storageMock();

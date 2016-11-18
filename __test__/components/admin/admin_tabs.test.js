@@ -28,8 +28,10 @@ describe('admin_tabs.test.js |', () => {
     });
 
     it('3. calls navigate on click', () => {
-      component.find('Tab').first().simulate('click');
-      expect(navigate.callCount).to.equal(1);
+      component.find('Tab').at(0).simulate('click');
+      component.find('Tab').at(1).simulate('click');
+      component.find('Tab').at(2).simulate('click');
+      expect(navigate.callCount).to.equal(3);
     });
   });
 });

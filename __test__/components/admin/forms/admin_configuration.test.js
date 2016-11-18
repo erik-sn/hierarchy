@@ -4,7 +4,7 @@ import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
 import sinon from 'sinon';
 
-import { reduxWrap } from '../../../../__test__/helper';
+import { mountWithTheme, reduxWrap } from '../../../../__test__/helper';
 import ConfigurationForm, { Configuration } from '../../../../src/components/admin/forms/admin_configuration';
 import { sites } from '../../../../__test__/sample';
 
@@ -42,7 +42,7 @@ describe('admin_departments.test.js |', () => {
     };
 
     beforeEach(() => {
-      component = shallow(reduxWrap(<ConfigurationForm {...props} />));
+      component = mountWithTheme(reduxWrap(<ConfigurationForm {...props} />));
     });
 
     it('1. renders something & has correct containers', () => {

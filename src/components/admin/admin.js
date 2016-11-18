@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Card, CardHeader } from 'material-ui/Card';
 import { is } from 'immutable';
 
-import Modal from '../modal';
 import AdminTabs from './admin_tabs';
 import AdminHierarchy from './admin_hierarchy';
 import { buildNavigate } from '../../utils/resolver';
@@ -19,9 +18,11 @@ class Admin extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    if (is(this.props.hierarchy, nextProps.hierarchy)) {
+    if (!is(this.props.hierarchy, nextProps.hierarchy)) {
       return true;
     } else if (this.props.params.menu !== nextProps.params.menu) {
+      return true;
+    } else if (this.props.params.splat !== nextProps.params.splat) {
       return true;
     } else if (this.state.activeMenu !== nextState.activeMenu) {
       return true;
@@ -32,22 +33,12 @@ class Admin extends Component {
   renderMenu() {
     const { menu, splat } = this.props.params;
     switch (menu) {
-      case undefined:
-      case 'hierarchy':
-        return <AdminHierarchy splat={splat} sites={this.props.sites} />;
       case 'specifications':
-        return <div>specification</div>;
+        return <div className="admin__specifications">specification</div>;
       case 'permissions':
-        return <div>Permissions</div>;
+        return <div className="admin__permissions">Permissions</div>;
       default:
-        return (
-          <Modal
-            title="Error"
-            error
-            message={`There was an error retrieving the admin menu - 
-              please refresh the page or contact the administrator`}
-          />
-        );
+        return <AdminHierarchy splat={splat} sites={this.props.sites} />;
     }
   }
 

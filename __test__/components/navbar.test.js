@@ -1,16 +1,46 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { expect } from 'chai';
-import { mount, shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import { fromJS, Map } from 'immutable';
+import sinon from 'sinon';
+import jest from 'jest';
 
-import Navbar from '../../src/components/navbar';
+import Navbar, { Neighbor } from '../../src/components/navbar';
 import { sites } from '../../__test__/sample';
+import { mountWithTheme, triggerResize } from '../../__test__/helper';
 import { resolvePath } from '../../src/utils/resolver';
-import { mountWithTheme } from '../helper';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const data = fromJS(JSON.parse(sites));
 
 describe('navbar.test.js |', () => {
+  describe('Neighbor component | >>>', () => {
+    let component;
+    let hide;
+    const props = {
+      path: '/test/me/',
+      name: 'myname',
+    };
+
+    beforeEach(() => {
+      hide = sinon.spy();
+      component = shallow(<Neighbor {...props} hide={hide} />);
+    });
+
+    it('mounts and has Link with correct link and calls hide on click ', () => {
+      expect(component.find('Link')).to.have.length(1);
+      expect(component.find('Link').props().to).to.equal(props.path + props.name);
+      component.find('Link').simulate('click');
+      expect(hide.callCount).to.equal(1);
+    });
+
+    it('has a MenuItem with the correct value ', () => {
+      expect(component.find('MenuItem')).to.have.length(1);
+      expect(component.find('MenuItem').props().value).to.equal('myname');
+    });
+  });
+
   describe('Expected | >>>', () => {
     let component;
     const props = {
@@ -59,7 +89,7 @@ describe('navbar.test.js |', () => {
     let component;
     const props = {
       user: Map({ username: undefined, ip: undefined }),
-      config: Map({ name: 'Test Name! '}),
+      config: Map({ name: 'Test Name! ' }),
       error: true,
       hierarchy: resolvePath(data, '/ox/extrusion/ox11')
     };
@@ -77,7 +107,7 @@ describe('navbar.test.js |', () => {
     let component;
     const props = {
       user: Map({ username: 'hello', ip: undefined }),
-      config: Map({ name: 'Test Name! '}),
+      config: Map({ name: 'Test Name! ' }),
       error: false,
       hierarchy: undefined,
       path: '/',
@@ -89,6 +119,91 @@ describe('navbar.test.js |', () => {
 
     it('1. shows no hierarchy items if no hierarchy is present', () => {
       expect(component.find('.navbar__hierarchy-item-parent')).to.have.length(0);
+    });
+  });
+
+  describe('Should Component Update | >>>', () => {
+    let component;
+    const props = {
+      user: Map({ username: 'hello', ip: undefined }),
+      config: Map({ name: 'Test Name! ' }),
+      error: false,
+      hierarchy: undefined,
+      path: '/',
+    };
+
+    beforeEach(() => {
+      component = shallow(<Navbar {...props} />);
+    });
+
+    it('1. shows no hierarchy items if no hierarchy is present', () => {
+      const ist = component.instance();
+      const diffPropsPath = {
+        path: '/newpath/',
+      };
+      const diffPropsHierarchy = {
+        path: '/ox/extrusion/ox11/',
+        hierarchy: resolvePath(data, '/ox/extrusion/ox11')
+      };
+      const diffStateDropdownValid = { dropdownContainer: 'yes' };
+      const diffStateDropdownInvalid = { dropdownContainer: undefined };
+      expect(ist.shouldComponentUpdate(diffPropsPath, component.state())).to.equal(true);
+      expect(ist.shouldComponentUpdate(diffPropsHierarchy, component.state())).to.equal(true);
+      expect(ist.shouldComponentUpdate(props, diffStateDropdownValid)).to.equal(true);
+      expect(ist.shouldComponentUpdate(props, component.state())).to.equal(false);
+    });
+  });
+
+  describe('Event Listeners | >>>', () => {
+    let component;
+    const props = {
+      user: Map({ username: 'test_user', ip: '0.0.0.0' }),
+      config: Map({ name: 'Test Name!' }),
+      hierarchy: resolvePath(data, '/ox/extrusion/ox11'),
+      path: '/ox/extrusion',
+    };
+
+    it('1. hides neighbors on screen resize', () => {
+      component = mount((
+        <MuiThemeProvider>
+          <Navbar {...props} />
+        </MuiThemeProvider>
+      ), window);
+      const parent = component.find('.navbar__hierarchy-item-parent').at(2);
+      parent.simulate('click');
+      expect(component.find('MenuItem')).to.have.length(17);
+      triggerResize();
+      expect(component.find('MenuItem')).to.have.length(0);
+    });
+
+
+    it('2. calls componentWillUnmount', () => {
+      component = shallow(<Navbar {...props} />);
+      // test to make sure this executes correctly
+      component.instance().componentWillUnmount();
+    });
+
+    it('3. hides neighbors if they are already showing', () => {
+      component = shallow(<Navbar {...props} />);
+      const dropdownContainer = <div className="navbar__neighbor-container" />;
+      component.setState({ dropdownContainer });
+      expect(component.find('.navbar__neighbor-container')).to.have.length(1);
+      const parent = component.find('.navbar__hierarchy-item-parent').at(2);
+      parent.simulate('click');
+      expect(component.find('.navbar__neighbor-container')).to.have.length(0);
+    });
+
+    it('4. does not render neighbors if there are none', () => {
+      component = shallow(
+        <Navbar
+          {...props}
+          hierarchy={resolvePath(data, '/mf')}
+        />
+      );
+      expect(component.find('.navbar__neighbor-container')).to.have.length(0);
+      const parent = component.find('.navbar__hierarchy-item-parent');
+      parent.simulate('click');
+      expect(component.find('.navbar__neighbor-container')).to.have.length(0);
     });
   });
 });

@@ -5,7 +5,6 @@ import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import { cyan500 } from 'material-ui/styles/colors';
 import promise from 'redux-promise';
 
 import reducers from './reducers';

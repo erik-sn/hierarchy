@@ -10,7 +10,7 @@ import { sites } from '../../../../__test__/sample';
 
 describe('admin_machines.test.js |', () => {
   const hierarchy = fromJS(JSON.parse(sites));
-  describe('Expected | >>>', () => {
+  describe('Default | >>>', () => {
     let component;
     let change;
     const props = {

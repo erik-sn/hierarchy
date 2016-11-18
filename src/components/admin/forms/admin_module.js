@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { cloneDeep } from 'lodash';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -16,6 +15,7 @@ class NewModule extends Component {
     super(props);
     this.state = {
       showNewModule: false,
+      showEditModule: false,
       showDeleteModule: false,
       newModuleText: '',
       module: undefined,
@@ -40,8 +40,8 @@ class NewModule extends Component {
   }
 
   addNewModule() {
-    const { type, target } = this.props;
-    const name = this.state.newModuleText;
+    // const { type, target } = this.props;
+    // const name = this.state.newModuleText;
     this.hideNewModule();
   }
 
@@ -88,6 +88,7 @@ class NewModule extends Component {
           {this.getModules(this.props.target)}
         </SelectField>
         <FlatButton
+          className="admin__add-module-button"
           label="Add Module"
           onClick={() => this.setState({ showNewModule: true })}
           icon={<Add />}
@@ -95,14 +96,16 @@ class NewModule extends Component {
         />
         {module ?
           <FlatButton
+            className="admin__edit-module-button"
             label="Edit Module"
-            onClick={() => this.setState({ showDeleteModule: true })}
+            onClick={() => this.setState({ showEditModule: true })}
             icon={<Edit />}
             primary
           /> : undefined
         }
         {module ?
           <FlatButton
+            className="admin__delete-module-button"
             label="Delete Module"
             onClick={() => this.setState({ showDeleteModule: true })}
             icon={<Remove />}

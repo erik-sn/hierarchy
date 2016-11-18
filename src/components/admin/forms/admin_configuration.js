@@ -1,6 +1,5 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form/immutable';
-import { toJS } from 'immutable';
 import { connect } from 'react-redux';
 
 import NewModule from './admin_module';
