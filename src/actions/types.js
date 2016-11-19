@@ -1,5 +1,11 @@
+import config from '../../appconfig.json';
+
 const types = {
-  API: 'http://10.137.19.200/api/v1',
+  API: config.hierarchyapi,
+  API_CONFIG: {
+    timeout: 15000,
+    withCredentials: true,
+  },
   FETCH_AUTH: 'FETCH_AUTH',
   FETCH_HIERARCHY: 'FETCH_HIERARCHY',
   SHOW_MODAL: 'SHOW_MODAL',

@@ -49,7 +49,7 @@ describe('application.test.js |', () => {
       component = mountWithTheme(
         <Application
           {...defaultProps}
-          sites={List([])}
+          sites={undefined}
           config={Map({ name: 'Test name' })}
           fetchAuth={fetchAuth}
           fetchHierarchy={fetchHierarchy}

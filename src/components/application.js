@@ -16,7 +16,7 @@ export class Application extends Component {
     if (!userError && !siteError && user && !user.get('username')) {
       this.props.fetchAuth();
     }
-    if (!userError && !siteError && sites && sites.size === 0) {
+    if (!userError && !siteError && !sites) {
       this.props.fetchHierarchy();
     }
   }
@@ -37,7 +37,7 @@ export class Application extends Component {
     }
     // wait for hierarchy and authentication information to load
     let loader;
-    if (!user || !user.get('username') || !sites || sites.size === 0) {
+    if (!user || !user.get('username') || !sites) {
       loader = <Loader />;
     }
 
@@ -48,7 +48,7 @@ export class Application extends Component {
 
     let hierarchy;
     let content;
-    if (sites.size > 0 && location) {
+    if (sites && location) {
       // check to see if hiearchy exists, if not do not resolve path
       try {
         hierarchy = resolvePath(sites, location.pathname);

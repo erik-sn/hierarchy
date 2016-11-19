@@ -12,8 +12,9 @@ const Department = (props) => {
       <div >{mch.get('name')}</div>
     </Link>
   ));
+
   return (
-    <div>
+    <div className="department__container">
       <div>Department</div>
       <div>
         {renderedMachines}

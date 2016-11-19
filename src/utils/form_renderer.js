@@ -70,31 +70,27 @@ export const renderCheckbox = ({ input, label }) => (
   </div>
 );
 
-export const renderRadioGroup = ({ input, children, ...rest }) => {
-  return (
-    <div className="mui-form-component">
-      <RadioButtonGroup
-        {...input}
-        {...rest}
-        valueSelected={input.value}
-        onChange={(event, value) => input.onChange(value)}
-      >
-        {children}
-      </RadioButtonGroup>
-    </div>
-  );
-};
-
-export const renderSelect = ({ input, label, meta: { touched, error }, children, ...custom }) => (
+export const renderSelect = ({ input, label, meta, children }) => (
   <div className="mui-form-component">
     <SelectField
       floatingLabelText={label}
-      errorText={touched && error}
+      errorText={meta.touched && meta.error}
       {...input}
       onChange={(event, index, value) => input.onChange(value)}
-      {...custom}
     >
       {children}
     </SelectField>
+  </div>
+);
+
+export const renderRadioGroup = ({ input, children }) => (
+  <div className="mui-form-component">
+    <RadioButtonGroup
+      {...input}
+      valueSelected={input.value}
+      onChange={(event, value) => input.onChange(value)}
+    >
+      {children}
+    </RadioButtonGroup>
   </div>
 );

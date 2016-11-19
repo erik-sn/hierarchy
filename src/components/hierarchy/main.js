@@ -104,6 +104,13 @@ export class Main extends Component {
     if (!hierarchy) {
       return <NotFound />;
     }
+    if (sites.size === 0) {
+      return (
+        <div className="main__message">
+          <h3>No Sites Have been configured - contact the administrator</h3>
+        </div>
+      );
+    }
 
     const site = hierarchy.get('site');
     let display;

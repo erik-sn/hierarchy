@@ -1,7 +1,7 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { Map, List, fromJS } from 'immutable';
+import { List, fromJS } from 'immutable';
 import sinon from 'sinon';
 
 import { mountWithTheme } from '../../helper';
@@ -24,6 +24,22 @@ describe('main.test.js |', () => {
 
     it('Returns a NotFound element when hierarchy is undefined', () => {
       expect(component.find('NotFound')).to.have.length(1);
+    });
+  });
+
+  describe('No Sites in Database |>>> ', () => {
+    const props = {
+      sites: List([]),
+      hierarchy: List([]),
+    };
+
+    beforeEach(() => {
+      component = shallow(<Main {...props} />);
+    });
+
+    it('Returns a message indicating that no sites are in the database', () => {
+      expect(component.find('.main__message')).to.have.length(1);
+      expect(component.find('.main__message').text()).to.equal('No Sites Have been configured - contact the administrator');
     });
   });
 
@@ -111,7 +127,6 @@ describe('main.test.js |', () => {
   });
 
   describe('Department Component | >>>', () => {
-
     beforeEach(() => {
       const site = data.get(3);
       const department = site.get('departments').get(0);

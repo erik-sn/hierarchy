@@ -1,9 +1,9 @@
-import { Map, List, fromJS } from 'immutable';
+import { Map, fromJS } from 'immutable';
 
 import types from '../actions/types';
 
 export const initialState = Map({
-  sites: List([]),
+  sites: undefined,
   error: false,
 });
 

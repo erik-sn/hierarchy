@@ -3,7 +3,7 @@ import { Map, fromJS } from 'immutable';
 import types from '../actions/types';
 
 export const initialState = Map({
-  user: Map({ username: undefined, ip: undefined }),
+  user: Map({ id: undefined, username: undefined, ip: undefined, admin: false }),
   error: false,
 });
 
