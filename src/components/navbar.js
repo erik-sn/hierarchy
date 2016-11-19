@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router';
 import Paper from 'material-ui/Paper';
+import IconButton from 'material-ui/IconButton';
+import IconMenu from 'material-ui/IconMenu';
 import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
+import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
+import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import SecurityICon from 'material-ui/svg-icons/hardware/security';
 import { is } from 'immutable';
 
 import { getBoundingBox } from '../utils/dom';
@@ -19,6 +24,29 @@ export const Neighbor = (props) => {
   );
 };
 
+export const Settings = props => (
+  <IconMenu
+    {...props}
+    iconButtonElement={
+      <IconButton><MoreVertIcon color="whitesmoke" /></IconButton>
+    }
+    targetOrigin={{ horizontal: 'right', vertical: 'top' }}
+    anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+  >
+    <Link to={props.settings} >
+      <MenuItem
+        primaryText="Settings"
+        leftIcon={<SettingsIcon />}
+      />
+    </Link>
+    <Link to={props.admin} >
+      <MenuItem
+        primaryText="Admin"
+        leftIcon={<SecurityICon />}
+      />
+    </Link>
+  </IconMenu>
+);
 
 class Navbar extends Component {
 
@@ -148,7 +176,7 @@ class Navbar extends Component {
         <div className="navbar__info-container">
           <div className="navbar__username" >{name}</div>
           <div className="navbar__settings" >
-            <img src="/static/media/settings.svg" alt="settings" />
+            <Settings admin="/admin" settings="/settings" />
           </div>
         </div>
       </header>

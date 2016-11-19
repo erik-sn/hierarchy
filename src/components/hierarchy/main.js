@@ -8,6 +8,7 @@ import Place from 'material-ui/svg-icons/maps/place';
 
 import { showModal, hideModal } from '../../actions/index';
 import { alphaNumSort } from '../../utils/sort';
+import NotFound from '../notfound';
 
 export const MachineContainer = props => (
   <CardText className="main__site-machinecount">
@@ -100,6 +101,10 @@ export class Main extends Component {
 
   render() {
     const { hierarchy, sites } = this.props;
+    if (!hierarchy) {
+      return <NotFound />;
+    }
+
     const site = hierarchy.get('site');
     let display;
     if (!site) {

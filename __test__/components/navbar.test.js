@@ -6,7 +6,7 @@ import { fromJS, Map } from 'immutable';
 import sinon from 'sinon';
 import jest from 'jest';
 
-import Navbar, { Neighbor } from '../../src/components/navbar';
+import Navbar, { Neighbor, Settings } from '../../src/components/navbar';
 import { sites } from '../../__test__/sample';
 import { mountWithTheme, triggerResize } from '../../__test__/helper';
 import { resolvePath } from '../../src/utils/resolver';
@@ -41,6 +41,31 @@ describe('navbar.test.js |', () => {
     });
   });
 
+  describe('Settings component | >>>', () => {
+    let component;
+    const props = {
+      settings: '/settings',
+      admin: '/admin',
+    };
+
+    beforeEach(() => {
+      component = shallow(<Settings {...props} />);
+    });
+
+    it('has the correct elements', () => {
+      expect(component.find('IconMenu')).to.have.length(1);
+      expect(component.find('Link')).to.have.length(2);
+      expect(component.find('MenuItem')).to.have.length(2);
+    });
+
+    it('has links navigating to the correct location', () => {
+      expect(component.find('Link').at(0).props().to).to.equal(props.settings);
+      expect(component.find('Link').at(1).props().to).to.equal(props.admin);
+
+    })
+
+  });
+
   describe('Expected | >>>', () => {
     let component;
     const props = {
@@ -62,6 +87,7 @@ describe('navbar.test.js |', () => {
       expect(component.find('.navbar__info-container')).to.have.length(1);
       expect(component.find('.navbar__username')).to.have.length(1);
       expect(component.find('.navbar__settings')).to.have.length(1);
+      expect(component.find('Settings')).to.have.length(1);
     });
 
     it('2. displays the correct user', () => {

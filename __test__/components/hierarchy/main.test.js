@@ -13,6 +13,19 @@ const data = fromJS(JSON.parse(sites));
 
 describe('main.test.js |', () => {
   let component;
+  describe('Undefined Hierarchy |>>> ', () => {
+    const props = {
+      sites,
+      hierarchy: undefined,
+    };
+    beforeEach(() => {
+      component = shallow(<Main {...props} />);
+    });
+
+    it('Returns a NotFound element when hierarchy is undefined', () => {
+      expect(component.find('NotFound')).to.have.length(1);
+    });
+  });
 
   describe('Sites | >>>', () => {
     const props = {
