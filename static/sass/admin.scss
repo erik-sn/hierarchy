@@ -6,6 +6,17 @@
   overflow-y: auto;
 }
 
+.admin__message {
+  margin-top: 10%;
+  text-align: center;
+}
+
+.admin__error-field {
+  flex: 1 1 auto;
+  text-align: center;
+  font-size: 0.8rem;
+  color: red;
+}
 
 /* configuration for site detail configuration */
 .admin__site-container {
@@ -23,15 +34,49 @@
   padding: 10px;
 }
 
+/* Configuration for module interface */
+.admin__modules-inner-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.admin__modules-list-container {
+  flex: 1 1 100px;
+  height: 500px;
+  overflow-y: auto;
+  margin-right: 25px;
+}
+
+.admin__modules-form-container {
+  flex: 1 1 400px;
+}
+
 .admin__form-container {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
 }
 
+.admin__form-container-column {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  .mui-form-component {
+    align-self: flex-start;
+  }
+}
+
 .admin__form-section {
   flex: 1 1 250px;
   padding: 0px 10px;
+}
+
+.admin__lower-form-section {
+  margin-top: 25px;
+  align-self: flex-end;
+  width: 100%;
 }
 
 .admin__form-field {

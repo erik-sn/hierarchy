@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
 import { RadioButtonGroup } from 'material-ui/RadioButton';
@@ -60,15 +60,28 @@ export const renderTextArea = ({ input, label, meta: { touched, error }, ...cust
   </div>
 );
 
-export const renderCheckbox = ({ input, label }) => (
-  <div className="mui-form-component">
-    <Checkbox
-      label={label}
-      checked={input.value}
-      onCheck={input.onChange}
-    />
-  </div>
-);
+export class renderCheckbox extends Component {
+
+  constructor(props) {
+    super(props);
+    this.onCheck = this.onCheck.bind(this);
+  }
+
+  onCheck(e, checked) {
+    this.props.input.onChange(checked);
+  }
+
+  render() {
+    return (
+      <Checkbox
+        {...this.props.input}
+        label={this.props.label}
+        checked={this.props.input.checked}
+        onCheck={this.onCheck}
+      />
+    );
+  }
+}
 
 export const renderSelect = ({ input, label, meta, children }) => (
   <div className="mui-form-component">
@@ -92,5 +105,14 @@ export const renderRadioGroup = ({ input, children }) => (
     >
       {children}
     </RadioButtonGroup>
+  </div>
+);
+
+export const renderNullField = ({ input }) => (
+  <div className="mui-form-component hidden">
+    <TextField
+      style={{ display: 'none' }}
+      {...input}
+    />
   </div>
 );

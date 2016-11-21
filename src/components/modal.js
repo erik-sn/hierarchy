@@ -11,14 +11,14 @@ import { hideModal } from '../actions/index';
 export const Modal = (props) => {
   const { message, children, modal, title, onSubmit, onCancel } = props;
 
-  let actions = [
+  const ok = (
     <FlatButton
       label="Ok"
       primary
       keyboardFocused
-      onTouchTap={onSubmit || props.hideModal}
-    />,
-  ];
+      onTouchTap={onSubmit}
+    />
+  );
 
   const cancel = (
     <FlatButton
@@ -29,6 +29,12 @@ export const Modal = (props) => {
     />
   );
 
+  let actions = [
+  ];
+
+  if (onSubmit) {
+    actions.push(ok);
+  }
   if (onCancel) {
     actions.push(cancel);
   }

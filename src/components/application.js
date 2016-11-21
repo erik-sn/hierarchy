@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'material-ui/Card';
 
-import { showModal, fetchAuth, fetchHierarchy } from '../actions/index';
+import { showModal } from '../actions/index';
+import { fetchAuth, fetchHierarchy } from '../actions/api';
 import { resolvePath } from '../utils/resolver';
 
 import Navbar from './navbar';

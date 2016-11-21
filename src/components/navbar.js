@@ -10,7 +10,7 @@ import SettingsIcon from 'material-ui/svg-icons/action/settings';
 import SecurityICon from 'material-ui/svg-icons/hardware/security';
 import { is } from 'immutable';
 
-import { getBoundingBox } from '../utils/dom';
+import getBoundingBox from '../utils/dom';
 import { alphaNumSort } from '../utils/sort';
 
 export const Neighbor = (props) => {

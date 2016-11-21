@@ -35,10 +35,6 @@ a {
   transition: all 0.45s;
 }
 
-.main__site-container:hover {
-  transform: scale(1.05);
-}
-
 .main__site-title {
   background: $primary;
 }
@@ -74,6 +70,10 @@ a {
 .main__site-place:hover {
   fill: lighten($primary, 40%) !important;
   transform: rotate(0.5turn);
+}
+
+.main__department-container {
+  margin: 25px 5px;
 }
 
 .main__department-container:hover {

@@ -1,5 +1,5 @@
 
-export function getBoundingBox(e) {
+export default function getBoundingBox(e) {
   const dropdownRight = e.target.getBoundingClientRect().right;
   const dropdownX = e.target.getBoundingClientRect().left;
   return {
@@ -9,8 +9,4 @@ export function getBoundingBox(e) {
     windowWidth: window.innerWidth,
     elementWidth: dropdownRight - dropdownX,
   };
-}
-
-export function test() {
-  return 'test';
 }

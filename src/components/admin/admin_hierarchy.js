@@ -1,12 +1,14 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import AdminSiteList from './admin_site_list';
 import AdminSite from './admin_site';
 import { buildNavigate } from '../../utils/resolver';
+import { fetchHierarchy } from '../../actions/api';
 
 const navigate = buildNavigate('/admin/hierarchy');
 
-const AdminHierarchy = ({ sites, splat }) => {
+const AdminHierarchy = ({ sites, splat, ...props }) => {
   const code = splat ? splat.split('/')[1] : undefined; // parse remainder url for parameters
   let activeSite;
   let siteNavigate;
@@ -14,8 +16,22 @@ const AdminHierarchy = ({ sites, splat }) => {
     activeSite = sites.find(site => code.toUpperCase() === site.get('code'));
     siteNavigate = buildNavigate(`/admin/hierarchy/${code}`);
   }
-  const adminSiteList = <AdminSiteList navigate={navigate} sites={sites} />;
-  const adminSite = <AdminSite navigate={siteNavigate} site={activeSite} splat={splat} />;
+
+  const adminSiteList = (
+    <AdminSiteList
+      fetchHierarchy={props.fetchHierarchy}
+      navigate={navigate}
+      sites={sites}
+    />
+  );
+  const adminSite = (
+    <AdminSite
+      fetchHierarchy={props.fetchHierarchy}
+      navigate={siteNavigate}
+      site={activeSite}
+      splat={splat}
+    />
+  );
   return (
     <div className="admin__hierarchy-container">
       {activeSite ? adminSite : adminSiteList}
@@ -23,4 +39,4 @@ const AdminHierarchy = ({ sites, splat }) => {
   );
 };
 
-export default AdminHierarchy;
+export default connect(null, { fetchHierarchy })(AdminHierarchy);

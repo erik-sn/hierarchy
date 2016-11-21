@@ -18,5 +18,4 @@ describe('about.test.js |', () => {
       expect(component.find('.machine__container')).to.have.length(1);
     });
   });
-
 });
