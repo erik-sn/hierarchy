@@ -9,7 +9,7 @@ import types from '../../actions/types';
 import Modal from '../modal';
 import DepartmentForm from './forms/admin_department_form';
 
-export class Department extends Component {
+class Department extends Component {
 
   constructor(props) {
     super(props);

@@ -26,7 +26,6 @@ class ModuleEdit extends Component {
   }
 
   updateForm(modules) {
-    console.log(modules.toJS());
     const moduleIds = modules.map(mdl => mdl.get('id'));
     this.setState({ modules }, () => this.props.change('modules', moduleIds));
   }

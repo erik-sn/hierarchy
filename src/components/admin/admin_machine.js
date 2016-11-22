@@ -15,6 +15,7 @@ export class MachineAdmin extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showNewMachine: false,
       department: undefined,
       machine: undefined,
     };

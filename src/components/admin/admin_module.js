@@ -42,9 +42,9 @@ class Modules extends Component {
     validateOnSubmit(module);
     axios.post(`${types.API}/modules/`, module, types.API_CONFIG)
     .then(() => this.fetchModules())
-    .then(() => this.resetState())
     .then(() => this.showMessage(`Module Successfully Created: ${this.state.activeModule.get('name')}`))
-    .catch(() => this.showMessage(`Error Creating Module: ${this.state.activeModule.get('name')}`));
+    .catch(() => this.showMessage(`Error Creating Module: ${this.state.activeModule.get('name')}`))
+    .then(() => this.resetState());
   }
 
   updateModule() {

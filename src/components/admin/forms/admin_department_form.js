@@ -6,7 +6,7 @@ import FlatButton from 'material-ui/FlatButton';
 import ModuleEdit from './admin_module_edit';
 import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
-const Department = ({ handleSubmit, submitForm, change, modules, department, modal }) => (
+export const Department = ({ handleSubmit, submitForm, change, modules, department, modal }) => (
   <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
     <div className="admin__form-section">
       <div className="mui-form-component">
@@ -38,12 +38,14 @@ const Department = ({ handleSubmit, submitForm, change, modules, department, mod
     </div>
     <div className="admin__lower-form-section">
       <FlatButton
+        className="admin__submit-button"
         label={modal ? 'Create' : 'Update'}
         type="submit"
         keyboardFocused
         primary
       />
       <FlatButton
+        className="admin__clear-button"
         label="Clear"
         onClick={() => {
           change('name', '');
