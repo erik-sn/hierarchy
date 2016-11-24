@@ -12,7 +12,7 @@ import { buildNavigate } from '../../utils/resolver';
 
 const navigate = buildNavigate('/admin');
 
-class Admin extends Component {
+export class Admin extends Component {
 
   constructor(props) {
     super(props);

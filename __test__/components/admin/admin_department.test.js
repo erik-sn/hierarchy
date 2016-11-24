@@ -1,22 +1,35 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
+import moxios from 'moxios';
+import sinon from 'sinon';
 
 import Department from '../../../src/components/admin/admin_department';
 import { sites } from '../../../__test__/sample';
 
-describe('admin_departments.test.js |', () => {
+describe('admin_department.test.js |', () => {
   const hierarchy = fromJS(JSON.parse(sites));
+  const department = hierarchy.get(3).get('departments').get(0);
   describe('Expected | >>>', () => {
     let component;
+    let message;
+    let fetchHierarchy;
     const props = {
       site: hierarchy.get(3),
       modules: ['module1', 'module2', 'module3'],
     };
 
     beforeEach(() => {
-      component = shallow(<Department {...props} />);
+      moxios.install();
+      message = sinon.spy();
+      fetchHierarchy = sinon.spy();
+      const spies = { message, fetchHierarchy };
+      component = shallow(<Department {...props} {...spies} />);
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
     });
 
     it('1. renders something & has correct containers', () => {
@@ -50,6 +63,74 @@ describe('admin_departments.test.js |', () => {
       expect(component.find('SelectField').props().value).to.equal('Extrusion');
       expect(component.find('Connect(ReduxForm)')).to.have.length(1);
       expect(component.find('FlatButton')).to.have.length(0);
+    });
+
+    it('6. alters the state correctly on successful createDepartment call', (done) => {
+      component.instance().createDepartment(Map({ name: 'test' }));
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 201,
+          response: department,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Department Successfully Created: test');
+          expect(fetchHierarchy.callCount).to.equal(1);
+          done();
+        });
+      });
+    });
+
+    it('7. calls message with an error message on createDepartment fail', (done) => {
+      component.instance().createDepartment(Map({ name: 'test' }));
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 401,
+          response: undefined,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Error Creating Department: test');
+          expect(fetchHierarchy.callCount).to.equal(0);
+          done();
+        });
+      });
+    });
+
+    it('8. alters the state correctly on successful updateDepartment call', (done) => {
+      component.setState({ department });
+      component.instance().updateDepartment(Map({ name: 'test' }));
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 201,
+          response: department,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Department Successfully Updated: test');
+          expect(fetchHierarchy.callCount).to.equal(1);
+          expect(component.state().department).to.equal(undefined);
+          done();
+        });
+      });
+    });
+
+    it('9. calls message with an error message on updateDepartment fail', (done) => {
+      component.setState({ department });
+      component.instance().updateDepartment(Map({ name: 'test' }));
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 401,
+          response: undefined,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Error Updating Department: test');
+          expect(fetchHierarchy.callCount).to.equal(0);
+          expect(component.state().department).to.equal(undefined);
+          done();
+        });
+      });
     });
   });
 });

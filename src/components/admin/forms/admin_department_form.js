@@ -71,7 +71,7 @@ export const validate = (values) => {
   const errors = {};
   if (!values.get('name')) {
     errors.name = 'Required';
-  } else if (!values.get('name').match(/[a-zA-Z]+/)) {
+  } else if (!values.get('name').match(/^[a-zA-Z]+$/)) {
     errors.name = 'Name can only contain letters';
   }
   return errors;

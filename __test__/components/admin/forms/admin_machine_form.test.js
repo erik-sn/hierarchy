@@ -1,14 +1,16 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
+import { is, List, Map, fromJS } from 'immutable';
 import sinon from 'sinon';
 
-import { Machine } from '../../../../src/components/admin/forms/admin_machine_form';
+import MachineConnected, { Machine,
+  validate } from '../../../../src/components/admin/forms/admin_machine_form';
 import { sites } from '../../../../__test__/sample';
+import { mountWithTheme, reduxWrap } from '../../../../__test__/helper';
 
 
-describe('admin_departments.test.js |', () => {
+describe('admin_machine_form.test.js |', () => {
   const hierarchy = fromJS(JSON.parse(sites));
   let component;
   let handleSubmit;
@@ -72,6 +74,102 @@ describe('admin_departments.test.js |', () => {
 
     it('2. has no ModuleEdit in modal mode', () => {
       expect(component.find('ModuleEdit')).to.have.length(0);
+    });
+  });
+
+  describe('validate | >>>', () => {
+    it('1. name is required', () => {
+      const form = Map({ type: 'test type' });
+      const errors = validate(form);
+      expect(errors.name).to.equal('Required');
+    });
+
+    it('2. name can only container letters/numbers', () => {
+      const form = Map({ name: 'test1 name$', type: 'test type' });
+      const errors = validate(form);
+      expect(errors.name).to.equal('Name can only contain letters and numbers');
+    });
+
+    it('3. type is required', () => {
+      const form = Map({ name: 'test name' });
+      const errors = validate(form);
+      expect(errors.type).to.equal('Required');
+    });
+
+    it('4. type can only container letters/numbers', () => {
+      const form = Map({ type: 'test1 type$', name: 'test name' });
+      const errors = validate(form);
+      expect(errors.type).to.equal('Type can only contain letters and numbers');
+    });
+
+    it('5. no errors', () => {
+      const form = Map({ type: 'test type', name: 'test name' });
+      const errors = validate(form);
+      console.log('Error: ', errors);
+      expect(is(Map(errors), Map({}))).to.equal(true);
+    });
+  });
+
+  describe('Connects to redux | >>>', () => {
+    const props = {
+      modules: ['module1', 'module2', 'module3'],
+    };
+
+    const modules = List([
+      Map({ name: 'module1', id: 1 }),
+      Map({ name: 'module2', id: 2 }),
+      Map({ name: 'module3', id: 3 }),
+    ]);
+    let machine = hierarchy.get(3).get('departments').get(0).get('machines').get(0);
+    machine = machine.set('modules', modules);
+    beforeEach(() => {
+      handleSubmit = sinon.spy();
+      component = mountWithTheme(reduxWrap(
+        <MachineConnected
+          {...props}
+          machine={machine}
+          handleSubmit={handleSubmit}
+          change={change}
+          modules={modules}
+        />
+      ));
+    });
+
+    it('1. renders something & has correct containers', () => {
+      expect(component).to.have.length(1);
+      expect(component.find('Connect(ReduxForm)')).to.have.length(1);
+    });
+  });
+
+  describe('Connects to redux in a modal | >>>', () => {
+    const props = {
+      modules: ['module1', 'module2', 'module3'],
+    };
+
+    const modules = List([
+      Map({ name: 'module1', id: 1 }),
+      Map({ name: 'module2', id: 2 }),
+      Map({ name: 'module3', id: 3 }),
+    ]);
+    let machine = hierarchy.get(3).get('departments').get(0).get('machines').get(0);
+    machine = machine.set('modules', modules);
+    beforeEach(() => {
+      handleSubmit = sinon.spy();
+      component = mountWithTheme(reduxWrap(
+        <MachineConnected
+          {...props}
+          machine={machine}
+          handleSubmit={handleSubmit}
+          change={change}
+          modules={modules}
+          new
+        />
+      ));
+    });
+
+    it('1. renders something & has correct containers', () => {
+      expect(component).to.have.length(1);
+      expect(component.find('Connect(ReduxForm)')).to.have.length(1);
     });
   });
 });

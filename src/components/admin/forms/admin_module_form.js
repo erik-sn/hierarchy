@@ -8,7 +8,7 @@ import { renderTextField as Text, renderCheckbox as CheckBox } from '../../../ut
 
 export const FORM_NAME = 'MODULE-CONFIG';
 
-class ModuleForm extends Component {
+export class Module extends Component {
 
   componentWillMount() {
     this.props.reset();
@@ -123,10 +123,10 @@ export const validate = (values) => {
 };
 
 // Decorate the form component
-const ModuleFormRedux = reduxForm({
+const ModuleForm = reduxForm({
   form: FORM_NAME,
   validate,
-})(ModuleForm);
+})(Module);
 
-export default connect(mapStateToProps)(ModuleFormRedux);
+export default connect(mapStateToProps)(ModuleForm);
 

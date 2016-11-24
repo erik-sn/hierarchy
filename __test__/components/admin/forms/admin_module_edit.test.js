@@ -7,7 +7,7 @@ import sinon from 'sinon';
 import { mountWithTheme } from '../../../../__test__/helper';
 import ModuleEdit from '../../../../src/components/admin/forms/admin_module_edit';
 
-describe('admin_departments.test.js |', () => {
+describe('admin_module_edit.test.js |', () => {
   let handleDeleteModule;
   let handleAddModule;
   let component;
@@ -69,6 +69,42 @@ describe('admin_departments.test.js |', () => {
       expect(component.find('List').find('MenuItem')).to.have.length(2);
       component.find('SelectField').find('MenuItem').at(0).simulate('click');
       expect(component.find('List').find('MenuItem')).to.have.length(3);
+    });
+
+    it('5. returns undefined for module functions if module is undefined', () => {
+      expect(component.instance().handleAddModule(undefined)).to.equal(undefined);
+      expect(component.instance().handleDeleteModule(undefined)).to.equal(undefined);
+    });
+  });
+
+  describe('No modules present | >>>', () => {
+    const item = Map({ modules: List([]) });
+    const props = {
+      item,
+      modules: List([
+        Map({ name: 'module1', id: 1 }),
+        Map({ name: 'module2', id: 2 }),
+        Map({ name: 'module3', id: 3 }),
+      ]),
+    };
+
+    beforeEach(() => {
+      handleDeleteModule = sinon.spy();
+      handleAddModule = sinon.spy();
+      change = sinon.spy();
+      component = shallow(
+        <ModuleEdit
+          {...props}
+          change={change}
+          handleAddModule={handleAddModule}
+          handleDeleteModule={handleDeleteModule}
+        />
+      );
+    });
+
+    it('1. renders something & has correct containers', () => {
+      expect(component.find('.admin__message')).to.have.length(1);
+      expect(component.find('.admin__message').text()).to.equal('No Modules');
     });
   });
 });

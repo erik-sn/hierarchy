@@ -65,12 +65,12 @@ export const validate = (values) => {
   const errors = {};
   if (!values.get('name')) {
     errors.name = 'Required';
-  } else if (!values.get('name').match(/[a-zA-Z0-9]+/)) {
+  } else if (!values.get('name').match(/^[a-zA-Z0-9 ]+$/)) {
     errors.name = 'Name can only contain letters and numbers';
   }
   if (!values.get('type')) {
     errors.type = 'Required';
-  } else if (!values.get('type').match(/[a-zA-Z0-9]+/)) {
+  } else if (!values.get('type').match(/^[a-zA-Z0-9 ]+$/)) {
     errors.type = 'Type can only contain letters and numbers';
   }
   return errors;

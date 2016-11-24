@@ -42,10 +42,11 @@ class AdminSite extends Component {
   }
 
   updateSite(site) {
-    axios.put(`${types.API}/sites/${site.get('id')}/`, site, types.API_CONFIG)
-    .then(() => this.showMessage('Site Successfully Updated'))
+    const url = `${types.API}/sites/${site.get('id')}/`;
+    axios.put(url, site, types.API_CONFIG)
+    .then(() => this.showMessage(`Site Successfully Updated: ${site.get('name')}`))
     .then(() => this.props.fetchHierarchy())
-    .catch(() => this.showMessage('Error Updating Site'));
+    .catch(() => this.showMessage(`Error Updating Site: ${site.get('name')}`));
   }
 
   showMessage(messageText) {
@@ -84,7 +85,6 @@ class AdminSite extends Component {
         return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
     }
   }
-
   render() {
     const { site, splat, navigate } = this.props;
     return (

@@ -29,12 +29,12 @@ class AdminSiteList extends Component {
     axios.post(`${types.API}/sites/`, site, types.API_CONFIG)
     .then(() => this.setState({
       messageShow: true,
-      messageText: 'Site Successfully Created',
+      messageText: `Site Successfully Created: ${site.get('name')}`,
     }))
     .then(() => this.props.fetchHierarchy())
     .catch(() => this.setState({
       messageShow: true,
-      messageText: 'Error Updating Site',
+      messageText: `Error Creating Site: ${site.get('name')}`,
     }));
     this.toggleShowNewSiteForm();
   }

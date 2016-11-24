@@ -16,11 +16,17 @@ class ModuleEdit extends Component {
   }
 
   handleAddModule(module) {
+    if (!module) {
+      return;
+    }
     const modules = this.state.modules.filter(mdl => mdl.get('id') !== module.get('id')).push(module);
     this.updateForm(modules);
   }
 
   handleDeleteModule(module) {
+    if (!module) {
+      return;
+    }
     const modules = this.state.modules.filter(mdl => mdl.get('id') !== module.get('id'));
     this.updateForm(modules);
   }
@@ -36,7 +42,7 @@ class ModuleEdit extends Component {
       <div className="admin__module-edit">
         <h3>Modules</h3>
         <List>
-          {modules.size === 0 ? <div>No Modules</div> : ''}
+          {modules && modules.size === 0 ? <div className="admin__message" >No Modules</div> : ''}
           {modules.map((module, i) => (
             <MenuItem
               key={i}
@@ -51,14 +57,14 @@ class ModuleEdit extends Component {
           hintText="Add Module"
           maxHeight={300}
         >
-          {this.props.modules.map((module, i) => (
+          {this.props.modules ? this.props.modules.map((module, i) => (
             <MenuItem
               key={i}
               value={module.get('name')}
               primaryText={module.get('name')}
               onClick={() => this.handleAddModule(module)}
             />
-          ))}
+          )) : ''}
         </SelectField>
       </div>
     );

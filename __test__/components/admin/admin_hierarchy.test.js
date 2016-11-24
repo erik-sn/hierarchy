@@ -4,10 +4,10 @@ import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
 import sinon from 'sinon';
 
-import AdminHierarchy from '../../../src/components/admin/admin_hierarchy';
+import { AdminHierarchy } from '../../../src/components/admin/admin_hierarchy';
 import { sites } from '../../../__test__/sample';
 
-describe('admin_tabs.test.js |', () => {
+describe('admin_hierarchy.test.js |', () => {
   const hierarchy = fromJS(JSON.parse(sites));
   describe('Default | >>>', () => {
     let component;
@@ -32,6 +32,7 @@ describe('admin_tabs.test.js |', () => {
   describe('With Code | >>>', () => {
     let component;
     const props = {
+      fetchHierarchy: () => undefined,
       sites: hierarchy,
       splat: '/ox',
     };

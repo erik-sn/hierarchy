@@ -21,17 +21,19 @@ describe('admin_tabs.test.js |', () => {
 
     it('2. has the correct elements with the correct labels', () => {
       expect(component.find('Tabs')).to.have.length(1);
-      expect(component.find('Tab')).to.have.length(3);
+      expect(component.find('Tab')).to.have.length(4);
       expect(component.find('Tab').get(0).props.label).to.equal('hierarchy');
-      expect(component.find('Tab').get(1).props.label).to.equal('specifications');
-      expect(component.find('Tab').get(2).props.label).to.equal('permissions');
+      expect(component.find('Tab').get(1).props.label).to.equal('modules');
+      expect(component.find('Tab').get(2).props.label).to.equal('specifications');
+      expect(component.find('Tab').get(3).props.label).to.equal('permissions');
     });
 
     it('3. calls navigate on click', () => {
       component.find('Tab').at(0).simulate('click');
       component.find('Tab').at(1).simulate('click');
       component.find('Tab').at(2).simulate('click');
-      expect(navigate.callCount).to.equal(3);
+      component.find('Tab').at(3).simulate('click');
+      expect(navigate.callCount).to.equal(4);
     });
   });
 });

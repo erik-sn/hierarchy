@@ -1,22 +1,34 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
-import { fromJS } from 'immutable';
+import { fromJS, List, Map } from 'immutable';
+import moxios from 'moxios';
+import sinon from 'sinon';
 
 import MachineAdmin from '../../../src/components/admin/admin_machine';
 import { sites } from '../../../__test__/sample';
 
-describe('admin_departments.test.js |', () => {
+describe('admin_machine.test.js |', () => {
   const hierarchy = fromJS(JSON.parse(sites));
   describe('Expected | >>>', () => {
     let component;
+    let message;
+    let fetchHierarchy;
     const props = {
       site: hierarchy.get(3),
       modules: ['module1', 'module2', 'module3'],
     };
 
     beforeEach(() => {
-      component = shallow(<MachineAdmin {...props} />);
+      moxios.install();
+      message = sinon.spy();
+      fetchHierarchy = sinon.spy();
+      const spies = { message, fetchHierarchy };
+      component = shallow(<MachineAdmin {...props} {...spies} />);
+    });
+
+    afterEach(() => {
+      moxios.uninstall();
     });
 
     it('1. renders something & has correct containers', () => {
@@ -62,6 +74,89 @@ describe('admin_departments.test.js |', () => {
       component.find('SelectField').at(1).find('MenuItem').at(2)
                                                           .simulate('click');
       expect(component.find('Connect(ReduxForm)')).to.have.length(1);
+    });
+
+    it('7. alters the state correctly on successful updateMachine call', (done) => {
+      const department = Map({ name: 'test_department', machines: List([]) });
+      const machine = Map({ name: 'test_machine' });
+      component.setState({ machine, department, showNewMachine: true });
+      component.instance().updateMachine(machine);
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 201,
+          response: machine,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Machine Successfully Updated: test_machine');
+          expect(fetchHierarchy.callCount).to.equal(1);
+          expect(component.state().machine).to.equal(undefined);
+          expect(component.state().showNewMachine).to.equal(false);
+          done();
+        });
+      });
+    });
+
+    it('8. calls message with an error message on createMachine fail', (done) => {
+      const department = Map({ name: 'test_department', machines: List([]) });
+      const machine = Map({ name: 'test_machine' });
+      component.setState({ machine, department, showNewMachine: true });
+      component.instance().createMachine(machine);
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 401,
+          response: undefined,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Error Creating Machine: test_machine');
+          expect(fetchHierarchy.callCount).to.equal(0);
+          expect(component.state().machine).to.equal(undefined);
+          expect(component.state().showNewMachine).to.equal(false);
+          done();
+        });
+      });
+    });
+    it('9. alters the state correctly on successful createMachine call', (done) => {
+      const department = Map({ name: 'test_department', machines: List([]) });
+      const machine = Map({ name: 'test_machine' });
+      component.setState({ machine, department, showNewMachine: true });
+      component.instance().createMachine(machine);
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 201,
+          response: machine,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Machine Successfully Created: test_machine');
+          expect(fetchHierarchy.callCount).to.equal(1);
+          expect(component.state().machine).to.equal(undefined);
+          expect(component.state().showNewMachine).to.equal(false);
+          done();
+        });
+      });
+    });
+
+    it('10. calls message with an error message on updateMachine fail', (done) => {
+      const department = Map({ name: 'test_department', machines: List([]) });
+      const machine = Map({ name: 'test_machine' });
+      component.setState({ machine, department, showNewMachine: true });
+      component.instance().updateMachine(machine);
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 401,
+          response: undefined,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Error Updating Machine: test_machine');
+          expect(fetchHierarchy.callCount).to.equal(0);
+          expect(component.state().machine).to.equal(undefined);
+          expect(component.state().showNewMachine).to.equal(false);
+          done();
+        });
+      });
     });
   });
 });

@@ -8,7 +8,7 @@ import { fetchHierarchy } from '../../actions/api';
 
 const navigate = buildNavigate('/admin/hierarchy');
 
-const AdminHierarchy = ({ sites, splat, ...props }) => {
+export const AdminHierarchy = ({ sites, splat, ...props }) => {
   const code = splat ? splat.split('/')[1] : undefined; // parse remainder url for parameters
   let activeSite;
   let siteNavigate;

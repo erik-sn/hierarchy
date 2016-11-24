@@ -3,12 +3,13 @@ import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { List, ListItem } from 'material-ui/List';
+import Snackbar from 'material-ui/Snackbar';
 
 import Loader from '../loader';
 import types from '../../actions/types';
 import ModuleForm, { validateOnSubmit, FORM_NAME } from './forms/admin_module_form';
 
-class Modules extends Component {
+export class Modules extends Component {
 
   constructor(props) {
     super(props);
@@ -42,8 +43,8 @@ class Modules extends Component {
     validateOnSubmit(module);
     axios.post(`${types.API}/modules/`, module, types.API_CONFIG)
     .then(() => this.fetchModules())
-    .then(() => this.showMessage(`Module Successfully Created: ${this.state.activeModule.get('name')}`))
-    .catch(() => this.showMessage(`Error Creating Module: ${this.state.activeModule.get('name')}`))
+    .then(() => this.showMessage(`Module Successfully Created: ${module.get('name')}`))
+    .catch(() => this.showMessage(`Error Creating Module: ${module.get('name')}`))
     .then(() => this.resetState());
   }
 
@@ -60,7 +61,7 @@ class Modules extends Component {
     axios.delete(`${types.API}/modules/${this.state.activeModule.get('id')}/`, types.API_CONFIG)
     .then(() => this.fetchModules())
     .then(() => this.showMessage(`Module Successfully Deleted: ${this.state.activeModule.get('name')}`))
-    .catch(() => this.showMessage(`Error Updating Module: ${this.state.activeModule.get('name')}`))
+    .catch(() => this.showMessage(`Error Deleting Module: ${this.state.activeModule.get('name')}`))
     .then(() => this.resetState());
   }
 
@@ -132,6 +133,14 @@ class Modules extends Component {
             {this.renderModuleForm()}
           </div>
         </div>
+        <Snackbar
+          open={this.state.messageShow}
+          message={this.state.messageText}
+          action="Ok"
+          autoHideDuration={10000}
+          onActionTouchTap={this.handleMessageClose}
+          onRequestClose={this.handleMessageClose}
+        />
       </div>
     );
   }
