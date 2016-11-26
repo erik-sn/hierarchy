@@ -12,8 +12,22 @@ import { buildNavigate } from '../../utils/resolver';
 
 const navigate = buildNavigate('/admin');
 
+/**
+ * General admin controller element
+ * 
+ * @export
+ * @class Admin
+ * @extends {Component}
+ */
 export class Admin extends Component {
 
+  /**
+   * Creates an instance of Admin.
+   * 
+   * @param {any} props
+   * 
+   * @memberOf Admin
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -21,10 +35,25 @@ export class Admin extends Component {
     };
   }
 
+  /**
+   * Fetch the application hierarchy from the API - add the inactive flag
+   * to the url to also retrieve sites that have been set inactive.
+   * 
+   * @memberOf Admin
+   */
   componentDidMount() {
     this.props.fetchHierarchy('?inactive=true');
   }
 
+  /**
+   * Only update if the hierarchy or url has updated 
+   *
+   * @param {any} nextProps
+   * @param {any} nextState
+   * @returns
+   * 
+   * @memberOf Admin
+   */
   shouldComponentUpdate(nextProps, nextState) {
     if (!is(this.props.hierarchy, nextProps.hierarchy)) {
       return true;
@@ -38,6 +67,13 @@ export class Admin extends Component {
     return false;
   }
 
+  /**
+   * Render the correct menu based on the URL structure
+   * 
+   * @returns JSX.Element
+   * 
+   * @memberOf Admin
+   */
   renderMenu() {
     const { menu, splat } = this.props.params;
     switch (menu) {
@@ -78,6 +114,14 @@ export class Admin extends Component {
     );
   }
 }
+
+Admin.propTypes = {
+  menu: PropTypes.object.isRequired,
+  fetchHierarchy: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  hierarchy: PropTypes.object.isRequired,
+  sites: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
   return {

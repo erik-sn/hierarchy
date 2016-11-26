@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
@@ -10,8 +10,22 @@ import Modal from '../modal';
 import MachineForm from './forms/admin_machine_form';
 
 
+/**
+ *  Controller UI for the admin machine interface.
+ *
+ * @export
+ * @class MachineAdmin
+ * @extends {Component}
+ */
 export class MachineAdmin extends Component {
 
+  /**
+   * Creates an instance of MachineAdmin.
+   * 
+   * @param {object} props
+   * 
+   * @memberOf MachineAdmin
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -24,6 +38,15 @@ export class MachineAdmin extends Component {
     this.toggleShowNewMachineForm = this.toggleShowNewMachineForm.bind(this);
   }
 
+  /**
+   * Retrieve departments from a site object and return them
+   * as a list of MenuItems
+   * 
+   * @param {object} site
+   * @returns
+   * 
+   * @memberOf MachineAdmin
+   */
   getDepartments(site) {
     return site.get('departments').map((department, i) => (
       <MenuItem
@@ -35,6 +58,15 @@ export class MachineAdmin extends Component {
     ));
   }
 
+  /**
+   * Retrieve machines from the department object and return
+   * them as a list of MenuItems
+   * 
+   * @param {object} department
+   * @returns
+   * 
+   * @memberOf MachineAdmin
+   */
   getMachines(department) {
     if (!department) {
       return [];
@@ -49,14 +81,37 @@ export class MachineAdmin extends Component {
     ));
   }
 
+  /**
+   * set the activeMachine state
+   * 
+   * @param {object} machine
+   * 
+   * @memberOf MachineAdmin
+   */
   setActiveMachine(machine) {
     this.setState({ machine });
   }
 
+  /**
+   * set the activeDepartment state
+   * 
+   * @param {object} department
+   * 
+   * @memberOf MachineAdmin
+   */
   setActiveDepartment(department) {
     this.setState({ department });
   }
 
+  /**
+   * Given a machine object set the active site and department's id's as their
+   * corresponding key - the API accepts these as foreign keys. POST the object
+   * to the API and display the result to the user.
+   * 
+   * @param {object} machine
+   * 
+   * @memberOf MachineAdmin
+   */
   createMachine(machine) {
     const machineWithSite = machine.set('site', this.props.site.get('id'));
     const machineWithDepartment = machineWithSite.set('department', this.state.department.get('id'));
@@ -67,6 +122,15 @@ export class MachineAdmin extends Component {
     .then(() => this.resetState());
   }
 
+  /**
+   * Given a machine object set the active site and department's id's as their
+   * corresponding key - the API accepts these as foreign keys. PUT the object
+   * to the API to update it in the database and display the result to the user.
+   * 
+   * @param {any} machine
+   * 
+   * @memberOf MachineAdmin
+   */
   updateMachine(machine) {
     const machineWithSite = machine.set('site', this.props.site.get('id'));
     const machineWithDepartment = machineWithSite.set('department', this.state.department.get('id'));
@@ -77,14 +141,32 @@ export class MachineAdmin extends Component {
     .then(() => this.resetState());
   }
 
+  /**
+   * Toggle showing the newMachine modal
+   * 
+   * @memberOf MachineAdmin
+   */
   toggleShowNewMachineForm() {
     this.setState({ showNewMachine: !this.state.showNewMachine });
   }
 
+  /**
+   * reset component state back to defaults 
+   *
+   * @memberOf MachineAdmin
+   */
   resetState() {
     this.setState({ machine: undefined, showNewMachine: false });
   }
 
+  /**
+   * Render a machine form with the new prop to start a fresh machine. Set this
+   * form inside a modal.
+   * 
+   * @returns JSX.Element
+   * 
+   * @memberOf MachineAdmin
+   */
   renderNewDepartment() {
     return (
       <Modal
@@ -100,6 +182,15 @@ export class MachineAdmin extends Component {
     );
   }
 
+  /**
+   * Render either a machine form with the active machine object
+   * set as the default values, or just a button prompting the
+   * user to add a machine if there is no active machine
+   * 
+   * @returns JSX.Element
+   * 
+   * @memberOf MachineAdmin
+   */
   renderMenu() {
     const { department, machine } = this.state;
     if (department && machine) {
@@ -150,5 +241,12 @@ export class MachineAdmin extends Component {
     );
   }
 }
+
+MachineAdmin.propTypes = {
+  site: PropTypes.object.isRequired,
+  message: PropTypes.func.isRequired,
+  fetchHierarchy: PropTypes.func.isRequired,
+  modules: PropTypes.array.isRequired,
+};
 
 export default MachineAdmin;

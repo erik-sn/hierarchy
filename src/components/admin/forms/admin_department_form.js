@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form/immutable';
 import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
@@ -57,6 +57,14 @@ export const Department = ({ handleSubmit, submitForm, change, modules, departme
   </form>
 );
 
+Department.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+  modules: PropTypes.array.isRequired,
+  department: PropTypes.object.isRequired,
+  modal: PropTypes.bool,
+};
 
 function mapStateToProps(state, ownProps) {
   if (ownProps.new) {

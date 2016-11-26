@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import MenuItem from 'material-ui/MenuItem';
 import SelectField from 'material-ui/SelectField';
 import { List } from 'material-ui/List';
@@ -70,5 +70,11 @@ class ModuleEdit extends Component {
     );
   }
 }
+
+ModuleEdit.propTypes = {
+  item: PropTypes.object.isRequired,
+  change: PropTypes.func.isRequired,
+  modules: PropTypes.array.isRequired,
+};
 
 export default ModuleEdit;
