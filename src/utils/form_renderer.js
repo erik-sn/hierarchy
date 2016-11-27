@@ -20,6 +20,13 @@ export const renderDateField = ({ input, label, meta: { touched, error }, ...cus
   </div>
 );
 
+renderDateField.propTypes = {
+  input: PropTypes.object.isRequired,
+  label: PropTypes.string
+  fetchHierarchy: PropTypes.func.isRequired,
+  modules: PropTypes.array.isRequired,
+};
+
 export const renderTimeField = ({ input, label, meta: { touched, error }, ...custom }) => (
   <div className="mui-form-component">
     <TimePicker
