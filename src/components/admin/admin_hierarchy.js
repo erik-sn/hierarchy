@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import AdminSiteList from './admin_site_list';
@@ -37,6 +37,13 @@ export const AdminHierarchy = ({ sites, splat, ...props }) => {
       {activeSite ? adminSite : adminSiteList}
     </div>
   );
+};
+
+AdminHierarchy.propTypes = {
+  fetchHierarchy: PropTypes.func.isRequired,
+  splat: PropTypes.object.isRequired,
+  sites: PropTypes.array.isRequired,
+  modules: PropTypes.array.isRequired,
 };
 
 export default connect(null, { fetchHierarchy })(AdminHierarchy);

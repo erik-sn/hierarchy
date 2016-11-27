@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Field, reduxForm } from 'redux-form/immutable';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from 'react-redux';
@@ -55,6 +55,15 @@ export const Configuration = ({ change, submitForm, handleSubmit, site, modules,
     </div>
   </form>
 );
+
+Configuration.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+  modules: PropTypes.array.isRequired,
+  site: PropTypes.object.isRequired,
+  modal: PropTypes.bool,
+};
 
 function mapStateToProps(state, ownProps) {
   // if we are in "new mode" - creating a new site

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
 import { Card, CardTitle, CardText } from 'material-ui/Card';
@@ -20,11 +20,21 @@ export const MachineContainer = props => (
   </CardText>
 );
 
+MachineContainer.propTypes = {
+  dpt: PropTypes.object.isRequired,
+  url: PropTypes.string.isRequired,
+};
+
 export const MachineItem = props => (
   <Link className="main__machine-item" to={`${props.url}/${props.name}`.toLowerCase()} >
     <Chip className="main__machine-item-name">{props.name}</Chip>
   </Link>
 );
+
+MachineItem.propTypes = {
+  name: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+};
 
 export const Site = (props) => {
   const { site, showMap } = props;
@@ -53,6 +63,11 @@ export const Site = (props) => {
   );
 };
 
+Site.propTypes = {
+  site: PropTypes.object.isRequired,
+  showMap: PropTypes.func.isRequired,
+};
+
 export const Department = (props) => {
   const { site, dpt } = props;
   const url = `/${site.get('code')}/${dpt.get('name')}`;
@@ -67,6 +82,11 @@ export const Department = (props) => {
       </Link>
     </Card>
   );
+};
+
+Department.propTypes = {
+  site: PropTypes.object.isRequired,
+  dpt: PropTypes.object.isRequired,
 };
 
 export class Main extends Component {
@@ -134,6 +154,12 @@ export class Main extends Component {
     );
   }
 }
+
+Main.propTypes = {
+  hierarchy: PropTypes.object.isRequired,
+  showModal: PropTypes.func.isRequired,
+  sites: PropTypes.array.isRequired,
+};
 
 const MainContainer = connect(null, { showModal, hideModal })(Main);
 

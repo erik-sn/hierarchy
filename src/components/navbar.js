@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
@@ -24,6 +24,12 @@ export const Neighbor = (props) => {
   );
 };
 
+Neighbor.propTypes = {
+  path: PropTypes.string.isRequired,
+  hide: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+};
+
 export const Settings = props => (
   <IconMenu
     {...props}
@@ -47,6 +53,11 @@ export const Settings = props => (
     </Link>
   </IconMenu>
 );
+
+Settings.propTypes = {
+  admin: PropTypes.string.isRequired,
+  settings: PropTypes.string.isRequired,
+};
 
 class Navbar extends Component {
 
@@ -183,5 +194,12 @@ class Navbar extends Component {
     );
   }
 }
+
+Navbar.propTypes = {
+  config: PropTypes.object.isRequired,
+  hierarchy: PropTypes.array.isRequired,
+  path: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+};
 
 export default Navbar;

@@ -6,5 +6,4 @@ export const About = () => (
   </div>
 );
 
-const AboutContainer = About;
-export default AboutContainer;
+export default About;

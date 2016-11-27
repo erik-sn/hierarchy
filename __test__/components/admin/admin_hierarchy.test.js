@@ -2,7 +2,6 @@ import React from 'react';
 import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import { fromJS } from 'immutable';
-import sinon from 'sinon';
 
 import { AdminHierarchy } from '../../../src/components/admin/admin_hierarchy';
 import { sites } from '../../../__test__/sample';

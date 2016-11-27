@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'material-ui/Card';
 
@@ -76,6 +76,19 @@ export class Application extends Component {
     );
   }
 }
+
+Application.propTypes = {
+  children: PropTypes.array.isRequired,
+  config: PropTypes.object.isRequired,
+  fetchAuth: PropTypes.func.isRequired,
+  fetchHierarchy: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired,
+  modal: PropTypes.object.isRequired,
+  userError: PropTypes.bool,
+  user: PropTypes.object.isRequired,
+  siteError: PropTypes.bool,
+  sites: PropTypes.array.isRequired,
+};
 
 function mapStateToProps(state) {
   return {

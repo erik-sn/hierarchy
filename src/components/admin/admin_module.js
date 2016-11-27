@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -145,6 +145,10 @@ export class Modules extends Component {
     );
   }
 }
+
+Modules.propTypes = {
+  values: PropTypes.object.isRequired,
+};
 
 function mapStateToProps(state) {
   if (!state.get('form').get(FORM_NAME)) {

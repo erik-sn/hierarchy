@@ -21,9 +21,9 @@ export class MachineAdmin extends Component {
 
   /**
    * Creates an instance of MachineAdmin.
-   * 
+   *
    * @param {object} props
-   * 
+   *
    * @memberOf MachineAdmin
    */
   constructor(props) {
@@ -41,10 +41,10 @@ export class MachineAdmin extends Component {
   /**
    * Retrieve departments from a site object and return them
    * as a list of MenuItems
-   * 
+   *
    * @param {object} site
    * @returns
-   * 
+   *
    * @memberOf MachineAdmin
    */
   getDepartments(site) {
@@ -61,10 +61,10 @@ export class MachineAdmin extends Component {
   /**
    * Retrieve machines from the department object and return
    * them as a list of MenuItems
-   * 
+   *
    * @param {object} department
    * @returns
-   * 
+   *
    * @memberOf MachineAdmin
    */
   getMachines(department) {
@@ -83,9 +83,9 @@ export class MachineAdmin extends Component {
 
   /**
    * set the activeMachine state
-   * 
+   *
    * @param {object} machine
-   * 
+   *
    * @memberOf MachineAdmin
    */
   setActiveMachine(machine) {
@@ -94,9 +94,9 @@ export class MachineAdmin extends Component {
 
   /**
    * set the activeDepartment state
-   * 
+   *
    * @param {object} department
-   * 
+   *
    * @memberOf MachineAdmin
    */
   setActiveDepartment(department) {
@@ -107,9 +107,9 @@ export class MachineAdmin extends Component {
    * Given a machine object set the active site and department's id's as their
    * corresponding key - the API accepts these as foreign keys. POST the object
    * to the API and display the result to the user.
-   * 
+   *
    * @param {object} machine
-   * 
+   *
    * @memberOf MachineAdmin
    */
   createMachine(machine) {
@@ -126,9 +126,9 @@ export class MachineAdmin extends Component {
    * Given a machine object set the active site and department's id's as their
    * corresponding key - the API accepts these as foreign keys. PUT the object
    * to the API to update it in the database and display the result to the user.
-   * 
+   *
    * @param {any} machine
-   * 
+   *
    * @memberOf MachineAdmin
    */
   updateMachine(machine) {
@@ -143,7 +143,7 @@ export class MachineAdmin extends Component {
 
   /**
    * Toggle showing the newMachine modal
-   * 
+   *
    * @memberOf MachineAdmin
    */
   toggleShowNewMachineForm() {
@@ -151,7 +151,7 @@ export class MachineAdmin extends Component {
   }
 
   /**
-   * reset component state back to defaults 
+   * reset component state back to defaults
    *
    * @memberOf MachineAdmin
    */
@@ -162,9 +162,9 @@ export class MachineAdmin extends Component {
   /**
    * Render a machine form with the new prop to start a fresh machine. Set this
    * form inside a modal.
-   * 
+   *
    * @returns JSX.Element
-   * 
+   *
    * @memberOf MachineAdmin
    */
   renderNewDepartment() {
@@ -186,9 +186,9 @@ export class MachineAdmin extends Component {
    * Render either a machine form with the active machine object
    * set as the default values, or just a button prompting the
    * user to add a machine if there is no active machine
-   * 
+   *
    * @returns JSX.Element
-   * 
+   *
    * @memberOf MachineAdmin
    */
   renderMenu() {

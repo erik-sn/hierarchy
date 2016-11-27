@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Card, CardHeader } from 'material-ui/Card';
 import Lock from 'material-ui/svg-icons/action/lock';
@@ -14,7 +14,7 @@ const navigate = buildNavigate('/admin');
 
 /**
  * General admin controller element
- * 
+ *
  * @export
  * @class Admin
  * @extends {Component}
@@ -23,9 +23,9 @@ export class Admin extends Component {
 
   /**
    * Creates an instance of Admin.
-   * 
+   *
    * @param {any} props
-   * 
+   *
    * @memberOf Admin
    */
   constructor(props) {
@@ -38,7 +38,7 @@ export class Admin extends Component {
   /**
    * Fetch the application hierarchy from the API - add the inactive flag
    * to the url to also retrieve sites that have been set inactive.
-   * 
+   *
    * @memberOf Admin
    */
   componentDidMount() {
@@ -46,12 +46,12 @@ export class Admin extends Component {
   }
 
   /**
-   * Only update if the hierarchy or url has updated 
+   * Only update if the hierarchy or url has updated
    *
    * @param {any} nextProps
    * @param {any} nextState
    * @returns
-   * 
+   *
    * @memberOf Admin
    */
   shouldComponentUpdate(nextProps, nextState) {
@@ -69,9 +69,9 @@ export class Admin extends Component {
 
   /**
    * Render the correct menu based on the URL structure
-   * 
+   *
    * @returns JSX.Element
-   * 
+   *
    * @memberOf Admin
    */
   renderMenu() {
@@ -116,11 +116,11 @@ export class Admin extends Component {
 }
 
 Admin.propTypes = {
-  menu: PropTypes.object.isRequired,
   fetchHierarchy: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired,
   hierarchy: PropTypes.object.isRequired,
-  sites: PropTypes.object.isRequired,
+  params: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  sites: PropTypes.array.isRequired,
 };
 
 function mapStateToProps(state) {

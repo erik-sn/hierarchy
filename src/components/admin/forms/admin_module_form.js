@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { SubmissionError } from 'redux-form';
 import { Field, reduxForm } from 'redux-form/immutable';
@@ -90,6 +90,18 @@ export class Module extends Component {
   }
 }
 
+Module.propTypes = {
+  handleSubmit: PropTypes.func.isRequired,
+  submitForm: PropTypes.func.isRequired,
+  change: PropTypes.func.isRequired,
+  update: PropTypes.func.isRequired,
+  remove: PropTypes.func.isRequired,
+  clear: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  submitFailed: PropTypes.func.isRequired,
+  module: PropTypes.object.isRequired,
+  clean: PropTypes.bool,
+};
 
 function mapStateToProps(state, ownProps) {
   if (ownProps.clean) {

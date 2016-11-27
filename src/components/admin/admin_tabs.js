@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import { Tabs, Tab } from 'material-ui/Tabs';
 import DeviceHub from 'material-ui/svg-icons/hardware/device-hub';
@@ -39,5 +39,10 @@ const AdminTabs = ({ navigate, value }) => (
     />
   </Tabs>
 );
+
+AdminTabs.propTypes = {
+  navigate: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
+};
 
 export default AdminTabs;

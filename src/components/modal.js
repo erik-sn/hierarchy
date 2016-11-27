@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -9,7 +9,7 @@ import AppBar from 'material-ui/AppBar';
 import { hideModal } from '../actions/index';
 
 export const Modal = (props) => {
-  const { message, children, modal, title, onSubmit, onCancel } = props;
+  const { message, children, error, modal, title, onSubmit, onCancel } = props;
 
   const ok = (
     <FlatButton
@@ -40,7 +40,7 @@ export const Modal = (props) => {
   }
 
   const errorIconStyle = { marginLeft: '25px', height: '40px', width: '40px', display: 'none' };
-  if (props.error) {
+  if (error) {
     errorIconStyle.display = 'block';
     actions = [];
   }
@@ -76,6 +76,17 @@ export const Modal = (props) => {
       </Dialog>
     </div>
   );
+};
+
+Modal.propTypes = {
+  children: PropTypes.array.isRequired,
+  error: PropTypes.bool,
+  hideModal: PropTypes.func.isRequired,
+  message: PropTypes.string,
+  modal: PropTypes.object.isRequired,
+  onSubmit: PropTypes.func,
+  onCancel: PropTypes.func,
+  title: PropTypes.string,
 };
 
 const ModalContainer = connect(null, { hideModal })(Modal);

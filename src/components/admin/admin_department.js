@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
@@ -111,5 +111,12 @@ class Department extends Component {
     );
   }
 }
+
+Department.propTypes = {
+  message: PropTypes.func.isRequired,
+  fetchHierarchy: PropTypes.func.isRequired,
+  site: PropTypes.object.isRequired,
+  modules: PropTypes.array.isRequired,
+};
 
 export default Department;

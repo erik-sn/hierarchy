@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import CircularProgress from 'material-ui/CircularProgress';
 
 const Loader = props => (
@@ -9,5 +9,9 @@ const Loader = props => (
     </div>
   </div>
 );
+
+Loader.propTypes = {
+  message: PropTypes.string.isRequired,
+};
 
 export default Loader;

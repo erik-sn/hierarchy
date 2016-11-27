@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 import { List, ListItem } from 'material-ui/List';
 import FlatButton from 'material-ui/FlatButton';
@@ -78,5 +78,11 @@ class AdminSiteList extends Component {
     );
   }
 }
+
+AdminSiteList.propTypes = {
+  fetchHierarchy: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  sites: PropTypes.array.isRequired,
+};
 
 export default AdminSiteList;

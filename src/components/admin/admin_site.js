@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 import { fromJS } from 'immutable';
 import { CardTitle } from 'material-ui/Card';
@@ -131,5 +131,12 @@ class AdminSite extends Component {
     );
   }
 }
+
+AdminSite.propTypes = {
+  fetchHierarchy: PropTypes.func.isRequired,
+  navigate: PropTypes.func.isRequired,
+  site: PropTypes.object.isRequired,
+  splat: PropTypes.object.isRequired,
+};
 
 export default AdminSite;

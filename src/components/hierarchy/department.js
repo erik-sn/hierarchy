@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
 const Department = (props) => {
@@ -21,6 +21,10 @@ const Department = (props) => {
       </div>
     </div>
   );
+};
+
+Department.propTypes = {
+  hierarchy: PropTypes.object.isRequired,
 };
 
 
