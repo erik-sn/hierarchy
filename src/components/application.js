@@ -78,7 +78,7 @@ export class Application extends Component {
 }
 
 Application.propTypes = {
-  children: PropTypes.array.isRequired,
+  children: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
   fetchAuth: PropTypes.func.isRequired,
   fetchHierarchy: PropTypes.func.isRequired,
@@ -87,7 +87,7 @@ Application.propTypes = {
   userError: PropTypes.bool,
   user: PropTypes.object.isRequired,
   siteError: PropTypes.bool,
-  sites: PropTypes.array.isRequired,
+  sites: PropTypes.object,
 };
 
 function mapStateToProps(state) {

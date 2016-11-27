@@ -14,6 +14,7 @@ describe('modal.test.js |', () => {
       message: 'test message',
       children: <h1>Child JSX!</h1>,
       modal: false,
+      onSubmit: () => undefined,
     };
 
     beforeEach(() => {
@@ -45,12 +46,13 @@ describe('modal.test.js |', () => {
       expect(component.find('Dialog').props().actions).to.have.length(1);
     });
 
-    it('5. has the ok action when modal is false ', () => {
+    it('6. has the ok action when modal is false ', () => {
       const updateProps = {
         title: 'test title',
         message: 'test message',
         children: <h1>Child JSX!</h1>,
         modal: false,
+        onSubmit: () => undefined,
         onCancel: () => 'hi!',
       };
       component = shallow(<Modal {...updateProps} />);

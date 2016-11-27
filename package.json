@@ -29,7 +29,7 @@
   "scripts": {
     "dev": "node ./config/server.js",
     "debug": "mocha --debug-brk --compilers js:babel-core/register --require ./__test__/helper.js --recursive ./__test__",
-    "test-one": "mocha -R min --compilers js:babel-core/register --require ./__test__/helper.js --recursive ./__test__/components/admin/forms",
+    "test-one": "mocha -R min --compilers js:babel-core/register --require ./__test__/helper.js --recursive ./__test__",
     "test": "npm run test-one -- --watch",
     "coverage": "jest --coverage",
     "lint": "eslint ./src ./test --fix",

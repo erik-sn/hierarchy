@@ -197,8 +197,8 @@ class Navbar extends Component {
 
 Navbar.propTypes = {
   config: PropTypes.object.isRequired,
-  hierarchy: PropTypes.array.isRequired,
-  path: PropTypes.object.isRequired,
+  hierarchy: PropTypes.object,
+  path: PropTypes.string.isRequired,
   user: PropTypes.object.isRequired,
 };
 

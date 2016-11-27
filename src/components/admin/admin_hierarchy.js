@@ -41,9 +41,9 @@ export const AdminHierarchy = ({ sites, splat, ...props }) => {
 
 AdminHierarchy.propTypes = {
   fetchHierarchy: PropTypes.func.isRequired,
-  splat: PropTypes.object.isRequired,
-  sites: PropTypes.array.isRequired,
-  modules: PropTypes.array.isRequired,
+  splat: PropTypes.string,
+  sites: PropTypes.object.isRequired,
+  modules: PropTypes.object,
 };
 
 export default connect(null, { fetchHierarchy })(AdminHierarchy);

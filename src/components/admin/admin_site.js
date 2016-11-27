@@ -85,6 +85,7 @@ class AdminSite extends Component {
         return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
     }
   }
+
   render() {
     const { site, splat, navigate } = this.props;
     return (
@@ -134,9 +135,9 @@ class AdminSite extends Component {
 
 AdminSite.propTypes = {
   fetchHierarchy: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
-  site: PropTypes.object.isRequired,
-  splat: PropTypes.object.isRequired,
+  navigate: PropTypes.func,
+  site: PropTypes.object,
+  splat: PropTypes.string,
 };
 
 export default AdminSite;

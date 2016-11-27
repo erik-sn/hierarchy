@@ -42,7 +42,7 @@ const AdminTabs = ({ navigate, value }) => (
 
 AdminTabs.propTypes = {
   navigate: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
 };
 
 export default AdminTabs;

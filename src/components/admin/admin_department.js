@@ -116,7 +116,7 @@ Department.propTypes = {
   message: PropTypes.func.isRequired,
   fetchHierarchy: PropTypes.func.isRequired,
   site: PropTypes.object.isRequired,
-  modules: PropTypes.array.isRequired,
+  modules: PropTypes.object.isRequired,
 };
 
 export default Department;

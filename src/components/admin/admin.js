@@ -120,7 +120,7 @@ Admin.propTypes = {
   hierarchy: PropTypes.object.isRequired,
   params: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  sites: PropTypes.array.isRequired,
+  sites: PropTypes.object.isRequired,
 };
 
 function mapStateToProps(state) {

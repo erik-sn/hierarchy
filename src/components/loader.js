@@ -11,7 +11,7 @@ const Loader = props => (
 );
 
 Loader.propTypes = {
-  message: PropTypes.string.isRequired,
+  message: PropTypes.string,
 };
 
 export default Loader;

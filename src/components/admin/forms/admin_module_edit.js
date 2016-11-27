@@ -74,7 +74,7 @@ class ModuleEdit extends Component {
 ModuleEdit.propTypes = {
   item: PropTypes.object.isRequired,
   change: PropTypes.func.isRequired,
-  modules: PropTypes.array.isRequired,
+  modules: PropTypes.object.isRequired,
 };
 
 export default ModuleEdit;

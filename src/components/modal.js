@@ -83,7 +83,7 @@ Modal.propTypes = {
   error: PropTypes.bool,
   hideModal: PropTypes.func.isRequired,
   message: PropTypes.string,
-  modal: PropTypes.object.isRequired,
+  modal: PropTypes.object,
   onSubmit: PropTypes.func,
   onCancel: PropTypes.func,
   title: PropTypes.string,

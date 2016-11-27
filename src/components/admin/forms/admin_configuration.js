@@ -60,7 +60,7 @@ Configuration.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
-  modules: PropTypes.array.isRequired,
+  modules: PropTypes.object.isRequired,
   site: PropTypes.object.isRequired,
   modal: PropTypes.bool,
 };

@@ -246,7 +246,7 @@ MachineAdmin.propTypes = {
   site: PropTypes.object.isRequired,
   message: PropTypes.func.isRequired,
   fetchHierarchy: PropTypes.func.isRequired,
-  modules: PropTypes.array.isRequired,
+  modules: PropTypes.object,
 };
 
 export default MachineAdmin;

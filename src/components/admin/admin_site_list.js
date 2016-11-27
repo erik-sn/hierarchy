@@ -81,8 +81,8 @@ class AdminSiteList extends Component {
 
 AdminSiteList.propTypes = {
   fetchHierarchy: PropTypes.func.isRequired,
-  navigate: PropTypes.func.isRequired,
-  sites: PropTypes.array.isRequired,
+  navigate: PropTypes.func,
+  sites: PropTypes.object,
 };
 
 export default AdminSiteList;

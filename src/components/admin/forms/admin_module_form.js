@@ -93,13 +93,13 @@ export class Module extends Component {
 Module.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
-  change: PropTypes.func.isRequired,
-  update: PropTypes.func.isRequired,
-  remove: PropTypes.func.isRequired,
-  clear: PropTypes.func.isRequired,
-  reset: PropTypes.func.isRequired,
-  submitFailed: PropTypes.func.isRequired,
-  module: PropTypes.object.isRequired,
+  change: PropTypes.func,
+  update: PropTypes.func,
+  remove: PropTypes.func,
+  clear: PropTypes.func,
+  reset: PropTypes.func,
+  submitFailed: PropTypes.bool,
+  module: PropTypes.object,
   clean: PropTypes.bool,
 };
 

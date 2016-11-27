@@ -158,7 +158,7 @@ export class Main extends Component {
 Main.propTypes = {
   hierarchy: PropTypes.object.isRequired,
   showModal: PropTypes.func.isRequired,
-  sites: PropTypes.array.isRequired,
+  sites: PropTypes.object.isRequired,
 };
 
 const MainContainer = connect(null, { showModal, hideModal })(Main);

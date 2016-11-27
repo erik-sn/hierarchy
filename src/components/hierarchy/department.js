@@ -24,7 +24,7 @@ const Department = (props) => {
 };
 
 Department.propTypes = {
-  hierarchy: PropTypes.object.isRequired,
+  hierarchy: PropTypes.object,
 };
 
 
