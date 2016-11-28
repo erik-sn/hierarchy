@@ -1,0 +1,214 @@
+@import "style";
+
+
+/* main container for navbar */
+.navbar__container {
+  z-index: 2;
+  height: 46px;
+  width: 100%;
+  background-color: $primary;
+  color: $secondary;
+  min-width: 300px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  min-width: 290px;
+
+  a {
+    text-decoration: none;
+    color: $secondary;
+  }
+}
+
+.navbar__icon-container {
+  margin-top: -5px;
+  padding: 10px 20px 0px 20px;
+
+  img {
+    height: 30px;
+  }
+}
+
+.navbar__app-label {
+  cursor: pointer;
+  text-transform: uppercase;
+  margin-right: 35px;
+  font-size: 1.45rem;
+}
+
+/* container for site > department > machine display */
+.navbar__hierarchy-container {
+  display: flex;
+  align-items: center;
+  text-transform: uppercase;
+}
+
+/* target the first navigational component to add extra styling */
+.navbar__hierarchy-item-holder {
+  float: left;
+  cursor: pointer;
+  height: 46px;
+  width: 0px;
+  align-items: center;
+  border-right: 5px solid whitesmoke;
+
+  /* rotation */
+  transform: skewX(45deg);   
+}
+
+.navbar__hierarchy-item-parent {
+  float: left;
+  cursor: pointer;
+  height: 46px;
+  align-items: center;
+  border-right: 5px solid whitesmoke;
+
+  /* rotation */
+  transform: skewX(45deg);   
+  transition: height 0.15s ease-in-out;
+}
+
+.navbar__hierarchy-item-parent:hover {
+  color: $primary;
+  background-color: $secondary;
+  box-shadow: 0px 0px 9px 4px rgba(3,100,84,1);
+  height: 55px;
+  line-height: 55px;
+}
+
+.navbar__hierarchy-item-child {
+  display: flex;
+  align-items: center;
+  font-size: 1.3rem;
+  line-height: 100%;
+  height: 100%;
+  padding: 0px 40px;
+  transform:skewX(-45deg);
+}
+
+
+.navbar__info-container {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+}
+.navbar__username {
+  margin-left: auto;
+  margin-right: 25px;
+  text-transform: uppercase;
+}
+
+.navbar__settings {
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.navbar__neighbor-container {
+  flex-direction: column;
+  padding: 10px 15px;
+  max-height: 500px;
+  overflow-y: auto;
+
+  position: absolute;
+  color: $primary;
+  list-style: none;
+}
+
+.navbar__neighbor-item {
+  text-align: center;
+}
+
+/**
+Collapse hierarchy to a second row, adjust it's formatting
+to remove skews and other "shiny" formatting things.
+*/
+@media (max-width: 950px) {
+
+  .navbar__container {
+    height: 85px;
+    box-shadow: lighten($primary, 15%) 0px 0px 0px !important;
+  }
+
+  .navbar__app-label {
+    margin-right: 0px;
+  }
+
+  .navbar__hierarchy-container {
+    opacity: 1;
+    background: lighten($primary, 15%);
+    justify-content: center;
+    align-content: stretch;
+    order: 3;
+    width: 100%;
+    min-width: 200px !important;
+    height: 46px;
+  }
+
+  .navbar__hierarchy-item-holder {
+    border:none;
+  }
+
+  .navbar__hierarchy-item-parent {
+    /* rotation */
+    transform: skewX(0deg) !important;   
+    height: 80%;
+    border-right: 0px solid $primary !important;
+    transition: none !important;
+  }
+  /* target the first navigational component to add extra styling */
+  .navbar__nav-first {
+    margin-left: 0px;
+    border-left: 0px solid whitesmoke;
+  }
+  
+  .navbar__hierarchy-item-parent:hover {
+    color: $primary;
+    background-color: $secondary;
+    box-shadow: 0px 0px 0px 0px rgba(3,100,84,1) !important;
+    border-right: 0px solid $primary !important;
+    height: 52px;
+  }
+
+  .navbar__hierarchy-item-child {
+    padding: 0px 30px;
+    transform:skewX(0deg) !important;
+  }
+
+}
+
+
+/**
+Hide Icon, name containers, shrink hierarchy items to
+have a smaller font size
+*/
+@media (max-width: 470px) {
+
+  .navbar__container {
+    justify-content: center;
+  }
+
+  .navbar__app-label {
+    text-align: center;
+  }
+
+  .navbar__icon-container {
+    display: none;
+  }
+  
+  .navbar__hierarchy-item-child {
+    padding: 0px 10px;
+    font-size: 0.9rem;
+    transition: height 0s;
+  }
+
+  .navbar__info-container {
+    margin-left: 0px !important;
+  }
+
+  .navbar__username {
+    display: none;
+  }
+
+}

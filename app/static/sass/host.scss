@@ -1,0 +1,33 @@
+@import "style";
+
+@mixin host__label {
+  float: left;
+  background-size: cover;
+  background-position: right top;
+  background-repeat: no-repeat;
+  font-size: 1.25rem;
+  padding: 5px 35px 8px 15px;
+  border-left: 1px solid $secondary;
+  color: $secondary;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.host__label-small {
+  @include host__label;
+  width: 150px;
+  background-image: url(https://b.thumbs.redditmedia.com/daOZsA2E0SvASkEZYB-hfgBtBlpgcM6P2NBxBpta5CE.png);
+}
+
+.host__label-small:hover {
+  background-image: url(https://b.thumbs.redditmedia.com/f-IZ6Y83scWHx1MSElLDJF-fjzqiLkqH0X6nWRG4rKo.png);
+  border-left: 1px solid #67fffe;
+  cursor: pointer;
+}
+
+.host__label-large {
+  @include host__label;
+  width: 400px;
+  border-left: 1px solid $secondary;
+  background-image: url(https://b.thumbs.redditmedia.com/daOZsA2E0SvASkEZYB-hfgBtBlpgcM6P2NBxBpta5CE.png);
+}

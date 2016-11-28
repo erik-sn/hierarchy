@@ -1,6 +1,9 @@
-/node_modules
-/coverage
-/dist
+app/node_modules
+app/coverage
+app/dist
+
+api/hierarchyenv
+api/hierarchyapi/hierarchyapi/settings.py
 .idea
 .vscode
 *.error

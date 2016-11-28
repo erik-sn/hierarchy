@@ -1,0 +1,37 @@
+@import "style";
+
+.department__container {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+.department__module-container {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  color: $secondary;
+}
+
+.department__module-item {
+}
+
+.department__content-container {
+  flex: 1 1 auto;
+  color: $secondary;
+}
+
+.department__machine-container {
+  margin-top: 15px;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+
+  .host__label-small {
+    margin-bottom: 3px;
+  }
+}
+.department__machine-item {
+  color: $secondary;
+}

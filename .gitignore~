@@ -1,0 +1,11 @@
+/node_modules
+/coverage
+/dist
+.idea
+.vscode
+*.error
+*.log
+
+npm-debug.log
+webpack-assets.json
+webpack-stats.json
