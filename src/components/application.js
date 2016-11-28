@@ -37,6 +37,7 @@ export class Application extends Component {
       );
     }
     // wait for hierarchy and authentication information to load
+
     let loader;
     if (!user || !user.get('username') || !sites) {
       loader = <Loader />;
@@ -52,7 +53,7 @@ export class Application extends Component {
     if (sites && location) {
       // check to see if hiearchy exists, if not do not resolve path
       try {
-        hierarchy = resolvePath(sites, location.pathname);
+        hierarchy = resolvePath(sites, decodeURIComponent(location.pathname));
       } catch (e) {
         hierarchy = undefined;
       }

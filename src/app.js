@@ -6,6 +6,7 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import promise from 'redux-promise';
+import thunk from 'redux-thunk';
 
 import reducers from './reducers';
 import routes from './routes';

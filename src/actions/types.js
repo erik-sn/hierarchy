@@ -7,6 +7,8 @@ const types = {
     withCredentials: true,
   },
 
+  FETCH_DEPARTMENT_DATA: 'FETCH_DEPARTMENT_DATA',
+
   SHOW_MODAL: 'SHOW_MODAL',
   HIDE_MODAL: 'HIDE_MODAL',
 

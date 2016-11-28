@@ -4,9 +4,10 @@ import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 
 import ModuleEdit from './admin_module_edit';
+import ApiEdit from './admin_api_edit';
 import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
-export const Department = ({ handleSubmit, submitForm, change, modules, department, modal }) => (
+export const Department = ({ handleSubmit, submitForm, change, modules, apicalls, department, modal }) => (
   <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
     <div className="admin__form-section">
       <div className="mui-form-component">
@@ -29,11 +30,18 @@ export const Department = ({ handleSubmit, submitForm, change, modules, departme
     </div>
     <div className="admin__form-section" >
       {modal ? '' :
-        <ModuleEdit
-          item={department}
-          modules={modules}
-          change={change}
-        />
+        <div>
+          <ModuleEdit
+            item={department}
+            modules={modules}
+            change={change}
+          />
+          <ApiEdit
+            item={department}
+            apicalls={apicalls}
+            change={change}
+          />
+        </div>
       }
     </div>
     <div className="admin__lower-form-section">
@@ -62,7 +70,8 @@ Department.propTypes = {
   submitForm: PropTypes.func.isRequired,
   change: PropTypes.func.isRequired,
   modules: PropTypes.object.isRequired,
-  department: PropTypes.object.isRequired,
+  apicalls: PropTypes.object.isRequired,
+  department: PropTypes.object,
   modal: PropTypes.bool,
 };
 
@@ -79,7 +88,7 @@ export const validate = (values) => {
   const errors = {};
   if (!values.get('name')) {
     errors.name = 'Required';
-  } else if (!values.get('name').match(/^[a-zA-Z]+$/)) {
+  } else if (!values.get('name').match(/^[a-zA-Z ]+$/)) {
     errors.name = 'Name can only contain letters';
   }
   return errors;

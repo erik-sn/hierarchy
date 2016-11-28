@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import DeviceHub from 'material-ui/svg-icons/hardware/device-hub';
 import Lock from 'material-ui/svg-icons/action/lock';
-import Assignment from 'material-ui/svg-icons/action/assignment-turned-in';
+import Antenna from 'material-ui/svg-icons/action/settings-input-antenna';
 import Module from 'material-ui/svg-icons/action/view-module';
 
 
@@ -24,11 +24,11 @@ const AdminTabs = ({ navigate, value }) => (
       value="modules"
     />
     <Tab
-      onClick={() => navigate('specifications')}
+      onClick={() => navigate('apicalls')}
       className="admin__menu-tab"
-      icon={<Assignment />}
-      label="specifications"
-      value="specifications"
+      icon={<Antenna />}
+      label="api calls"
+      value="apicalls"
     />
     <Tab
       onClick={() => navigate('permissions')}

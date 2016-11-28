@@ -1,0 +1,20 @@
+import { Map, fromJS } from 'immutable';
+
+import types from '../actions/types';
+
+export const initialState = Map({
+});
+
+export default (state = initialState, action) => {
+  switch (action.type) {
+    case types.FETCH_DEPARTMENT_DATA: {
+      if (action.error) {
+        return state.set('error', true);
+      }
+      const data = Map({}).set(action.meta.key, fromJS(action.payload.data));
+      return state.set(action.meta.department, data);
+    }
+    default:
+      return state;
+  }
+};

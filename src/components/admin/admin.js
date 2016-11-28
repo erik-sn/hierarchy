@@ -7,6 +7,7 @@ import { is } from 'immutable';
 import AdminTabs from './admin_tabs';
 import AdminHierarchy from './admin_hierarchy';
 import Modules from './admin_module';
+import ApiCalls from './admin_api';
 import { fetchHierarchy } from '../../actions/api';
 import { buildNavigate } from '../../utils/resolver';
 
@@ -79,8 +80,8 @@ export class Admin extends Component {
     switch (menu) {
       case 'specifications':
         return <div className="admin__specifications">specification</div>;
-      case 'permissions':
-        return <div className="admin__permissions">Permissions</div>;
+      case 'apicalls':
+        return <ApiCalls />;
       case 'modules':
         return <Modules key={Math.random()} />;
       default:

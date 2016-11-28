@@ -79,7 +79,7 @@ class Department extends Component {
   }
 
   render() {
-    const { site, modules } = this.props;
+    const { site, modules, apicalls } = this.props;
     const { department, showNewDepartment } = this.state;
     return (
       <div className="admin__department-container">
@@ -98,6 +98,7 @@ class Department extends Component {
             submitForm={this.updateDepartment}
             department={department}
             modules={modules}
+            apicalls={apicalls}
           />
         :
           <FlatButton
@@ -113,10 +114,11 @@ class Department extends Component {
 }
 
 Department.propTypes = {
-  message: PropTypes.func.isRequired,
+  apicalls: PropTypes.object.isRequired,
   fetchHierarchy: PropTypes.func.isRequired,
-  site: PropTypes.object.isRequired,
+  message: PropTypes.func.isRequired,
   modules: PropTypes.object.isRequired,
+  site: PropTypes.object.isRequired,
 };
 
 export default Department;

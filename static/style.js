@@ -1,10 +1,10 @@
 /**
- * This file simply requires all sass files so webpack can
- * transpile and compress them on build/deploy
+ * requires all sass files so webpack can transpile and compress them on build/deploy
  */
 if (process.env.BROWSER) {
   require('./sass/admin.scss');
   require('./sass/config.scss');
+  require('./sass/department.scss');
   require('./sass/style.scss');
   require('./sass/navbar.scss');
   require('./sass/main.scss');

@@ -26,6 +26,7 @@ class AdminSite extends Component {
     this.state = {
       messageText: '',
       messageShow: false,
+      apicalls: undefined,
       modules: undefined,
     };
     this.updateSite = this.updateSite.bind(this);
@@ -38,7 +39,14 @@ class AdminSite extends Component {
     .then(response => this.setState({
       modules: fromJS(response.data),
     }))
-    .catch(() => this.showMessage('Error Loading Configuration Data'));
+    .catch(() => this.showMessage('Error Loading Modules'));
+
+
+    axios.get(`${types.API}/apicalls/`, types.API_CONFIG)
+    .then(response => this.setState({
+      apicalls: fromJS(response.data),
+    }))
+    .catch(() => this.showMessage('Error Loading Api Calls'));
   }
 
   updateSite(site) {
@@ -58,8 +66,8 @@ class AdminSite extends Component {
   }
 
   renderConfig(site, config) {
-    const { modules } = this.state;
-    if (!modules) {
+    const { modules, apicalls } = this.state;
+    if (!modules || !apicalls) {
       return undefined;
     }
     switch (config) {
@@ -68,6 +76,7 @@ class AdminSite extends Component {
           <DepartmentAdmin
             site={site}
             modules={modules}
+            apicalls={apicalls}
             fetchHierarchy={this.props.fetchHierarchy}
             message={this.showMessage}
           />

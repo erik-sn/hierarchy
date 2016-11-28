@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import Modal from '../components/modal';
 import types from './types';
@@ -20,5 +21,17 @@ export function hideModal() {
       showModal: false,
     },
     type: types.HIDE_MODAL,
+  };
+}
+
+export function fetchDepartmentData(departmentId, url, key) {
+  const request = axios.get(url, types.API_CONFIG);
+  return {
+    payload: request,
+    type: types.FETCH_DEPARTMENT_DATA,
+    meta: {
+      department: departmentId,
+      key,
+    },
   };
 }

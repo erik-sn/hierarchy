@@ -9,7 +9,6 @@ import About from './components/about';
 import Main from './components/hierarchy/main';
 
 import Department from './components/hierarchy/department';
-import Machine from './components/hierarchy/machine';
 
 const Routes = (
   <Router>
@@ -21,7 +20,7 @@ const Routes = (
       <Route path="/about" component={About} />
       <Route path="/:site" component={Main} />
       <Route path="/:site/:department" component={Department} />
-      <Route path="/:site/:department/:machine" component={Machine} />
+      <Route path="/:site/:department/:machine" component={Department} />
       <Route path="*" component={NotFound} />
     </Route>
   </Router>

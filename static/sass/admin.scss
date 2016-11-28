@@ -52,10 +52,32 @@
   flex: 1 1 400px;
 }
 
+/* Configuration for api call interface */
+.admin__apicalls-inner-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.admin__apicalls-list-container {
+  flex: 1 1 100px;
+  height: 500px;
+  overflow-y: auto;
+  margin-right: 25px;
+}
+
+.admin__apicalls-form-container {
+  flex: 1 1 400px;
+}
+
 .admin__form-container {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
+
+  .mui-form-component {
+    margin: 5px;
+  }
 }
 
 .admin__form-container-column {

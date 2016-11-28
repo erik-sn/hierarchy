@@ -46,7 +46,7 @@ describe('admin_module_form.test.js |', () => {
     });
 
     it('2. renders correct elements', () => {
-      expect(component.find('Field')).to.have.length(3);
+      expect(component.find('Field')).to.have.length(4);
       expect(component.find('FlatButton')).to.have.length(3);
     });
 
@@ -78,7 +78,7 @@ describe('admin_module_form.test.js |', () => {
         module: Map({ name: 'test_name' }),
         change,
       });
-      expect(change.callCount).to.equal(4);
+      expect(change.callCount).to.equal(5);
     });
 
     it('8. componentWillMount does not call change if same module', () => {
@@ -114,7 +114,7 @@ describe('admin_module_form.test.js |', () => {
     });
 
     it('2. renders correct elements', () => {
-      expect(component.find('Field')).to.have.length(3);
+      expect(component.find('Field')).to.have.length(4);
       expect(component.find('FlatButton')).to.have.length(2);
     });
   });
@@ -144,19 +144,29 @@ describe('admin_module_form.test.js |', () => {
 
   describe('validate | >>>', () => {
     it('1. name is required', () => {
-      const form = Map({ description: 'test description' });
+      const form = Map({ description: 'test description', label: 'test label' });
       const errors = validate(form);
       expect(errors.name).to.equal('Required');
     });
 
     it('2. type is required', () => {
-      const form = Map({ name: 'test name' });
+      const form = Map({ name: 'test name', label: 'test label' });
       const errors = validate(form);
       expect(errors.description).to.equal('Required');
     });
 
-    it('3. no errors', () => {
-      const form = Map({ description: 'test description', name: 'test name' });
+    it('3. label is required', () => {
+      const form = Map({ name: 'test name', description: 'test description' });
+      const errors = validate(form);
+      expect(errors.label).to.equal('Required');
+    });
+
+    it('4. no errors', () => {
+      const form = Map({
+        description: 'test description',
+        name: 'test name',
+        label: 'test label',
+      });
       const errors = validate(form);
       expect(is(Map(errors), Map({}))).to.equal(true);
     });

@@ -6,22 +6,22 @@ import FlatButton from 'material-ui/FlatButton';
 
 import { renderTextField as Text, renderCheckbox as CheckBox } from '../../../utils/form_renderer';
 
-export const FORM_NAME = 'MODULE-CONFIG';
+export const FORM_NAME = 'API-CONFIG';
 
-export class Module extends Component {
+export class API extends Component {
 
   componentWillMount() {
     this.props.reset();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { change, module } = nextProps;
-    if ((module && !this.props.module) || (module && module.get('name') !== this.props.module.get('name'))) {
-      change('id', module.get('id'));
-      change('name', module.get('name'));
-      change('label', module.get('label'));
-      change('description', module.get('description'));
-      change('active', module.get('active'));
+    const { change, apicall } = nextProps;
+    if ((apicall && !this.props.apicall) || (apicall && apicall.get('url') !== this.props.apicall.get('url'))) {
+      change('id', apicall.get('id'));
+      change('url', apicall.get('url'));
+      change('key', apicall.get('key'));
+      change('description', apicall.get('description'));
+      change('active', apicall.get('active'));
     }
   }
 
@@ -30,8 +30,8 @@ export class Module extends Component {
             reset, submitFailed } = this.props;
     return (
       <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
-        <Field className="admin__form-field" name="name" component={Text} label="Name" />
-        <Field className="admin__form-field" name="label" component={Text} label="Label" />
+        <Field className="admin__form-field" name="key" component={Text} label="Key" />
+        <Field className="admin__form-field" name="url" component={Text} label="Url" />
         <Field
           className="admin__form-field"
           name="description"
@@ -92,7 +92,7 @@ export class Module extends Component {
   }
 }
 
-Module.propTypes = {
+API.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   submitForm: PropTypes.func.isRequired,
   change: PropTypes.func,
@@ -101,7 +101,7 @@ Module.propTypes = {
   clear: PropTypes.func,
   reset: PropTypes.func,
   submitFailed: PropTypes.bool,
-  module: PropTypes.object,
+  apicall: PropTypes.object,
   clean: PropTypes.bool,
 };
 
@@ -110,14 +110,17 @@ function mapStateToProps(state, ownProps) {
     return { initialValues: { active: false } };
   }
   return {
-    initialValues: ownProps.module,
+    initialValues: ownProps.apicall,
   };
 }
 
 export const validateOnSubmit = (values) => {
   const errors = {};
-  if (!values.get('name')) {
-    throw new SubmissionError({ name: 'Name does not exixt' });
+  if (!values.get('url')) {
+    throw new SubmissionError({ url: 'Url does not exixt' });
+  }
+  if (!values.get('key')) {
+    throw new SubmissionError({ key: 'Key does not exixt' });
   }
   if (!values.get('description')) {
     throw new SubmissionError({ name: 'Description does not exixt' });
@@ -127,11 +130,11 @@ export const validateOnSubmit = (values) => {
 
 export const validate = (values) => {
   const errors = {};
-  if (!values.get('name')) {
-    errors.name = 'Required';
+  if (!values.get('url')) {
+    errors.url = 'Required';
   }
-  if (!values.get('label')) {
-    errors.label = 'Required';
+  if (!values.get('key')) {
+    errors.key = 'Required';
   }
   if (!values.get('description')) {
     errors.description = 'Required';
@@ -140,10 +143,10 @@ export const validate = (values) => {
 };
 
 // Decorate the form component
-const ModuleForm = reduxForm({
+const ApiForm = reduxForm({
   form: FORM_NAME,
   validate,
-})(Module);
+})(API);
 
-export default connect(mapStateToProps)(ModuleForm);
+export default connect(mapStateToProps)(ApiForm);
 
