@@ -75,7 +75,7 @@ class Department extends Component {
     const { activeModule } = this.state;
     const { params, data, hierarchy } = this.props;
     if (params.machine) {
-      const machine = hierarchy.get('machines').find(mch => (
+      const machine = hierarchy.get('department').get('machines').find(mch => (
         mch.get('name').toLowerCase() === params.machine.toLowerCase()
       ));
       return (

@@ -1,13 +1,13 @@
 @import "style";
 
-.department__container {
+@mixin finalContainer() {
   margin-top: 15px;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.department__module-container {
+@mixin moduleContainer() {
   flex: 1 1 auto;
   display: flex;
   flex-direction: row;
@@ -15,13 +15,14 @@
   color: $secondary;
 }
 
-.department__module-item {
+@mixin moduleItem() {
   padding: 5px 65px 5px 15px !important;
   background: $primary;
   margin-right: -25px;
 }
 
-.department__content-container {
+@mixin finalContent() {
+  background-image: url('/static/media/grid.svg');
   flex: 1 1 auto;
   height: 100%;
   overflow-y: auto;
@@ -30,6 +31,22 @@
   color: $secondary;
   border: 1px solid $secondary;
   border-radius: 3px;
+}
+
+.department__container {
+  @include finalContainer();
+}
+
+.department__module-container {
+  @include moduleContainer();
+}
+
+.department__module-item {
+  @include moduleItem();
+}
+
+.department__content-container {
+  @include finalContent();
 }
 
 .department__description-container {

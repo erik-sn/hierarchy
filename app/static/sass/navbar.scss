@@ -187,20 +187,10 @@ to remove skews and other "shiny" formatting things.
     border-right: 0px solid $primary !important;
     transition: none !important;
   }
-  /* target the first navigational component to add extra styling */
-  .navbar__nav-first {
-    margin-left: 0px;
-    border-left: 0px solid whitesmoke;
-  }
-  
-  .navbar__hierarchy-item-parent:hover {
-    color: $tertiary;
-  }
 
   .navbar__hierarchy-item-child {
     padding: 0px 30px;
   }
-
 }
 
 

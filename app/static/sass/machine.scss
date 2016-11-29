@@ -1,5 +1,13 @@
 @import "style";
 
 .machine__container {
+  background-image: url('/static/media/grid.svg');
+  flex: 1 1 auto;
+  height: 100%;
+  overflow-y: auto;
+  margin-top: -1px;
+  margin-bottom: 25px;
   color: $secondary;
+  border: 1px solid $secondary;
+  border-radius: 3px;
 }

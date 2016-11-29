@@ -3,12 +3,11 @@ import React, { PropTypes } from 'react';
 const Production = props => (
   <div>
     <h3>{props.module.get('label')}</h3>
-    <div>{props.data}</div>
   </div>
 );
 
 Production.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   module: PropTypes.object.isRequired,
 };
 
