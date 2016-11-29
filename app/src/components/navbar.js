@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
-import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import IconMenu from 'material-ui/IconMenu';
-import Menu from 'material-ui/Menu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
@@ -19,7 +17,7 @@ export const Neighbor = (props) => {
   const newPath = path ? path.substring(0, rootIndex) + name.toLowerCase() : '';
   return (
     <Link to={newPath} onClick={hide} >
-      <MenuItem className="navbar__neighbor-item" value={name} primaryText={name} />
+      <div className="host__label-small navbar__neighbor-item">{name}</div>
     </Link>
   );
 };
@@ -108,22 +106,23 @@ class Navbar extends Component {
       return;
     }
     const { path } = this.props;
-    const { dropdownX, dropdownY, windowWidth, elementWidth } = getBoundingBox(e);
+    const { dropdownX, dropdownY, windowWidth } = getBoundingBox(e);
+    const height = neighbors.size * 40;
     const dropdownContainer = (
-      <Paper
+      <div
         className="navbar__neighbor-container"
         style={{
-          left: windowWidth < 970 ? dropdownX : dropdownX + 20,
-          top: windowWidth < 970 ? dropdownY - 2 : dropdownY - 4,
-          width: elementWidth < 150 ? 150 : elementWidth,
+          left: windowWidth - dropdownX - 215 <= 0 ? windowWidth - 240 : dropdownX,
+          top: windowWidth < 970 ? dropdownY + 15 : dropdownY + 10,
+          height: height <= 400 ? height : 400,
         }}
       >
-        <Menu>
+        <div className="navbar__neighbor-list">
           {neighbors.sort(alphaNumSort).map((name, i) => (
             <Neighbor path={path} hide={this.hideNeighbors} key={i} name={name} />
           ))}
-        </Menu>
-      </Paper>
+        </div>
+      </div>
     );
     this.setState({ dropdownX, dropdownY, dropdownContainer });
   }
@@ -133,19 +132,25 @@ class Navbar extends Component {
       return (
         <div
           role="button"
-          className="navbar__hierarchy-item-parent"
-          onClick={e => this.showNeighbors(e, neighbors)}
+          className="navbar__hierarchy-item-parent navbar__hierarchy-item-last"
         >
-          <div className="navbar__hierarchy-item-child">{component.get('name')}</div>
+          <div className="navbar__chain-container" />
+          <div
+            className="navbar__hierarchy-item-child"
+            onClick={e => this.showNeighbors(e, neighbors)}
+          >
+            {component.get('name')}
+          </div>
         </div>
       );
     }
     return (
-      <Link to={to.toLowerCase()} onClick={this.hideNeighbors}>
-        <div className="navbar__hierarchy-item-parent" >
+      <div className="navbar__hierarchy-item-parent" >
+        <div className="navbar__chain-container" />
+        <Link to={to.toLowerCase()} onClick={this.hideNeighbors}>
           <div className="navbar__hierarchy-item-child">{component.get('name')}</div>
-        </div>
-      </Link>
+        </Link>
+      </div>
     );
   }
 

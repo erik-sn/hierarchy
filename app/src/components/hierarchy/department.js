@@ -47,15 +47,20 @@ class Department extends Component {
   }
 
   renderModules() {
-    return this.department.get('modules').map((module, i) => (
-      <div
-        className="department__module-item host__label-small"
-        onClick={() => this.setState({ activeModule: module })}
-        key={i}
-      >
-        {module.get('label')}
-      </div>
-    ));
+    return this.department.get('modules').map((module, i) => {
+      const { activeModule } = this.state;
+      const isActive = activeModule && activeModule.get('name') === module.get('name');
+      const tabClass = isActive ? 'host__tab-selected' : 'host__tab';
+      return (
+        <div
+          className={`department__module-item ${tabClass}`}
+          onClick={() => this.setState({ activeModule: module })}
+          key={i}
+        >
+          {module.get('label')}
+        </div>
+      );
+    });
   }
 
   render() {
@@ -74,7 +79,7 @@ class Department extends Component {
       <div className="department__container">
         <div className="department__module-container">
           <div
-            className="department__module-item host__label-small"
+            className={`department__module-item ${this.state.activeModule ? 'host__tab' : 'host__tab-selected'}`}
             onClick={() => this.setState({ activeModule: undefined })}
           >
             Machines

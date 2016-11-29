@@ -93,8 +93,8 @@ export class Admin extends Component {
     if (!this.props.user.get('admin')) {
       return (
         <div className="admin__message">
-          <Lock style={{ height: '200px', width: '200px' }} />
-          <h3>You are not authorized to view this section</h3>
+          <Lock style={{ height: '200px', width: '200px', color: 'white' }} />
+          <h3 style={{ color: 'white' }}>You are not authorized to view this section</h3>
         </div>
       );
     }

@@ -1,6 +1,6 @@
 @import "style";
 
-@mixin host__label {
+@mixin host__default {
   float: left;
   background-size: cover;
   background-position: right top;
@@ -14,7 +14,7 @@
 }
 
 .host__label-small {
-  @include host__label;
+  @include host__default;
   width: 150px;
   background-image: url(https://b.thumbs.redditmedia.com/daOZsA2E0SvASkEZYB-hfgBtBlpgcM6P2NBxBpta5CE.png);
 }
@@ -26,8 +26,30 @@
 }
 
 .host__label-large {
-  @include host__label;
+  @include host__default;
   width: 400px;
-  border-left: 1px solid $secondary;
-  background-image: url(https://b.thumbs.redditmedia.com/daOZsA2E0SvASkEZYB-hfgBtBlpgcM6P2NBxBpta5CE.png);
+  background-image: url('/static/media/host_br.svg');
+}
+
+.host__label-large:hover {
+  background-image: url('/static/media/host_br_fill.svg');
+  transform: translateX(15px);
+}
+
+.host__tab {
+  @include host__default;
+  border-left: 2px solid $secondary;
+  background-image: url('/static/media/host_tab.svg');
+}
+
+.host__tab-selected {
+  @include host__default;
+  border-left: 2px solid $secondary;
+  background-image: url('/static/media/host_tab_selected.svg');
+  color: $primary;
+}
+
+.host__tab:hover {
+  background-image: url('/static/media/host_tab_fill.svg');
+  cursor: pointer;
 }
