@@ -168,7 +168,7 @@ to remove skews and other "shiny" formatting things.
 
   .navbar__hierarchy-container {
     opacity: 1;
-    background: $tertiary;
+    background: darken($tertiary, 10%);
     justify-content: center;
     align-content: stretch;
     order: 3;

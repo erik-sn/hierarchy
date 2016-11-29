@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { Card, CardTitle, CardHeader, CardActions, CardText } from 'material-ui/Card';
+import { Card, CardTitle, CardHeader, CardText } from 'material-ui/Card';
 import GoogleMap from 'google-map-react';
 import Place from 'material-ui/svg-icons/maps/place';
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';

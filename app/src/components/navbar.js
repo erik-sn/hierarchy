@@ -5,6 +5,8 @@ import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import SettingsIcon from 'material-ui/svg-icons/action/settings';
+import AboutIcon from 'material-ui/svg-icons/action/help-outline';
+import InfoIcon from 'material-ui/svg-icons/action/info-outline';
 import SecurityICon from 'material-ui/svg-icons/hardware/security';
 import { is } from 'immutable';
 
@@ -49,12 +51,26 @@ export const Settings = props => (
         leftIcon={<SecurityICon />}
       />
     </Link>
+    <Link to={props.help} >
+      <MenuItem
+        primaryText="Help"
+        leftIcon={<AboutIcon />}
+      />
+    </Link>
+    <Link to={props.about} >
+      <MenuItem
+        primaryText="About"
+        leftIcon={<InfoIcon />}
+      />
+    </Link>
   </IconMenu>
 );
 
 Settings.propTypes = {
   admin: PropTypes.string.isRequired,
   settings: PropTypes.string.isRequired,
+  about: PropTypes.string,
+  help: PropTypes.string,
 };
 
 class Navbar extends Component {
@@ -192,7 +208,7 @@ class Navbar extends Component {
         <div className="navbar__info-container">
           <div className="navbar__username" >{name}</div>
           <div className="navbar__settings" >
-            <Settings admin="/admin" settings="/settings" />
+            <Settings admin="/admin" settings="/settings" about="/about" />
           </div>
         </div>
       </header>

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.contrib.auth import models
 from django.utils.timezone import utc
 from django.db.models import F
 from rest_framework import generics
@@ -29,9 +30,13 @@ def auth_view(request):
     :param request: HTTP request
     :return:
     """
-    name = request.META['USER'] or None
+    name = request.META['USER'] if 'USER' in request.META else request.META['USERNAME']
     ip = request.META['REMOTE_ADDR'] or None
-    user = User.objects.get(username=name)
+    try:
+        user = User.objects.get(username=name)
+    except models.ObjectDoesNotExist:
+        user = User(is_active=True, is_staff=False, is_superuser=False, username=name)
+        user.save()
     return Response({'id': user.id, 'username': user.username, 'ip': ip, 'admin': user.is_staff}, status=200)
 
 
