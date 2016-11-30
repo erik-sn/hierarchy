@@ -8,6 +8,7 @@ urlpatterns = [
 
     url(r'^(?i)auth/$', views.auth_view, name='authview'),
 
+
     url(r'^(?i)apicalls/$', views.ApiCallView.as_view(), name='apicallview'),
     url(r'^(?i)apicalls/(?P<id>[0-9]+)/$', views.ApiCallView.as_view(), name='apicallview_id'),
 
@@ -20,6 +21,7 @@ urlpatterns = [
     url(r'^(?i)machines/$', views.MachineView.as_view(), name='machineview'),
     url(r'^(?i)machines/(?P<id>[0-9]+)/$', views.MachineView.as_view(), name='machineview_id'),
 
+    url(r'^(?i)modules/refresh/$', views.refresh_modules, name='module_refresh_view'),
     url(r'^(?i)modules/$', views.ModuleView.as_view(), name='moduleview'),
     url(r'^(?i)modules/(?P<id>[0-9]+)/$', views.ModuleView.as_view(), name='moduleview_id'),
 

@@ -5,7 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import ModuleEdit from './admin_module_edit';
 import ApiEdit from './admin_api_edit';
-import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
+import { renderNullField, renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
 export const Department = ({ handleSubmit, submitForm, change, modules, apicalls, department, modal }) => (
   <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
@@ -16,6 +16,12 @@ export const Department = ({ handleSubmit, submitForm, change, modules, apicalls
           name="name"
           component={renderTextField}
           label="Name"
+        />
+        <Field
+          className="admin__form-field"
+          name="defaultModule"
+          component={renderNullField}
+          label="Default Module"
         />
         <div style={{ width: '100%', height: '20px' }} />
         <Field
@@ -79,8 +85,10 @@ function mapStateToProps(state, ownProps) {
   if (ownProps.new) {
     return { initialValues: { active: true, modules: [] } };
   }
+  const initialValues = ownProps.department.toJS();
+  initialValues.defaultModule = ownProps.department.get('defaultModule').get('id');
   return {
-    initialValues: ownProps.department.toJS(),
+    initialValues,
   };
 }
 

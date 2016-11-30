@@ -28,13 +28,9 @@ class Department extends Component {
         key={i}
         value={department.get('name')}
         primaryText={department.get('name')}
-        onClick={() => this.setActiveDepartment(department)}
+        onTouchTap={() => this.setState({ department })}
       />
     ));
-  }
-
-  setActiveDepartment(department) {
-    this.setState({ department });
   }
 
   createDepartment(department) {
@@ -95,6 +91,7 @@ class Department extends Component {
         </SelectField>
         {department ?
           <DepartmentForm
+            key={department.get('id')}
             submitForm={this.updateDepartment}
             department={department}
             modules={modules}

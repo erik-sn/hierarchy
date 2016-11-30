@@ -1,5 +1,5 @@
 /* Color Scheme */
-$primary: darken(#151E25, 3%);
+$primary: darken(#151E25, 5%);
 $secondary: #FFFFFF;
 $tertiary: #285F64;
 
@@ -8,7 +8,7 @@ $font1: #59A1B6;
 
 // content widths
 $minWidth: 295px;
-$maxWidth: 1000px;
+$maxWidth: 1400px;
 
 #root {
   height: 100%;
@@ -24,7 +24,7 @@ $maxWidth: 1000px;
 .application__content-container {
   display: flex;
   flex: 1 1 auto;
-  width: 85%;
+  width: 100%;
   min-width: $minWidth;
   max-width: $maxWidth;
 
@@ -36,7 +36,9 @@ $maxWidth: 1000px;
   overflow: hidden;
   display: flex;
   justify-content: center;
+  margin: 15px !important;
   z-index: 1 !important;
+  background-image: url('/static/media/grid.svg') !important;
   background-color: $primary !important;
   box-shadow: lighten($primary, 15%) 0px 0px 0px, lighten($primary, 15%) 0px 0px 0px !important;
 
@@ -48,6 +50,9 @@ $maxWidth: 1000px;
 @media (max-width: 1000px) {
   .application__content-container {
     width: 100%;
+  }
+  .application__content-card {
+    margin: 0px !important;
   }
 }
 

@@ -4,11 +4,17 @@ import { connect } from 'react-redux';
 import FlatButton from 'material-ui/FlatButton';
 
 import ModuleEdit from './admin_module_edit';
-import { renderTextField, renderCheckbox } from '../../../utils/form_renderer';
+import { renderNullField, renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
 export const Machine = ({ change, handleSubmit, submitForm, modal, machine, modules }) => (
   <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
     <div className="admin__machine-container">
+      <Field
+        className="admin__form-field"
+        name="defaultModule"
+        component={renderNullField}
+        label="Default Module"
+      />
       <Field className="admin__form-field" name="name" component={renderTextField} label="Name" />
       <Field className="admin__form-field" name="type" component={renderTextField} label="Type" />
       <div style={{ width: '100%', height: '20px' }} />
@@ -65,8 +71,10 @@ function mapStateToProps(state, ownProps) {
   if (ownProps.new) {
     return { initialValues: { active: true, modules: [] } };
   }
+  const initialValues = ownProps.machine.toJS();
+  initialValues.defaultModule = ownProps.machine.get('defaultModule').get('id');
   return {
-    initialValues: ownProps.machine.toJS(),
+    initialValues,
   };
 }
 

@@ -48,7 +48,10 @@ class Department(models.Model):
     """
     id = models.AutoField(primary_key=True, db_column='id')
     name = models.TextField(blank=False, null=False, db_column='name')
-    site = models.ForeignKey('Site', models.DO_NOTHING, db_column='siteid', related_name='departments', blank=False, null=False)
+    site = models.ForeignKey('Site', models.DO_NOTHING, db_column='siteid', related_name='departments',
+                             blank=False, null=False)
+    defaultModule = models.ForeignKey('Module', models.DO_NOTHING, db_column='default_module',
+                                      related_name='departments', null=True)
     created = models.DateTimeField(default=timezone.now, blank=False, null=False, db_column='createdate')
     modified = models.DateTimeField(default=timezone.now, blank=False, null=False, db_column='modifydate')
     active = models.NullBooleanField(default=True, db_column='active')    
@@ -66,7 +69,10 @@ class Machine(models.Model):
     """
     id = models.AutoField(primary_key=True, db_column='id')
     name = models.TextField(blank=False, null=False, db_column='name')
-    department = models.ForeignKey('Department', models.DO_NOTHING, db_column='departmentid', related_name='machines', blank=True, null=True)
+    department = models.ForeignKey('Department', models.DO_NOTHING, db_column='departmentid',
+                                   related_name='machines', blank=False, null=False)
+    defaultModule = models.ForeignKey('Module', models.DO_NOTHING, db_column='default_module',
+                                      related_name='machines', null=True)
     modules = models.ManyToManyField('Module', blank=True)
     type = models.TextField(blank=True, null=True, db_column='type')
     created = models.DateTimeField(default=timezone.now, blank=False, null=False, db_column='createdate')

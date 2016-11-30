@@ -22,7 +22,6 @@
 }
 
 @mixin finalContent() {
-  background-image: url('/static/media/grid.svg');
   flex: 1 1 auto;
   height: 100%;
   overflow-y: auto;

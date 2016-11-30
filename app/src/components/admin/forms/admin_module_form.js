@@ -26,7 +26,7 @@ export class Module extends Component {
   }
 
   render() {
-    const { clean, submitForm, handleSubmit, update, remove, clear,
+    const { submitForm, handleSubmit, update, remove, clear,
             reset, submitFailed } = this.props;
     return (
       <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
@@ -51,33 +51,24 @@ export class Module extends Component {
             {submitFailed ? 'Error Submitting Form' : ''}
           </div>
         </div>
-        {clean ? [
-          <FlatButton
-            key={4}
-            type="submit"
-            label="Submit"
-            primary
-          />,
-        ] : [
-          <FlatButton
-            key={1}
-            onClick={() => {
-              update();
-              reset();
-            }}
-            label="Update"
-            primary
-          />,
-          <FlatButton
-            key={2}
-            onClick={() => {
-              remove();
-              reset();
-            }}
-            label="Delete"
-            primary
-          />,
-        ]}
+        <FlatButton
+          key={1}
+          onClick={() => {
+            update();
+            reset();
+          }}
+          label="Update"
+          primary
+        />
+        <FlatButton
+          key={2}
+          onClick={() => {
+            remove();
+            reset();
+          }}
+          label="Delete"
+          primary
+        />
         <FlatButton
           key={3}
           onClick={() => {
@@ -102,7 +93,6 @@ Module.propTypes = {
   reset: PropTypes.func,
   submitFailed: PropTypes.bool,
   module: PropTypes.object,
-  clean: PropTypes.bool,
 };
 
 function mapStateToProps(state, ownProps) {
@@ -119,9 +109,6 @@ export const validateOnSubmit = (values) => {
   if (!values.get('name')) {
     throw new SubmissionError({ name: 'Name does not exixt' });
   }
-  if (!values.get('description')) {
-    throw new SubmissionError({ name: 'Description does not exixt' });
-  }
   return errors;
 };
 
@@ -132,9 +119,6 @@ export const validate = (values) => {
   }
   if (!values.get('label')) {
     errors.label = 'Required';
-  }
-  if (!values.get('description')) {
-    errors.description = 'Required';
   }
   return errors;
 };

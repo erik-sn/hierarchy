@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.models import User
 from django.contrib.auth import models
 from django.utils.timezone import utc
@@ -8,6 +10,7 @@ from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.response import Response
 
 from hierarchy.serializers import *
+from hierarchy import utils
 
 """
 Views for Hierarchy
@@ -38,6 +41,34 @@ def auth_view(request):
         user = User(is_active=True, is_staff=False, is_superuser=False, username=name)
         user.save()
     return Response({'id': user.id, 'username': user.username, 'ip': ip, 'admin': user.is_staff}, status=200)
+
+
+@api_view(['GET'])
+def refresh_modules(request):
+    """
+    Search for all valid modules within the App directory and save them to the database
+    :param request: HTTP request
+    :return:
+    """
+    db_modules = Module.objects.all()
+
+    # remove invalid or not found modules
+    valid_modules = utils.get_valid_modules()
+    deleted_module_count = 0
+    for module in db_modules:
+        if module.name not in valid_modules:
+            module.delete()
+            deleted_module_count += 1
+
+    # add modules that are valid but not in database
+    new_module_count = 0
+    module_names = [module.name for module in db_modules]
+    for module_name in valid_modules:
+        if module_name not in module_names:
+            new_module = Module(name=module_name, active=True, label='TBD', description='')
+            new_module.save()
+            new_module_count += 1
+    return Response({'new': new_module_count, 'deleted': deleted_module_count})
 
 
 class ApiCallView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
@@ -162,7 +193,7 @@ class MachineView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics
             return Response(serializer.data, 200)
 
 
-class ModuleView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+class ModuleView(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
     """
     View for application modules
     Methods supported:
@@ -176,7 +207,7 @@ class ModuleView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.
     lookup_field = 'id'
 
     def get_serializer_class(self):
-        if self.request.method in ['POST', 'PUT']:
+        if self.request.method in ['PUT']:
             return ModuleSerializerPost
         return ModuleSerializer
 

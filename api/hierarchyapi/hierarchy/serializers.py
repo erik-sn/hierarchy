@@ -36,14 +36,14 @@ class MachineSerializer(serializers.ModelSerializer):
     class Meta:
         model = Machine
         depth = 1
-        fields = ('id', 'name', 'type', 'created', 'modified', 'department', 'modules', 'active')
+        fields = ('id', 'name', 'type', 'created', 'modified', 'department', 'defaultModule', 'modules', 'active')
 
 
 class MachineSerializerPost(serializers.ModelSerializer):
 
     class Meta:
         model = Machine
-        fields = ('name', 'type', 'created', 'modified', 'department', 'modules', 'active')
+        fields = ('name', 'type', 'created', 'modified', 'department', 'defaultModule', 'modules', 'active')
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -52,14 +52,15 @@ class DepartmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Department
         depth = 1
-        fields = ('id', 'created', 'modified', 'site', 'name', 'apiCalls', 'machines', 'modules', 'active')
+        fields = ('id', 'created', 'modified', 'site', 'name', 'apiCalls', 'machines', 'defaultModule', 'modules',
+                  'active')
 
 
 class DepartmentSerializerPost(serializers.ModelSerializer):
 
     class Meta:
         model = Department
-        fields = ('name', 'created', 'modified', 'id', 'site', 'modules', 'apiCalls', 'active')
+        fields = ('name', 'created', 'modified', 'id', 'site', 'defaultModule', 'modules', 'apiCalls', 'active')
 
 
 class PositionSerializer(serializers.ModelSerializer):

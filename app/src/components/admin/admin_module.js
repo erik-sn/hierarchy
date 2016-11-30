@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { List, ListItem } from 'material-ui/List';
 import Snackbar from 'material-ui/Snackbar';
+import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
 
 import Loader from '../loader';
 import types from '../../actions/types';
-import ModuleForm, { validateOnSubmit, FORM_NAME } from './forms/admin_module_form';
+import ModuleForm, { FORM_NAME } from './forms/admin_module_form';
 
 export class Modules extends Component {
 
@@ -19,13 +20,13 @@ export class Modules extends Component {
       messageText: '',
       messageShow: false,
     };
-    this.createModule = this.createModule.bind(this);
     this.updateModule = this.updateModule.bind(this);
     this.deleteModule = this.deleteModule.bind(this);
     this.resetState = this.resetState.bind(this);
     this.showMessage = this.showMessage.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
     this.fetchModules = this.fetchModules.bind(this);
+    this.refreshModules = this.refreshModules.bind(this);
   }
 
   componentDidMount() {
@@ -37,15 +38,6 @@ export class Modules extends Component {
     .then((response) => {
       this.setState({ modules: fromJS(response.data) });
     });
-  }
-
-  createModule(module) {
-    validateOnSubmit(module);
-    axios.post(`${types.API}/modules/`, module, types.API_CONFIG)
-    .then(() => this.fetchModules())
-    .then(() => this.showMessage(`Module Successfully Created: ${module.get('name')}`))
-    .catch(() => this.showMessage(`Error Creating Module: ${module.get('name')}`))
-    .then(() => this.resetState());
   }
 
   updateModule() {
@@ -82,26 +74,25 @@ export class Modules extends Component {
     this.setState({ messageShow: false });
   }
 
+  refreshModules() {
+    axios.get(`${types.API}/modules/refresh/`, types.API_CONFIG)
+    .then(response => this.showMessage(`New Modules: ${response.data.new} Deleted: ${response.data.deleted}`))
+    .then(() => this.fetchModules());
+  }
+
   renderModuleForm() {
     if (this.state.activeModule) {
       return (
         <ModuleForm
           module={this.state.activeModule}
-          submitForm={this.createModule}
+          submitForm={this.updateModule}
           update={this.updateModule}
           remove={this.deleteModule}
           clear={this.resetState}
-          clean={false}
         />
       );
     }
-    return (
-      <ModuleForm
-        submitForm={this.createModule}
-        clear={this.resetState}
-        clean
-      />
-    );
+    return <h3>Select a Module</h3>;
   }
 
   render() {
@@ -118,6 +109,15 @@ export class Modules extends Component {
       <div className="admin__modules">
         <div className="admin__modules-inner-container">
           <div className="admin__modules-list-container">
+            <ListItem
+              className="admin__modules-refresh-container"
+              onClick={this.refreshModules}
+            >
+              <div>
+                <RefreshIcon />
+                <span>Refresh Modules</span>
+              </div>
+            </ListItem>
             <List className="admin__modules-list">
               {modules.map((module, i) => (
                 <ListItem
