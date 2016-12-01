@@ -37,8 +37,6 @@ class ModuleEdit extends Component {
     if (modules.size === 0) {
       this.updateDefaultModule(null);
     } else {
-      console.log(modules.toJS());
-      console.log(modules.get(0).get('id'));
       this.updateDefaultModule(modules.get(0).get('id'));
     }
   }

@@ -7,7 +7,6 @@ const Production = props => (
 );
 
 Production.propTypes = {
-  data: PropTypes.object,
   module: PropTypes.object.isRequired,
 };
 

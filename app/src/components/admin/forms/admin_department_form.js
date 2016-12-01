@@ -7,68 +7,69 @@ import ModuleEdit from './admin_module_edit';
 import ApiEdit from './admin_api_edit';
 import { renderNullField, renderTextField, renderCheckbox } from '../../../utils/form_renderer';
 
-export const Department = ({ handleSubmit, submitForm, change, modules, apicalls, department, modal }) => (
-  <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
-    <div className="admin__form-section">
-      <div className="mui-form-component">
-        <Field
-          className="admin__form-field"
-          name="name"
-          component={renderTextField}
-          label="Name"
-        />
-        <Field
-          className="admin__form-field"
-          name="defaultModule"
-          component={renderNullField}
-          label="Default Module"
-        />
-        <div style={{ width: '100%', height: '20px' }} />
-        <Field
-          className="admin__form-field"
-          name="active"
-          type="checkbox"
-          component={renderCheckbox}
-          label="Active"
-        />
-        <div style={{ width: '100%', height: '20px' }} />
-      </div>
-    </div>
-    <div className="admin__form-section" >
-      {modal ? '' :
-        <div>
-          <ModuleEdit
-            item={department}
-            modules={modules}
-            change={change}
+export const Department = ({ handleSubmit, submitForm, change, modules,
+  apicalls, department, modal }) => (
+    <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
+      <div className="admin__form-section">
+        <div className="mui-form-component">
+          <Field
+            className="admin__form-field"
+            name="name"
+            component={renderTextField}
+            label="Name"
           />
-          <ApiEdit
-            item={department}
-            apicalls={apicalls}
-            change={change}
+          <Field
+            className="admin__form-field"
+            name="defaultModule"
+            component={renderNullField}
+            label="Default Module"
           />
+          <div style={{ width: '100%', height: '20px' }} />
+          <Field
+            className="admin__form-field"
+            name="active"
+            type="checkbox"
+            component={renderCheckbox}
+            label="Active"
+          />
+          <div style={{ width: '100%', height: '20px' }} />
         </div>
-      }
-    </div>
-    <div className="admin__lower-form-section">
-      <FlatButton
-        className="admin__submit-button"
-        label={modal ? 'Create' : 'Update'}
-        type="submit"
-        keyboardFocused
-        primary
-      />
-      <FlatButton
-        className="admin__clear-button"
-        label="Clear"
-        onClick={() => {
-          change('name', '');
-          change('active', false);
-        }}
-        primary
-      />
-    </div>
-  </form>
+      </div>
+      <div className="admin__form-section" >
+        {modal ? '' :
+          <div>
+            <ModuleEdit
+              item={department}
+              modules={modules}
+              change={change}
+            />
+            <ApiEdit
+              item={department}
+              apicalls={apicalls}
+              change={change}
+            />
+          </div>
+        }
+      </div>
+      <div className="admin__lower-form-section">
+        <FlatButton
+          className="admin__submit-button"
+          label={modal ? 'Create' : 'Update'}
+          type="submit"
+          keyboardFocused
+          primary
+        />
+        <FlatButton
+          className="admin__clear-button"
+          label="Clear"
+          onClick={() => {
+            change('name', '');
+            change('active', false);
+          }}
+          primary
+        />
+      </div>
+    </form>
 );
 
 Department.propTypes = {
@@ -86,7 +87,8 @@ function mapStateToProps(state, ownProps) {
     return { initialValues: { active: true, modules: [] } };
   }
   const initialValues = ownProps.department.toJS();
-  initialValues.defaultModule = ownProps.department.get('defaultModule').get('id');
+  const defaultModule = ownProps.department.get('defaultModule');
+  initialValues.defaultModule = defaultModule ? defaultModule.get('id') : undefined;
   return {
     initialValues,
   };

@@ -1,12 +1,4 @@
 /* eslint-disable */
-
-/**
- * This config file is specific to development. When we run "node server.js"
- * the server.js file uses the WebpackDevServer with this file as a configuration.
- *
- * This webpack is configured for hot reloading and SASS transpiling.
- */
-
 var path = require('path');
 var webpack = require('webpack');
 
@@ -34,21 +26,6 @@ module.exports = {
   plugins: [
     // enable hot module replacement
     new webpack.HotModuleReplacementPlugin(),
-
-    /**
-   *  This plugin is necessary because we are using a SASS compiler through
-   *  webpack on the client side. Because our JS/ES6 code is also loaded through
-   *  node in this server file, we will get syntax errors if the node server
-   *  attemps to parse the css/scss files.
-   *
-   *  To bypass this, we set this process.env variable as true here and delete
-   *  it in server.production.js. Then we only import/require the css/scss files
-   *  in React components if this variable exists (and is true).
-   *
-   *  This is unique to Isomorphic applications, see here:
-   *      http://stackoverflow.com/a/30355080/4396787
-   *
-   */
     new webpack.DefinePlugin({
       'process.env': {
         BROWSER: JSON.stringify(true),
@@ -62,22 +39,21 @@ module.exports = {
      */
     loaders: [
       {
+        test: /\.test.js$/,
+        loader: 'ignore',
+      },
+      {
         test: /\.js$/,
         loaders: ['babel', 'eslint'],
         include: path.join(__dirname, '../src'),
       },
       {
-        test: /\.js$/,
-        loaders: ['eslint'],
-        include: path.join(__dirname, '../test'),
-      },
-      {
         test: /\.css$/,
-        loaders: ['style', 'css', 'postcss-loader'],
+        loaders: ['style', 'css', 'postcss'],
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'postcss-loader', 'sass'],
+        loaders: ['style', 'css', 'postcss', 'sass'],
       },
       {
         test: /\.json$/,

@@ -96,6 +96,8 @@ a {
   font-size: 2rem !important;
   font-family: 'Maven Pro';
   font-weight: 600;
+  white-space: nowrap;
+
   color: $secondary !important;
   transition: 0.15s ease-in-out;
 }

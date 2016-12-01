@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
 
 import Machine from './machine';
 import getComponent from '../../utils/library';
@@ -18,6 +17,7 @@ class Department extends Component {
       activeModule: department.get('defaultModule'),
       url: `/${site.get('code').toLowerCase()}/${department.get('name').toLowerCase()}`,
     };
+    this.sortModules = this.sortModules.bind(this);
   }
 
   componentDidMount() {
@@ -38,6 +38,16 @@ class Department extends Component {
     }
   }
 
+  sortModules(a, b) {
+    const defaultId = this.props.hierarchy.get('department').get('defaultModule').get('id');
+    if (a.get('id') === defaultId) {
+      return -1;
+    } else if (b.get('id') === defaultId) {
+      return 1;
+    }
+    return 0;
+  }
+
   renderActiveModule() {
     const { data, hierarchy } = this.props;
     const { activeModule } = this.state;
@@ -48,7 +58,9 @@ class Department extends Component {
 
   renderModules() {
     const department = this.props.hierarchy.get('department');
-    return department.get('modules').map((module, i) => {
+    return department.get('modules')
+    .sort(this.sortModules)
+    .map((module, i) => {
       const { activeModule } = this.state;
       const isActive = activeModule && activeModule.get('name') === module.get('name');
       const tabClass = isActive ? 'host__tab-selected' : 'host__tab';
@@ -87,7 +99,7 @@ class Department extends Component {
               {description}
             </div> : undefined}
           <div className="department__component-container">
-            {this.renderActiveModule()}
+            {activeModule === null ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>
         </div>
       </div>
