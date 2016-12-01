@@ -7,14 +7,14 @@ class Overview extends Component {
   render() {
     return (
       <div className="department__machine-container">
-        <MachineList machines={this.props.item.get('machines')} />
+        <MachineList machines={this.props.parent.get('machines')} />
       </div>
     );
   }
 }
 
 Overview.propTypes = {
-  item: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired,
 };
 
 export default Overview;

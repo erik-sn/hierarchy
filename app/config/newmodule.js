@@ -20,12 +20,12 @@ import React, { PropTypes } from 'react';
 const ${componentName} = props => (
   <div className="${name}__container" >
     <h3>Hello ${name}</h3>
-    <div>Parent: {props.item.get('name')}</div>
+    <div>Parent: {props.parent.get('name')}</div>
   </div>
 );
 
 ${componentName}.propTypes = {
-  item: PropTypes.object.isRequired,
+  parent: PropTypes.object.isRequired,
 };
 
 export default ${componentName};
@@ -47,7 +47,7 @@ describe('${name}.js |', () => {
   describe('Default | >>>', () => {
     let component;
     const props = {
-      item: Map({ name: 'test_parent' }),
+      parent: Map({ name: 'test_parent' }),
     };
 
     beforeEach(() => {

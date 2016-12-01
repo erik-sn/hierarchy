@@ -52,7 +52,7 @@ class Department extends Component {
     const { data, hierarchy } = this.props;
     const { activeModule } = this.state;
     const dataStore = data ? data.get(activeModule.get('name').toLowerCase()) : {};
-    const componentProps = { item: hierarchy.get('department'), module: activeModule, data: dataStore };
+    const componentProps = { parent: hierarchy.get('department'), module: activeModule, data: dataStore };
     return getComponent(activeModule.get('name'), componentProps);
   }
 
