@@ -5,17 +5,16 @@ import Machine from './machine';
 import getComponent from '../../utils/library';
 
 import { fetchDepartmentData } from '../../actions/index';
-
+import { renderModules } from './utils';
 
 class Department extends Component {
 
   constructor(props) {
     super(props);
-    const site = props.hierarchy.get('site');
     const department = props.hierarchy.get('department');
     this.state = {
       activeModule: department.get('defaultModule'),
-      url: `/${site.get('code').toLowerCase()}/${department.get('name').toLowerCase()}`,
+      url: `${window.location.pathname}/${department.get('name').toLowerCase()}`,
     };
     this.sortModules = this.sortModules.bind(this);
   }
@@ -28,24 +27,13 @@ class Department extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const site = nextProps.hierarchy.get('site');
     const nextDepartment = nextProps.hierarchy.get('department');
-    const url = `/${site.get('code').toLowerCase()}/${nextDepartment.get('name').toLowerCase()}`;
+    const url = window.location.pathname
     if (nextDepartment.get('id') !== this.props.hierarchy.get('department').get('id')) {
       this.setState({ url, activeModule: nextProps.hierarchy.get('department').get('defaultModule') });
     } else {
       this.setState({ url });
     }
-  }
-
-  sortModules(a, b) {
-    const defaultId = this.props.hierarchy.get('department').get('defaultModule').get('id');
-    if (a.get('id') === defaultId) {
-      return -1;
-    } else if (b.get('id') === defaultId) {
-      return 1;
-    }
-    return 0;
   }
 
   renderActiveModule() {
@@ -56,26 +44,6 @@ class Department extends Component {
     return getComponent(activeModule.get('name'), componentProps);
   }
 
-  renderModules() {
-    const department = this.props.hierarchy.get('department');
-    return department.get('modules')
-    .sort(this.sortModules)
-    .map((module, i) => {
-      const { activeModule } = this.state;
-      const isActive = activeModule && activeModule.get('name') === module.get('name');
-      const tabClass = isActive ? 'host__tab-selected' : 'host__tab';
-      return (
-        <div
-          className={`department__module-item ${tabClass}`}
-          onClick={() => this.setState({ activeModule: module })}
-          key={i}
-        >
-          {module.get('label')}
-        </div>
-      );
-    });
-  }
-
   render() {
     const { activeModule } = this.state;
     const { params, data, hierarchy } = this.props;
@@ -84,14 +52,14 @@ class Department extends Component {
         mch.get('name').toLowerCase() === params.machine.toLowerCase()
       ));
       return (
-        <Machine machine={machine} data={data} />
+        <Machine hierarchy={hierarchy} data={data} />
       );
     }
     const description = activeModule ? activeModule.get('description') : 'Machine List';
     return (
       <div className="department__container">
         <div className="department__module-container">
-          {this.renderModules()}
+          {renderModules(activeModule, hierarchy.get('department'), 'department')}
         </div>
         <div className="department__content-container" >
           {description.trim() !== '' ?
