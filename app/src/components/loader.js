@@ -3,7 +3,7 @@ import CircularProgress from 'material-ui/CircularProgress';
 
 const Loader = props => (
   <div className="loading__container">
-    <CircularProgress size={150} thickness={10} />
+    <CircularProgress size={150} thickness={10} color="#FFFFFF" />
     <div className="loading__message-container">
       {props.message}
     </div>

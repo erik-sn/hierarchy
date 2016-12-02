@@ -32,11 +32,10 @@ export default function renderModules(activeModule, item, setActive) {
     const isActive = activeModule && activeModule.get('name') === module.get('name');
     const isDefault = module.get('id') === item.get('defaultModule').get('id');
     return (
-      <Link to={isDefault ? url : `${url}/m/${module.get('label')}`.toLowerCase()} >
+      <Link key={i} to={isDefault ? url : `${url}/m/${module.get('label')}`.toLowerCase()} >
         <div
           className={`display__module-item ${isActive ? 'host__tab-selected' : 'host__tab'}`}
           onClick={() => setActive(module)}
-          key={i}
         >
           {module.get('label')}
         </div>

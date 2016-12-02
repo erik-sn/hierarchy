@@ -1,13 +1,14 @@
 @import "style";
 
-@mixin finalContainer() {
-  margin-top: 15px;
+.display__container {
+  margin-top: 5px;
   display: flex;
   flex-direction: column;
   height: 100%;
+  width: 100%;
 }
 
-@mixin moduleContainer() {
+.display__module-container {
   flex: 1 1 auto;
   display: flex;
   flex-direction: row;
@@ -15,37 +16,20 @@
   color: $secondary;
 }
 
-@mixin moduleItem() {
+.display__module-item {
   padding: 5px 65px 5px 15px !important;
   background: $primary;
   margin-right: -25px;
 }
 
-@mixin finalContent() {
+.display__content-container {
   flex: 1 1 auto;
-  height: 100%;
   overflow-y: auto;
-  margin-top: -1px;
+  margin-top: -2px;
   margin-bottom: 25px;
   color: $secondary;
   border-top: 3px solid $secondary;
   border-radius: 3px;
-}
-
-.display__container {
-  @include finalContainer();
-}
-
-.display__module-container {
-  @include moduleContainer();
-}
-
-.display__module-item {
-  @include moduleItem();
-}
-
-.display__content-container {
-  @include finalContent();
 }
 
 .display__description-container {
