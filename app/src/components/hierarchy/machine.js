@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import getComponent from '../../utils/library';
-import { renderModules } from './utils';
+import renderModules, { retrieveModule } from './renderModules';
 
 class Machine extends Component {
 
@@ -10,21 +10,28 @@ class Machine extends Component {
     super(props);
     const machine = props.hierarchy.get('machine');
     this.state = {
-      activeModule: machine.get('defaultModule'),
+      activeModule: props.activeModuleLabel ? retrieveModule(machine, props.activeModuleLabel) : machine.get('defaultModule'),
       url: `/${window.location.pathname}/${machine.get('name').toLowerCase()}`,
     };
-    this.sortModules = this.sortModules.bind(this);
+    this.setActiveModule = this.setActiveModule.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
-    const site = nextProps.hierarchy.get('site');
-    const nextmachine = nextProps.hierarchy.get('machine');
+    const nextMachine = nextProps.hierarchy.get('machine');
     const url = window.location.pathname;
-    if (nextmachine.get('id') !== this.props.hierarchy.get('machine').get('id')) {
-      this.setState({ url, activeModule: nextProps.hierarchy.get('machine').get('defaultModule') });
+    if (nextMachine.get('id') !== this.props.hierarchy.get('machine').get('id')) {
+      let activeModule = nextMachine.get('defaultModule');
+      if (nextProps.activeModuleLabel) {
+        activeModule = retrieveModule(nextMachine, nextProps.activeModuleLabel);
+      }
+      this.setState({ url, activeModule });
     } else {
       this.setState({ url });
     }
+  }
+
+  setActiveModule(activeModule) {
+    this.setState({ activeModule });
   }
 
   renderActiveModule() {
@@ -37,19 +44,19 @@ class Machine extends Component {
 
   render() {
     const { activeModule } = this.state;
-    const { params, data, hierarchy } = this.props;
+    const { hierarchy } = this.props;
     const description = activeModule ? activeModule.get('description') : 'Machine List';
     return (
-      <div className="machine__container">
-        <div className="machine__module-container">
-          {renderModules(activeModule, hierarchy.get('machine'), 'machine')}
+      <div className="display__container">
+        <div className="display__module-container">
+          {renderModules(activeModule, hierarchy.get('machine'), this.setActiveModule)}
         </div>
-        <div className="machine__content-container" >
+        <div className="display__content-container" >
           {description.trim() !== '' ?
-            <div className="machine__description-container">
+            <div className="display__description-container">
               {description}
             </div> : undefined}
-          <div className="machine__component-container">
+          <div className="display__component-container">
             {activeModule === null ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>
         </div>
@@ -61,6 +68,7 @@ class Machine extends Component {
 Machine.propTypes = {
   data: PropTypes.object,
   hierarchy: PropTypes.object,
+  activeModuleLabel: PropTypes.string,
 };
 
 function mapStateToProps(state, ownProps) {

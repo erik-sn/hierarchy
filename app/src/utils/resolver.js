@@ -75,7 +75,11 @@ export function getMachine(hierarchy,
 
 
 export function resolvePath(hierarchy, route) {
-  const path = route.split('/').filter(param => param.trim() !== '');
+  // strip modules from route
+  const moduleIndex = route.indexOf('/m/');
+  let path = moduleIndex > 0 ? route.substring(0, moduleIndex) : route;
+  path = path.split('/').filter(param => param.trim() !== '');
+
   const keys = { site: 'code', department: 'name', machine: 'name' };
   const site = path[0] ? getSite(hierarchy, path[0], keys) : undefined;
   const department = path[1] ? getDepartment(hierarchy, path[0], path[1], keys) : undefined;

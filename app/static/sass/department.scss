@@ -28,27 +28,27 @@
   margin-top: -1px;
   margin-bottom: 25px;
   color: $secondary;
-  border-top: 1px solid $secondary;
+  border-top: 3px solid $secondary;
   border-radius: 3px;
 }
 
-.department__container {
+.display__container {
   @include finalContainer();
 }
 
-.department__module-container {
+.display__module-container {
   @include moduleContainer();
 }
 
-.department__module-item {
+.display__module-item {
   @include moduleItem();
 }
 
-.department__content-container {
+.display__content-container {
   @include finalContent();
 }
 
-.department__description-container {
+.display__description-container {
   background: $tertiary;
   font-size: 1rem;
   padding: 5px 15px;
@@ -58,11 +58,11 @@
   }
 }
 
-.department__component-container {
+.display__component-container {
   padding: 0px 10px;
 }
 
-.department__machine-container {
+.display__machine-container {
   margin-top: 15px;
   display: flex;
   align-content: center;
@@ -72,6 +72,6 @@
     margin-bottom: 3px;
   }
 }
-.department__machine-item {
+.display__machine-item {
   color: $secondary;
 }

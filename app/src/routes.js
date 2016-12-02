@@ -21,6 +21,8 @@ const Routes = (
       <Route path="/:site" component={Main} />
       <Route path="/:site/:department" component={Department} />
       <Route path="/:site/:department/:machine" component={Department} />
+      <Route path="/:site/:department/m/:module" component={Department} />
+      <Route path="/:site/:department/:machine/m/:module" component={Department} />
       <Route path="*" component={NotFound} />
     </Route>
   </Router>

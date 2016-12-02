@@ -44,7 +44,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loaders: ['babel', 'eslint'],
+        loaders: ['babel'],
         include: path.join(__dirname, '../src'),
       },
       {

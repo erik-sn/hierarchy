@@ -5,7 +5,7 @@ import Machine from './machine';
 import getComponent from '../../utils/library';
 
 import { fetchDepartmentData } from '../../actions/index';
-import { renderModules } from './utils';
+import renderModules, { retrieveModule } from './renderModules';
 
 class Department extends Component {
 
@@ -13,10 +13,10 @@ class Department extends Component {
     super(props);
     const department = props.hierarchy.get('department');
     this.state = {
-      activeModule: department.get('defaultModule'),
+      activeModule: props.params.module ? retrieveModule(department, props.params.module) : department.get('defaultModule'),
       url: `${window.location.pathname}/${department.get('name').toLowerCase()}`,
     };
-    this.sortModules = this.sortModules.bind(this);
+    this.setActiveModule = this.setActiveModule.bind(this);
   }
 
   componentDidMount() {
@@ -28,19 +28,27 @@ class Department extends Component {
 
   componentWillReceiveProps(nextProps) {
     const nextDepartment = nextProps.hierarchy.get('department');
-    const url = window.location.pathname
+    const url = window.location.pathname;
+    let activeModule = nextDepartment.get('defaultModule');
     if (nextDepartment.get('id') !== this.props.hierarchy.get('department').get('id')) {
-      this.setState({ url, activeModule: nextProps.hierarchy.get('department').get('defaultModule') });
+      if (nextProps.params.module) {
+        activeModule = retrieveModule(nextDepartment, nextProps.params.module);
+      }
+      this.setState({ url, activeModule });
     } else {
       this.setState({ url });
     }
+  }
+
+  setActiveModule(activeModule) {
+    this.setState({ activeModule });
   }
 
   renderActiveModule() {
     const { data, hierarchy } = this.props;
     const { activeModule } = this.state;
     const dataStore = data ? data.get(activeModule.get('name').toLowerCase()) : {};
-    const componentProps = { parent: hierarchy.get('department'), module: activeModule, data: dataStore };
+    const componentProps = { type: 'department', parent: hierarchy.get('department'), module: activeModule, data: dataStore };
     return getComponent(activeModule.get('name'), componentProps);
   }
 
@@ -48,26 +56,21 @@ class Department extends Component {
     const { activeModule } = this.state;
     const { params, data, hierarchy } = this.props;
     if (params.machine) {
-      const machine = hierarchy.get('department').get('machines').find(mch => (
-        mch.get('name').toLowerCase() === params.machine.toLowerCase()
-      ));
-      return (
-        <Machine hierarchy={hierarchy} data={data} />
-      );
+      return <Machine hierarchy={hierarchy} data={data} activeModuleLabel={params.module} />;
     }
-    const description = activeModule ? activeModule.get('description') : 'Machine List';
+    const description = activeModule ? activeModule.get('description') : '';
     return (
-      <div className="department__container">
-        <div className="department__module-container">
-          {renderModules(activeModule, hierarchy.get('department'), 'department')}
+      <div className="display__container">
+        <div className="display__module-container">
+          {renderModules(activeModule, hierarchy.get('department'), this.setActiveModule)}
         </div>
-        <div className="department__content-container" >
+        <div className="display__content-container" >
           {description.trim() !== '' ?
-            <div className="department__description-container">
+            <div className="display__description-container">
               {description}
             </div> : undefined}
-          <div className="department__component-container">
-            {activeModule === null ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
+          <div className="display__component-container">
+            {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>
         </div>
       </div>
