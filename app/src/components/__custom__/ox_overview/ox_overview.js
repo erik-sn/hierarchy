@@ -1,22 +1,29 @@
+if (process.env.BROWSER) {
+  require('./ox_overview.scss');  // eslint-disable-line global-require
+}
 import React, { Component, PropTypes } from 'react';
 
 import MachineList from '../__library__/machine_list';
 import InstrumarDashboard from './instrumar_dashboard';
+import WasteChart from './waste_chart';
 
 class Overview extends Component {
 
   constructor(props) {
     super(props);
-    console.log(props.data, props.parent);
     this.state = {
       department: props.type === 'department',
     };
   }
 
   render() {
+    if (this.state.department) {
+      return <MachineList machines={this.props.parent.get('machines')} />;
+    }
     return (
       <div className="ox_overview__container" >
-        <InstrumarDashboard />
+        <InstrumarDashboard machine="ox11" />
+        <WasteChart />
       </div>
     );
   }

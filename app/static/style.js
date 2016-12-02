@@ -4,8 +4,7 @@
 if (process.env.BROWSER) {
   require('./sass/admin.scss');
   require('./sass/config.scss');
-  require('./sass/machine.scss');
-  require('./sass/department.scss');
+  require('./sass/display.scss');
   require('./sass/host.scss');
   require('./sass/style.scss');
   require('./sass/navbar.scss');

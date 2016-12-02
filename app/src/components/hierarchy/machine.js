@@ -38,7 +38,7 @@ class Machine extends Component {
     const { data, hierarchy } = this.props;
     const { activeModule } = this.state;
     const dataStore = data ? data.get(activeModule.get('name').toLowerCase()) : {};
-    const componentProps = { parent: hierarchy.get('machine'), module: activeModule, data: dataStore };
+    const componentProps = { type: 'machine', parent: hierarchy.get('machine'), module: activeModule, data: dataStore };
     return getComponent(activeModule.get('name'), componentProps);
   }
 

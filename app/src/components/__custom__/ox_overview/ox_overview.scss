@@ -4,6 +4,24 @@
 
 .ox_overview__instrumar {
   overflow: hidden;
-  max-height: 350px;
-  margin-left: 15px;
+  max-height: 270px;
+  min-height: 270px;
+
+  iframe {
+    position: relative;
+    top: -60px;
+    left: -10px;
+    width: calc(100% + 25px);
+    height: 800px;
+  }
+}
+
+.ox_overview__instrumar-loader {
+  position: absolute;
+  top: -50px;
+  left: calc(50% - 75px);
+}
+
+.ox_overview__waste-chart-container {
+  height: 200px;
 }
