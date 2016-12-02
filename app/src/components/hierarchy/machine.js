@@ -37,8 +37,7 @@ class Machine extends Component {
   renderActiveModule() {
     const { data, hierarchy } = this.props;
     const { activeModule } = this.state;
-    const dataStore = data ? data.get(activeModule.get('name').toLowerCase()) : {};
-    const componentProps = { type: 'machine', parent: hierarchy.get('machine'), module: activeModule, data: dataStore };
+    const componentProps = { type: 'machine', parent: hierarchy.get('machine'), module: activeModule, data };
     return getComponent(activeModule.get('name'), componentProps);
   }
 
@@ -72,7 +71,7 @@ Machine.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
-  const id = ownProps.hierarchy.get('machine').get('id');
+  const id = ownProps.hierarchy.get('department').get('id');
   return { data: state.get('data').get(id) };
 }
 

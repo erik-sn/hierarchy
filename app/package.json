@@ -27,6 +27,7 @@
     ]
   },
   "scripts": {
+    "play": "node ./config/playground.js",
     "module-new": "node ./config/newmodule.js",
     "module-test": "mocha -R min --compilers js:babel-core/register --require ./__test__/helper.js --recursive ./src/components/__custom__",
     "module-test:watch": "npm run module-test -- --watch",
@@ -85,6 +86,7 @@
   "dependencies": {
     "axios": "^0.15.2",
     "compression": "^1.6.2",
+    "eslint": "^3.11.1",
     "express": "^4.13.4",
     "google-map-react": "^0.20.1",
     "immutable": "^3.8.1",
@@ -109,6 +111,7 @@
     "redux": "^3.6.0",
     "redux-form": "^6.2.0",
     "redux-immutable": "^3.0.8",
-    "redux-promise": "^0.5.3"
+    "redux-promise": "^0.5.3",
+    "save-svg-as-png": "^1.0.3"
   }
 }

@@ -12,18 +12,22 @@ class Overview extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      department: props.type === 'department',
+      department: props.type === 'department'
     };
   }
 
   render() {
+    const { data } = this.props;
     if (this.state.department) {
-      return <MachineList machines={this.props.parent.get('machines')} />;
+      
     }
     return (
       <div className="ox_overview__container" >
+        {this.state.department ?
+        <MachineList machines={this.props.parent.get('machines')} /> :
         <InstrumarDashboard machine="ox11" />
-        <WasteChart />
+        }
+        <WasteChart data={data ? data.get('ox_waste') : undefined} />
       </div>
     );
   }

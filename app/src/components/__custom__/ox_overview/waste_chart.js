@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
+import { is } from 'immutable';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+
+import Loader from '../../loader';
 
 const data = [
       { name: 'Page A', uv: 4000, pv: 2400, amt: 2400 },
@@ -11,21 +14,41 @@ const data = [
       { name: 'Page G', uv: 3490, pv: 4300, amt: 2100 },
 ];
 
-const WasteChart = () => (
-  <div className="ox_overview__waste-chart-container">
-    <AreaChart
-      width={600}
-      height={200}
-      data={data}
-      margin={{ top: 0, right: 30, left: 0, bottom: 0 }}
-    >
-      <XAxis dataKey="name" />
-      <YAxis />
-      <CartesianGrid strokeDasharray="3 3" />
-      <Tooltip />
-      <Area type="monotone" dataKey="uv" stroke="#8884d8" fill="#8884d8" />
-    </AreaChart>
-  </div>
-);
+class WasteChart extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      startDate: '11/30/16',
+      endDate: '12/02/16',
+    };
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !is(nextProps.data, this.props.data);
+  }
+  
+  render() {
+    if (!this.props.data) {
+      return <Loader size={100} />;
+    }
+    return (
+      <div className="ox_overview__waste-chart-container">
+        <AreaChart
+          width={600}
+          height={200}
+          data={this.props.data.toJS()}
+          margin={{ top: 0, right: 30, left: 0, bottom: 0 }}
+        >
+          <XAxis dataKey="date" />
+          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" />
+          <Tooltip />
+          <Area type="monotone" dataKey="wastePercent" stroke="#8884d8" fill="#8884d8" />
+        </AreaChart>
+      </div>
+    );
+  }
+}
 
 export default WasteChart;

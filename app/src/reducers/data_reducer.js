@@ -11,7 +11,8 @@ export default (state = initialState, action) => {
       if (action.error) {
         return state.set('error', true);
       }
-      const data = Map({}).set(action.meta.key, fromJS(action.payload.data));
+      const departmentState = state.get(action.meta.department) || Map({});
+      const data = departmentState.set(action.meta.key, fromJS(action.payload.data));
       return state.set(action.meta.department, data);
     }
     default:

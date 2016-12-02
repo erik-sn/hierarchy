@@ -22,6 +22,7 @@ class Department extends Component {
   componentDidMount() {
     const { hierarchy } = this.props;
     hierarchy.get('department').get('apiCalls').forEach((apiCall) => {
+      console.log(apiCall.toJS());
       this.props.fetchDepartmentData(hierarchy.get('department').get('id'), apiCall.get('url'), apiCall.get('key'));
     });
   }
@@ -47,8 +48,7 @@ class Department extends Component {
   renderActiveModule() {
     const { data, hierarchy } = this.props;
     const { activeModule } = this.state;
-    const dataStore = data ? data.get(activeModule.get('name').toLowerCase()) : {};
-    const componentProps = { type: 'department', parent: hierarchy.get('department'), module: activeModule, data: dataStore };
+    const componentProps = { type: 'department', parent: hierarchy.get('department'), module: activeModule, data };
     return getComponent(activeModule.get('name'), componentProps);
   }
 
