@@ -74,38 +74,18 @@ class Overview extends Component {
     if (!data || !data.get('ox_breaks')) {
       return undefined;
     }
-    let breaks = data.get('ox_breaks').filter(brk => brk.get('status') !== 'Normal');
-    let running = data.get('ox_breaks').filter(brk => brk.get('status') === 'Normal');
+    const statusFilter = status => data.get('ox_breaks').filter(brk => brk.get('status') === status);
+    let doff = statusFilter('Doff');
+    let process = statusFilter('Process');
+    let normal = statusFilter('Normal');
+
     if (!this.state.department) {
-      breaks = breaks.filter(brk => brk.get('machine') === parent.get('name').substring(0, 4));
-      running = running.filter(brk => brk.get('machine') === parent.get('name').substring(0, 4));
+      const machineFilter = input => input.filter(brk => brk.get('machine') === parent.get('name').substring(0, 4));
+      doff = machineFilter(doff);
+      process = machineFilter(process);
+      normal = machineFilter(normal);
     }
-    return List([breaks, running]).forEach(array => array.map((brk) => {
-      const momentBreak = brk.set('starttime', moment(brk.get('starttime')));
-      return momentBreak.set('endtime', moment(brk.get('endtime')));
-    }));
-  }
-
-  getUptimeData() {
-    const { data, parent } = this.props;
-    if (!data || !data.get('ox_uptime')) {
-      return undefined;
-    }
-
-    const machines = data.get('ox_uptime');
-    if (this.state.department) {
-      const average = machines.reduce((sum, curr) => sum + curr.get('uptimePercent'), 0) / machines.size;
-      const children = machines.map(machine => (
-        Map({ label: machine.get('name'), uptime: machine.get('uptimePercent') })
-      ));
-      return Map({ average, children });
-    }
-    // machine
-    const machine = machines.find(mch => mch.get('name') === parent.get('name').substring(0, 4));
-    const children = machine.get('positions').entrySeq().map(([key, value]) => (
-      Map({ label: key, uptime: value.get('uptimePercent') })
-    ));
-    return Map({ average: machine.get('uptimePercent'), children });
+    return Map({ doff, process, normal });
   }
 
   getSetpointData() {
@@ -140,7 +120,7 @@ class Overview extends Component {
         <div className="ox_overview__bottom-container">
           <div className="ox_overview__bottom-left">
             <SetpointChart setpoints={this.getSetpointData()} />
-            <UptimeChart data={uptimeData} />
+            <UptimeChart data={this.getBreakData()} />
           </div>
           <div className="ox_overview__bottom-right"><WasteChart data={this.getWasteData()} /></div>
         </div>

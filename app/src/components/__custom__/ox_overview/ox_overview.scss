@@ -40,6 +40,10 @@
 
 }
 
+/* this handles resizing of the overview. the "setpoint" charts
+are positioned relatively (not flex) - this is due to the svg canvas
+being required to expand further than what is a naturally looking
+container */
 @media (max-width: 1065px) and (min-width: 700px) {
   .ox_overview__setpoints {
     height: 100px !important;
@@ -47,11 +51,12 @@
 
   .ox_overview__setpoints:nth-child(1) {
     top: -100px;
+    left: 150px;
   }
 
   .ox_overview__setpoints:nth-child(2) {
     top: -200px;
-    left: 300px;
+    left: 450px;
   }
 }
 
