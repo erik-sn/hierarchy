@@ -13,9 +13,15 @@ import { is } from 'immutable';
 import getBoundingBox from '../utils/dom';
 import { alphaNumSort } from '../utils/sort';
 
+function cleanModuleFromUrl(url) {
+  const moduleIndex = url.indexOf('/m/');
+  return moduleIndex > 0 ? url.substring(0, moduleIndex) : url;
+}
+
 export const Neighbor = (props) => {
   const { path, hide, name } = props;
-  const rootIndex = path ? path.lastIndexOf('/') + 1 : 0;
+
+  const rootIndex = path ? cleanModuleFromUrl(path).lastIndexOf('/') + 1 : 0;
   const newPath = path ? path.substring(0, rootIndex) + name.toLowerCase() : '';
   return (
     <Link to={newPath} onClick={hide} >

@@ -105,11 +105,11 @@ container */
 .ox_overview__machine-item {
   border: 1px solid $secondary;
   background: none !important;
-  width: 95%; 
   transition: 0.15s ease-in-out;
+  width: 93%;
 
   @media (max-width: 700px) {
-    width: 83%;
+    width: 85%;
   }
 }
 
@@ -132,28 +132,42 @@ container */
 }
 
 .ox_overview__machine-item-right {
-  flex: 1 1 500px;
   display: flex;
+  flex: 1 1 400px;
   flex-direction: column;
-  width: 90%;
   font-size: 1rem;
   padding: 3px;
+  width: calc(100% - 200px);
 }
 
 .ox_overview__machine-item-right-upper {
   display: flex;
   flex-direction: row;
+
+  .ox_overview__machine-item-info-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+}
+
+.ox_overview__machine-item-date-container {
+  display: flex;
+  justify-content: flex-end;
+  flex: 0 0 125px;
+  min-width: 125px;
+  @include fluid-type(37.5rem, 80rem, 0.75rem, 1.1rem);
 }
 
 .ox_overview__machine-item-yarnid {
   margin-right: 15px;
 }
 
-
 .ox_overview__machine-item-right-lower {
   @include fluid-type(37.5rem, 80rem, 0.75rem, 1.1rem);
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* instrumar iframe view */

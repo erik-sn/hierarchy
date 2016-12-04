@@ -1,9 +1,14 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
+import moment from 'moment';
 
 function parseProduct(file) {
   const re = /[a-zA-Z]\d{4}|[$]\d{4}[A-Z]/g;
   return file.match(re)[0];
+}
+
+function parseDate(date) {
+  return moment(date).format('MM/DD/YY HH:mm');
 }
 
 const MachineListItem = (props) => {
@@ -18,12 +23,17 @@ const MachineListItem = (props) => {
         <div className="ox_overview__machine-item-left">{machine}</div>
         <div className="ox_overview__machine-item-right">
           <div className="ox_overview__machine-item-right-upper">
-            <div className="ox_overview__machine-item-yarnid">{parseProduct(specification.get('fileName'))}</div>
-            <div className="ox_overview__machine-item-lot">{specification.get('lotNumber')}</div>
+            <div className="ox_overview__machine-item-info-container">
+              <div className="ox_overview__machine-item-yarnid">{parseProduct(specification.get('fileName'))}</div>
+              <div className="ox_overview__machine-item-lot">{specification.get('lotNumber')}</div>
+            </div>
           </div>
           <div className="ox_overview__machine-item-right-lower">
             {specification.get('fileName')}
           </div>
+        </div>
+        <div className="ox_overview__machine-item-date-container">
+          <div className="ox_overview__machine-item-date">{parseDate(specification.get('createDate'))}</div>
         </div>
       </div>
     </Link>

@@ -25,7 +25,7 @@ class UptimeChart extends Component {
     const uptime = this.breakReduce('normal');
     const doff = this.breakReduce('doff');
     const process = this.breakReduce('process');
-    console.log(uptime, doff, process);
+
     const pieData = [
       { name: 'Uptime', value: Math.round(uptime / 3600) },
       { name: 'Process', value: Math.round(process / 3600) },
