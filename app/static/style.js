@@ -3,6 +3,7 @@
  */
 if (process.env.BROWSER) {
   require('./sass/admin.scss');
+  require('./sass/chart.scss');
   require('./sass/config.scss');
   require('./sass/display.scss');
   require('./sass/host.scss');

@@ -126,7 +126,6 @@ export const validate = (values) => {
 // Decorate the form component
 const ModuleForm = reduxForm({
   form: FORM_NAME,
-  validate,
 })(Module);
 
 export default connect(mapStateToProps)(ModuleForm);

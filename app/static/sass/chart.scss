@@ -1,0 +1,17 @@
+/*
+  positions allow for buttons to be placed in the stop
+  right of the chart
+*/
+.chart__container {
+    position: relative;
+}
+
+.chart__button-container {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+
+  svg {
+    cursor: pointer;
+  }
+}

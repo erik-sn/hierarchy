@@ -1,6 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
+import Download from 'material-ui/svg-icons/file/file-download';
 
-export default class CsvGenerator extends Component {
+class CsvGenerator extends Component {
 
   constructor(props) {
     super(props);
@@ -69,17 +70,22 @@ export default class CsvGenerator extends Component {
   }
 
   render() {
-    const { label, customClass, customStyle } = this.props;
+    const { customClass, customStyle } = this.props;
     return (
-      <button
+      <Download
         className={customClass}
+        color="#FFFFFF"
         type="button"
         style={customStyle}
         onClick={this.generateCsv}
-      >
-        {label}
-      </button>
+      />
     );
   }
-
 }
+
+CsvGenerator.propTypes = {
+  customClass: PropTypes.string,
+  customStyle: PropTypes.object,
+};
+
+export default CsvGenerator;

@@ -29,7 +29,7 @@ class InstrumarDashboard extends Component {
     return (
       <div className="ox_overview__instrumar">
         <div className="ox_overview__instrumar-loader">
-          {showLoader ? <Loader /> : undefined}
+          {showLoader ? <Loader size={75} thickness={5} /> : undefined}
         </div>
         <iframe
           style={{ display: showLoader ? 'none' : 'block' }}

@@ -10,9 +10,15 @@ $font1: #59A1B6;
 $minWidth: 295px;
 $maxWidth: 1400px;
 
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
 #root {
   height: 100%;
 }
+
 .application__container {
   display: flex;
   flex: 1 1 auto;
@@ -44,6 +50,10 @@ $maxWidth: 1400px;
 
   a {
     color: $primary !important;
+  }
+
+  div > {
+    height: 100%;
   }
 }
 

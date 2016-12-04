@@ -3,7 +3,6 @@ app/coverage
 app/dist
 
 api/hierarchyenv
-api/env
 api/hierarchyapi/hierarchyapi/settings.py
 .idea
 .vscode

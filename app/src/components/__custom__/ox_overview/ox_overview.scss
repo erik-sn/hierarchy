@@ -1,11 +1,162 @@
+@import "../../../../static/sass/style";
+@import "../../../../static/sass/config";
+
 .ox_overview__container {
+  display: flex;
+  flex-direction: column;
   width: 100%;
 }
 
+.ox_overview__top-container {
+  flex: 1 1 auto;
+  max-height: 300px;
+  display: flex;
+  width: 100%;
+  z-index: 5;
+}
+
+.ox_overview__bottom-container {
+  margin-top: 15px;
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  color: $primary;
+  height: 100%;
+}
+
+.ox_overview__bottom-left {
+  width: 425px;
+
+  .ox_overview__setpoints {
+    position: relative;
+    top: -100px;
+    z-index: 0;
+    height: 200px;
+  }
+  .ox_overview__setpoints:hover {
+    z-index: 3;
+  }
+
+}
+
+@media (max-width: 1065px) and (min-width: 700px) {
+  .ox_overview__setpoints {
+    height: 100px !important;
+  }
+
+  .ox_overview__setpoints:nth-child(1) {
+    top: -100px;
+  }
+
+  .ox_overview__setpoints:nth-child(2) {
+    top: -200px;
+    left: 300px;
+  }
+}
+
+.ox_overview__bottom-right {
+  flex: 1 1 100px;
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+
+  .chart__container {
+    flex: 1 1 400px !important;
+    height: 400px;
+    width: 600px;
+  }
+}
+
+/* machine/specification list */
+.ox_overview__machine-list {
+  max-height: 270px;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+.ox_overview__machine-list:hover{
+  overflow-y: scroll;
+
+  .ox_overview-machine-container {
+    padding-right: 0px;
+  }
+}
+
+.ox_overview__machine-container {
+  margin-top: 15px;
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  justify-content: center;
+
+  .host__label-large {
+    margin-bottom: 3px;
+  }
+}
+
+
+.ox_overview__machine-item {
+  border: 1px solid $secondary;
+  background: none !important;
+  width: 95%; 
+  transition: 0.15s ease-in-out;
+
+  @media (max-width: 700px) {
+    width: 83%;
+  }
+}
+
+.ox_overview__machine-item:hover {
+  background: $tertiary !important;
+}
+
+.ox_overview__machine-item-container {
+  color: $secondary !important;
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
+}
+
+.ox_overview__machine-item-left {
+  flex: 0 0 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ox_overview__machine-item-right {
+  flex: 1 1 500px;
+  display: flex;
+  flex-direction: column;
+  width: 90%;
+  font-size: 1rem;
+  padding: 3px;
+}
+
+.ox_overview__machine-item-right-upper {
+  display: flex;
+  flex-direction: row;
+}
+
+.ox_overview__machine-item-yarnid {
+  margin-right: 15px;
+}
+
+
+.ox_overview__machine-item-right-lower {
+  @include fluid-type(37.5rem, 80rem, 0.75rem, 1.1rem);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* instrumar iframe view */
 .ox_overview__instrumar {
   overflow: hidden;
   max-height: 270px;
   min-height: 270px;
+  width: 100%;
 
   iframe {
     position: relative;
@@ -19,9 +170,14 @@
 .ox_overview__instrumar-loader {
   position: absolute;
   top: -50px;
-  left: calc(50% - 75px);
+  left: calc(50% - 37px);
 }
 
-.ox_overview__waste-chart-container {
-  height: 200px;
+
+/* up time */
+.ox_overview__uptime-container {
+  color: $secondary;
+  height: 400px;
+  flex: 1 1 400px;
+  width: 400px;
 }

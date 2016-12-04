@@ -1,45 +1,27 @@
-import React, { Component } from 'react';
-import { ResponsiveContainer, AreaChart, Area, LineChart, Line, 
-  XAxis, YAxis, Tooltip, Legend } from 'recharts';
+import React, { Component, PropTypes } from 'react';
+import { ResponsiveContainer } from 'recharts';
 
 import Csv from '../csv_generator';
-import Png from './png_generator';
+import Png from '../png_generator';
 
-export default class LineChartComponent extends Component {
+class ChartContainer extends Component {
 
   shouldComponentUpdate(nextProps, nextState) {
     return true;
   }
 
-  getChart() {
-    const { type, lines, margin, data, domain, ticks, xAxis, padding} = this.props;
-    if (type === 'area') {
-      return (
-        <AreaChart data={data} margin={margin}>
-          <XAxis dataKey={xAxis} ticks={ticks} padding={padding} />
-          <YAxis domain={domain} />
-          <Tooltip />
-          <Legend />
-          {lines.map((line, i) => <Area key={i} {...line} />)}
-        </AreaChart>
-      );
-    }
-  }
-
   render() {
-    const { data, xAxis, download, image, type } = this.props;
+    const { data, xAxis, download, image, children } = this.props;
     const params = [
       { header: 'X-Axis', label: xAxis },
-      { header: 'Value', label: 'value' }
+      { header: 'Value', label: 'value' },
     ];
 
     return (
       <div className="chart__container" >
-        <div className="chart__inner-container">
-          <ResponsiveContainer>
-            {this.props.children}
-          </ResponsiveContainer>
-        </div>
+        <ResponsiveContainer>
+          {children}
+        </ResponsiveContainer>
         <div className="chart__button-container">
           {download ?
             <Csv
@@ -51,16 +33,27 @@ export default class LineChartComponent extends Component {
               params={params}
             />
             : undefined}
-        {image ?
-          <Png
-            customClass="chart__button"
-            label="Download Image"
-            fileName="processworkshop_plot"
-            target="recharts-surface"
-          />
-        : undefined}
+          {image ?
+            <Png
+              customClass="chart__button"
+              label="Download Image"
+              fileName="processworkshop_plot"
+              target="recharts-surface"
+            />
+          : undefined}
         </div>
       </div>
     );
   }
 }
+
+ChartContainer.propTypes = {
+  data: PropTypes.array.isRequired,
+  xAxis: PropTypes.string.isRequired,
+  download: PropTypes.bool,
+  image: PropTypes.bool,
+  children: PropTypes.node.isRequired,
+};
+
+export default ChartContainer;
+
