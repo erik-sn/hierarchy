@@ -63,7 +63,7 @@ export class Application extends Component {
     }
     return (
       <div className="application__container">
-        <Navbar user={user} hierarchy={hierarchy} path={location.pathname} config={config} />
+        <Navbar sites={sites} user={user} hierarchy={hierarchy} path={location.pathname} config={config} />
         <div className="application__content-container">
           <Card
             className="application__content-card"

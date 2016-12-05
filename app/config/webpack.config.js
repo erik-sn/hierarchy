@@ -1,6 +1,7 @@
 /* eslint-disable */
 var path = require('path');
 var webpack = require('webpack');
+require('es6-promise').polyfill();
 
 // automatically add vendor prefixes to transpiled css
 var autoprefixer = require('autoprefixer');

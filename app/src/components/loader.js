@@ -18,7 +18,7 @@ Loader.propTypes = {
   message: PropTypes.string,
   style: PropTypes.object,
   size: PropTypes.number,
-  thickness: PropTypes.thickness,
+  thickness: PropTypes.number,
   color: PropTypes.string,
 };
 
