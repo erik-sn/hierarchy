@@ -1,22 +1,31 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
+import { is } from 'immutable';
 
 import MachineListItem from './machine_list_item';
 import Loader from '../../loader';
 
-const MachineList = (props) => {
-  if (!props || !props.specifications) {
-    return <Loader style={{ height: '270px', width: '100%' }} size={75} thickness={5} />;
+class MachineList extends Component {
+
+  shouldComponentUpdate(nextProps) {
+    return !is(nextProps.specifications, this.props.specifications);
   }
 
-  return (
-    <div className="ox_overview__machine-list">
-      <div className="ox_overview__machine-container">
-        {props.specifications.map((spc, i) => (
-          <MachineListItem key={i} specification={spc} />
-        ))}
+  render() {
+    if (!this.props || !this.props.specifications) {
+      return <Loader style={{ height: '270px', width: '100%' }} size={75} thickness={5} />;
+    }
+
+    return (
+      <div className="ox_overview__machine-list">
+        <div className="ox_overview__machine-container">
+          {this.props.specifications.map((spc, i) => (
+            <MachineListItem key={i} specification={spc} />
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
 }
 
 MachineList.propTypes = {

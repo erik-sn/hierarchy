@@ -43,6 +43,10 @@ module.exports = {
         test: /\.test.js$/,
         loader: 'ignore',
       },
+      { test: /\.ts|.tsx?$/,
+        loaders: ["ts-loader"],
+        include: path.join(__dirname, "../src"),
+      },
       {
         test: /\.js$/,
         loaders: ['babel'],
@@ -65,6 +69,9 @@ module.exports = {
         loader: 'file-loader',
       },
     ],
+  },
+  resolve: {
+    extensions: ["", ".webpack.js", ".web.js", ".js", ".ts", ".tsx"],
   },
   postcss: [autoprefixer],
 };
