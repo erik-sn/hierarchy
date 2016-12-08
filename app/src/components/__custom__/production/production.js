@@ -3,14 +3,6 @@ import React, { PropTypes } from 'react';
 const Production = props => (
   <div>
     <h3>{props.module.get('label')}</h3>
-    <h3>{props.module.get('label')}</h3>
-    <h3>{props.module.get('label')}</h3>
-    <h3>{props.module.get('label')}</h3>
-    <h3>{props.module.get('label')}</h3>
-    <h3>{props.module.get('label')}</h3>
-    <h3>{props.module.get('label')}</h3>
-    <h3>{props.module.get('label')}</h3>
-
   </div>
 );
 
