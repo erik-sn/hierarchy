@@ -25,6 +25,7 @@ import { RouterContext, match } from 'react-router';
 import { renderToString } from 'react-dom/server';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+require('es6-promise').polyfill();
 
 import reducers from '../src/reducers/';
 import routes from '../src/routes';

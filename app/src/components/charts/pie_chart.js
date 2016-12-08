@@ -52,7 +52,7 @@ class TwoLevelPieChart extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeIndex: undefined,
+      activeIndex: 0,
       activeShape: undefined,
       label: undefined,
     };

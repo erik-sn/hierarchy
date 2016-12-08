@@ -177,7 +177,7 @@ class Navbar extends Component {
   }
 
   render() {
-    const { user, hierarchy, config } = this.props;
+    const { sites, user, hierarchy, config } = this.props;
     const name = !user || !user.get('username') ? '' : user.get('username');
     const site = hierarchy ? hierarchy.get('site') : undefined;
 
@@ -189,6 +189,7 @@ class Navbar extends Component {
     const departmentTo = department ? `/${site.get('code')}/${department.get('name')}` : '';
     const machineTo = machine ? `/${site.get('code')}/${department.get('name')}/${machine.get('name')}` : '';
 
+    const siteNeighbors = sites ? sites.map(s => s.get('code')) : undefined;
     const departmentNeighbors = site ? site.get('departments').map(dpt => dpt.get('name')) : undefined;
     const machineNeighbors = department ? department.get('machines').map(mch => mch.get('name')) : undefined;
 
@@ -207,7 +208,7 @@ class Navbar extends Component {
           <div className="navbar__hierarchy-item-holder">
             <div className="navbar__hierarchy-item-child" />
           </div>
-          {site ? this.renderSiteNav(site, last, siteTo, undefined) : ''}
+          {site ? this.renderSiteNav(site, last, siteTo, siteNeighbors) : ''}
           {department ? this.renderSiteNav(department, last, departmentTo, departmentNeighbors) : ''}
           {machine ? this.renderSiteNav(machine, last, machineTo, machineNeighbors) : ''}
         </nav>

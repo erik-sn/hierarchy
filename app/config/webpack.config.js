@@ -1,6 +1,7 @@
 /* eslint-disable */
 var path = require('path');
 var webpack = require('webpack');
+require('es6-promise').polyfill();
 
 // automatically add vendor prefixes to transpiled css
 var autoprefixer = require('autoprefixer');
@@ -42,6 +43,10 @@ module.exports = {
         test: /\.test.js$/,
         loader: 'ignore',
       },
+      { test: /\.ts|.tsx?$/,
+        loaders: ["ts-loader"],
+        include: path.join(__dirname, "../src"),
+      },
       {
         test: /\.js$/,
         loaders: ['babel'],
@@ -64,6 +69,9 @@ module.exports = {
         loader: 'file-loader',
       },
     ],
+  },
+  resolve: {
+    extensions: ["", ".webpack.js", ".web.js", ".js", ".ts", ".tsx"],
   },
   postcss: [autoprefixer],
 };

@@ -9,6 +9,7 @@ api/hierarchyapi/hierarchyapi/settings.py
 .vscode
 *.error
 *.log
+*.pyc
 
 npm-debug.log
 webpack-assets.json
