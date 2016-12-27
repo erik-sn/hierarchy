@@ -43,10 +43,6 @@ module.exports = {
         test: /\.test.js$/,
         loader: 'ignore',
       },
-      { test: /\.ts|.tsx?$/,
-        loaders: ["ts-loader"],
-        include: path.join(__dirname, "../src"),
-      },
       {
         test: /\.js$/,
         loaders: ['babel'],

@@ -5,6 +5,7 @@
   flex-direction: column;
   overflow-y: auto;
   padding: 10px;
+  height: 90vh;
 }
 
 .main__message {
@@ -24,46 +25,42 @@ a {
 }
 
 .main__site-container {
-  flex: 1 1 auto;
   margin: 10px;
   padding: 15px;
   border-radius: 2px;
-  transition: transform 0.45s;
-
-  div {
-    padding-bottom: 0px !important;
-    background-color: transparent !important;
-  }
-}
-
-.main__site-card {
+  height: 100px;
   background-color: transparent !important;
+  font-family: 'Maven Pro';
+  transition: transform 0.45s;
   box-shadow: lighten($primary, 15%) 0px 0px 0px, lighten($primary, 15%) 0px 0px 0px !important;
 }
 
 .main__site-title {
-  background: $primary;
-}
-
-.main__site-title > span {
-  font-family: 'Maven Pro';
   color: whitesmoke !important;
   font-weight: 600;
-  margin-left: 25px;
+  font-size: 1.75rem;
+  margin-left: 15px;
+}
+
+.main__site-subtitle {
+  color: whitesmoke !important;
+  margin-left: 15px;
 }
 
 .main__site-departmentcount {
-  background: $primary;
+  color: whitesmoke !important;
   color: $secondary !important;
+  margin-left: 15px;
 }
+
 .main__department-title-container {
+  color: whitesmoke !important;
   background: $primary;
   text-transform: uppercase;
 
   svg {
     color: white !important;
   }
-
 
   span {
     font-size: 2rem !important;

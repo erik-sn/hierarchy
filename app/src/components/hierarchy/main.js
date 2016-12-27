@@ -44,21 +44,17 @@ export const Site = (props) => {
       className="main__site-container host__label-large"
       to={`/${site.get('code').toLowerCase()}`}
     >
-      <Card className="main__site-card">
-        <CardTitle
-          className="main__site-title"
-          title={`${site.get('name')} - ${site.get('code')}`}
-          subtitle={site.get('location')}
-        >
-          {showPlace ?
-            <Place onClick={e => showMap(site, e)} className="main__site-place" /> :
-            undefined
-          }
-        </CardTitle>
-        <CardText className="main__site-departmentcount">
-          Departments: {site.get('departments').size}
-        </CardText>
-      </Card>
+      <div className="main__site-title">{`${site.get('name')} - ${site.get('code')}`}</div>
+      <div className="main__site-subtitle">{site.get('location')}</div>
+      <div className="main__site-location">
+        {showPlace ?
+          <Place onClick={e => showMap(site, e)} className="main__site-place" /> :
+          undefined
+        }
+      </div>
+      <div className="main__site-departmentcount">
+        Departments: {site.get('departments').size}
+      </div>
     </Link>
   );
 };

@@ -107,8 +107,6 @@ class Overview extends Component {
 
   render() {
     const { parent } = this.props;
-
-
     return (
       <div className="ox_overview__container" >
         <div className="ox_overview__top-container">

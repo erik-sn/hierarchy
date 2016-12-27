@@ -5,6 +5,7 @@ const types = {
   API_CONFIG: {
     timeout: 30000,
     withCredentials: true,
+    responseType: 'json',
   },
 
   FETCH_DEPARTMENT_DATA: 'FETCH_DEPARTMENT_DATA',
