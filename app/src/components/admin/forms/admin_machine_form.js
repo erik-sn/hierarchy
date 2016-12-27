@@ -72,7 +72,7 @@ function mapStateToProps(state, ownProps) {
     return { initialValues: { active: true, modules: [] } };
   }
   const initialValues = ownProps.machine.toJS();
-  initialValues.defaultModule = ownProps.machine.get('defaultModule').get('id');
+  initialValues.defaultModule = ownProps.machine.get('defaultModule') ? ownProps.machine.get('defaultModule').get('id') : null;
   return {
     initialValues,
   };
@@ -97,7 +97,6 @@ export const validate = (values) => {
 // Decorate the form component
 const MachineForm = reduxForm({
   form: 'machine_form',
-  validate,
 })(Machine);
 
 export default connect(mapStateToProps)(MachineForm);

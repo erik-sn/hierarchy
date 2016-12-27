@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router';
 
 function generateSortModules(item) {
-  const defaultId = item.get('defaultModule').get('id');
+  // case where no default module was set in the admin page
+  const defaultId = item.get('defaultModule') ? item.get('defaultModule').get('id') : -1;
   return (a, b) => {
     if (a.get('id') === defaultId) {
       return -1;
