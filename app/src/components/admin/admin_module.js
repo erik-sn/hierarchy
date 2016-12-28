@@ -1,10 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { fromJS } from 'immutable';
+import { Map, fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { List, ListItem } from 'material-ui/List';
 import Snackbar from 'material-ui/Snackbar';
-import RefreshIcon from 'material-ui/svg-icons/navigation/refresh';
+import TextField from 'material-ui/TextField';
+import Add from 'material-ui/svg-icons/content/add';
 
 import Loader from '../loader';
 import types from '../../actions/types';
@@ -19,11 +20,15 @@ export class Modules extends Component {
       activeModule: undefined,
       messageText: '',
       messageShow: false,
+      filter: '',
     };
+    this.createModule = this.createModule.bind(this);
     this.updateModule = this.updateModule.bind(this);
     this.deleteModule = this.deleteModule.bind(this);
     this.resetState = this.resetState.bind(this);
     this.showMessage = this.showMessage.bind(this);
+    this.showCleanModuleForm = this.showCleanModuleForm.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
     this.fetchModules = this.fetchModules.bind(this);
     this.refreshModules = this.refreshModules.bind(this);
@@ -38,6 +43,15 @@ export class Modules extends Component {
     .then((response) => {
       this.setState({ modules: fromJS(response.data) });
     });
+  }
+
+  createModule() {
+    const module = this.props.values;
+    axios.post(`${types.API}/modules/`, module, types.API_CONFIG)
+    .then(() => this.fetchModules())
+    .then(() => this.showMessage(`Module Successfully Created: ${module.get('name')}`))
+    .catch(() => this.showMessage(`Error Updating Module: ${module.get('name')}`))
+    .then(() => this.resetState());
   }
 
   updateModule() {
@@ -60,6 +74,7 @@ export class Modules extends Component {
   resetState() {
     this.setState({
       activeModule: undefined,
+      clean: false,
     });
   }
 
@@ -74,10 +89,46 @@ export class Modules extends Component {
     this.setState({ messageShow: false });
   }
 
+  handleFilter(event) {
+    this.setState({
+      filter: event.target.value,
+    });
+  }
+
   refreshModules() {
     axios.get(`${types.API}/modules/refresh/`, types.API_CONFIG)
     .then(response => this.showMessage(`New Modules: ${response.data.new} Deleted: ${response.data.deleted}`))
     .then(() => this.fetchModules());
+  }
+
+  showCleanModuleForm() {
+    const newModule = Map({
+      id: null,
+      name: '',
+      label: '',
+      description: '',
+      active: true,
+    })
+    this.setState({ activeModule: newModule, clean: true });
+  }
+
+  generateModules() {
+    const { modules, filter } = this.state;
+    let filteredModules = modules;
+    if (filter.trim()) {
+      filteredModules = modules.filter(module => (
+        module.get('name').toLowerCase().indexOf(filter.toLowerCase()) > -1 || 
+        module.get('description').toLowerCase().indexOf(filter.toLowerCase()) > -1
+      ));
+    }
+    return filteredModules.map((module, i) => (
+      <ListItem
+        key={i}
+        onClick={() => this.setState({ activeModule: module, clean: false })}
+        primaryText={module.get('name')}
+        secondaryText={module.get('description')}
+      />
+    ))
   }
 
   renderModuleForm() {
@@ -86,13 +137,15 @@ export class Modules extends Component {
         <ModuleForm
           module={this.state.activeModule}
           submitForm={this.updateModule}
+          create={this.createModule}
           update={this.updateModule}
           remove={this.deleteModule}
           clear={this.resetState}
+          clean={this.state.clean}
         />
       );
     }
-    return <h3>Select a Module</h3>;
+    return <h3 style={{ textAlign: 'center' }}>Select a Module</h3>;
   }
 
   render() {
@@ -109,25 +162,22 @@ export class Modules extends Component {
       <div className="admin__modules">
         <div className="admin__modules-inner-container">
           <div className="admin__modules-list-container">
-            <ListItem
-              className="admin__modules-refresh-container"
-              onClick={this.refreshModules}
-            >
-              <div>
-                <RefreshIcon />
-                <span>Refresh Modules</span>
-              </div>
-            </ListItem>
+             <TextField
+              id="admin__modules-filter"
+              hintText="Module Filter"
+              value={this.state.filter}
+              onChange={this.handleFilter}
+            />
             <List className="admin__modules-list">
-              {modules.map((module, i) => (
-                <ListItem
-                  key={i}
-                  onClick={() => this.setState({ activeModule: module })}
-                  primaryText={module.get('name')}
-                  secondaryText={module.get('description')}
-                />
-              ))}
+              {this.generateModules()}
             </List>
+            <div
+              className="admin__modules-new-module-container"
+              onClick={this.showCleanModuleForm}
+            >
+              <Add />
+              <span>New Module</span>
+            </div>
           </div>
           <div className="admin__modules-form-container">
             {this.renderModuleForm()}

@@ -19,6 +19,12 @@ class WasteChart extends Component {
     return !is(nextProps.data, this.props.data);
   }
 
+  generateLabel(shift) {
+    const month = shift.get('label').substring(5, 7);
+    const day = shift.get('label').substring(8, 10)
+    return `${month}/${day}-${shift.get('shift')}`
+  }
+
   render() {
     if (this.props.data === null) {
       return <h3>Error</h3>;
@@ -30,7 +36,7 @@ class WasteChart extends Component {
     // ignore entries with no production, this is a clerical error in AS400
     const data = this.props.data.filter(shift => shift.get('productionPounds') > 0)
     .map(shift => ({
-      date: `${shift.get('date').substring(5, 7)}/${shift.get('date').substring(8, 10)}-${shift.get('shift')}`, 
+      date: this.generateLabel(shift), 
       value: shift.get('wastePercent'),
     }));
 

@@ -46,8 +46,8 @@ class ApiEdit extends Component {
           {apicalls.map((apicall, i) => (
             <MenuItem
               key={i}
-              value={apicall.get('url')}
-              primaryText={apicall.get('url')}
+              value={apicall.get('key')}
+              primaryText={apicall.get('key')}
               rightIcon={<Close onClick={() => this.handleDeleteApiCall(apicall)} />}
             />
           ))}
@@ -60,8 +60,8 @@ class ApiEdit extends Component {
           {this.props.apicalls ? this.props.apicalls.map((apicall, i) => (
             <MenuItem
               key={i}
-              value={apicall.get('url')}
-              primaryText={apicall.get('url')}
+              value={apicall.get('key')}
+              primaryText={apicall.get('key')}
               onClick={() => this.handleAddApiCall(apicall)}
             />
           )) : ''}

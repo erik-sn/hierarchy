@@ -31,13 +31,15 @@ export class API extends Component {
     return (
       <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
         <Field className="admin__form-field" name="key" component={Text} label="Key" />
-        <Field className="admin__form-field" name="url" component={Text} label="Url" />
         <Field
           className="admin__form-field"
           name="description"
           component={Text}
           label="Description"
         />
+        <div style={{ width: '100%' }} >
+          <Field className="admin__form-field" name="url" component={Text} label="Url" />
+        </div>
         <div style={{ width: '100%', height: '20px' }} />
         <Field
           className="admin__form-field"

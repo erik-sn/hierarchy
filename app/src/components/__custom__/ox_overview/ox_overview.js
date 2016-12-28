@@ -31,22 +31,6 @@ class Overview extends Component {
     };
   }
 
-  getWorkOrderData() {
-    const { data, parent } = this.props;
-    if (!data || !data.get('ox_workorders')) {
-      return undefined;
-    }
-
-    if (this.state.department) {
-      return data.get('ox_waste').get('department');
-    } else if (data && data.get('ox_waste')) {
-      return data.get('ox_waste').get('machine').filter(machine => (
-        machine.get('machine') === parent.get('name').substring(0, 4)
-      ));
-    }
-    return undefined;
-  }
-
   getSpecificationData() {
     const { data } = this.props;
     if (!data || !data.get('ox_specifications')) {
@@ -60,13 +44,9 @@ class Overview extends Component {
     if (!data || !data.get('ox_waste')) {
       return undefined;
     }
-
     if (this.state.department) {
-      return data.get('ox_waste').get('department');
+      return data.get('ox_waste');
     }
-    return data.get('ox_waste').get('machine').filter(machine => (
-      machine.get('machine') === parent.get('name').substring(0, 4)
-    ));
   }
 
   getBreakData() {

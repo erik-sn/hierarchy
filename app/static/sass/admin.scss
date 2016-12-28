@@ -41,22 +41,29 @@
   flex-wrap: wrap;
 }
 
-.admin__modules-refresh-container > div > div {
+.admin__modules-list-container {
+  flex: 1 1 100px;
+  margin-right: 25px;
+  width: 250px;
+  max-width: 250px;
+  min-width: 250px;
+}
+
+.admin__modules-new-module-container {
+  padding: 10px;
   display: flex;
   align-items: center;
-  padding: 10px;
   cursor: pointer;
+  margin-top: 15px;
 
   span {
-    margin-left: 10px;
+    margin-left: 15px;
   }
 }
 
-.admin__modules-list-container {
-  flex: 1 1 100px;
-  height: 500px;
+.admin__modules-list {
+  height: 425px;
   overflow-y: auto;
-  margin-right: 25px;
 }
 
 .admin__modules-default {

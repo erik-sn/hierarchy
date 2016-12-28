@@ -15,7 +15,7 @@ export class Module extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const { change, module } = nextProps;
+    const { change, module, clean } = nextProps;
     if ((module && !this.props.module) || (module && module.get('name') !== this.props.module.get('name'))) {
       change('id', module.get('id'));
       change('name', module.get('name'));
@@ -26,7 +26,7 @@ export class Module extends Component {
   }
 
   render() {
-    const { submitForm, handleSubmit, update, remove, clear,
+    const { submitForm, handleSubmit, update, remove, clear, create, clean,
             reset, submitFailed } = this.props;
     return (
       <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
@@ -51,26 +51,47 @@ export class Module extends Component {
             {submitFailed ? 'Error Submitting Form' : ''}
           </div>
         </div>
-        <FlatButton
-          key={1}
-          onClick={() => {
-            update();
-            reset();
-          }}
-          label="Update"
-          primary
-        />
-        <FlatButton
-          key={2}
-          onClick={() => {
-            remove();
-            reset();
-          }}
-          label="Delete"
-          primary
-        />
+        {clean ? [
+          <FlatButton
+            key={4}
+            onClick={() => {
+              create();
+              reset();
+            }}
+            label="Submit"
+            primary
+          />,
+        ] : [
+          <FlatButton
+            key={1}
+            onClick={() => {
+              update();
+              reset();
+            }}
+            label="Update"
+            primary
+          />,
+          <FlatButton
+            key={2}
+            onClick={() => {
+              remove();
+              reset();
+            }}
+            label="Delete"
+            primary
+          />,
+        ]}
         <FlatButton
           key={3}
+          onClick={() => {
+            clear();
+            reset();
+          }}
+          label="Cancel"
+          primary
+        />
+        <FlatButton
+          key={9}
           onClick={() => {
             clear();
             reset();

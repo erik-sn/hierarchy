@@ -3,6 +3,7 @@ import { fromJS } from 'immutable';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { List, ListItem } from 'material-ui/List';
+import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
 
 import Loader from '../loader';
@@ -18,6 +19,7 @@ export class ApiCalls extends Component {
       activeApiCall: undefined,
       messageText: '',
       messageShow: false,
+      filter: '',
     };
     this.createApiCall = this.createApiCall.bind(this);
     this.updateApiCall = this.updateApiCall.bind(this);
@@ -25,6 +27,7 @@ export class ApiCalls extends Component {
     this.resetState = this.resetState.bind(this);
     this.showMessage = this.showMessage.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
+    this.handleFilter = this.handleFilter.bind(this);
     this.fetchApiCalls = this.fetchApiCalls.bind(this);
   }
 
@@ -82,6 +85,12 @@ export class ApiCalls extends Component {
     this.setState({ messageShow: false });
   }
 
+  handleFilter(event) {
+    this.setState({
+      filter: event.target.value,
+    });
+  }
+
   renderApiCallForm() {
     if (this.state.activeApiCall) {
       return (
@@ -104,6 +113,25 @@ export class ApiCalls extends Component {
     );
   }
 
+  generateApiCalls() {
+    const { apicalls, filter } = this.state;
+    let filteredApicalls = apicalls;
+    if (filter.trim()) {
+      filteredApicalls = apicalls.filter(module => (
+        module.get('key').toLowerCase().indexOf(filter.toLowerCase()) > -1 || 
+        module.get('url').toLowerCase().indexOf(filter.toLowerCase()) > -1
+      ));
+    }
+    return filteredApicalls.map((apicall, i) => (
+      <ListItem
+        key={i}
+        onClick={() => this.setState({ activeApiCall: apicall, clean: false })}
+        primaryText={apicall.get('key')}
+        secondaryText={apicall.get('url')}
+      />
+    ))
+  }
+
   render() {
     const { apicalls } = this.state;
     if (!apicalls) {
@@ -118,15 +146,14 @@ export class ApiCalls extends Component {
       <div className="admin__apicalls">
         <div className="admin__apicalls-inner-container">
           <div className="admin__apicalls-list-container">
+            <TextField
+              id="admin__apicalls-filter"
+              hintText="API Call Filter"
+              value={this.state.filter}
+              onChange={this.handleFilter}
+            />
             <List className="admin__apicalls-list">
-              {apicalls.map((apicall, i) => (
-                <ListItem
-                  key={i}
-                  onClick={() => this.setState({ activeApiCall: apicall })}
-                  primaryText={apicall.get('url')}
-                  secondaryText={apicall.get('description')}
-                />
-              ))}
+              {this.generateApiCalls()}
             </List>
           </div>
           <div className="admin__apicalls-form-container">
