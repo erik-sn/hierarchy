@@ -1,19 +1,18 @@
 import React, { PropTypes } from 'react';
 
-const Column = ({ width, className, value }) => (
+const Cell = ({ width, className, value }) => (
   <div
     style={{ width }}
-    className={`filter_table__column${className ? ` ${className}` : ''}`}
+    className={`filter_table__cell${className ? ` ${className}` : ''}`}
   >
     {value}
   </div>
 );
 
-Column.propTypes = {
+Cell.propTypes = {
   className: PropTypes.string,
   value: PropTypes.string.isRequired,
   width: PropTypes.string.isRequired,
 };
 
-
-export default Column;
+export default Cell;

@@ -1,20 +1,42 @@
 import React, { PropTypes } from 'react';
+import UpIcon from 'material-ui/svg-icons/navigation/arrow-drop-up';
+import DownIcon from 'material-ui/svg-icons/navigation/arrow-drop-down';
 
-function generateColumns(rowMap) {
-  return rowMap.map(({ width, header }, i) => (
-    <div key={i} style={{ width }}><h5>{header}</h5></div>
+function generateSortIcon(parameter, label, direction) {
+  if (parameter === label && direction === 1) {
+    return <UpIcon />;
+  } else if (parameter === label && direction === 0) {
+    return <DownIcon />;
+  }
+}
+
+function generateColumns(rowMap, handleClick, sortDirection, sortParameter) {
+  return rowMap.map(({ width, header, label }, i) =>  (
+    <div
+      key={i}
+      style={{ width }}
+      onClick={() => handleClick(label)}
+      className="filter_table__header-cell"
+      style={ label === sortParameter ? { color:  'white', width } : { width } }
+    >
+      <span className="filter_table__header-cell-label">{header}</span>
+      <span className="filter_table__header-cell-icon">
+        {generateSortIcon(sortParameter, label, sortDirection)}
+      </span>
+    </div>
   ));
 }
 
-const Header = ({ className, rowMap }) => (
+const Header = ({ className, rowMap, handleClick, sortDirection, sortParameter }) => (
   <div className={`filter_table__header${className ? ` ${className}` : ''}`}>
-    {generateColumns(rowMap)}
+    {generateColumns(rowMap, handleClick, sortDirection, sortParameter)}
   </div>
 );
 
 Header.propTypes = {
-  rowMap: PropTypes.array.isRequired,
   className: PropTypes.string,
+  handleClick: PropTypes.func,
+  rowMap: PropTypes.array.isRequired,
 };
 
 

@@ -1,21 +1,21 @@
 import React, { PropTypes } from 'react';
 
-import Column from './filter_table_column';
+import Cell from './filter_table_cell';
 
-function generateColumns(rowData, rowMap) {
-  return rowMap.map((column, i) => (
-    <Column
+function generateCells(rowData, rowMap) {
+  return rowMap.map((cell, i) => (
+    <Cell
       key={i}
-      className={rowData.get('classNames') ? rowData.get('classNames').get(column.label) : ''}
-      width={column.width}
-      value={rowData.get(column.label)}
+      className={rowData.get('classNames') ? rowData.get('classNames').get(cell.label) : ''}
+      width={cell.width}
+      value={rowData.get(cell.label)}
     />
   ));
 }
 
 const Row = ({ className, rowData, rowMap }) => (
   <div className={`filter_table__row${className ? ` ${className}` : ''}`}>
-    {generateColumns(rowData, rowMap)}
+    {generateCells(rowData, rowMap)} 
   </div>
 );
 

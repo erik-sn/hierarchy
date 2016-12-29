@@ -22,7 +22,7 @@ class Filter extends Component {
         id="filter_table__filter-field"
         style={{ width: '100%' }}
         hintStyle={{ color: '#999', fontStyle: 'italic' }}
-        hintText={`Comma separated filters. ${'"Quotes" trigger an exact search'} - ${hintText}`}
+        hintText={`Enter comma separated filters - ${hintText}`}
         value={this.props.filter}
         onChange={this.handleChange}
       />

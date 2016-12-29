@@ -18,9 +18,12 @@ class FilterTable extends Component {
       filterText: '',
       filterAny: true,
       filters: List([]),
+      sortParameter: undefined,
+      sortDirection: undefined,
     };
     this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
     this.handleToggleMode = this.handleToggleMode.bind(this);
+    this.handleToggleSort = this.handleToggleSort.bind(this);
     this.filterData = this.filterData.bind(this);
   }
 
@@ -43,6 +46,35 @@ class FilterTable extends Component {
     return tableData;
   }
 
+  generateSortFunction(sortParameter, sortDirection, formatData) {
+    if (sortDirection === 1) {
+      return (a, b) => formatData(a.get(sortParameter)) > formatData(b.get(sortParameter)) ? 1 : -1;
+    }
+    return (a, b) => formatData(a.get(sortParameter)) < formatData(b.get(sortParameter)) ? 1 : -1;
+  }
+
+  generateFormatData(tableData, sortParameter) {
+    const numberTest = tableData.some(data => Number.isNaN(Number(data.get(sortParameter))));
+    if (!numberTest) {;
+      return (input) => Number(input);
+    }
+    const dateTest = tableData.some(data => !moment(data.get(sortParameter)).isValid());
+    if (!dateTest) {
+      return (input) => moment(input);
+    }
+    return (input) => input.toLowerCase();
+  }
+
+  sortData(tableData) {
+    const { sortParameter, sortDirection } = this.state;
+    if (sortParameter && sortDirection !== undefined) {
+      const formatData = this.generateFormatData(tableData, sortParameter);
+      const sortFunction = this.generateSortFunction(sortParameter, sortDirection, formatData);
+      return tableData.sort(sortFunction);
+    }
+    return tableData;
+  }
+
   handleFilterUpdate(filterText) {
     const filters = filterText.split(',').map(filter => filter.trim().toLowerCase()).filter(filter => filter);
     this.setState({ filters: List(filters), filterText });
@@ -52,8 +84,37 @@ class FilterTable extends Component {
     this.setState({ filterAny: !this.state.filterAny });
   }
 
+  handleToggleSort(header) {
+    const { sortDirection, sortParameter } = this.state;
+    let updatedSortParameter = header;
+    let updatedSortDirection;
+    if (header !== sortParameter) {
+      updatedSortDirection = 1;
+    } else {
+      switch (sortDirection) {
+        case undefined:
+          updatedSortDirection = 1
+          break;
+        case 1:
+          updatedSortDirection = 0
+          break;
+        default:
+          updatedSortParameter = undefined;
+          break;
+      }
+    }
+    this.setState({
+      sortParameter: updatedSortParameter,
+      sortDirection: updatedSortDirection,
+    });
+  }
+
   render() {
     const { tableData, className, rowMap, filter, csv } = this.props;
+    const filteredTableData = this.filterData(tableData);
+    const sortedTableData = this.sortData(filteredTableData);
+    const ratio = `${filteredTableData.size}/${tableData.size}`;
+    const percent = (100 * sortedTableData.size / sortedTableData.size).toFixed(1);
     return (
       <div className={`filter_table__container${className ? ` ${className}` : ''}`}>
         <div className="filter_table__filter-bar">
@@ -83,8 +144,14 @@ class FilterTable extends Component {
             {csv ? <div className="tooltip__text">Download CSV</div> : undefined}
           </div>
         </div>
-        <Header rowMap={rowMap} />
-        <TableData filteredData={this.filterData(tableData)} rowMap={rowMap} />
+        <Header
+          rowMap={rowMap}
+          handleClick={this.handleToggleSort}
+          sortDirection={this.state.sortDirection}
+          sortParameter={this.state.sortParameter}
+        />
+        <TableData filteredData={sortedTableData} rowMap={rowMap} />
+        <div>{`Displaying ${ratio} rows - ${percent}%`}</div>
       </div>
     );
   }

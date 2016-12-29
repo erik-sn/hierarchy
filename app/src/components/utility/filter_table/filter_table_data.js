@@ -6,6 +6,7 @@ import Row from './filter_table_row';
 class TableData extends Component {
 
   shouldComponentUpdate(nextProps) {
+    return true;
     const { filteredData } = this.props;
     return !is(nextProps.filteredData, filteredData);
   }
