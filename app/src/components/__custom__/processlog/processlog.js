@@ -40,8 +40,8 @@ const ProcessLog = ({ data, parent }) => {
   return (
     <FilterTable
       className="processlog__filter-table"
-      tableData={formatProcessLogs(logs)}
-      rowMap={rowMap}
+      tableData={formatProcessLogs(logs).toJS()}
+      rowMap={rowMap.toJS()}
       csv
       filter
       results

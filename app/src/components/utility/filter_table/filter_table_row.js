@@ -2,6 +2,14 @@ import React, { PropTypes } from 'react';
 
 import Cell from './filter_table_cell';
 
+/**
+ * Generate a row of cells based on the rowData object
+ * and the table configuration object.
+ * 
+ * @param {object} rowData - immutable Map
+ * @param {object} rowMap - immutable List, table configuration
+ * @returns {object} - immutable List of JSX.Elements
+ */
 function generateCells(rowData, rowMap) {
   return rowMap.map((cell, i) => (
     <Cell
@@ -13,6 +21,11 @@ function generateCells(rowData, rowMap) {
   ));
 }
 
+/**
+ * Container component to order a row of table cells
+ * 
+ * @param {any} { className, rowData, rowMap }
+ */
 const Row = ({ className, rowData, rowMap }) => (
   <div className={`filter_table__row${className ? ` ${className}` : ''}`}>
     {generateCells(rowData, rowMap)}
@@ -20,10 +33,9 @@ const Row = ({ className, rowData, rowMap }) => (
 );
 
 Row.propTypes = {
-  rowMap: PropTypes.array.isRequired,
+  rowMap: PropTypes.object.isRequired,
   className: PropTypes.string,
   rowData: PropTypes.object.isRequired,
 };
-
 
 export default Row;

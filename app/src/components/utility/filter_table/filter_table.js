@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { List } from 'immutable';
+import { fromJS, is, List } from 'immutable';
 import moment from 'moment';
 import AllIcon from 'material-ui/svg-icons/communication/clear-all';
 import AnyIcon from 'material-ui/svg-icons/content/filter-list';
@@ -20,20 +20,30 @@ import TableData from './filter_table_data';
 class FilterTable extends Component {
 
   /**
-   * Creates an instance of FilterTable.
+   * Creates an instance of FilterTable. Critical properties
+   * are rowMap and tableData which define the configuration and
+   * table rows respectively. This component and child components
+   * work on Immutable.js, but we allow input properties to be in
+   * regular JS - they are then converted to immutable on the constructor
+   * method (and componentWillReceiveProps).
    *
-   * @param {any} props
+   * @param {object} props
    *
    * @memberOf FilterTable
    */
   constructor(props) {
     super(props);
+    const { tableData, rowMap } = props;
+    const initialTableData = List.isList(tableData) ? tableData : fromJS(tableData);
+    const initialRowMap = List.isList(rowMap) ? rowMap : fromJS(rowMap);
     this.state = {
       filterText: '',
       filterAny: true,
       filters: List([]),
       sortParameter: undefined,
       sortDirection: undefined,
+      tableData: initialTableData,
+      rowMap: initialRowMap,
     };
     this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
     this.handleToggleMode = this.handleToggleMode.bind(this);
@@ -43,14 +53,26 @@ class FilterTable extends Component {
   }
 
   /**
-   * Generate the table headers
-   *
-   * @returns JSX.Element
+   * Check to make sure that the tableData and rowMap properties
+   * are immutable lists. If they are not (and therefore regular JS)
+   * then convert them and their items to immutable data structures.
+   * 
+   * @param {object} nextProps
+   * 
    * @memberOf FilterTable
    */
-  generateHeaders() {
-    const { rowMap } = this.props;
-    return <Row rowMap={rowMap} header />;
+  componentWillReceiveProps(nextProps) {
+    const { tableData, rowMap } = nextProps;
+    const nextTableData = List.isList(tableData) ? tableData : fromJS(tableData);
+    const nextRowMap = List.isList(rowMap) ? rowMap : fromJS(rowMap);
+    const update = {};
+    if (!is(this.state.tableData, nextTableData)) {
+      update.tableData = nextTableData;
+    }
+    if (!is(this.state.rowMap, nextRowMap)) {
+      update.rowMap = nextRowMap;
+    }
+    this.setState(update);
   }
 
   /**
@@ -89,7 +111,7 @@ class FilterTable extends Component {
    * @memberOf FilterTable
    */
   generateKeyFilter(filterKey, filterValue, exact) {
-    const { rowMap } = this.props;
+    const { rowMap } = this.state;
     const option = rowMap.find(rowMapOption => rowMapOption.get('header') === filterKey);
     const dataLabel = option ? option.get('label') : undefined;
     return (data) => {
@@ -196,7 +218,8 @@ class FilterTable extends Component {
 
   /**
    *
-   *
+   * Toggle the state of filterAny true/false. Called when user clicks on the
+   * configuration icon.
    *
    * @memberOf FilterTable
    */
@@ -206,15 +229,19 @@ class FilterTable extends Component {
 
   /**
    *
+   * Given an object parameter, a direction and a formatting function,
+   * generate a sorting function that acts as a predicate for the general
+   * sorting implementation.
    *
-   * @param {any} sortParameter
-   * @param {any} sortDirection
-   * @param {any} formatData
-   * @returns
+   * @param {string} sortParameter - object parameter to retrieve when sorting
+   * @param {number} sortDirection - 1 = ascending, 0 = descending
+   * @param {function} formatData - an function that serves to format the data. If
+   *                   nothing is specified simply return the input as is
+   * @returns {function}
    *
    * @memberOf FilterTable
    */
-  generateSortFunction(sortParameter, sortDirection, formatData) {
+  generateSortFunction(sortParameter, sortDirection, formatData=(input) => input) {
     if (sortDirection === 1) {
       return (a, b) => (
         formatData(a.get(sortParameter)) > formatData(b.get(sortParameter)) ? 1 : -1
@@ -224,11 +251,13 @@ class FilterTable extends Component {
   }
 
   /**
+   * Iterate over the input list and check whether or not all members
+   * of an object are or can be converted to numbers. If any value cannot
+   * be converted return false, otherwise true.
    *
-   *
-   * @param {any} list
-   * @param {any} parameter
-   * @returns
+   * @param {object} list - immutable list of immutable map objects
+   * @param {string} parameter - the field of a map object for which each map is checked
+   * @returns {boolean}
    *
    * @memberOf FilterTable
    */
@@ -237,11 +266,13 @@ class FilterTable extends Component {
   }
 
   /**
+   * Iterate over the input list and check whether or not all members
+   * of an object are or can be parsed into moment.js objects. If any
+   * value cannot be parsed return false, otherwise true.
    *
-   *
-   * @param {any} list
-   * @param {any} parameter
-   * @returns
+   * @param {object} list - immutable list of immutable map objects
+   * @param {string} parameter - the field of a map object for which each map is checked
+   * @returns {boolean}
    *
    * @memberOf FilterTable
    */
@@ -250,11 +281,14 @@ class FilterTable extends Component {
   }
 
   /**
+   * Generate a function that takes in an input, formats it,
+   * and then returns the formatted input. The tableData/parameter
+   * is checked to see if it contains numbers, dates, or otherwise
+   * strings. Depending on the type apply a certain format.
    *
-   *
-   * @param {any} tableData
-   * @param {any} sortParameter
-   * @returns
+   * @param {object} tableData - immutable list of immutable maps
+   * @param {string} sortParameter - map parameter to sort by
+   * @returns {function}
    *
    * @memberOf FilterTable
    */
@@ -269,10 +303,11 @@ class FilterTable extends Component {
   }
 
   /**
+   * If any sorting parameters are active sort tableData using them,
+   * otherwise return the tableData.
    *
-   *
-   * @param {any} tableData
-   * @returns
+   * @param {object} tableData - immutable list of immutable maps
+   * @returns {object} - sorted list
    *
    * @memberOf FilterTable
    */
@@ -287,9 +322,16 @@ class FilterTable extends Component {
   }
 
   /**
+   * When a table header is clicked pass it to this function
+   * and determine what field parameter and what direction to
+   * sort in. Direction of 1 is ascending, directon of 0 is
+   * descending.
+   * 
+   * If there is a sort already active and the clicked header is
+   * a different parameter then by default set the sort direction
+   * as 1.
    *
-   *
-   * @param {any} header
+   * @param {string} header - header label that was clicked on
    *
    * @memberOf FilterTable
    */
@@ -318,15 +360,9 @@ class FilterTable extends Component {
     });
   }
 
-  /**
-   *
-   *
-   * @returns
-   *
-   * @memberOf FilterTable
-   */
   render() {
-    const { tableData, className, rowMap, filter, csv, results } = this.props;
+    const { className, filter, csv, results } = this.props;
+    const { tableData, rowMap } = this.state;
     const filteredTableData = this.filterData(tableData);
     const sortedTableData = this.sortData(filteredTableData);
     const ratio = `${filteredTableData.size}/${tableData.size}`;
@@ -372,12 +408,22 @@ class FilterTable extends Component {
   }
 }
 
+/**
+ * tableData - an immutable list of immutable maps.
+ */
 FilterTable.propTypes = {
-  tableData: PropTypes.object.isRequired,
+  tableData: PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.array,
+  ]).isRequired,
   className: PropTypes.string,
   filter: PropTypes.bool,
   csv: PropTypes.bool,
-  rowMap: PropTypes.object.isRequired,
+  plot: PropTypes.bool,
+  rowMap: PropTypes.oneOfType([
+    React.PropTypes.object,
+    React.PropTypes.array,
+  ]).isRequired,
 };
 
 export default FilterTable;
