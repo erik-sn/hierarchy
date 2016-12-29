@@ -45,23 +45,32 @@ class FilterTable extends Component {
     return { exact, cleanedFilterValue };
   }
 
-  generateFilters(filter) {
+  generateKeyFilter(filterKey, filterValue, exact) {
     const { rowMap } = this.props;
+    const option = rowMap.find(rowMapOption => rowMapOption.get('header') === filterKey);
+    const dataLabel = option ? option.get('label') : undefined;
+    return (data) => {
+      const dataValue = data.get(dataLabel) ? data.get(dataLabel).toLowerCase() : undefined;
+      return exact ? dataValue === filterValue : dataValue.indexOf(filterValue) > -1;
+    };
+  }
+
+  generateSomeFilter(filterValue, exact) {
+    if (exact) {
+      return data => data.some(value => value.toLowerCase() === filterValue);
+    }
+    return data => data.some(value => value.toLowerCase().indexOf(filterValue) > -1);
+  }
+
+  generateFilters(filter) {
     const filterParameters = filter.split('=').map(param => param.trim()).filter(param => param);
     const filterKey = filterParameters.length === 2 ? filterParameters[0] : undefined;
     const filterValue = filterParameters.length === 2 ? filterParameters[1] : filterParameters[0];
     const { exact, cleanedFilterValue } = this.cleanFilter(filterValue);
     if (filterKey) {
-      const option = rowMap.find(rowMapOption => rowMapOption.get('header') === filterKey)
-      const dataLabel = option ? option.get('label') : undefined;
-      return (data) => {
-        const dataValue = data.get(dataLabel) ? data.get(dataLabel).toLowerCase() : undefined;
-        return exact ? dataValue === cleanedFilterValue : dataValue.indexOf(cleanedFilterValue) > -1;
-      };
-    } else if (exact) {
-      return data => data.some(value => value.toLowerCase() === cleanedFilterValue);
+      return this.generateKeyFilter(filterKey, cleanedFilterValue, exact);
     }
-    return data => data.some(value => value.toLowerCase().indexOf(cleanedFilterValue) > -1);
+    return this.generateSomeFilter(cleanedFilterValue, exact);
   }
 
   filterData(tableData) {
