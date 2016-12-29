@@ -6,6 +6,7 @@ if (process.env.BROWSER) {
   require('./sass/chart.scss');
   require('./sass/config.scss');
   require('./sass/display.scss');
+  require('./sass/filter_table.scss');
   require('./sass/host.scss');
   require('./sass/style.scss');
   require('./sass/navbar.scss');

@@ -13,44 +13,43 @@ import Loader from '../../loader';
 import FilterTable from '../../utility/filter_table/filter_table';
 
 const rowMap = [
-  { label: 'time', width: '15%', className: ''},
-  { label: 'userName', width: '15%', className: ''},
-  { label: 'description', width: '50%', className: ''},
-  { label: 'oldValue', width: '10%', className: ''},
-  { label: 'newValue', width: '10%', className: ''},
-]
+  { header: 'time', label: 'timestamp', width: '17%', className: '' },
+  { header: 'user', label: 'userName', width: '22%', className: '' },
+  { header: 'description', label: 'description', width: '45%', className: '' },
+  { header: 'old', label: 'oldValue', width: '8%', className: '' },
+  { header: 'new', label: 'newValue', width: '8%', className: '' },
+];
 
 function getProcessLogData(data, parent) {
   return data.get('ox_processlog').filter(log => log.get('machine') === parent.get('name'));
 }
 
 function formatProcessLogs(processLogs) {
-  return processLogs.map(log => {
-    const time = moment(log.get('timestamp'));
-    return log.set('time', time.format('MM/DD/YYY hh:mm')).set('className', 'processlog__row');
+  return processLogs.map((log) => {
+    const time = moment(log.get('timestamp')).format('MM/DD/YY hh:mm');
+    return log.set('timestamp', time).delete('id').delete('machine');
   });
 }
 
-const ProcessLog = props => {
-  return <div>ASD;LKFJ</div>
-}
+const ProcessLog = ({ data, parent }) => {
+  if (!data || !data.get('ox_processlog') || !parent) {
+    return <Loader />;
+  }
+  const logs = getProcessLogData(data, parent);
+  return (
+    <FilterTable
+      className="processlog__filter-table"
+      tableData={formatProcessLogs(logs)}
+      rowMap={rowMap}
+      csv
+      filter
+    />
+  );
+};
 
-  // if (!props.data || !props.data.get('ox_processlog') || !props.parent) {
-  //   return <Loader />
-  // }
-  // const logs = getProcessLogData(props.data, props.parent);
-  // return (
-  //   <FilterTable
-  //     className="processlog__filter-table"
-  //     tableData={formatProcessLogs(logs)}
-  //     rowMap={rowMap}
-  //     csv
-  //     filter
-  //   />
-  // );
 
 ProcessLog.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
   parent: PropTypes.object.isRequired,
 };
 

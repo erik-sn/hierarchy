@@ -17,6 +17,7 @@ class CsvGenerator extends Component {
   generateCsv() {
     const { data, params = [], fileName } = this.props;
     if (!data || !fileName) {
+      console.warn('No data or file name has been set on the CSV Generator');
       return;
     }
 
@@ -73,7 +74,7 @@ class CsvGenerator extends Component {
     const { customClass, customStyle } = this.props;
     return (
       <Download
-        className={customClass}
+        className={`csv__container${customClass ? ` ${customClass}` : ''}`}
         color="#FFFFFF"
         type="button"
         style={customStyle}

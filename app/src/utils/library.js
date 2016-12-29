@@ -9,7 +9,7 @@ export default function getComponent(name, props) {
       }
       return <Component {...props} />;
     } catch (err) {
-      console.warn(err);
+      console.error(err);
       return <h3 style={{ textAlign: 'center' }} >There was an error loading this module</h3>;
     }
 }

@@ -1,25 +1,26 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 import Column from './filter_table_column';
 
-// function generateColumns(rowData) {
-//   return this.props.rowMap.map(column => (
-//     <Column
-//       className={column.className}
-//       width={column.width}
-//       value={rowData[column.label]}
-//     />
-//   ));
-// } {this.generateColumns(props.rowData)}
+function generateColumns(rowData, rowMap) {
+  return rowMap.map((column, i) => (
+    <Column
+      key={i}
+      className={rowData.get('classNames') ? rowData.get('classNames').get(column.label) : ''}
+      width={column.width}
+      value={rowData.get(column.label)}
+    />
+  ));
+}
 
-const Row = props => (
-  <div className={`filter_table__row${props.className? ` ${props.className}` : ''}`}>
-    test
+const Row = ({ className, rowData, rowMap }) => (
+  <div className={`filter_table__row${className ? ` ${className}` : ''}`}>
+    {generateColumns(rowData, rowMap)}
   </div>
 );
 
 Row.propTypes = {
-  rowMap: PropTypes.object.isRequired,
+  rowMap: PropTypes.array.isRequired,
   className: PropTypes.string,
   rowData: PropTypes.object.isRequired,
 };

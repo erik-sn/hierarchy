@@ -69,3 +69,31 @@ html, body {
 .notfound__container {
   flex: 1 1 auto;
 }
+
+
+/* Formatting for csv generator - simple clickable svg icon */
+.csv__container {
+  cursor: pointer;
+  height: 35px !important;
+  width: 35px !important;
+}
+
+/* Formatting for image generator */
+.png__container {
+  cursor: pointer;
+  height: 35px !important;
+  width: 35px !important;
+}
+
+/* tooltips are hidden until their parent is hovered over */
+.tooltip__text {
+  white-space: nowrap;
+  position: absolute;
+  font-size: 0.85rem;
+  text-align: center;
+  color: $secondary;
+  background: $primary;
+  padding: 10px;
+  right: 15px;
+  border: 1px solid $secondary;
+}

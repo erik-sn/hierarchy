@@ -6,7 +6,7 @@ const PngGenerator = (props) => {
   const { fileName, customClass, customStyle, target } = props;
   return (
     <Image
-      className={customClass}
+      className={`png__container${customClass ? ` ${customClass}` : ''}`}
       style={customStyle}
       color="#FFFFFF"
       height={40}

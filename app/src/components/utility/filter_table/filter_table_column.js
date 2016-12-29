@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const Column = props => (
+const Column = ({ width, className, value }) => (
   <div
-    style={{width: props.width}}
-    className={`filter_table__column${props.className? ` ${props.className}` : ''}`}
+    style={{ width }}
+    className={`filter_table__column${className ? ` ${className}` : ''}`}
   >
-    {props.value}
+    {value}
   </div>
 );
 
