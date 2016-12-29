@@ -6,16 +6,16 @@ function generateCells(rowData, rowMap) {
   return rowMap.map((cell, i) => (
     <Cell
       key={i}
-      className={rowData.get('classNames') ? rowData.get('classNames').get(cell.label) : ''}
-      width={cell.width}
-      value={rowData.get(cell.label)}
+      className={rowData.get('classNames') ? rowData.get('classNames').get(cell.get('label')) : ''}
+      width={cell.get('width')}
+      value={rowData.get(cell.get('label'))}
     />
   ));
 }
 
 const Row = ({ className, rowData, rowMap }) => (
   <div className={`filter_table__row${className ? ` ${className}` : ''}`}>
-    {generateCells(rowData, rowMap)} 
+    {generateCells(rowData, rowMap)}
   </div>
 );
 

@@ -8,17 +8,18 @@ if (process.env.BROWSER) {
 
 import React, { PropTypes } from 'react';
 import moment from 'moment';
+import { List, Map } from 'immutable';
 
 import Loader from '../../loader';
 import FilterTable from '../../utility/filter_table/filter_table';
 
-const rowMap = [
-  { header: 'time', label: 'timestamp', width: '17%', className: '' },
-  { header: 'user', label: 'userName', width: '22%', className: '' },
-  { header: 'description', label: 'description', width: '45%', className: '' },
-  { header: 'old', label: 'oldValue', width: '8%', className: '' },
-  { header: 'new', label: 'newValue', width: '8%', className: '' },
-];
+const rowMap = List([
+  Map({ header: 'time', label: 'timestamp', width: '17%', className: '' }),
+  Map({ header: 'user', label: 'userName', width: '22%', className: '' }),
+  Map({ header: 'description', label: 'description', width: '45%', className: '' }),
+  Map({ header: 'old', label: 'oldValue', width: '8%', className: '' }),
+  Map({ header: 'new', label: 'newValue', width: '8%', className: '' }),
+]);
 
 function getProcessLogData(data, parent) {
   return data.get('ox_processlog').filter(log => log.get('machine') === parent.get('name'));
@@ -43,6 +44,7 @@ const ProcessLog = ({ data, parent }) => {
       rowMap={rowMap}
       csv
       filter
+      results
     />
   );
 };

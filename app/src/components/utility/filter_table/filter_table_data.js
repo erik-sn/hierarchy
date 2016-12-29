@@ -6,7 +6,6 @@ import Row from './filter_table_row';
 class TableData extends Component {
 
   shouldComponentUpdate(nextProps) {
-    return true;
     const { filteredData } = this.props;
     return !is(nextProps.filteredData, filteredData);
   }
@@ -35,7 +34,7 @@ class TableData extends Component {
 
 TableData.propTypes = {
   filteredData: PropTypes.object.isRequired,
-  rowMap: PropTypes.array.isRequired,
+  rowMap: PropTypes.object.isRequired,
 };
 
 export default TableData;

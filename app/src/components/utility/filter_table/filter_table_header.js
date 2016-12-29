@@ -11,20 +11,24 @@ function generateSortIcon(parameter, label, direction) {
 }
 
 function generateColumns(rowMap, handleClick, sortDirection, sortParameter) {
-  return rowMap.map(({ width, header, label }, i) =>  (
-    <div
-      key={i}
-      style={{ width }}
-      onClick={() => handleClick(label)}
-      className="filter_table__header-cell"
-      style={ label === sortParameter ? { color:  'white', width } : { width } }
-    >
-      <span className="filter_table__header-cell-label">{header}</span>
-      <span className="filter_table__header-cell-icon">
-        {generateSortIcon(sortParameter, label, sortDirection)}
-      </span>
-    </div>
-  ));
+  return rowMap.map((option, i) =>  {
+    const width = option.get('width');
+    const header = option.get('header');
+    const label = option.get('label');
+    return (
+      <div
+        key={i}
+        style={label === sortParameter ? { color: 'white', width } : { width }}
+        onClick={() => handleClick(label)}
+        className="filter_table__header-cell"
+      >
+        <span className="filter_table__header-cell-label">{header}</span>
+        <span className="filter_table__header-cell-icon">
+          {generateSortIcon(sortParameter, label, sortDirection)}
+        </span>
+      </div>
+    );
+  });
 }
 
 const Header = ({ className, rowMap, handleClick, sortDirection, sortParameter }) => (
@@ -37,6 +41,8 @@ Header.propTypes = {
   className: PropTypes.string,
   handleClick: PropTypes.func,
   rowMap: PropTypes.array.isRequired,
+  sortDirection: PropTypes.number,
+  sortParameter: PropTypes.string,
 };
 
 
