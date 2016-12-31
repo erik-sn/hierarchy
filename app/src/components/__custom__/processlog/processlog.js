@@ -27,7 +27,7 @@ function getProcessLogData(data, parent) {
 
 function formatProcessLogs(processLogs) {
   return processLogs.map((log) => {
-    const time = moment(log.get('timestamp')).format('MM/DD/YY hh:mm');
+    const time = moment(log.get('timestamp')).format('MM/DD/YY HH:mm');
     return log.set('timestamp', time).delete('id').delete('machine');
   });
 }
@@ -40,8 +40,8 @@ const ProcessLog = ({ data, parent }) => {
   return (
     <FilterTable
       className="processlog__filter-table"
-      tableData={formatProcessLogs(logs).toJS()}
-      rowMap={rowMap.toJS()}
+      tableData={formatProcessLogs(logs)}
+      rowMap={rowMap}
       csv
       filter
       results

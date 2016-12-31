@@ -3,7 +3,7 @@
   right of the chart
 */
 .chart__container {
-    position: relative;
+  position: relative;
 }
 
 .chart__button-container {
@@ -15,3 +15,13 @@
     cursor: pointer;
   }
 }
+
+// .recharts-x-axis {
+//   .recharts-cartesian-axis-tick {
+//   //  transform: rotate(45deg);
+//     transform-origin: 0% 100%;
+//     transform:
+//     rotate(-45deg)
+//     translate(0, 80%);
+//   }
+// }

@@ -6,6 +6,11 @@ import Loader from '../../loader';
 
 class SetpointChart extends Component {
 
+  constructor(props) {
+    super(props);
+    this.colors = ['#59A1B6', 'red', '#555'];
+  }
+
   shouldComponentUpdate(nextProps) {
     if (this.props.setpoints && nextProps.setpoints) {
       return !is(this.props.setpoints, nextProps.setpoints)
@@ -21,13 +26,13 @@ class SetpointChart extends Component {
 
     const data = [
       { name: 'on spec', value: setpoints.get('onspec').size },
-      { name: 'off spec', value: setpoints.get('offspec').size },
-      { name: 'invalid', value: setpoints.get('invalid').size },
+      { name: 'off spec', value: setpoints.get('offspec').size, color: '#ff0000' },
+      { name: 'invalid', value: setpoints.get('invalid').size, color: '#555' },
     ];
 
     return (
       <div className="ox_overview__setpoints">
-        <PieChart data={data} />
+        <PieChart data={data} colors={this.colors} />
       </div >
     );
   }

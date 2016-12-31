@@ -11,7 +11,7 @@ module.exports = {
     configFile: './.eslintrc.json',
   },
   // see https://webpack.github.io/docs/configuration.html#devtool
-  devtool: 'eval',
+  devtool: 'source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',

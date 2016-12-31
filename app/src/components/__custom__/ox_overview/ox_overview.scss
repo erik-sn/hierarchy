@@ -27,15 +27,24 @@
 
 .ox_overview__bottom-left {
   width: 425px;
+  transition: 0.15s ease-in-out;
 
   .ox_overview__setpoints {
     position: relative;
     top: -100px;
     z-index: 0;
     height: 200px;
+    transition: 0.15s ease-in-out;
   }
   .ox_overview__setpoints:hover {
     z-index: 3;
+  }
+
+  /* center the pi plots when they are stacked vertically
+  on smaller screens */
+  @media (max-width: 700px) {
+    width: 100%;
+    margin-left: calc(50% - 200px);
   }
 
 }
@@ -45,18 +54,25 @@ are positioned relatively (not flex) - this is due to the svg canvas
 being required to expand further than what is a naturally looking
 container */
 @media (max-width: 1065px) and (min-width: 700px) {
+
+  /* when bottom left is stacked, set it's width to the :window-inactive
+     so children can adjust their left positioning */
+  .ox_overview__bottom-left {
+    width: 100%;
+  }
+
   .ox_overview__setpoints {
     height: 100px !important;
   }
 
   .ox_overview__setpoints:nth-child(1) {
     top: -100px;
-    left: 150px;
+    left: calc(50% - 350px);
   }
 
   .ox_overview__setpoints:nth-child(2) {
     top: -200px;
-    left: 450px;
+    left: 50%
   }
 }
 
@@ -66,10 +82,40 @@ container */
   justify-content: space-around;
   width: 100%;
 
-  .chart__container {
-    flex: 1 1 400px !important;
-    height: 400px;
-    width: 600px;
+  .ox_overview__waste-chart {
+    width: 100%;
+
+    /* this is an ugly but working solution - set media
+       queries based on the window width to allow the .ox_overview_waste-date
+       chart to resize. This is necessary because a width of 100% will send
+       the orientation into column/stacked mode due to the use of a responsive
+       container on the waste chart */
+    .chart__container {
+      flex: 1 1 400px !important;
+      height: 400px;
+      width: 100%;
+      transition: 0.1s ease-out;
+
+      @media (min-width: 1080px) {
+        max-width: 575px !important;
+      }
+
+      @media (min-width: 1165px) {
+        max-width: 650px !important;
+      }
+
+      @media (min-width: 1265px) {
+        max-width: 725px !important;
+      }
+
+      @media (min-width: 1325px) {
+        max-width: 850px !important;
+      }
+
+      @media (min-width: 1465px) {
+        max-width: 1000px !important;
+      }
+    }
   }
 }
 
@@ -199,4 +245,34 @@ container */
   height: 400px;
   flex: 1 1 400px;
   width: 400px;
+}
+
+/* waste charts */
+.ox_overview__waste-chart-error {
+  color: $secondary;
+  padding-top: 25px;
+  
+  h4 {
+    text-align: center;
+  }
+}
+
+.ox_overview__waste-date-range {
+  display: flex;
+  margin-top: -25px;
+  margin-left: 40px;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.ox_overview_waste-date {
+
+
+  div  {
+    width: 100px !important;
+
+    input {
+      color: #999 !important;
+    }
+  }
 }

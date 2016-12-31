@@ -28,8 +28,8 @@ class UptimeChart extends Component {
 
     const pieData = [
       { name: 'Uptime', value: Math.round(uptime / 3600) },
-      { name: 'Process', value: Math.round(process / 3600) },
-      { name: 'Doff', value: Math.round(doff / 3600) },
+      { name: 'Process', value: Math.round(process / 3600), color: '#ff0000' },
+      { name: 'Doff', value: Math.round(doff / 3600), color: '#FEBFBF' },
     ];
     return (
       <div className="ox_overview__setpoints">

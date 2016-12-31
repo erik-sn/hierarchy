@@ -1,5 +1,80 @@
 @import "../../../../static/sass/style";
 
-.extrusion_waste_analysis__container {
-  color: skyblue;
+.ewa__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+}
+
+/* chart container holds the data display */
+.ewa__chart-container {
+  flex: 5 1 600px;
+}
+
+/* control panel contains all auto complete and most
+action fields related to data selection */
+.ewa__control-panel-container {
+  flex: 1 2 225px;
+  padding: 15px;
+  max-width: 255px !important;
+
+  /* limit flex to two columns */
+  @media (max-width: 825px) {
+    max-width: 90% !important;
+  }
+
+  /* stack all on one column, use padding to center */
+  @media (max-width: 560px) {
+    max-width: 100% !important;
+    padding-left: calc(50% - 130px);
+  }
+
+  input {
+    color: $secondary !important;
+  }
+}
+
+.ewa__control-panel-groups {
+  color: $secondary !important;
+  
+  hr {
+    bottom: 2px !important;
+  }
+}
+
+.ewa__control-panel-autocomplete {
+  width: 100% !important;
+
+  div {
+    color: #999 !important;
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+}
+
+.ewa__control-panel-date_range-picker-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.ewa__control-panel-date_range-picker {
+
+  input {
+    color: $secondary !important;
+  }
+}
+
+.ewa__control_panel-actions {
+
+  svg, button {
+    color: $secondary !important;
+    fill: $secondary !important;
+  }
+
+  button {
+
+    div {
+      width: 115px;
+    }
+  }
 }

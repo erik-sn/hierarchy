@@ -3,7 +3,6 @@ if (process.env.BROWSER) {
 }
 import React, { Component, PropTypes } from 'react';
 import { List, Map } from 'immutable';
-import moment from 'moment';
 
 import { alphaNumSort } from '../../../utils/sort';
 
@@ -15,10 +14,6 @@ import UptimeChart from './uptime_chart';
 
 
 const setpointFilter = (input, id) => input.filter(setpoint => setpoint.get('machine') === id);
-
-
-const uptimeData = List([{ name: 'group a', value: 400 }, { name: 'Group B', value: 300 },
-              { name: 'Group C', value: 300 }, { name: 'Group D', value: 200 }]);
 
 class Overview extends Component {
 
@@ -37,16 +32,6 @@ class Overview extends Component {
       return List([]);
     }
     return data.get('ox_specifications').sort((a, b) => alphaNumSort(a.get('machine'), b.get('machine')));
-  }
-
-  getWasteData() {
-    const { data, parent } = this.props;
-    if (!data || !data.get('ox_waste')) {
-      return undefined;
-    }
-    if (this.state.department) {
-      return data.get('ox_waste');
-    }
   }
 
   getBreakData() {
@@ -100,7 +85,12 @@ class Overview extends Component {
             <SetpointChart setpoints={this.getSetpointData()} />
             <UptimeChart data={this.getBreakData()} />
           </div>
-          <div className="ox_overview__bottom-right"><WasteChart data={this.getWasteData()} /></div>
+          <div className="ox_overview__bottom-right">
+            <WasteChart
+              department={this.state.department}
+              parent={parent}
+            />
+          </div>
         </div>
       </div>
     );

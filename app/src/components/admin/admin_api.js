@@ -46,8 +46,8 @@ export class ApiCalls extends Component {
     validateOnSubmit(apicall);
     axios.post(`${types.API}/apicalls/`, apicall, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
-    .then(() => this.showMessage(`API call Successfully Created: ${apicall.get('name')}`))
-    .catch(() => this.showMessage(`Error Creating API call: ${apicall.get('name')}`))
+    .then(() => this.showMessage(`API call Successfully Created: ${apicall.get('key')}`))
+    .catch(() => this.showMessage(`Error Creating API call: ${apicall.get('key')}`))
     .then(() => this.resetState());
   }
 
@@ -55,8 +55,8 @@ export class ApiCalls extends Component {
     const apiCall = this.props.values;
     axios.put(`${types.API}/apicalls/${this.state.activeApiCall.get('id')}/`, apiCall, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
-    .then(() => this.showMessage(`API call Successfully Updated: ${this.state.activeApiCall.get('name')}`))
-    .catch(() => this.showMessage(`Error Updating API call: ${this.state.activeApiCall.get('name')}`))
+    .then(() => this.showMessage(`API call Successfully Updated: ${apiCall.get('key')}`))
+    .catch(() => this.showMessage(`Error Updating API call: ${apiCall.get('key')}`))
     .then(() => this.resetState());
   }
 

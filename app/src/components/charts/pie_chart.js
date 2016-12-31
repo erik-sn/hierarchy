@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { PieChart, Pie, Sector } from 'recharts';
+import { PieChart, Pie, Sector, Cell } from 'recharts';
 
 const renderActiveShape = (props) => {
   const RADIAN = Math.PI / 180;
@@ -67,19 +67,23 @@ class TwoLevelPieChart extends Component {
 
   render() {
     const { activeIndex } = this.state;
+    const { data } = this.props;
+
     return (
       <div>
         <PieChart width={400} height={400} onMouseEnter={this.onPieEnter}>
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
-            data={this.props.data}
+            data={data}
             cx={200}
             cy={200}
             innerRadius={55}
             outerRadius={80}
-            fill="#59A1B6"
-          />
+            fill="yellow"
+          >
+            {data.map(entry => <Cell fill={entry.color || '#59A1B6'} />)}
+          </Pie>
         </PieChart>
       </div>
     );
@@ -88,6 +92,7 @@ class TwoLevelPieChart extends Component {
 
 TwoLevelPieChart.propTypes = {
   data: PropTypes.array,
+  colors: PropTypes.array,
 };
 
 export default TwoLevelPieChart;
