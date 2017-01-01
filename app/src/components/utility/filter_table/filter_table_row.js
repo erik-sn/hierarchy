@@ -14,7 +14,7 @@ function generateCells(rowData, rowMap) {
   return rowMap.map((cell, i) => (
     <Cell
       key={i}
-      className={rowData.get('classNames') ? rowData.get('classNames').get(cell.get('label')) : ''}
+      className={cell.get('childrenClass')}
       width={cell.get('width')}
       value={rowData.get(cell.get('label'))}
     />
@@ -23,7 +23,7 @@ function generateCells(rowData, rowMap) {
 
 /**
  * Container component to order a row of table cells
- * 
+ *
  * @param {any} { className, rowData, rowMap }
  */
 const Row = ({ className, rowData, rowMap }) => (

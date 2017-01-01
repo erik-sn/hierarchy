@@ -90,6 +90,16 @@
   padding: 1px;
 }
 
+/* totals row */ 
+.filter_table__totals-container {
+  width: calc(100% - 15px);
+  font-weight: bold;
+
+  .filter_table__cell {
+    font-size: 1.25rem !important;
+  }
+}
+
 /* icon tooltip support */
 .filter_table__mode-container .tooltip__text {
   display: none;
@@ -105,3 +115,16 @@
   display: block;
 }
 
+
+/* column specific classes */
+.filter__table_column-center {
+  text-align: center;
+}
+
+.filter__table_column-left {
+  text-align: left;
+}
+
+.filter__table_column-right {
+  text-align: right;
+}

@@ -8,7 +8,7 @@ import React, { PropTypes } from 'react';
 const Cell = ({ width, className, value }) => (
   <div
     style={{ width }}
-    className={`filter_table__cell${className ? ` ${className}` : ''}`}
+    className={`filter_table__cell ${className || ''}`.trim()}
   >
     {value}
   </div>

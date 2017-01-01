@@ -2,10 +2,15 @@ if (process.env.BROWSER) {
   require('./extrusion_waste_analysis.scss');  // eslint-disable-line global-require
 }
 
-
 import React, { Component, PropTypes } from 'react';
 
 import ControlPanel from './control_panel';
+import TableDisplay from './table_display';
+import { isMomentParameter } from '../../../utils/library';
+import { parseAndFormat } from '../../../utils/time';
+
+
+const DISPLAY = 'MM/DD/YY';  // user facing display format
 
 class ExtrusionWasteAnalysis extends Component {
 
@@ -13,21 +18,62 @@ class ExtrusionWasteAnalysis extends Component {
     super(props);
     this.state = {
       data: undefined,
+      mode: 'chart',
     };
     this.updateData = this.updateData.bind(this);
   }
 
+  componentDidMount() {
+    this.restoreLocalStorage();
+  }
+
+  restoreLocalStorage() {
+    const storedMode = JSON.parse(localStorage.getItem('pw__waste_analysis__mode'));
+    const storedData = JSON.parse(localStorage.getItem('pw__waste_analysis__data'));
+    if (storedMode) {
+      this.setState({
+        mode: storedMode,
+        data: storedData,
+      });
+    }
+  }
+
+  formatMomentColumn(data) {
+    return data.map(row => (
+      row.set('label', parseAndFormat(row.get('label'), DISPLAY))
+    ));
+  }
+
+  setPercentFixed(data) {
+    const formatted = data.map((row) => {
+      let updated = row;
+      updated = updated.set('wastePercent', row.get('wastePercent').toFixed(1));
+      updated = updated.set('transitionPercent', row.get('transitionPercent').toFixed(1));
+      return updated;
+    });
+    return formatted;
+  }
+
+  cleanData(data) {
+    // sometimes waste is attributed to a shift retroactively - ignore these events
+    let cleaned = data.filter(row => row.get('productionPounds') > 2000);
+    cleaned = this.setPercentFixed(cleaned);
+    if (isMomentParameter(cleaned, 'label')) {
+      cleaned = this.formatMomentColumn(cleaned);
+    }
+    return cleaned;
+  }
+
   updateData(data) {
-    data.forEach(row => console.log(row));
-    this.setState({ data });
+    const cleanedData = this.cleanData(data);
+    this.setState({ data: cleanedData });
   }
 
   render() {
+    // const totalRow = this.getTotals(this.state.data);
     return (
       <div className="ewa__container">
-        <div className="ewa__chart-container">
-          chart goes here
-        </div>
+        <TableDisplay data={this.state.data} />
         <ControlPanel updateData={this.updateData} />
       </div>
     );

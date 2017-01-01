@@ -18,7 +18,9 @@ import Loader from '../../loader';
 import { getApiConfig } from '../../../utils/network';
 
 
-const autoCompleteSearch = (searchText, key) => (key.toLowerCase().indexOf(searchText) !== -1);
+const autoCompleteSearch = (searchText, key) => (
+  key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+);
 
 const DFMT = 'MMDDYY'; // API date format
 
@@ -36,23 +38,17 @@ class ControlPanel extends Component {
       optionsFetched: false,
       fetchingData: false,
       axiosSource: undefined,
-      warehouseText: '',
       warehouse: undefined,
       group: '',
-      machineText: '',
       machine: undefined,
-      shiftText: '',
       shift: undefined,
-      yarnidText: '',
       yarnid: undefined,
       startDate: moment().subtract(4, 'week'),
       endDate: moment(),
       messageShow: false,
-      messageText: '',
     };
     this.handleGroupChange = this.handleGroupChange.bind(this);
     this.handleUpdateInput = this.handleUpdateInput.bind(this);
-    this.handleNewRequest = this.handleNewRequest.bind(this);
     this.updateDates = this.updateDates.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
     this.fetchData = this.fetchData.bind(this);
@@ -96,7 +92,6 @@ class ControlPanel extends Component {
       const warehouseList = [storedWarehouse];
       this.setState({
         warehouse: storedWarehouse,
-        warehouseText: storedWarehouse,
         warehouseList,
       }, () => this.fetchOptions());
     }
@@ -108,10 +103,13 @@ class ControlPanel extends Component {
       warehouseList: response.data,
       messageShow: false,
     }))
-    .catch(() => this.setState({
-      messageText: 'Error retrieving warehouse list',
-      messageShow: true,
-    }));
+    .catch((error) => {
+      this.setState({
+        messageText: 'Error retrieving warehouse list',
+        messageShow: true,
+      });
+      console.error(error);
+    });
   }
 
   fetchOptions() {
@@ -122,11 +120,14 @@ class ControlPanel extends Component {
       messageShow: false,
     }))
     .then(() => this.clearOptionFields())
-    .catch(() => this.setState({
-      optionsFetched: false,
-      messageText: 'Error retrieving report options',
-      messageShow: true,
-    }));
+    .catch((error) => {
+      this.setState({
+        optionsFetched: false,
+        messageText: 'Error retrieving report options',
+        messageShow: true,
+      });
+      console.error(error);
+    });
   }
 
   fetchData() {
@@ -139,7 +140,7 @@ class ControlPanel extends Component {
     this.setState({ fetchingData: true, axiosSource }, () => {
       axios.get(base + params, config)
       .then((response) => {
-        this.setState({ fetchingData: false }, () => this.props.updateData(response.data));
+        this.setState({ fetchingData: false }, () => this.props.updateData(fromJS(response.data)));
       })
       .catch((error) => {
         let messageText = 'Error retrieving report data';
@@ -147,6 +148,7 @@ class ControlPanel extends Component {
           messageText = 'Query canceled by user';
         }
         this.setState({ messageText, fetchingData: false, fetchingmessageShow: true });
+        console.error(error);
       });
     });
   }
@@ -171,11 +173,8 @@ class ControlPanel extends Component {
 
   clearOptionFields() {
     this.setState({
-      machineText: '',
       machine: '',
-      shiftText: '',
       shift: '',
-      yarnidText: '',
       yarnid: '',
     });
   }
@@ -187,18 +186,6 @@ class ControlPanel extends Component {
   handleUpdateInput(key, text) {
     const updatedState = fromJS(this.state).toJS();
     updatedState[key] = text;
-    this.setState(updatedState);
-  }
-
-  handleNewRequest(key, text) {
-    const updatedState = fromJS(this.state).toJS();
-    updatedState[key] = text;
-    updatedState[`${key}Text`] = text;
-    localStorage.setItem(`pw__ewa__control-panel-waste_analysis__${key}`, JSON.stringify(text));
-    if (key === 'warehouse') {
-      updatedState.optionsFetched = false;  // trigger a reload of options
-      this.setState(updatedState, () => this.fetchOptions());
-    }
     this.setState(updatedState);
   }
 
@@ -223,9 +210,9 @@ class ControlPanel extends Component {
           <AutoComplete
             className="ewa__control-panel-autocomplete"
             hintText="Warehouse"
-            searchText={this.state.warehouseText}
-            onUpdateInput={text => this.handleUpdateInput('warehouseText', text)}
-            onNewRequest={text => this.handleNewRequest('warehouse', text)}
+            searchText={this.state.warehouse}
+            onUpdateInput={text => this.handleUpdateInput('warehouse', text)}
+            onNewRequest={text => this.handleUpdateInput('warehouse', text)}
             dataSource={warehouseList}
             filter={autoCompleteSearch}
             openOnFocus
@@ -240,9 +227,9 @@ class ControlPanel extends Component {
         <AutoComplete
           className="ewa__control-panel-autocomplete"
           hintText="Warehouse"
-          searchText={this.state.warehouseText}
-          onUpdateInput={text => this.handleUpdateInput('warehouseText', text)}
-          onNewRequest={text => this.handleNewRequest('warehouse', text)}
+          searchText={this.state.warehouse}
+          onUpdateInput={text => this.handleUpdateInput('warehouse', text)}
+          onNewRequest={text => this.handleUpdateInput('warehouse', text)}
           dataSource={warehouseList}
           filter={autoCompleteSearch}
           openOnFocus
@@ -264,9 +251,9 @@ class ControlPanel extends Component {
           <AutoComplete
             className="ewa__control-panel-autocomplete"
             hintText="Machine"
-            searchText={this.state.machineText}
-            onUpdateInput={text => this.handleUpdateInput('machineText', text)}
-            onNewRequest={text => this.handleNewRequest('machine', text)}
+            searchText={this.state.machine}
+            onUpdateInput={text => this.handleUpdateInput('machine', text)}
+            onNewRequest={text => this.handleUpdateInput('machine', text)}
             dataSource={machine}
             filter={autoCompleteSearch}
             openOnFocus
@@ -274,9 +261,9 @@ class ControlPanel extends Component {
           <AutoComplete
             className="ewa__control-panel-autocomplete"
             hintText="Shift"
-            searchText={this.state.shiftText}
-            onUpdateInput={text => this.handleUpdateInput('shiftText', text)}
-            onNewRequest={text => this.handleNewRequest('shift', text)}
+            searchText={this.state.shift}
+            onUpdateInput={text => this.handleUpdateInput('shift', text)}
+            onNewRequest={text => this.handleUpdateInput('shift', text)}
             dataSource={shift}
             filter={autoCompleteSearch}
             openOnFocus
@@ -284,9 +271,9 @@ class ControlPanel extends Component {
           <AutoComplete
             className="ewa__control-panel-autocomplete"
             hintText="Yarn ID"
-            searchText={this.state.yarnidText}
-            onUpdateInput={text => this.handleUpdateInput('yarnidText', text)}
-            onNewRequest={text => this.handleNewRequest('yarnid', text)}
+            searchText={this.state.yarnid}
+            onUpdateInput={text => this.handleUpdateInput('yarnid', text)}
+            onNewRequest={text => this.handleUpdateInput('yarnid', text)}
             dataSource={yarnid}
             filter={autoCompleteSearch}
             openOnFocus

@@ -4,11 +4,12 @@ import moment from 'moment';
 import AllIcon from 'material-ui/svg-icons/communication/clear-all';
 import AnyIcon from 'material-ui/svg-icons/content/filter-list';
 
+import { isMomentParameter, isNumberParameter } from '../../../utils/library';
 import Csv from '../../csv_generator';
 import Filter from './filter_table_filter';
 import Header from './filter_table_header';
-import Row from './filter_table_row';
 import TableData from './filter_table_data';
+import TableTotal from './filter_table_total';
 
 /**
  * Responsible for outputting list of immutable Maps into a filterable,
@@ -42,7 +43,7 @@ class FilterTable extends Component {
       filters: List([]),
       sortParameter: undefined,
       sortDirection: undefined,
-      tableData: initialTableData,
+      tableData: this.cleanData(initialTableData),
       rowMap: initialRowMap,
     };
     this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
@@ -56,9 +57,9 @@ class FilterTable extends Component {
    * Check to make sure that the tableData and rowMap properties
    * are immutable lists. If they are not (and therefore regular JS)
    * then convert them and their items to immutable data structures.
-   * 
+   *
    * @param {object} nextProps
-   * 
+   *
    * @memberOf FilterTable
    */
   componentWillReceiveProps(nextProps) {
@@ -67,7 +68,7 @@ class FilterTable extends Component {
     const nextRowMap = List.isList(rowMap) ? rowMap : fromJS(rowMap);
     const update = {};
     if (!is(this.state.tableData, nextTableData)) {
-      update.tableData = nextTableData;
+      update.tableData = this.cleanData(nextTableData);
     }
     if (!is(this.state.rowMap, nextRowMap)) {
       update.rowMap = nextRowMap;
@@ -98,6 +99,38 @@ class FilterTable extends Component {
   }
 
   /**
+   * cast an input to a string if it is "stringable" - test using falsy
+   * values. Check for cases where the value is actually a false boolean
+   * or the number 0 and string that.
+   *
+   * @param {any} value
+   * @returns {string}
+   *
+   * @memberOf FilterTable
+   */
+  castToString(value) {
+    if (typeof value === 'string') {
+      return value;
+    }
+    if (value || value === false || value === 0) {
+      return String(value);
+    }
+    return '';
+  }
+
+  /**
+   * perform all cleaning options on the table data
+   * - convert all data to strings
+   *
+   * @param {object} tableData
+   *
+   * @memberOf FilterTable
+   */
+  cleanData(tableData) {
+    return tableData.map(row => row.map(value => this.castToString(value).trim()));
+  }
+
+  /**
    * Generate a function predicate that compares the value of a specified
    * filter and compares it to an object's value at a specified key, returning
    * a boolean. Depending on whether or not the exact parameter is true use an
@@ -112,11 +145,18 @@ class FilterTable extends Component {
    */
   generateKeyFilter(filterKey, filterValue, exact) {
     const { rowMap } = this.state;
-    const option = rowMap.find(rowMapOption => rowMapOption.get('header') === filterKey);
+    const option = rowMap.find(rowMapOption => (
+      rowMapOption.get('header').toLowerCase() === filterKey.toLowerCase()
+    ));
     const dataLabel = option ? option.get('label') : undefined;
     return (data) => {
       const dataValue = data.get(dataLabel) ? data.get(dataLabel).toLowerCase() : undefined;
-      return exact ? dataValue === filterValue : dataValue.indexOf(filterValue) > -1;
+      try {
+        return exact ? dataValue === filterValue : dataValue.indexOf(filterValue) > -1;
+      } catch (error) {
+        console.error('Data Value was undefined');
+        return false;
+      }
     };
   }
 
@@ -126,6 +166,7 @@ class FilterTable extends Component {
    * match the filter value return true. Depending on whether or not the exact
    * parameter is true use a contains or equals comparison. Comparisons are
    * case insensitive.
+   *
    *
    * @param {string} filterValue - filter to search for
    * @param {boolean} exact - whether or not we are using an exact match
@@ -155,7 +196,7 @@ class FilterTable extends Component {
    */
   parseFilterParameters(filter) {
     const filterParameters = filter.split('=').map(param => param.trim()).filter(param => param);
-    const filterKey = filterParameters.length === 2 ? filterParameters[0] : undefined;
+    const filterKey = filterParameters.length === 2 ? filterParameters[0].toLowerCase() : undefined;
     const filterValue = filterParameters.length === 2 ? filterParameters[1] : filterParameters[0];
     return { filterKey, filterValue };
   }
@@ -241,7 +282,7 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  generateSortFunction(sortParameter, sortDirection, formatData=(input) => input) {
+  generateSortFunction(sortParameter, sortDirection, formatData = input => input) {
     if (sortDirection === 1) {
       return (a, b) => (
         formatData(a.get(sortParameter)) > formatData(b.get(sortParameter)) ? 1 : -1
@@ -265,20 +306,6 @@ class FilterTable extends Component {
     return !list.some(data => Number.isNaN(Number(data.get(parameter))));
   }
 
-  /**
-   * Iterate over the input list and check whether or not all members
-   * of an object are or can be parsed into moment.js objects. If any
-   * value cannot be parsed return false, otherwise true.
-   *
-   * @param {object} list - immutable list of immutable map objects
-   * @param {string} parameter - the field of a map object for which each map is checked
-   * @returns {boolean}
-   *
-   * @memberOf FilterTable
-   */
-  isMomentParameter(list, parameter) {
-    return !list.some(data => !moment(data.get(parameter)).isValid());
-  }
 
   /**
    * Generate a function that takes in an input, formats it,
@@ -293,10 +320,10 @@ class FilterTable extends Component {
    * @memberOf FilterTable
    */
   generateFormatData(tableData, sortParameter) {
-    if (this.isNumberParameter(tableData, sortParameter)) {
+    if (isNumberParameter(tableData, sortParameter)) {
       return input => Number(input);
     }
-    if (this.isMomentParameter(tableData, sortParameter)) {
+    if (isMomentParameter(tableData, sortParameter)) {
       return input => moment(input);
     }
     return input => input.toLowerCase();
@@ -326,7 +353,7 @@ class FilterTable extends Component {
    * and determine what field parameter and what direction to
    * sort in. Direction of 1 is ascending, directon of 0 is
    * descending.
-   * 
+   *
    * If there is a sort already active and the clicked header is
    * a different parameter then by default set the sort direction
    * as 1.
@@ -361,7 +388,7 @@ class FilterTable extends Component {
   }
 
   render() {
-    const { className, filter, csv, results } = this.props;
+    const { className, filter, csv, results, totals } = this.props;
     const { tableData, rowMap } = this.state;
     const filteredTableData = this.filterData(tableData);
     const sortedTableData = this.sortData(filteredTableData);
@@ -373,7 +400,7 @@ class FilterTable extends Component {
           <div className="filter_table__filter-container" >
             {filter ?
               <Filter
-                tableData={tableData}
+                tableData={sortedTableData}
                 filter={this.state.filterText}
                 updateFilter={this.handleFilterUpdate}
                 filterAny={this.state.filterAny}
@@ -401,7 +428,8 @@ class FilterTable extends Component {
           sortDirection={this.state.sortDirection}
           sortParameter={this.state.sortParameter}
         />
-        <TableData filteredData={sortedTableData} rowMap={rowMap} />
+        <TableData finalTableData={sortedTableData} rowMap={rowMap} />
+        {totals ? <TableTotal tableData={sortedTableData} rowMap={rowMap} /> : undefined}
         {results ? <div>{`Displaying ${ratio} rows - ${percent}%`}</div> : undefined}
       </div>
     );
@@ -419,7 +447,8 @@ FilterTable.propTypes = {
   className: PropTypes.string,
   filter: PropTypes.bool,
   csv: PropTypes.bool,
-  plot: PropTypes.bool,
+  results: PropTypes.bool,
+  totals: PropTypes.bool,
   rowMap: PropTypes.oneOfType([
     React.PropTypes.object,
     React.PropTypes.array,
