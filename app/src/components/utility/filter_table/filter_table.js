@@ -37,6 +37,7 @@ class FilterTable extends Component {
     const { tableData, rowMap } = props;
     const initialTableData = List.isList(tableData) ? tableData : fromJS(tableData);
     const initialRowMap = List.isList(rowMap) ? rowMap : fromJS(rowMap);
+    this.checkRowMap(initialRowMap);
     this.state = {
       filterText: '',
       filterAny: true,
@@ -71,9 +72,38 @@ class FilterTable extends Component {
       update.tableData = this.cleanData(nextTableData);
     }
     if (!is(this.state.rowMap, nextRowMap)) {
+      this.checkRowMap(nextRowMap);
       update.rowMap = nextRowMap;
     }
     this.setState(update);
+  }
+
+  /**
+   * Check for any missing parameters on the table configuration object. Required
+   * parameters include:
+   *
+   * - header - the header displayed on the table to the user
+   * - label - the key of a data object
+   * - width - a percent or px string set on the table column as a width
+   *
+   * Optional parameters:
+   *  - className - class applied to the column header
+   *  - childrenClass - class applied to all cells of a column
+   *  - transform - function used to generate a totals object
+   *
+   * @param {object} rowMap - table configuration
+   *
+   * @memberOf FilterTable
+   */
+  checkRowMap(rowMap) {
+    rowMap.forEach((option, i) => {
+      ['header', 'label', 'width'].forEach((param) => {
+        if (!option.has(param)) {
+          throw TypeError(`Invalid table configuration object. Configuration option at index ${i} 
+                           is invalid. Missing parameter: ${param}`);
+        }
+      });
+    });
   }
 
   /**
