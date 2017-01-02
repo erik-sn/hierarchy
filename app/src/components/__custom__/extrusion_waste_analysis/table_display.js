@@ -40,10 +40,10 @@ const labelTransform = () => 'Total:';
 
 const rowMap = List([
   Map({ header: 'Production', label: 'productionPounds', width: '20%', transform: productionTransform }),
-  Map({ header: 'Waste lb', label: 'wastePounds', width: '17%', transform: wasteTransform }),
+  Map({ header: 'Waste lb', label: 'wastePounds', width: '20%', transform: wasteTransform }),
   Map({ header: '%', label: 'wastePercent', width: '8%', transform: wastePercentTransform }),
-  Map({ header: 'Trans. lb', label: 'transitionPounds', width: '17%', transform: transitionTransform }),
-  Map({ header: '%', label: 'transitionPercent', width: '8%', transform: transitionPercentTransform }),
+  Map({ header: 'Trans. lb', label: 'transitionPounds', width: '20%', transform: transitionTransform }),
+  Map({ header: '%', label: 'transitionPercent', width: '8%', transform: transitionPercentTransform, childrenClass: 'filter__table_column-center' }),
 ]);
 
 function buildRowHeader(header, label, width, className = '', childrenClass = '') {
@@ -52,7 +52,7 @@ function buildRowHeader(header, label, width, className = '', childrenClass = ''
 
 function formatMomentHeader(formattedRowMap, containsShift) {
   const datePercent = containsShift ? '10%' : '20%';
-  return buildRowHeader('Date', 'label', datePercent);
+  return buildRowHeader('Date', 'label', datePercent, '', 'filter__table_column-center');
 }
 
 function buildRowMap(data) {
@@ -75,9 +75,9 @@ function buildRowMap(data) {
   return formattedRowMap;
 }
 
-const Error = () => (
+const Start = () => (
   <div className="ewa__table-container">
-    <h3>Error retrieving data</h3>
+    <h3>Select filters and press "Search"</h3>
   </div>
 );
 
@@ -89,7 +89,7 @@ const Empty = () => (
 
 const TableDisplay = ({ data }) => {
   if (!data) {
-    return <Error />;
+    return <Start />;
   }
   if (data.size === 0) {
     return <Empty />;
@@ -97,7 +97,9 @@ const TableDisplay = ({ data }) => {
   const formattedRowMap = buildRowMap(data);
 
   return (
-    <div className="ewa__table-container">
+    <div
+      className="ewa__table-container"
+    >
       <FilterTable
         className="ewa__table-filter-table"
         rowMap={formattedRowMap}

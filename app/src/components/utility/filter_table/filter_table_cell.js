@@ -10,7 +10,7 @@ const Cell = ({ width, className, value }) => (
     style={{ width }}
     className={`filter_table__cell ${className || ''}`.trim()}
   >
-    {value}
+    <span>{value}</span>
   </div>
 );
 

@@ -12,11 +12,13 @@ import { List, Map } from 'immutable';
 import Loader from '../../loader';
 import FilterTable from '../../utility/filter_table/filter_table';
 
+const CENTER = 'filter__table_column-center';
+
 const rowMap = List([
   Map({ header: 'type', label: 'spinnerettetype', width: '10%', className: '' }),
-  Map({ header: 'number', label: 'spinnerettenumber', width: '10%', className: '' }),
-  Map({ header: 'pos.', label: 'position', width: '10%', className: '' }),
-  Map({ header: 'l/m/r', label: 'threadline', width: '10%', className: '' }),
+  Map({ header: '#', label: 'spinnerettenumber', width: '10%', childrenClass: CENTER }),
+  Map({ header: 'pos.', label: 'position', width: '10%', childrenClass: CENTER, className: CENTER }),
+  Map({ header: 'l/m/r', label: 'threadline', width: '10%', childrenClass: CENTER, className: CENTER }),
   Map({ header: 'ii', label: 'installinit', width: '5%', className: '' }),
   Map({ header: 'install', label: 'installdate', width: '15%', className: '' }),
   Map({ header: 'ri', label: 'removeinit', width: '5%', className: '' }),

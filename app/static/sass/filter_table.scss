@@ -35,7 +35,6 @@
 }
 
 .filter_table__row-container {
-  height: calc(100vh - 240px);
   min-width: 400px;
   overflow-y: auto;
   overflow-x: auto;
@@ -68,11 +67,11 @@
 .filter_table__header-cell {
   transition: 0.15s ease-in-out;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .filter_table__header-cell-label {
-  font-size: 1.25rem;
+  @include fluid-type(37.5rem, 80rem, 0.95rem, 1.25rem);
 }
 
 .filter_table__header-cell:hover {
@@ -81,13 +80,18 @@
   transition: 0.25s ease-in-out;
 }
 
-.filter_table__header-cell-icon > svg {
-  color: white !important;
+.filter_table__header-cell-icon {
+
+  svg {
+    color: white !important;
+  }
 }
 
 
 .filter_table__cell {
   padding: 1px;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
 }
 
 /* totals row */ 
@@ -118,7 +122,13 @@
 
 /* column specific classes */
 .filter__table_column-center {
-  text-align: center;
+  display: flex;
+  align-content: center;
+
+  :first-child {
+    text-align: center;
+    width: 100%;
+  }
 }
 
 .filter__table_column-left {

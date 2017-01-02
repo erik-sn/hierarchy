@@ -12,6 +12,7 @@ import SearchIcon from 'material-ui/svg-icons/action/search';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import StopIcon from 'material-ui/svg-icons/av/stop';
 
+import logError from '../__library__/logger';
 import types from '../../../actions/types';
 import DateRange from '../../utility/date_range';
 import Loader from '../../loader';
@@ -108,7 +109,7 @@ class ControlPanel extends Component {
         messageText: 'Error retrieving warehouse list',
         messageShow: true,
       });
-      console.error(error);
+      logError(error);
     });
   }
 
@@ -126,7 +127,7 @@ class ControlPanel extends Component {
         messageText: 'Error retrieving report options',
         messageShow: true,
       });
-      console.error(error);
+      logError(error);
     });
   }
 
@@ -148,7 +149,7 @@ class ControlPanel extends Component {
           messageText = 'Query canceled by user';
         }
         this.setState({ messageText, fetchingData: false, fetchingmessageShow: true });
-        console.error(error);
+        logError(error);
       });
     });
   }

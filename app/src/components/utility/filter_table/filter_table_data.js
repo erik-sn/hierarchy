@@ -25,20 +25,21 @@ class TableData extends Component {
    */
   shouldComponentUpdate(nextProps) {
     const { finalTableData } = this.props;
-    return !is(nextProps.filteredData, finalTableData);
+    return !is(nextProps.finalTableData, finalTableData);
   }
 
   /**
    * Return a list of Row components
    *
+   * @param {function} handleRowClick - function called with row object when clicked
    * @returns {object} immutable list
    *
    * @memberOf TableData
    */
-  generateRows() {
+  generateRows(handleRowClick) {
     const { finalTableData, rowMap } = this.props;
     return finalTableData.map((data, i) => (
-      <Row key={i} rowData={data} rowMap={rowMap} />
+      <Row key={i} rowData={data} rowMap={rowMap} handleClick={handleRowClick} />
     ));
   }
 
@@ -47,10 +48,10 @@ class TableData extends Component {
       <div className="filter_table__row-container">
         <Infinite
           className="filter-table-body"
-          containerHeight={window.innerHeight - 250}
+          containerHeight={window.innerHeight - 300}
           elementHeight={22}
         >
-          {this.generateRows()}
+          {this.generateRows(this.props.handleRowClick)}
         </Infinite>
       </div>
     );
@@ -65,6 +66,7 @@ class TableData extends Component {
  */
 TableData.propTypes = {
   finalTableData: PropTypes.object.isRequired,
+  handleRowClick: PropTypes.func,
   rowMap: PropTypes.object.isRequired,
 };
 

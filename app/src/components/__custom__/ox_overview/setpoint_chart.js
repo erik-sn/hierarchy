@@ -9,6 +9,7 @@ class SetpointChart extends Component {
   constructor(props) {
     super(props);
     this.colors = ['#59A1B6', 'red', '#555'];
+    this.handleClick = this.handleClick.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -18,6 +19,12 @@ class SetpointChart extends Component {
     return true;
   }
 
+  handleClick(entry) {
+    if (this.props.handleClick) {
+      this.props.handleClick(entry);
+    }
+  }
+
   render() {
     const { setpoints } = this.props;
     if (!setpoints) {
@@ -25,14 +32,14 @@ class SetpointChart extends Component {
     }
 
     const data = [
-      { name: 'on spec', value: setpoints.get('onspec').size },
-      { name: 'off spec', value: setpoints.get('offspec').size, color: '#ff0000' },
-      { name: 'invalid', value: setpoints.get('invalid').size, color: '#555' },
+      { name: 'on spec', value: setpoints.get('onspec').size, label: 'onspec' },
+      { name: 'off spec', value: setpoints.get('offspec').size, label: 'offspec', color: '#ff0000' },
+      { name: 'invalid', value: setpoints.get('invalid').size, label: 'invalid', color: '#555' },
     ];
 
     return (
       <div className="ox_overview__setpoints">
-        <PieChart data={data} colors={this.colors} />
+        <PieChart data={data} colors={this.colors} handleClick={this.handleClick} />
       </div >
     );
   }
@@ -40,6 +47,7 @@ class SetpointChart extends Component {
 
 SetpointChart.propTypes = {
   setpoints: PropTypes.object,
+  handleClick: PropTypes.func,
 };
 
 export default SetpointChart;

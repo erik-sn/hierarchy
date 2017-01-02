@@ -418,7 +418,7 @@ class FilterTable extends Component {
   }
 
   render() {
-    const { className, filter, csv, results, totals } = this.props;
+    const { className, filter, csv, results, totals, handleRowClick } = this.props;
     const { tableData, rowMap } = this.state;
     const filteredTableData = this.filterData(tableData);
     const sortedTableData = this.sortData(filteredTableData);
@@ -458,7 +458,7 @@ class FilterTable extends Component {
           sortDirection={this.state.sortDirection}
           sortParameter={this.state.sortParameter}
         />
-        <TableData finalTableData={sortedTableData} rowMap={rowMap} />
+        <TableData finalTableData={sortedTableData} rowMap={rowMap} handleRowClick={handleRowClick} />
         {totals ? <TableTotal tableData={sortedTableData} rowMap={rowMap} /> : undefined}
         {results ? <div>{`Displaying ${ratio} rows - ${percent}%`}</div> : undefined}
       </div>
@@ -483,6 +483,7 @@ FilterTable.propTypes = {
     React.PropTypes.object,
     React.PropTypes.array,
   ]).isRequired,
+  handleRowClick: PropTypes.func,
 };
 
 export default FilterTable;

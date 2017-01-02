@@ -56,11 +56,14 @@ class WasteChart extends Component {
       loading: false,
       error: '',
     }))
-    .catch(() => this.setState({
-      wasteData: List(),
-      loading: false,
-      error: 'There was an error loading the waste data',
-    }));
+    .catch((error) => {
+      this.setState({
+        wasteData: List(),
+        loading: false,
+        error: 'There was an error loading the waste data',
+      });
+      throw error;
+    });
   }
 
   generateLabel(shift) {

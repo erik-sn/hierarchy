@@ -57,12 +57,19 @@ class TwoLevelPieChart extends Component {
       label: undefined,
     };
     this.onPieEnter = this.onPieEnter.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   onPieEnter(input, index) {
     this.setState({
       activeIndex: index,
     });
+  }
+
+  handleClick(entry) {
+    if (this.props.handleClick) {
+      this.props.handleClick(entry);
+    }
   }
 
   render() {
@@ -81,6 +88,7 @@ class TwoLevelPieChart extends Component {
             innerRadius={55}
             outerRadius={80}
             fill="yellow"
+            onClick={this.handleClick}
           >
             {data.map(entry => <Cell fill={entry.color || '#59A1B6'} />)}
           </Pie>
@@ -92,7 +100,7 @@ class TwoLevelPieChart extends Component {
 
 TwoLevelPieChart.propTypes = {
   data: PropTypes.array,
-  colors: PropTypes.array,
+  handleClick: PropTypes.func,
 };
 
 export default TwoLevelPieChart;

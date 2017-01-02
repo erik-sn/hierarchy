@@ -3,8 +3,8 @@ import TextField from 'material-ui/TextField';
 
 
 /**
- * 
- * 
+ *
+ *
  * @class Filter
  * @extends {Component}
  */
@@ -12,9 +12,9 @@ class Filter extends Component {
 
   /**
    * Creates an instance of Filter.
-   * 
+   *
    * @param {any} props
-   * 
+   *
    * @memberOf Filter
    */
   constructor(props) {
@@ -25,9 +25,9 @@ class Filter extends Component {
   /**
    * Call the parent's updateFilter method when a change
    * event occurs on the text field'
-   * 
+   *
    * @param {object} event
-   * 
+   *
    * @memberOf Filter
    */
   handleChange(event) {
