@@ -90,11 +90,12 @@ const Empty = () => (
 
 const TableDisplay = ({ data }) => {
   if (!data) {
-    return (
-      <div className="ewa__table-container" >
-        <Loader style={{ height: '400px' }} size={75} thickness={5} />
-      </div>
-    );    
+    return <Start />;
+    // return (
+    //   <div className="ewa__table-container" >
+    //     <Loader style={{ height: '400px' }} size={75} thickness={5} />
+    //   </div>
+    // );    
   }
   if (data.size === 0) {
     return <Empty />;

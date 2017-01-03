@@ -120,7 +120,6 @@
   position: absolute;
   color: $secondary;
   list-style: none;
-
 }
 
 .navbar__neighbor-list {
@@ -152,7 +151,7 @@
 Collapse hierarchy to a second row, adjust it's formatting
 to remove skews and other "shiny" formatting things.
 */
-@media (max-width: 950px) {
+@media (max-width: 1150px) {
 
   .navbar__container {
     height: 85px;
@@ -200,7 +199,7 @@ to remove skews and other "shiny" formatting things.
 Hide Icon, name containers, shrink hierarchy items to
 have a smaller font size
 */
-@media (max-width: 470px) {
+@media (max-width: 525px) {
 
   .navbar__container {
     justify-content: center;

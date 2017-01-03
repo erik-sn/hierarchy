@@ -5,7 +5,11 @@ import BarChart from '../../charts/bar_chart';
 
 const PlotDisplay = ({ data }) => {
   if (!data) {
-    return <Loader style={{ height: '400px' }} size={75} thickness={5} />;
+    return (
+      <div className="pack_analysis__plot-display-container">
+        <Loader style={{ height: '400px' }} size={75} thickness={5} />
+      </div>
+    );
   }
   if (data.size === 0) {
     return (

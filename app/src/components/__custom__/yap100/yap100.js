@@ -13,9 +13,11 @@ import { List, Map } from 'immutable';
 import Loader from '../../loader';
 import FilterTable from '../../utility/filter_table/filter_table';
 
+const CENTER = 'filter__table_column-center';
+
 const rowMap = List([
-  Map({ header: 'time', label: 'timestamp', width: '20%', className: '' }),
-  Map({ header: 'shift', label: 'shift', width: '7%', className: '' }),
+  Map({ header: 'time', label: 'timestamp', width: '17%', childrenClass: CENTER, className: CENTER }),
+  Map({ header: 'shift', label: 'shift', width: '10%', childrenClass: CENTER, className: CENTER }),
   Map({ header: 'type', label: 'transactionType', width: '15%', className: '' }),
   Map({ header: 'yarn id', label: 'yarnId', width: '16%', className: '' }),
   Map({ header: 'lot', label: 'lotNumber', width: '17%', className: '' }),
