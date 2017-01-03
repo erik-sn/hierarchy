@@ -48,11 +48,12 @@ function formatYap100List(yap100List) {
   return yap100List.map((row) => {
     const time = moment(row.get('timestamp')).format('MM/DD/YY HH:mm');
     const typeName = getTypeName(row.get('transactionType'));
-    return row.set('timestamp', time).set('transactionType', typeName).delete('user')
-                                                                      .delete('yarnColor')
-                                                                      .delete('machine')
-                                                                      .delete('subLot')
-                                                                      .delete('merge');
+    return row.set('timestamp', time).set('transactionType', typeName)
+              .delete('user')
+              .delete('yarnColor')
+              .delete('machine')
+              .delete('subLot')
+              .delete('merge');
   });
 }
 
