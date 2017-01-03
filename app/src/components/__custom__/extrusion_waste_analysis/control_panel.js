@@ -190,7 +190,12 @@ class ControlPanel extends Component {
   handleUpdateInput(key, text) {
     const updatedState = fromJS(this.state).toJS();
     updatedState[key] = text;
-    this.setState(updatedState);
+    this.setState(updatedState, () => {
+      if (key === 'warehouse') {
+        localStorage.setItem('pw__ewa__control-panel-waste_analysis__warehouse', JSON.stringify(text));
+        this.fetchOptions();
+      }
+    });
   }
 
   updateDates(startDate, endDate) {
@@ -216,7 +221,7 @@ class ControlPanel extends Component {
             hintText="Warehouse"
             searchText={this.state.warehouse}
             onUpdateInput={text => this.handleUpdateInput('warehouse', text)}
-            onNewRequest={text => this.handleUpdateInput('warehouse', text)}
+            onNewRequest={(text) => this.handleUpdateInput('warehouse', text)}
             dataSource={warehouseList}
             filter={autoCompleteSearch}
             openOnFocus
