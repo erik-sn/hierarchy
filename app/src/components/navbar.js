@@ -130,13 +130,14 @@ class Navbar extends Component {
     const { path } = this.props;
     const { dropdownX, dropdownY, windowWidth } = getBoundingBox(e);
     const height = neighbors.size * 40;
+    console.log(dropdownX, dropdownY, windowWidth, height);
     const dropdownContainer = (
       <div
         className="navbar__neighbor-container"
         style={{
-          left: windowWidth - dropdownX - 215 <= 0 ? windowWidth - 240 : dropdownX,
-          top: windowWidth < 970 ? dropdownY + 15 : dropdownY + 10,
-          height: height <= 400 ? height : 400,
+          left: `${Math.round(windowWidth - dropdownX - 215 <= 0 ? windowWidth - 240 : dropdownX)}`,
+          top: `${Math.round(windowWidth < 970 ? dropdownY + 15 : dropdownY + 10)}`,
+          height: `${height <= 400 ? height : 400}`,
         }}
       >
         <div className="navbar__neighbor-list">

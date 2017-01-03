@@ -1,8 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router';
-import { Card, CardTitle, CardHeader, CardText } from 'material-ui/Card';
-import GoogleMap from 'google-map-react';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 import Place from 'material-ui/svg-icons/maps/place';
 import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 
@@ -118,17 +117,17 @@ export class Main extends Component {
     const lat = site.get('latitude');
     const lng = site.get('longitude');
 
-    const map = (
-      <div style={{ width: '100%', height: 400 }}>
-        <GoogleMap
-          height="200"
-          width="200"
-          center={[parseFloat(lat), parseFloat(lng)]}
-          zoom={16}
-        />
-      </div>
-    );
-    this.props.showModal(`Address: ${site.get('address')}`, '', map);
+    // const map = (
+    //   <div style={{ width: '100%', height: 400 }}>
+    //     <GoogleMap
+    //       height="200"
+    //       width="200"
+    //       center={[parseFloat(lat), parseFloat(lng)]}
+    //       zoom={16}
+    //     />
+    //   </div>
+    // );
+    // this.props.showModal(`Address: ${site.get('address')}`, '', map);
   }
 
   render() {

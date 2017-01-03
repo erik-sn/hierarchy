@@ -197,7 +197,6 @@ class FilterTable extends Component {
    * parameter is true use a contains or equals comparison. Comparisons are
    * case insensitive.
    *
-   *
    * @param {string} filterValue - filter to search for
    * @param {boolean} exact - whether or not we are using an exact match
    * @returns {function} - true/false if there is a matching value

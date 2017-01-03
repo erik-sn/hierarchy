@@ -109,6 +109,7 @@
 }
 
 .navbar__neighbor-container {
+  z-index: 5;
   padding: 10px 15px;
   max-height: 400px;
   width: 200px;
@@ -123,6 +124,7 @@
 }
 
 .navbar__neighbor-list {
+  position: relative;
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;

@@ -9,6 +9,10 @@ import promise from 'redux-promise';
 
 import reducers from './reducers';
 import routes from './routes';
+import { polyfill } from 'es6-promise';
+
+// promise polyfill for ie11
+polyfill();
 
 // add redux middleware
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
