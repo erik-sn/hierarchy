@@ -47,6 +47,7 @@ class ControlPanel extends Component {
       startDate: moment().subtract(4, 'week'),
       endDate: moment(),
       messageShow: false,
+      messageText: '',
     };
     this.handleGroupChange = this.handleGroupChange.bind(this);
     this.handleUpdateInput = this.handleUpdateInput.bind(this);
@@ -94,7 +95,9 @@ class ControlPanel extends Component {
       this.setState({
         warehouse: storedWarehouse,
         warehouseList,
-      }, () => this.fetchOptions());
+      }, () => {
+        this.fetchOptions().then(() => this.fetchData());
+      });
     }
   }
 
@@ -114,7 +117,7 @@ class ControlPanel extends Component {
   }
 
   fetchOptions() {
-    axios.get(`${types.MAP}/as400/yap100report/${this.state.warehouse}/?params=true`)
+    return axios.get(`${types.MAP}/as400/yap100report/${this.state.warehouse}/?params=true`)
     .then(response => this.setState({
       options: response.data,
       optionsFetched: true,

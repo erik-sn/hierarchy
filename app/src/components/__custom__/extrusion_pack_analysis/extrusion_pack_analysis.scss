@@ -1,5 +1,90 @@
 @import "../../../../static/sass/style";
 
-.extrusion_pack_analysis__container {
-  color: skyblue;
+/* main container */
+.pack_analysis__container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+/* plot */
+.pack_analysis__plot-display-container {
+  flex: 2 1 600px;
+  width: 100%;
+
+  .chart__container {
+    padding-top: 20px;
+    padding-right: 15px;
+    height: 530px;
+  }
+
+  h3 {
+    text-align: center;
+    margin-top: 10%;
+  }
+
+  @media (min-width: 825px) {
+    max-width: calc(100% - 300px);
+  }
+}
+
+/* control panel */
+.pack_analysis__control-panel-container-outer {
+  flex: 1 1 150px;
+  display: flex;
+}
+
+.pack_analysis__control-panel-container {
+  width: 100%;
+
+  /* limit flex to two columns */
+  @media (max-width: 825px) {
+    max-width: 515px;
+    margin-left: calc(50% - 256px);
+  }
+
+  @media (max-width: 550px) {
+    max-width: 260px;
+    margin-left: calc(50% - 128px);
+  }
+
+  input {
+    color: $secondary !important;
+  }
+}
+
+.pack_analysis__control-panel-select {
+  color: $secondary !important;
+  
+  hr {
+    bottom: 2px !important;
+  }
+}
+
+.pack_analysis__control-panel-date_range-picker {
+
+  input {
+    color: $secondary !important;
+  }
+}
+
+.pack_analysis__control-panel-date_range-picker-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pack_analysis__control_panel-actions {
+  max-width: 515px;
+
+  svg, button {
+    color: $secondary !important;
+    fill: $secondary !important;
+  }
+
+  button {
+
+    div {
+      width: 115px;
+    }
+  }
 }

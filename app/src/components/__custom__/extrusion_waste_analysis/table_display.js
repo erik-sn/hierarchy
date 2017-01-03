@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { List, Map } from 'immutable';
 
+import Loader from '../../loader';
 import FilterTable from '../../utility/filter_table/filter_table';
 import { isMomentParameter } from '../../../utils/library';
 
@@ -89,7 +90,11 @@ const Empty = () => (
 
 const TableDisplay = ({ data }) => {
   if (!data) {
-    return <Start />;
+    return (
+      <div className="ewa__table-container" >
+        <Loader style={{ height: '400px' }} size={75} thickness={5} />
+      </div>
+    );    
   }
   if (data.size === 0) {
     return <Empty />;
@@ -97,9 +102,7 @@ const TableDisplay = ({ data }) => {
   const formattedRowMap = buildRowMap(data);
 
   return (
-    <div
-      className="ewa__table-container"
-    >
+    <div className="ewa__table-container" >
       <FilterTable
         className="ewa__table-filter-table"
         rowMap={formattedRowMap}

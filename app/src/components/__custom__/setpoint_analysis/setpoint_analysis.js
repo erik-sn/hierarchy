@@ -34,6 +34,7 @@ class SetpointAnalysis extends Component {
       historyMode: false,
       historicalSetpoints: undefined,
       activeSpec: 'Current',
+      defaultSpec: 'Current',
       messageShow: false,
       messageText: false,
     };
@@ -46,7 +47,7 @@ class SetpointAnalysis extends Component {
   }
 
   componentDidMount() {
-    this.fetchSpecifications();
+    this.fetchActiveSpecifications();
   }
 
 
@@ -68,11 +69,31 @@ class SetpointAnalysis extends Component {
     )).get('id');
   }
 
+  fetchActiveSpecifications() {
+    const machine = this.props.parent.get('name');
+    return axios.get(`${types.MAP}/processworkshop/specifications/?active=true&machine=${machine}`)
+    .then((response) => {
+      const activeSpecifications = fromJS(response.data);
+      const specificationString = activeSpecifications.map(spec => spec.get('fileName')).join('/');
+      const formattedString = `Current: ${specificationString}`;
+      this.setState({ activeSpec: formattedString, defaultSpec: formattedString });
+    })
+    .then(() => this.fetchSpecifications())
+    .catch((error) => {
+      this.setState({
+        messageText: 'Error retrieving active specification',
+        messageShow: true,
+      });
+      logError(error);
+    });
+  }
+
   fetchSpecifications() {
     const machine = this.props.parent.get('name');
+    const defaultSpec = this.state.defaultSpec;
     axios.get(`${types.MAP}/processworkshop/specifications/files/${machine}/`)
     .then((response) => {
-      const specificationList = fromJS(response.data).sort(this.specificationSort).insert(0, 'Current');
+      const specificationList = fromJS(response.data).sort(this.specificationSort).insert(0, defaultSpec);
       this.setState({ specificationList });
     })
     .catch((error) => {
@@ -157,9 +178,9 @@ class SetpointAnalysis extends Component {
   }
 
   handleSpecificationSelect(event, key, specification) {
-    if (specification === 'Current') {
+    if (specification.indexOf('Current') > -1) {
       this.setState({
-        activeSpec: 'Current',
+        activeSpec: this.state.defaultSpec,
         historyMode: false,
         historicalSetpoints: undefined,
       });

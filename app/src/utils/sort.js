@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 /**
  * Sorting function that compares alpha numeric groups in two strings
  * @param  {string} a
@@ -18,4 +20,30 @@ export function alphaNumSort(a, b) {
   return 0;
 }
 
-export const hold = 0;
+export function getDateSort(param = undefined) {
+  const dateSort = (a, b) => {
+    const aDate = param ? moment(a.get(param)) : moment(a);
+    const bDate = param ? moment(b.get(param)) : moment(b);
+    if (aDate > bDate) {
+      return 1;
+    } else if (aDate < bDate) {
+      return -1;
+    }
+    return 0;
+  };
+  return dateSort;
+}
+
+export function getNumberSort(param = undefined) {
+  const numberSort = (a, b) => {
+    const aNumber = param ? a.get(param) : a;
+    const bNumber = param ? b.get(param) : b;
+    if (aNumber > bNumber) {
+      return 1;
+    } else if (aNumber < bNumber) {
+      return -1;
+    }
+    return 0;
+  };
+  return numberSort;
+}
