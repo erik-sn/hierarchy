@@ -184,7 +184,6 @@ class FilterTable extends Component {
       try {
         return exact ? dataValue === filterValue : dataValue.indexOf(filterValue) > -1;
       } catch (error) {
-        console.error('Data Value was undefined');
         return false;
       }
     };

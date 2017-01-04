@@ -1,5 +1,8 @@
 @import "../../../../static/sass/style";
 
-.quality_analysis__container {
-  color: skyblue;
+.quality_analysis__table-container {
+
+  .filter_table__row {
+    cursor: pointer;
+  }
 }
