@@ -1,23 +1,28 @@
-import React, { PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react';
 
 /**
  * Basic cell component for filter table
  * 
  * @param {string, string, string} { width, className, value }
  */
-const Cell = ({ width, className, value }) => (
-  <div
-    style={{ width }}
-    className={`filter_table__cell ${className || ''}`.trim()}
-  >
-    <span>{value}</span>
-  </div>
-);
+const Cell = ({ config, rowData, column, handleClick }) => {
+  const cellClick = () => handleClick(rowData, column);
+  return (
+    <div
+      onClick={cellClick}
+      style={{ width: config.get('width') }}
+      className={`filter_table__cell ${config.get('className') || ''}`.trim()}
+    >
+      <span>{rowData.get(config.get('label'))}</span>
+    </div>
+  );
+};
 
 Cell.propTypes = {
-  className: PropTypes.string,
-  value: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
+  rowData: PropTypes.object.isRequired,
+  column: PropTypes.number.isRequired,
+  handleClick: PropTypes.func,
 };
 
 export default Cell;

@@ -11,11 +11,6 @@ import Cell from './filter_table_cell';
  */
 class Row extends Component {
 
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this, props.rowData);
-  }
-
   /**
    * Generate a row of cells based on the rowData object
    * and the table configuration object.
@@ -25,20 +20,15 @@ class Row extends Component {
    * @returns {object} - immutable List of JSX.Elements
    */
   generateCells(rowData, rowMap) {
-    return rowMap.map((cell, i) => (
+    return rowMap.map((config, i) => (
       <Cell
         key={i}
-        className={cell.get('childrenClass')}
-        width={cell.get('width')}
-        value={rowData.get(cell.get('label'))}
+        handleClick={this.props.handleClick}
+        column={i}
+        config={config}
+        rowData={rowData}
       />
     ));
-  }
-
-  handleClick() {
-    if (this.props.handleClick) {
-      this.props.handleClick(this.props.rowData);
-    }
   }
 
   render() {

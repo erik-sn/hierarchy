@@ -28,23 +28,33 @@ const rowMap = List([
 ]);
 
 function getRemoveReason(reasonNumber) {
-  switch (reasonNumber) {
+  switch (Number(reasonNumber)) {
     case 1:
+      return 'Inlet Leak';
     case 2:
+      return 'Pack Body Leak';
     case 3:
+      return 'Bolt Hole Leak';
     case 4:
+      return 'Spinnerette Leak';
     case 5:
-      return 'Pack Leak';
+      return 'Slow Hole';
     case 6:
-      return 'Mechanical';
-    case 7:
       return 'Electrical';
+    case 7:
+      return 'Mechanical';
+    case 8:
+      return 'R&D';
     case 9:
-      return 'Process Control';
-    case 10:
       return 'No Visible Problem';
+    case 10:
+      return 'Process Control';
     case 11:
       return 'Product Change';
+    case 12:
+      return 'Shutdown';
+    case 13:
+      return 'Expired Life';
     default:
       return 'Other';
   }
