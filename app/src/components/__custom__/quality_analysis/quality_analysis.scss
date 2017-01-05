@@ -5,4 +5,32 @@
   .filter_table__row {
     cursor: pointer;
   }
+
+  .infinity-warning {
+    color: black;
+    font-weight: 900;
+    background: darken(yellow, 7%);
+
+    span {
+      margin-left: 10%;
+    }
+  }
+
+  .infinity-alarm {
+    color: black;
+    font-weight: 900;
+    background: red;
+
+    span {
+      margin-left: 10%;
+    }
+  }
+
+  .infinity-low {
+    text-decoration: underline;
+  }
+
+  .infinity-high {
+    text-decoration: overline;
+  }
 }

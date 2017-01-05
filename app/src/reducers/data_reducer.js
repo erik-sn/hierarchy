@@ -15,6 +15,12 @@ export default (state = initialState, action) => {
       const data = departmentState.set(action.meta.key, fromJS(action.payload.data));
       return state.set(action.meta.department, data);
     }
+    case types.SET_DEPARTMENT_DATA: {
+      const { department, key, reducerData } = action.payload;
+      const departmentState = state.get(department) || Map({});
+      const data = departmentState.set(key, reducerData);
+      return state.set(department, data)
+    }
     default:
       return state;
   }

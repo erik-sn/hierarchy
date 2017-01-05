@@ -39,6 +39,7 @@ class Machine extends Component {
     const { activeModule } = this.state;
     const componentProps = {
       key: hierarchy.get('machine').get('id'),
+      departmentId: hierarchy.get('department').get('id'),
       type: 'machine',
       parent: hierarchy.get('machine'),
       module: activeModule,

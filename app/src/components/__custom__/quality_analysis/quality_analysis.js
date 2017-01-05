@@ -7,14 +7,20 @@ if (process.env.BROWSER) {
 }
 
 import React, { Component, PropTypes } from 'react';
-import { List, Map } from 'immutable';
+import { is, fromJS, List, Map } from 'immutable';
 import moment from 'moment';
+import axios from 'axios';
 
+import types from '../../../actions/types';
 import Loader from '../../loader';
 import SubgroupModal from './subgroup_modal';
 import TableDisplay from './table_display';
 
+import test_data from './test_data.json';
+
 const FORMAT = 'MM/DD/YY HH:mm';
+
+const LIMIT_API = `${types.MAP}/infinity/limits`;
 
 const rowMap = List([
   Map({ label: 'createDate', header: 'Time', width: '15%' }),
@@ -33,25 +39,32 @@ class QualityAnalysis extends Component {
 
   constructor(props) {
     super(props);
+    const { data, parent } = props;
+    let subgroups;
+    if (data && data.get('ox_quality')) {
+      subgroups = this.processSubgroups(data, parent);
+    }
     this.state = {
       showModal: false,
       activeConfig: undefined,
       activeSubgroup: undefined,
+      limitsFetched: false,
+      limits: undefined,
+      subgroups: this.processSubgroups(undefined, Map({ name: 'OX11' })),
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
   }
 
-  fetchLimits() {
-    const { data } = this.props;
-    const parts = data.get('ox_quality').reduce((list, sg) => {
-      if (list.indexOf(sg.get('part')) === -1) {
-        return list.push(sg.get('part'));
-      }
-      return list;
-    }, List([]));
-    console.log(parts.toJS());
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   const { data, parent } = nextProps;
+  //   if (!is(data, this.props.data) && data && data.get('ox_quality')) {
+  //     this.setState({
+  //       subgroups: this.processSubgroups(data, parent),
+  //       limits: undefined,  // this will trigger a fetchLimits call in next render
+  //     });
+  //   }
+  // }
 
   getDefaultRow(subgroup) {
     const base = Map({
@@ -64,7 +77,34 @@ class QualityAnalysis extends Component {
     return base.set(subgroup.get('test'), subgroup.get('value'));
   }
 
-  groupData(subgroups) {
+  getParts() {
+    const { subgroups } = this.state;
+    return subgroups.reduce((parts, subgroup) => {
+      const part = subgroup.get('part');
+      const index = parts.indexOf(part);
+      return index === -1 ? parts.push(part) : parts;
+    }, List([]));
+  }
+
+  fetchLimits() {
+    const parts = this.getParts();
+    const axiosRequests = parts.map(part => axios.get(`${LIMIT_API}/${part}/`));
+    axios.all(axiosRequests).then((limitResponses) => {
+      let limits = Map({});
+      parts.forEach((part, i) => {
+        limits = limits.set(part, fromJS(limitResponses[i].data));
+        this.setState({ limits });
+      });
+    });
+  }
+
+  filterSubgroups(data, parent) {
+    return fromJS(test_data).filter(subgroup => (
+      subgroup.get('process') === parent.get('name')
+    ));
+  }
+
+  groupSubgroups(subgroups) {
     return subgroups.reduce((matrix, sg) => {
       const key = `${sg.get('createDate')}__${sg.get('lot')}__${sg.get('subProcess')}`;
       if (matrix.has(key)) {
@@ -73,6 +113,16 @@ class QualityAnalysis extends Component {
       }
       return matrix.set(key, this.getDefaultRow(sg));
     }, Map({}));
+  }
+
+  processSubgroups(data, parent) {
+    const filteredSubgroups = this.filterSubgroups(data, parent);
+    const groupedData = this.groupSubgroups(filteredSubgroups).toIndexedSeq();
+    return groupedData.map((subgroup) => {
+      const dateMoment = moment(subgroup.get('createDate'), 'YYYY-MM-DDTHH:mm:ss');
+      return subgroup.set('createDate', dateMoment.format(FORMAT));
+    })
+    .sort(this.sortSubgroup);
   }
 
   showModal(subgroup, column) {
@@ -104,19 +154,16 @@ class QualityAnalysis extends Component {
   }
 
   render() {
-    const { data, parent } = this.props;
-    const { showModal, activeConfig, activeSubgroup } = this.state;
-    if (!data || !data.get('ox_quality')) {
+    const { data } = this.props;
+    const { showModal, activeConfig, activeSubgroup, subgroups, limits } = this.state;
+    // if (!data || !data.get('ox_quality')) {
+    //   return <Loader />;
+    // }
+    if (!limits) {
+      this.fetchLimits();
       return <Loader />;
     }
-    const filtered = data.get('ox_quality').filter(subgroup => subgroup.get('process') === parent.get('name'));
-    const groupedData = this.groupData(filtered).toIndexedSeq();
-    const formattedData = groupedData.map((subgroup) => {
-      const dateMoment = moment(subgroup.get('createDate'), 'YYYY-MM-DDTHH:mm:ss');
-      return subgroup.set('createDate', dateMoment.format(FORMAT));
-    });
-    const sortedData = formattedData.sort(this.sortSubgroup);
-    const limits = this.fetchLimits(sortedData);
+    const tableDisplayProps = { limits, subgroups: List(subgroups), rowMap };
     return (
       <div className="quality_analysis__container" >
         <SubgroupModal
@@ -125,7 +172,7 @@ class QualityAnalysis extends Component {
           handleClose={this.hideModal}
           showModal={showModal}
         />
-        <TableDisplay data={sortedData} rowMap={rowMap} showModal={this.showModal} />
+        <TableDisplay showModal={this.showModal} {...tableDisplayProps} />
       </div>
     );
   }
@@ -133,6 +180,7 @@ class QualityAnalysis extends Component {
 
 QualityAnalysis.propTypes = {
   parent: PropTypes.object.isRequired,
+  hierarchy: PropTypes.object,
   data: PropTypes.object,
 };
 

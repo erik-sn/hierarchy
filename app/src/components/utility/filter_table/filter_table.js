@@ -150,14 +150,17 @@ class FilterTable extends Component {
 
   /**
    * perform all cleaning options on the table data
-   * - convert all data to strings
+   * - convert all data to strings, excluding the classnames key
+   * which is used to set css classes on the object
    *
    * @param {object} tableData
    *
    * @memberOf FilterTable
    */
   cleanData(tableData) {
-    return tableData.map(row => row.map(value => this.castToString(value).trim()));
+    return tableData.map(row => row.map((value, key) => {
+      return key === 'classNames' ? value : this.castToString(value).trim();
+    }));
   }
 
   /**

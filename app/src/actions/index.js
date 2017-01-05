@@ -35,3 +35,14 @@ export function fetchDepartmentData(departmentId, url, key) {
     },
   };
 }
+
+export function setDepartmentData(departmentId, key, reducerData) {
+  return {
+    payload: {
+      department: departmentId,
+      key,
+      reducerData,
+    },
+    type: types.SET_DEPARTMENT_DATA,
+  };
+}
