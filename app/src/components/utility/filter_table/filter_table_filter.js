@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { debounce } from 'lodash';
 import TextField from 'material-ui/TextField';
 
 
@@ -19,7 +20,13 @@ class Filter extends Component {
    */
   constructor(props) {
     super(props);
+    this.state = {
+      filterValue: '',
+    };
     this.handleChange = this.handleChange.bind(this);
+    if (props.updateFilter) {
+      this.updateFilter = debounce(props.updateFilter, 200);
+    }
   }
 
   /**
@@ -31,7 +38,11 @@ class Filter extends Component {
    * @memberOf Filter
    */
   handleChange(event) {
-    this.props.updateFilter(event.target.value);
+    const filterValue = event.target.value;
+    if (this.updateFilter) {
+      this.updateFilter(filterValue);
+    }
+    this.setState({ filterValue });
   }
 
   render() {
@@ -44,7 +55,7 @@ class Filter extends Component {
         style={{ width: '100%' }}
         hintStyle={{ color: '#999', fontStyle: 'italic' }}
         hintText={`Enter comma separated filters - ${hintText}`}
-        value={this.props.filter}
+        value={this.state.filterValue}
         onChange={this.handleChange}
       />
     );
@@ -52,7 +63,6 @@ class Filter extends Component {
 }
 
 Filter.propTypes = {
-  filter: PropTypes.string.isRequired,
   filterAny: PropTypes.bool,
   updateFilter: PropTypes.func.isRequired,
 };

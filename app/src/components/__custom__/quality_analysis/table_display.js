@@ -2,10 +2,9 @@ import React, { Component, PropTypes } from 'react';
 
 import { is, List, Map } from 'immutable';
 import FilterTable from '../../utility/filter_table/filter_table';
+import { INFINITY_TESTS } from './constants';
 
 let LIMIT_LOOKUP = Map({});
-
-const INFINITY_TESTS = List(['Crimp', 'TR', 'Denier', 'FOY (NMR)', 'Entanglement', 'TiO2']);
 
 /**
  * Given a set of limits, determine which limit is the "target"

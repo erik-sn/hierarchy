@@ -11,29 +11,13 @@ import { is, fromJS, List, Map } from 'immutable';
 import moment from 'moment';
 import axios from 'axios';
 
-import types from '../../../actions/types';
 import Loader from '../../loader';
 import SubgroupModal from './subgroup_modal';
 import TableDisplay from './table_display';
+import { LIMIT_API, rowMap, DATE_FORMAT } from './constants';
 
 import test_data from './test_data.json';
 
-const FORMAT = 'MM/DD/YY HH:mm';
-
-const LIMIT_API = `${types.MAP}/infinity/limits`;
-
-const rowMap = List([
-  Map({ label: 'createDate', header: 'Time', width: '15%' }),
-  Map({ label: 'lot', header: 'Lot', width: '15%' }),
-  Map({ label: 'part', header: 'Yarn ID', width: '14%' }),
-  Map({ label: 'subProcess', header: 'Pos.', width: '8%' }),
-  Map({ label: 'Crimp', header: 'Crimp', width: '8%' }),
-  Map({ label: 'TR', header: 'TR', width: '8%' }),
-  Map({ label: 'Denier', header: 'Denier', width: '8%' }),
-  Map({ label: 'FOY (NMR)', header: 'FOY', width: '8%' }),
-  Map({ label: 'Entanglement', header: 'Tack', width: '8%' }),
-  Map({ label: 'TiO2', header: 'TiO2', width: '8%' }),
-]);
 
 class QualityAnalysis extends Component {
 
@@ -120,7 +104,7 @@ class QualityAnalysis extends Component {
     const groupedData = this.groupSubgroups(filteredSubgroups).toIndexedSeq();
     return groupedData.map((subgroup) => {
       const dateMoment = moment(subgroup.get('createDate'), 'YYYY-MM-DDTHH:mm:ss');
-      return subgroup.set('createDate', dateMoment.format(FORMAT));
+      return subgroup.set('createDate', dateMoment.format(DATE_FORMAT));
     })
     .sort(this.sortSubgroup);
   }
@@ -143,8 +127,8 @@ class QualityAnalysis extends Component {
   }
 
   sortSubgroup(a, b) {
-    const aDate = moment(a.get('createDate'), FORMAT);
-    const bDate = moment(b.get('createDate'), FORMAT);
+    const aDate = moment(a.get('createDate'), DATE_FORMAT);
+    const bDate = moment(b.get('createDate'), DATE_FORMAT);
     if (aDate > bDate) {
       return -1;
     } else if (aDate < bDate) {
@@ -154,7 +138,7 @@ class QualityAnalysis extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, parent } = this.props;
     const { showModal, activeConfig, activeSubgroup, subgroups, limits } = this.state;
     // if (!data || !data.get('ox_quality')) {
     //   return <Loader />;
@@ -167,6 +151,7 @@ class QualityAnalysis extends Component {
     return (
       <div className="quality_analysis__container" >
         <SubgroupModal
+          machine={parent.get('name')}
           subgroup={activeSubgroup}
           config={activeConfig}
           handleClose={this.hideModal}
@@ -180,7 +165,6 @@ class QualityAnalysis extends Component {
 
 QualityAnalysis.propTypes = {
   parent: PropTypes.object.isRequired,
-  hierarchy: PropTypes.object,
   data: PropTypes.object,
 };
 
