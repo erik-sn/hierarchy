@@ -17,7 +17,6 @@ const SpecificationSelect = ({ specifications, activeSpec, onChange }) => (
       maxHeight={300}
       fullWidth
       labelStyle={{ color: 'whitesmoke '}}
-      menuItemStyle={{ marginLeft: '10px', padding: '5px', fontSize: '0.9rem', width: '600px' }}
     >
       {renderSpecifiactions(specifications)}
     </SelectField>

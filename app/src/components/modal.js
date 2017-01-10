@@ -9,7 +9,7 @@ import AppBar from 'material-ui/AppBar';
 import { hideModal } from '../actions/index';
 
 export const Modal = (props) => {
-  const { message, children, error, modal, title, onSubmit, onCancel } = props;
+  const { message, children, error, modal, title, onSubmit, onCancel, className, childClass, contentClass } = props;
 
   const ok = (
     <FlatButton
@@ -56,9 +56,9 @@ export const Modal = (props) => {
   );
 
   return (
-    <div className="modal__container" >
+    <div className={`modal__container${className ? ` ${className}` : ''}`} >
       <Dialog
-        contentClassName="modal__dialog-container"
+        contentClassName={`modal__dialog-container${contentClass ? ` ${contentClass}` : ''}`}
         bodyClassName="modal__dialog-body-container"
         titleStyle={{ fontSize: '1.5rem' }}
         title={titleBar}
@@ -70,7 +70,7 @@ export const Modal = (props) => {
         <div className="modal__message-container">
           {message}
         </div>
-        <div className="modal__child-container">
+        <div className={`modal__child-container ${childClass || ''}`.trim()}>
           {children}
         </div>
       </Dialog>
@@ -80,6 +80,9 @@ export const Modal = (props) => {
 
 Modal.propTypes = {
   children: PropTypes.array.isRequired,
+  contentClass: PropTypes.string,
+  childClass: PropTypes.string,
+  className: PropTypes.string,
   error: PropTypes.bool,
   hideModal: PropTypes.func.isRequired,
   message: PropTypes.string,

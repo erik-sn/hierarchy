@@ -206,9 +206,19 @@ class FilterTable extends Component {
    * @memberOf FilterTable
    */
   generateSomeFilter(filterValue, exact) {
-    let predicate = value => value.toLowerCase().indexOf(filterValue) > -1;
+    let predicate = (value) => {
+      if (typeof value === 'string') {
+        return value.toLowerCase().indexOf(filterValue) > -1;
+      }
+      return false;
+    };
     if (exact) {
-      predicate = value => value.toLowerCase() === filterValue;
+      predicate = (value) => {
+        if (typeof value === 'string') {
+          return value.toLowerCase() === filterValue;
+        }
+        return false;
+      };
     }
     return data => data.some(predicate);
   }
@@ -357,7 +367,7 @@ class FilterTable extends Component {
     if (isMomentParameter(tableData, sortParameter)) {
       return input => moment(input);
     }
-    return input => input.toLowerCase();
+    return input => typeof input === 'string' ? input.toLowerCase() : input;
   }
 
   /**

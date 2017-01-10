@@ -10,13 +10,14 @@ import React, { Component, PropTypes } from 'react';
 import { is, fromJS, List, Map } from 'immutable';
 import moment from 'moment';
 import axios from 'axios';
+import Snackbar from 'material-ui/Snackbar';
 
 import Loader from '../../loader';
 import SubgroupModal from './subgroup_modal';
 import TableDisplay from './table_display';
-import { LIMIT_API, rowMap, DATE_FORMAT } from './constants';
+import { LIMIT_API, rowMap, DATE_FORMAT, INFINITY_TESTS } from './constants';
 
-import test_data from './test_data.json';
+// import test_data from './test_data.json';
 
 
 class QualityAnalysis extends Component {
@@ -34,21 +35,25 @@ class QualityAnalysis extends Component {
       activeSubgroup: undefined,
       limitsFetched: false,
       limits: undefined,
-      subgroups: this.processSubgroups(undefined, Map({ name: 'OX11' })),
+      subgroups,
+      messageShow: false,
+      messageText: '',
     };
     this.showModal = this.showModal.bind(this);
     this.hideModal = this.hideModal.bind(this);
+    this.handleShowMessage = this.handleShowMessage.bind(this);
+    this.handleMessageClose = this.handleMessageClose.bind(this);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   const { data, parent } = nextProps;
-  //   if (!is(data, this.props.data) && data && data.get('ox_quality')) {
-  //     this.setState({
-  //       subgroups: this.processSubgroups(data, parent),
-  //       limits: undefined,  // this will trigger a fetchLimits call in next render
-  //     });
-  //   }
-  // }
+  componentWillReceiveProps(nextProps) {
+    const { data, parent } = nextProps;
+    if (!is(data, this.props.data) && data && data.get('ox_quality')) {
+      this.setState({
+        subgroups: this.processSubgroups(data, parent),
+        limits: undefined,  // this will trigger a fetchLimits call in next render
+      });
+    }
+  }
 
   getDefaultRow(subgroup) {
     const base = Map({
@@ -70,6 +75,16 @@ class QualityAnalysis extends Component {
     }, List([]));
   }
 
+  getActiveTest() {
+    const { activeConfig } = this.state;
+    if (activeConfig) {
+      const label = activeConfig.get('label');
+      const validTest = INFINITY_TESTS.indexOf(label) > -1;
+      return validTest ? label : '';
+    }
+    return '';
+  }
+
   fetchLimits() {
     const parts = this.getParts();
     const axiosRequests = parts.map(part => axios.get(`${LIMIT_API}/${part}/`));
@@ -83,7 +98,7 @@ class QualityAnalysis extends Component {
   }
 
   filterSubgroups(data, parent) {
-    return fromJS(test_data).filter(subgroup => (
+    return data.get('ox_quality').filter(subgroup => (
       subgroup.get('process') === parent.get('name')
     ));
   }
@@ -91,12 +106,23 @@ class QualityAnalysis extends Component {
   groupSubgroups(subgroups) {
     return subgroups.reduce((matrix, sg) => {
       const key = `${sg.get('createDate')}__${sg.get('lot')}__${sg.get('subProcess')}`;
-      if (matrix.has(key)) {
-        const row = matrix.get(key);
-        return matrix.set(key, row.set(sg.get('test'), sg.get('value')));
+      if (INFINITY_TESTS.indexOf(sg.get('test')) > -1) {
+        if (matrix.has(key)) {
+          const row = matrix.get(key);
+          return matrix.set(key, row.set(sg.get('test'), sg.get('value')));
+        }
+        return matrix.set(key, this.getDefaultRow(sg));
       }
-      return matrix.set(key, this.getDefaultRow(sg));
+      return matrix;
     }, Map({}));
+  }
+
+  handleShowMessage(messageText) {
+    this.setState({ messageShow: true, messageText });
+  }
+
+  handleMessageClose() {
+    this.setState({ messageShow: false });
   }
 
   processSubgroups(data, parent) {
@@ -139,10 +165,10 @@ class QualityAnalysis extends Component {
 
   render() {
     const { data, parent } = this.props;
-    const { showModal, activeConfig, activeSubgroup, subgroups, limits } = this.state;
-    // if (!data || !data.get('ox_quality')) {
-    //   return <Loader />;
-    // }
+    const { showModal, activeSubgroup, subgroups, limits } = this.state;
+    if (!data || !data.get('ox_quality') || !subgroups) {
+      return <Loader />;
+    }
     if (!limits) {
       this.fetchLimits();
       return <Loader />;
@@ -153,11 +179,23 @@ class QualityAnalysis extends Component {
         <SubgroupModal
           machine={parent.get('name')}
           subgroup={activeSubgroup}
-          config={activeConfig}
+          defaultTest={this.getActiveTest()}
           handleClose={this.hideModal}
+          limits={limits}
           showModal={showModal}
+          showError={this.handleShowMessage}
         />
         <TableDisplay showModal={this.showModal} {...tableDisplayProps} />
+        <Snackbar
+          className="date_range__snackbar"
+          style={{ marginBottom: '15px' }}
+          open={this.state.messageShow}
+          message={this.state.messageText}
+          action="Ok"
+          autoHideDuration={10000}
+          onActionTouchTap={this.handleMessageClose}
+          onRequestClose={this.handleMessageClose}
+        />
       </div>
     );
   }

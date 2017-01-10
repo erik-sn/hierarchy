@@ -62,7 +62,7 @@ class Overview extends Component {
     if (this.state.department) {
       return setpoints;
     }
-    const machineId = data.get('pw_machines').find(mch => mch.get('name') === parent.get('name').substring(0, 4)).get('id');
+    const machineId = data.get('pw_machines').find(mch => mch.get('name').substring(0, 4) === parent.get('name')).get('id');
     return Map({
       onspec: setpointFilter(setpoints.get('onspec'), machineId),
       offspec: setpointFilter(setpoints.get('offspec'), machineId),

@@ -90,12 +90,7 @@ const Empty = () => (
 
 const TableDisplay = ({ data }) => {
   if (!data) {
-    return <Start />;
-    // return (
-    //   <div className="ewa__table-container" >
-    //     <Loader style={{ height: '400px' }} size={75} thickness={5} />
-    //   </div>
-    // );    
+    return <Start />;   
   }
   if (data.size === 0) {
     return <Empty />;
@@ -118,7 +113,7 @@ const TableDisplay = ({ data }) => {
 };
 
 TableDisplay.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object,
 };
 
 export default TableDisplay;

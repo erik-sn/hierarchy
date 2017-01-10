@@ -25,7 +25,7 @@ class Filter extends Component {
     };
     this.handleChange = this.handleChange.bind(this);
     if (props.updateFilter) {
-      this.updateFilter = debounce(props.updateFilter, 200);
+      this.updateFilter = debounce(props.updateFilter, 150);
     }
   }
 

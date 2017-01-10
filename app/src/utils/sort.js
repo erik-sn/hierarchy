@@ -20,10 +20,10 @@ export function alphaNumSort(a, b) {
   return 0;
 }
 
-export function getDateSort(param = undefined) {
+export function getDateSort(param = undefined, format = undefined) {
   const dateSort = (a, b) => {
-    const aDate = param ? moment(a.get(param)) : moment(a);
-    const bDate = param ? moment(b.get(param)) : moment(b);
+    const aDate = param ? moment(a.get(param), format) : moment(a, format);
+    const bDate = param ? moment(b.get(param), format) : moment(b, format);
     if (aDate > bDate) {
       return 1;
     } else if (aDate < bDate) {

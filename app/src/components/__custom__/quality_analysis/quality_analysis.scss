@@ -33,4 +33,64 @@
   .infinity-high {
     text-decoration: overline;
   }
+
+  .infinity-invalid {
+    color: #999;
+  }
+
+  .infinity-error {
+    color: blue;
+  }
+}
+
+.quality_analysis__modal-content {
+  max-width: 90% !important;
+}
+
+.quality_analysis__modal-container {
+  height: 500px !important;
+  width: 95%;
+
+  .chart__container {
+    height: 470px;
+  }
+
+  .chart__button {
+    color: $primary !important;
+    fill: $primary !important;
+  }
+
+  .date_range__date-pickers {
+    display: flex;
+    position: absolute;
+    left: 245px;
+    top: 55px;
+  }
+
+  .date_range__date-picker {
+    width: 100px !important;
+    margin-left: 5px;
+
+    hr {
+      width: 100px !important;
+    }
+  }
+}
+
+.quality_analysis__test-select-container {
+  position: absolute;
+  left: 95px;
+  top: 55px;
+}
+
+.quality_analysis__prompt {
+  font-size: 2.1rem;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 150px;
+}
+
+.quality_analysis__control-chart-container {
+  height: calc(100% - 25px);
+  margin-top: 25px;
 }

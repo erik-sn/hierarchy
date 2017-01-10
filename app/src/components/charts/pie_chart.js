@@ -90,7 +90,7 @@ class TwoLevelPieChart extends Component {
             fill="yellow"
             onClick={this.handleClick}
           >
-            {data.map(entry => <Cell fill={entry.color || '#59A1B6'} />)}
+            {data.map((entry, i) => <Cell key={i} fill={entry.color || '#59A1B6'} />)}
           </Pie>
         </PieChart>
       </div>

@@ -34,10 +34,8 @@ class Department extends Component {
       if (nextProps.params.module) {
         activeModule = retrieveModule(nextDepartment, nextProps.params.module);
       }
-      this.setState({ url, activeModule });
-    } else {
-      this.setState({ url });
     }
+    this.setState({ url, activeModule });
   }
 
   setActiveModule(activeModule) {

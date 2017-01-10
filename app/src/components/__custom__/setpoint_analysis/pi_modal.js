@@ -46,9 +46,9 @@ const PiModal = ({ tag, piData, handleClose }) => {
 };
 
 PiModal.propTypes = {
-  piData: PropTypes.object.isRequired,
+  piData: PropTypes.object,
   handleClose: PropTypes.func,
-  tag: PropTypes.string.isRequired,
+  tag: PropTypes.string,
 };
 
 export default PiModal;
