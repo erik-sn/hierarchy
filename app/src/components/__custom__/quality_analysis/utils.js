@@ -16,7 +16,6 @@ let LIMIT_LOOKUP = Map({});
  * @returns
  */
 function findLimit(lot, limits) {
-  console.log(limits);
   const lotLimit = limits.find(limit => limit.get('lot') === lot);
   const nullLotLimit = limits.reverse().find(limit => limit.get('lot') === null);
   // 0 indicates most recent, list sorted by time DESC
@@ -74,7 +73,7 @@ export function analyzeSubgroup(rowMap, subgroup, limits) {
       return classMap.set(label, getClassName(subgroup.get(label), limit));
     } catch (error) {
       // case  where limits do not exist for this column/test
-      return classMap.set(label, 'infinity-error');
+      return classMap.set(label, 'infinity-invalid');
     }
   }, Map({}));
   return subgroup.set('classNames', classNames);

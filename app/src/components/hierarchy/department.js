@@ -21,6 +21,9 @@ class Department extends Component {
 
   componentDidMount() {
     const { hierarchy } = this.props;
+    // apiCall objects are stored in the department hierarchy in the 
+    // databse. Iterate over each api call and update an index of redux
+    // state with the data from the response
     hierarchy.get('department').get('apiCalls').forEach((apiCall) => {
       this.props.fetchDepartmentData(hierarchy.get('department').get('id'), apiCall.get('url'), apiCall.get('key'));
     });
@@ -29,11 +32,12 @@ class Department extends Component {
   componentWillReceiveProps(nextProps) {
     const nextDepartment = nextProps.hierarchy.get('department');
     const url = window.location.pathname;
+
+    // start at the default module, if the react-router params have a module
+    // then search for that module in the department
     let activeModule = nextDepartment.get('defaultModule');
-    if (nextDepartment.get('id') !== this.props.hierarchy.get('department').get('id')) {
-      if (nextProps.params.module) {
-        activeModule = retrieveModule(nextDepartment, nextProps.params.module);
-      }
+    if (nextProps.params.module) {
+      activeModule = retrieveModule(nextDepartment, nextProps.params.module);
     }
     this.setState({ url, activeModule });
   }

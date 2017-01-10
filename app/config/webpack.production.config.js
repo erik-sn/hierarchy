@@ -38,6 +38,7 @@ module.exports = {
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false },
     }),
+    new webpack.optimize.DedupePlugin(),
     /**
     * this will analyze all of the SASS files and bundle them into
     * one css file. This file is placed after the 'path' in the output
@@ -54,20 +55,34 @@ module.exports = {
   module: {
     loaders: [
       {
+        test: /\.test.js$/,
+        loader: 'ignore',
+      },
+      {
         test: /\.js$/,
         loaders: ['babel'],
         include: path.join(__dirname, '../src'),
+      },
+      {
+        test: /\.css$/,
+        loaders: ['style', 'css', 'postcss'],
+      },
+      {
+        test: /\.scss$/,
+        loaders: ['style', 'css', 'postcss', 'sass'],
       },
       {
         test: /\.json$/,
         loader: 'json',
       },
       {
-      // send all SASS files into the ExtractTextPlugin
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!postcss!sass'),
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        loader: 'file-loader',
       },
     ],
+  },
+  resolve: {
+    extensions: ["", ".webpack.js", ".web.js", ".js", ".ts", ".tsx"],
   },
   postcss: [autoprefixer],
 };

@@ -22,18 +22,25 @@ function checkForDateGaps(subgroupData) {
   }, List([]));
 }
 
-function processTestData(testData) {
-  return testData.map((subgroup) => {
-    const subgroupDate = moment(subgroup.get('createDate'), 'YYYY-MM-DDTHH:mm:ss');
-    return subgroup.set('subgroupDate', subgroupDate.format('MM/DD/YY'));
-  }).reduce((groupedData, subgroup) => {
-    const date = subgroup.get('subgroupDate');
-    const value = subgroup.get('value');
-    if (groupedData.has(date)) {
-      return groupedData.set(date, groupedData.get(date).push(value));
-    }
-    return groupedData.set(date, List([value]));
-  }, Map({}));
+function reduceSubgroup(groupedData, subgroup) {
+  const date = subgroup.get('subgroupDate');
+  const value = subgroup.get('value');
+  if (groupedData.has(date)) {
+    return groupedData.set(date, groupedData.get(date).push(value));
+  }
+  return groupedData.set(date, List([value]));
+}
+
+function formatDateMap(subgroup) {
+  const subgroupDate = moment(subgroup.get('createDate'), 'YYYY-MM-DDTHH:mm:ss');
+  return subgroup.set('subgroupDate', subgroupDate.format('MM/DD/YY'));
+}
+
+function processTestData(testData, limit) {
+  return testData.filter(subgroup => (
+    // check to make sure this product has a limit attached to it
+    !limit || subgroup.get('test') === limit.get('test')
+  )).map(formatDateMap).reduce(reduceSubgroup, Map({}));
 }
 
 function averageData(subgroupData) {
@@ -46,19 +53,34 @@ function averageData(subgroupData) {
 }
 
 function getDataRange(subgroupData) {
-  const values = subgroupData.map(data => data.get('value')).toJS();
+  const values = subgroupData.filter(datapoint => datapoint.get('value'))
+  .map((datapoint) => {
+    const value = datapoint.get('value');
+    if (typeof value === 'string') {
+      return Number(value);
+    }
+    return value;
+  }).toJS();
   const minRange = Math.min.apply(null, values);
   const maxRange = Math.max.apply(null, values);
   return { minRange, maxRange };
 }
 
-function getDomain(limit, subgroupData) {
+function getLimits(limit, minRange, maxRange) {
   const { lrl, lcl, ucl, url } = limit.toJS();
-  const { minRange, maxRange } = getDataRange(subgroupData);
   let low = lrl || lcl || minRange;
   low = minRange < low ? minRange : low;
   let high = url || ucl || maxRange;
   high = maxRange > high ? maxRange : high;
+  return { high, low };
+}
+
+function getDomain(limit, subgroupData) {
+  const { minRange, maxRange } = getDataRange(subgroupData);
+  if (!limit) {
+    return [minRange * 0.95, maxRange * 1.05];
+  }
+  let { high, low } = getLimits(limit, minRange, maxRange);
   const range = (high - low) / 4;
   if (high - low > 1) {
     low = Math.floor(low - range);
@@ -86,7 +108,7 @@ const ControlChart = ({ fetchingTestData, testData, limit }) => {
   if (!fetchingTestData && !testData) {
     return <div className="quality_analysis__prompt">Select a Test</div>;
   }
-  const processedData = processTestData(testData);
+  const processedData = processTestData(testData, limit);
   let lineChartData = averageData(processedData).sort(getDateSort('date'));
   if (limit) {
     const { lrl, lcl, target, ucl, url } = limit.toJS();

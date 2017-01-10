@@ -1,6 +1,7 @@
 app/node_modules
 app/coverage
 app/dist
+app/*.log*
 
 api/hierarchyenv
 api/env
