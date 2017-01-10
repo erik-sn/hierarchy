@@ -53,7 +53,7 @@ export class Application extends Component {
     if (sites && location) {
       // check to see if hiearchy exists, if not do not resolve path
       try {
-        hierarchy = resolvePath(sites, decodeURIComponent(location.pathname));
+        hierarchy = resolvePath(sites);
       } catch (e) {
         hierarchy = undefined;
       }

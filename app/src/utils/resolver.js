@@ -1,6 +1,8 @@
 import { Map } from 'immutable';
 import { browserHistory } from 'react-router';
 
+import AppConfig from '../../appconfig.json';
+
 const defaultKeys = Map({
   site: 'id',
   department: 'id',
@@ -74,7 +76,8 @@ export function getMachine(hierarchy,
 }
 
 
-export function resolvePath(hierarchy, route) {
+export function resolvePath(hierarchy) {
+  const route = decodeURIComponent(location.pathname).replace(AppConfig.baseUrl, '');
   // strip modules from route
   const moduleIndex = route.indexOf('/m/');
   let path = moduleIndex > 0 ? route.substring(0, moduleIndex) : route;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+import { useBasename  } from 'history';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -39,7 +40,7 @@ const muiTheme = getMuiTheme({
 const App = () => (
   <Provider store={store}>
     <MuiThemeProvider muiTheme={muiTheme}>
-      <Router history={history} routes={routes} />
+      <Router history={useBasename(() => history)({ basename: '/processworkshop' })} routes={routes} />
     </MuiThemeProvider>
   </Provider>
 );

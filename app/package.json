@@ -88,6 +88,7 @@
     "compression": "^1.6.2",
     "es6-promise": "^4.0.5",
     "express": "^4.13.4",
+    "history": "3.0.0",
     "immutable": "^3.8.1",
     "json-loader": "^0.5.4",
     "jss": "^5.5.5",

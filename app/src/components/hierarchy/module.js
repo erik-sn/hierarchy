@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-
+import AppConfig from '../../../appconfig.json';
 
 
 function getUrl() {
-  const url = window.location.pathname.replace(/\/+$/, '');
+  const url = window.location.pathname.replace(/\/+$/, '').replace(AppConfig.baseUrl, '');
   return url.indexOf('/m/') > 0 ? url.substring(0, url.indexOf('/m/')) : url;
 }
 
