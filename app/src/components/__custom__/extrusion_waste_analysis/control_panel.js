@@ -40,11 +40,11 @@ class ControlPanel extends Component {
       fetchingData: false,
       axiosSource: undefined,
       warehouse: undefined,
-      group: '',
+      group: 'machine',
       machine: undefined,
       shift: undefined,
       yarnid: undefined,
-      startDate: moment().subtract(4, 'week'),
+      startDate: moment(),
       endDate: moment(),
       messageShow: false,
       messageText: '',
@@ -230,7 +230,6 @@ class ControlPanel extends Component {
         </div>
       );
     }
-
     return (
       <div className="ewa__control-panel-container">
         <AutoComplete
@@ -267,16 +266,20 @@ class ControlPanel extends Component {
             filter={autoCompleteSearch}
             openOnFocus
           />
-          <AutoComplete
-            className="ewa__control-panel-autocomplete"
+          <SelectField
+            className="ewa__control-panel-shift"
             hintText="Shift"
-            searchText={this.state.shift}
-            onUpdateInput={text => this.handleUpdateInput('shift', text)}
-            onNewRequest={text => this.handleUpdateInput('shift', text)}
-            dataSource={shift}
-            filter={autoCompleteSearch}
-            openOnFocus
-          />
+            hintStyle={{ color: '#999', fontStyle: 'italic', fontSize: '0.8rem'}}
+            value={this.state.shift}
+            onChange={(event, index, shift) => this.setState({ shift })}
+            underlineStyle={{ bottom: '4px' }}
+            labelStyle={{ color: '#FFF' }}
+          >
+            <MenuItem value={undefined} label={undefined} primaryText={undefined} />
+            {shift.map((label, i) => (
+              <MenuItem key={i} value={label} label={label} primaryText={label} />
+            ))}
+          </SelectField>
           <AutoComplete
             className="ewa__control-panel-autocomplete"
             hintText="Yarn ID"

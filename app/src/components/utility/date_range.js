@@ -62,6 +62,7 @@ class DateRange extends Component {
             className={`date_range__date-picker ${datePickerClass || ''}`.trim()}
             value={startDate.toDate()}
             onChange={this.handleStartDateChange}
+            firstDayOfWeek={0}
             autoOk
           />
           <DatePicker
@@ -70,6 +71,7 @@ class DateRange extends Component {
             className={`date_range__date-picker ${datePickerClass || ''}`.trim()}
             value={endDate.toDate()}
             onChange={this.handleEndDateChange}
+            firstDayOfWeek={0}
             autoOk
           />
         </div>
