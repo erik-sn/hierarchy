@@ -50,7 +50,7 @@ class WasteChart extends Component {
     const { startDate, endDate } = this.state;
     const dateParam = `?startdate=${startDate.format('MMDDYY')}&enddate=${endDate.format('MMDDYY')}`;
     const params = department ? dateParam : `${dateParam}&machine=${parent.get('name')}`;
-    axios.get(`${types.MAP}/v1/as400/yap100report/ox1/${params}`, types.API_CONFIG)
+    axios.get(`${types.MAP}/as400/yap100report/ox1/${params}`, types.API_CONFIG)
     .then(response => this.setState({
       wasteData: fromJS(response.data),
       loading: false,
