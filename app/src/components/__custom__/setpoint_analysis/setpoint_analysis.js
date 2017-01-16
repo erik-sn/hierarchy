@@ -57,21 +57,24 @@ class SetpointAnalysis extends Component {
     if (!data && nextData) {
       return true;
     }
+    if (!data && !nextData) {
+      return false;
+    }
     return !is(data.get('ox_setpoints'), nextData.get('ox_setpoints')) ||
-           !is(data.get('pw_machines'), nextData.get('pw_machines')) ||
+           !is(data.get('hierarchy_machines'), nextData.get('hierarchy_machines')) ||
            !is(fromJS(this.state), fromJS(nextState));
   }
 
   getMachineId() {
     const { data, parent } = this.props;
-    return data.get('pw_machines').find(mch => (
+    return data.get('hierarchy_machines').find(mch => (
       mch.get('name') === parent.get('name').substring(0, 4)
     )).get('id');
   }
 
   fetchActiveSpecifications() {
-    const machine = this.props.parent.get('name');
-    return axios.get(`${types.MAP}/processworkshop/specifications/?active=true&machine=${machine}`)
+    const machine = this.props.parent.get('id');
+    return axios.get(`${types.MAP_TEST}/hierarchy/specifications/?active=true&machine=${machine}`, types.API_CONFIG)
     .then((response) => {
       const activeSpecifications = fromJS(response.data);
       const specificationString = activeSpecifications.map(spec => spec.get('fileName')).join('/');
@@ -84,14 +87,14 @@ class SetpointAnalysis extends Component {
         messageText: 'Error retrieving active specification',
         messageShow: true,
       });
-      logError(error);
+      Rollbar.error(error);
     });
   }
 
   fetchSpecifications() {
     const machine = this.props.parent.get('name');
     const defaultSpec = this.state.defaultSpec;
-    axios.get(`${types.MAP}/processworkshop/specifications/files/${machine}/`)
+    axios.get(`${types.MAP_TEST}/processworkshop/specifications/files/${machine}/`, types.API_CONFIG)
     .then((response) => {
       const specificationList = fromJS(response.data).sort(this.specificationSort).insert(0, defaultSpec);
       this.setState({ specificationList });
@@ -101,7 +104,7 @@ class SetpointAnalysis extends Component {
         messageText: 'Error retrieving specification list',
         messageShow: true,
       });
-      logError(error);
+      Rollbar.error(error);
     });
   }
 
@@ -115,13 +118,13 @@ class SetpointAnalysis extends Component {
         messageText: 'Error retrieving PI data',
         messageShow: true,
       });
-      logError(error);
+      Rollbar.error(error);
     });
   }
 
   fetchAnalyzedData(specification) {
     const machine = this.props.parent.get('name');
-    axios.get(`${types.MAP}/processworkshop/setpoints/analyze/ox/${machine}/${specification}/`)
+    axios.get(`${types.MAP_TEST}/processworkshop/setpoints/analyze/ox/${machine}/${specification}/`, types.API_CONFIG)
     .then((response) => {
       this.setState({
         activeSpec: specification,
@@ -134,7 +137,7 @@ class SetpointAnalysis extends Component {
         messageText: 'Error retrieving specification data',
         messageShow: true,
       });
-      logError(error);
+      Rollbar.error(error);
     });
   }
 
@@ -192,7 +195,7 @@ class SetpointAnalysis extends Component {
   render() {
     const { data } = this.props;
     const { piData, activeTag, historyMode, historicalSetpoints } = this.state;
-    if (!data || !data.get('ox_setpoints') || !data.get('pw_machines')) {
+    if (!data || !data.get('ox_setpoints') || !data.get('hierarchy_machines')) {
       return <Loader style={{ height: '225px' }} size={75} thickness={5} />;
     }
     let setpointData = this.filterCurrentSetpoints(data.get('ox_setpoints'));

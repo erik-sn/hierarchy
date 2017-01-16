@@ -102,7 +102,7 @@ class ControlPanel extends Component {
   }
 
   fetchWarehouses() {
-    axios.get(`${types.MAP}/as400/yap100/warehouses/`)
+    axios.get(`${types.MAP}/as400/yap100/warehouses/`, types.API_CONFIG)
     .then(response => this.setState({
       warehouseList: response.data,
       messageShow: false,
@@ -117,7 +117,7 @@ class ControlPanel extends Component {
   }
 
   fetchOptions() {
-    return axios.get(`${types.MAP}/as400/yap100report/${this.state.warehouse}/?params=true`)
+    return axios.get(`${types.MAP}/as400/yap100report/${this.state.warehouse}/?params=true`, types.API_CONFIG)
     .then(response => this.setState({
       options: response.data,
       optionsFetched: true,

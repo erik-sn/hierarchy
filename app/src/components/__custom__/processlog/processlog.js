@@ -22,7 +22,9 @@ const rowMap = List([
 ]);
 
 function getProcessLogData(data, parent) {
-  return data.get('ox_processlog').filter(log => log.get('machine') === parent.get('name'));
+  console.log(data.get('ox_processlog'))
+  console.log(parent)
+  return data.get('ox_processlog').filter(log => log.get('machineName') === parent.get('name'));
 }
 
 function formatProcessLogs(processLogs) {

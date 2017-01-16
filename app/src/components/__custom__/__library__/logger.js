@@ -2,7 +2,6 @@ import axios from 'axios';
 
 import types from '../../../actions/types';
 
-
 export default function logError(error) {
   const data = {
     language: 'javascript',

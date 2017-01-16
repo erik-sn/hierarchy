@@ -2,7 +2,8 @@ import config from '../../appconfig.json';
 
 const types = {
   API: config.hierarchyapi,
-  MAP: 'http://10.137.19.200:3001/v1',
+  MAP: 'http://10.137.19.200/v1',
+  MAP_TEST: 'http://10.137.19.200:3001/v1',
   API_CONFIG: {
     timeout: 30000,
     withCredentials: true,

@@ -63,8 +63,8 @@ export class ApiCalls extends Component {
   deleteApiCall() {
     axios.delete(`${types.API}/apicalls/${this.state.activeApiCall.get('id')}/`, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
-    .then(() => this.showMessage(`API call Successfully Deleted: ${this.state.activeApiCall.get('name')}`))
-    .catch(() => this.showMessage(`Error Deleting API call: ${this.state.activeApiCall.get('name')}`))
+    .then(() => this.showMessage(`API call Successfully Deleted: ${this.state.activeApiCall.get('key')}`))
+    .catch(() => this.showMessage(`Error Deleting API call: ${this.state.activeApiCall.get('key')}`))
     .then(() => this.resetState());
   }
 
