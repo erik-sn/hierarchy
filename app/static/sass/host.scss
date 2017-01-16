@@ -28,28 +28,28 @@
 .host__label-large {
   @include host__default;
   width: 400px;
-  background-image: url('/static/media/host_br.svg');
+  background-image: url('/processworkshop/static/media/host_br.svg');
 }
 
 .host__label-large:hover {
-  background-image: url('/static/media/host_br_fill.svg');
+  background-image: url('/processworkshop/static/media/host_br_fill.svg');
   transform: translateX(15px);
 }
 
 .host__tab {
   @include host__default;
   border-left: 2px solid $secondary;
-  background-image: url('/static/media/host_tab.svg');
+  background-image: url('/processworkshop/static/media/host_tab.svg');
 }
 
 .host__tab-selected {
   @include host__default;
   border-left: 2px solid $secondary;
-  background-image: url('/static/media/host_tab_selected.svg');
+  background-image: url('/processworkshop/static/media/host_tab_selected.svg');
   color: $primary;
 }
 
 .host__tab:hover {
-  background-image: url('/static/media/host_tab_fill.svg');
+  background-image: url('/processworkshop/static/media/host_tab_fill.svg');
   cursor: pointer;
 }

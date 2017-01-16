@@ -19,7 +19,7 @@ import routes from '../src/routes';
 
 global.navigator = { userAgent: 'all' };
 const app = express(); // delcare application
-const PORT = process.env.PORT || 4111;
+const PORT = process.env.PORT || 3000;
 
 // material-ui theme
 const muiTheme = getMuiTheme({
@@ -35,8 +35,8 @@ app.use(compression()); // compress compatible files for quicker client load tim
 app.use(logger('dev')); // log content
 
 // Set path to public assets
-app.use('/static', express.static('dist'));
-app.use('/static/media', express.static('dist')); // we have copied all media files through webpack
+app.use('/processworkshop/static', express.static('dist'));
+app.use('/processworkshop/static/media', express.static('dist'));
 
 app.use('*', (req, res) => {
   match({ routes, location: req.originalUrl }, (error, redirectLocation, renderProps) => {
@@ -82,27 +82,25 @@ function renderFullPage(html) {
     <!doctype html>
     <html>
     <head>
-      <link href="/static/media/logo-dark.png" rel="shortcut icon" type="image/x-icon" />
-      <link rel="stylesheet" href="/static/bundle.min.css">
+      <script>
+      var _rollbarConfig = {
+          accessToken: "f30387fac9874eab9317b93ca672f3ed",
+          captureUncaught: true,
+          payload: {
+              environment: "test"
+          }
+      };
+      ${rollBar}
+      </script>
+      <link href="/processworkshop/static/media/logo-dark.png" rel="shortcut icon" type="image/x-icon" />
+      <link rel="stylesheet" href="/processworkshop/static/bundle.min.css">
       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
       <link href='https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel="stylesheet" type="text/css" />
     </head>
     <body id="app-body">
       <div id="root">${html}</div>
     </body>
-    <script src="/static/bundle.min.js"></script>
+    <script src="/processworkshop/static/bundle.min.js"></script>
     </html>
   `;
 }
-
-
-      // <script>
-      // var _rollbarConfig = {
-      //     accessToken: "f30387fac9874eab9317b93ca672f3ed",
-      //     captureUncaught: true,
-      //     payload: {
-      //         environment: "test"
-      //     }
-      // };
-      // ${rollBar}
-      // </script>

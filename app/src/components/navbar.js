@@ -198,7 +198,7 @@ class Navbar extends Component {
         {this.state.dropdownContainer}
         <Link to="/" onClick={this.hideNeighbors} >
           <div className="navbar__icon-container">
-            <img alt="Logo" className="nav-bar-logo" src="/static/media/logo.png" height="40px" />
+            <img alt="Logo" className="nav-bar-logo" src="/processworkshop/static/media/logo.png" height="40px" />
           </div>
         </Link>
         <Link to="/" onClick={this.hideNeighbors}>
