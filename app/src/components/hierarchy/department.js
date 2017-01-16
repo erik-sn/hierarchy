@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 
 import Machine from './machine';
+import NotFound from '../notfound';
 import getComponent from '../../utils/library';
 
 import { fetchDepartmentData } from '../../actions/index';
@@ -11,6 +12,9 @@ class Department extends Component {
 
   constructor(props) {
     super(props);
+    if (!props.hierarchy) {
+      return;
+    }
     const department = props.hierarchy.get('department');
     this.state = {
       activeModule: props.params.module ? retrieveModule(department, props.params.module) : department.get('defaultModule'),
@@ -60,8 +64,11 @@ class Department extends Component {
   }
 
   render() {
+    const { params, data, hierarchy, notFound } = this.props;
+    if (notFound) {
+      return <NotFound />;
+    }
     const { activeModule } = this.state;
-    const { params, data, hierarchy } = this.props;
     if (params.machine) {
       return <Machine hierarchy={hierarchy} data={data} activeModuleLabel={params.module} />;
     }
@@ -93,6 +100,9 @@ Department.propTypes = {
 };
 
 function mapStateToProps(state, ownProps) {
+  if (!ownProps.hierarchy) {
+    return { notFound: true }
+  }
   const id = ownProps.hierarchy.get('department').get('id');
   return { data: state.get('data').get(id) };
 }

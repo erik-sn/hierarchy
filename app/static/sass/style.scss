@@ -1,5 +1,5 @@
 /* Color Scheme */
-$primary: darken(#151E25, 5%);
+$primary: darken(#151E25, 0%);
 $secondary: #FFFFFF;
 $tertiary: #285F64;
 
@@ -100,4 +100,17 @@ html, body {
 
 .recharts-tooltip-cursor {
   color: $primary !important;
+}
+
+/* not found page styles */
+.notfound__container {
+  
+  h2, h4 {
+    text-align: center;
+    color: $secondary;
+    
+    a {
+      color: $secondary !important;      
+    }
+  }
 }

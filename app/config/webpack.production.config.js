@@ -8,7 +8,7 @@ require('es6-promise').polyfill();
 var autoprefixer = require('autoprefixer');
 
 module.exports = {
-  devtool: 'cheap-module-source-map'
+  devtool: 'cheap-module-source-map',
   entry: [
     './src/index',
   ],
