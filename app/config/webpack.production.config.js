@@ -8,7 +8,7 @@ require('es6-promise').polyfill();
 var autoprefixer = require('autoprefixer');
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
+  devtool: 'cheap-module-source-map'
   entry: [
     './src/index',
   ],
@@ -44,7 +44,7 @@ module.exports = {
     * one css file. This file is placed after the 'path' in the output
     * configuration above - so for this project, '/dist/bundle.min.css'
     */
-    new ExtractTextPlugin('/bundle.min.css', {
+    new ExtractTextPlugin('bundle.min.css', {
       allChunks: true,
     }),
     // copy images from the media folder to the dist folder
@@ -69,7 +69,7 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'postcss', 'sass'],
+        loader: ExtractTextPlugin.extract('css!postcss!sass'),
       },
       {
         test: /\.json$/,

@@ -87,7 +87,7 @@ function renderFullPage(html) {
           accessToken: "f30387fac9874eab9317b93ca672f3ed",
           captureUncaught: true,
           payload: {
-              environment: "test"
+              environment: "production"
           }
       };
       ${rollBar}
