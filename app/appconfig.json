@@ -1,5 +1,5 @@
 {
   "name": "Process Workshop",
   "baseUrl": "/processworkshop",
-  "hierarchyapi": "http://10.137.19.200:3001/v1/hierarchy"
+  "hierarchyapi": "http://10.137.19.200/v1/hierarchy"
 }

@@ -7,7 +7,7 @@ import Snackbar from 'material-ui/Snackbar';
 
 import AreaChart from '../../charts/area_chart';
 import Loader from '../../loader';
-
+import types from '../../../actions/types';
 
 const cFormat = 'YYYY-MM-DD'; // date comparison format
 
@@ -50,7 +50,7 @@ class WasteChart extends Component {
     const { startDate, endDate } = this.state;
     const dateParam = `?startdate=${startDate.format('MMDDYY')}&enddate=${endDate.format('MMDDYY')}`;
     const params = department ? dateParam : `${dateParam}&machine=${parent.get('name')}`;
-    axios.get(`http://10.137.19.200:3001/v1/as400/yap100report/ox1/${params}`)
+    axios.get(`${types.MAP}/v1/as400/yap100report/ox1/${params}`, types.API_CONFIG)
     .then(response => this.setState({
       wasteData: fromJS(response.data),
       loading: false,
