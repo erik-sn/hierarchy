@@ -118,7 +118,7 @@ export class ApiCalls extends Component {
     let filteredApicalls = apicalls;
     if (filter.trim()) {
       filteredApicalls = apicalls.filter(module => (
-        module.get('key').toLowerCase().indexOf(filter.toLowerCase()) > -1 || 
+        module.get('key').toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
         module.get('url').toLowerCase().indexOf(filter.toLowerCase()) > -1
       ));
     }
@@ -129,7 +129,7 @@ export class ApiCalls extends Component {
         primaryText={apicall.get('key')}
         secondaryText={apicall.get('url')}
       />
-    ))
+    ));
   }
 
   render() {

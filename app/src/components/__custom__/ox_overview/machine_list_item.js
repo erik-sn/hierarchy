@@ -41,7 +41,7 @@ const MachineListItem = (props) => {
       </div>
     </Link>
   );
-}
+};
 
 MachineListItem.propTypes = {
   specification: PropTypes.object.isRequired,

@@ -108,7 +108,7 @@ export class Modules extends Component {
       label: '',
       description: '',
       active: true,
-    })
+    });
     this.setState({ activeModule: newModule, clean: true });
   }
 
@@ -117,7 +117,7 @@ export class Modules extends Component {
     let filteredModules = modules;
     if (filter.trim()) {
       filteredModules = modules.filter(module => (
-        module.get('name').toLowerCase().indexOf(filter.toLowerCase()) > -1 || 
+        module.get('name').toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
         module.get('description').toLowerCase().indexOf(filter.toLowerCase()) > -1
       ));
     }
@@ -128,7 +128,7 @@ export class Modules extends Component {
         primaryText={module.get('name')}
         secondaryText={module.get('description')}
       />
-    ))
+    ));
   }
 
   renderModuleForm() {
@@ -162,7 +162,7 @@ export class Modules extends Component {
       <div className="admin__modules">
         <div className="admin__modules-inner-container">
           <div className="admin__modules-list-container">
-             <TextField
+            <TextField
               id="admin__modules-filter"
               hintText="Module Filter"
               value={this.state.filter}

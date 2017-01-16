@@ -16,7 +16,7 @@ const SpecificationSelect = ({ specifications, activeSpec, onChange }) => (
       onChange={onChange}
       maxHeight={300}
       fullWidth
-      labelStyle={{ color: 'whitesmoke '}}
+      labelStyle={{ color: 'whitesmoke ' }}
     >
       {renderSpecifiactions(specifications)}
     </SelectField>

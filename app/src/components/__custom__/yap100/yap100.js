@@ -72,7 +72,7 @@ const Yap100List = ({ data, parent }) => {
         filter
         results
       />
-      <div style={{ float: 'right'}}>Note: Times use AS400 times - midnight to 7am is still considered the previous day</div>
+      <div style={{ float: 'right' }}>Note: Times use AS400 times - midnight to 7am is still considered the previous day</div>
     </div>
   );
 };

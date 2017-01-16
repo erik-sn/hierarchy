@@ -19,7 +19,7 @@ export default (state = initialState, action) => {
       const { department, key, reducerData } = action.payload;
       const departmentState = state.get(department) || Map({});
       const data = departmentState.set(key, reducerData);
-      return state.set(department, data)
+      return state.set(department, data);
     }
     default:
       return state;

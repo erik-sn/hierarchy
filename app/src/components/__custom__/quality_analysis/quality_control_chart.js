@@ -98,7 +98,7 @@ const CONTROL_CHART_LINES = [
   { strokeWidth: 2, type: 'linear', dot: false, dataKey: 'target', fill: 'black', stroke: 'black', isAnimationActive: false },
   { strokeWidth: 2, type: 'linear', dot: false, dataKey: 'value', fill: 'blue', stroke: 'blue', isAnimationActive: false },
   { strokeWidth: 2, strokeDasharray: '5 5', type: 'linear', dot: false, dataKey: 'lcl', fill: 'yellow', stroke: 'yellow', isAnimationActive: false },
-  { strokeWidth: 2, type: 'linear', dot: false, dataKey: 'lrl', fill: 'red', stroke: 'red', isAnimationActive: false }
+  { strokeWidth: 2, type: 'linear', dot: false, dataKey: 'lrl', fill: 'red', stroke: 'red', isAnimationActive: false },
 ];
 
 const ControlChart = ({ fetchingTestData, testData, limit }) => {

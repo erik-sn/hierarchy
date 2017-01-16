@@ -27,6 +27,22 @@ class ExtrusionWasteAnalysis extends Component {
     this.restoreLocalStorage();
   }
 
+  setPercentFixed(data) {
+    const formatted = data.map((row) => {
+      let updated = row;
+      updated = updated.set('wastePercent', row.get('wastePercent').toFixed(1));
+      updated = updated.set('transitionPercent', row.get('transitionPercent').toFixed(1));
+      return updated;
+    });
+    return formatted;
+  }
+
+  formatMomentColumn(data) {
+    return data.map(row => (
+      row.set('label', parseAndFormat(row.get('label'), DISPLAY))
+    ));
+  }
+
   restoreLocalStorage() {
     const storedMode = JSON.parse(localStorage.getItem('pw__waste_analysis__mode'));
     const storedData = JSON.parse(localStorage.getItem('pw__waste_analysis__data'));
@@ -36,22 +52,6 @@ class ExtrusionWasteAnalysis extends Component {
         data: storedData,
       });
     }
-  }
-
-  formatMomentColumn(data) {
-    return data.map(row => (
-      row.set('label', parseAndFormat(row.get('label'), DISPLAY))
-    ));
-  }
-
-  setPercentFixed(data) {
-    const formatted = data.map((row) => {
-      let updated = row;
-      updated = updated.set('wastePercent', row.get('wastePercent').toFixed(1));
-      updated = updated.set('transitionPercent', row.get('transitionPercent').toFixed(1));
-      return updated;
-    });
-    return formatted;
   }
 
   cleanData(data) {

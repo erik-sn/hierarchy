@@ -21,7 +21,7 @@ class Department extends Component {
 
   componentDidMount() {
     const { hierarchy } = this.props;
-    // apiCall objects are stored in the department hierarchy in the 
+    // apiCall objects are stored in the department hierarchy in the
     // databse. Iterate over each api call and update an index of redux
     // state with the data from the response
     hierarchy.get('department').get('apiCalls').forEach((apiCall) => {

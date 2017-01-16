@@ -130,7 +130,6 @@ class Navbar extends Component {
     const { path } = this.props;
     const { dropdownX, dropdownY, windowWidth } = getBoundingBox(e);
     const height = neighbors.size * 40;
-    console.log(dropdownX, dropdownY, windowWidth, height);
     const dropdownContainer = (
       <div
         className="navbar__neighbor-container"

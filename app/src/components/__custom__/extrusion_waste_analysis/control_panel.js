@@ -221,7 +221,7 @@ class ControlPanel extends Component {
             hintText="Warehouse"
             searchText={this.state.warehouse}
             onUpdateInput={text => this.handleUpdateInput('warehouse', text)}
-            onNewRequest={(text) => this.handleUpdateInput('warehouse', text)}
+            onNewRequest={text => this.handleUpdateInput('warehouse', text)}
             dataSource={warehouseList}
             filter={autoCompleteSearch}
             openOnFocus

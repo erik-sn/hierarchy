@@ -14,7 +14,7 @@ class SetpointChart extends Component {
 
   shouldComponentUpdate(nextProps) {
     if (this.props.setpoints && nextProps.setpoints) {
-      return !is(this.props.setpoints, nextProps.setpoints)
+      return !is(this.props.setpoints, nextProps.setpoints);
     }
     return true;
   }

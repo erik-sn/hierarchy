@@ -158,9 +158,7 @@ class FilterTable extends Component {
    * @memberOf FilterTable
    */
   cleanData(tableData) {
-    return tableData.map(row => row.map((value, key) => {
-      return key === 'classNames' ? value : this.castToString(value).trim();
-    }));
+    return tableData.map(row => row.map((value, key) => key === 'classNames' ? value : this.castToString(value).trim()));
   }
 
   /**

@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import Cell from './filter_table_cell';
 
 
-
 /**
  * Container component to order a row of table cells
  *

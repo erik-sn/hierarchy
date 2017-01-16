@@ -6,9 +6,9 @@ if (process.env.BROWSER) {
   require('./extrusion_pack_analysis.scss');  // eslint-disable-line global-require
 }
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import moment from 'moment';
-import { Map, List } from 'immutable';
+import { Map } from 'immutable';
 
 import { getDateSort, getNumberSort } from '../../../utils/sort';
 import ControlPanel from './control_panel';
@@ -30,7 +30,7 @@ class ExtrusionPackAnalysis extends Component {
     this.handleUpdatePacks = this.handleUpdatePacks.bind(this);
   }
 
-  getPlotData(plot, packs, minCount = -1) {
+  getPlotData(plot, packs) {
     switch (plot) {
       case 2:
         return this.groupMachine(packs);
@@ -95,8 +95,5 @@ class ExtrusionPackAnalysis extends Component {
     );
   }
 }
-
-ExtrusionPackAnalysis.propTypes = {
-};
 
 export default ExtrusionPackAnalysis;

@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import { List, Map } from 'immutable';
 
-import Loader from '../../loader';
 import FilterTable from '../../utility/filter_table/filter_table';
 import { isMomentParameter } from '../../../utils/library';
 
@@ -78,7 +77,7 @@ function buildRowMap(data) {
 
 const Start = () => (
   <div className="ewa__table-container">
-    <h3>Select filters and press "Search"</h3>
+    <h3>Select filters and press &quot;Search&quot;</h3>
   </div>
 );
 
@@ -90,7 +89,7 @@ const Empty = () => (
 
 const TableDisplay = ({ data }) => {
   if (!data) {
-    return <Start />;   
+    return <Start />;
   }
   if (data.size === 0) {
     return <Empty />;

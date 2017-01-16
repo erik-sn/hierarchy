@@ -174,7 +174,11 @@ class ControlPanel extends Component {
             <MenuItem value={2} label="Pareto By Machine" primaryText="Pareto By machine" />
             <MenuItem value={3} label="Pareto By Spinnerette" primaryText="Pareto By Spinnerette" />
             <MenuItem value={4} label="Pack Life By Machine" primaryText="Pack Life By Machine" />
-            <MenuItem value={5} label="Pack Life By Spinnerette" primaryText="Pack Life By Machine" />
+            <MenuItem
+              value={5}
+              label="Pack Life By Spinnerette"
+              primaryText="Pack Life By Machine"
+            />
             <MenuItem value={6} label="Worst Packs" primaryText="Worst Packs" />
             <MenuItem value={7} label="Best Packs" primaryText="Best Packs" />
           </SelectField>

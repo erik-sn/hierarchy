@@ -22,8 +22,6 @@ const rowMap = List([
 ]);
 
 function getProcessLogData(data, parent) {
-  console.log(data.get('ox_processlog'))
-  console.log(parent)
   return data.get('ox_processlog').filter(log => log.get('machineName') === parent.get('name'));
 }
 
