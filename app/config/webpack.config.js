@@ -1,6 +1,7 @@
 /* eslint-disable */
 var path = require('path');
 var webpack = require('webpack');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 require('es6-promise').polyfill();
 
 // automatically add vendor prefixes to transpiled css
@@ -22,7 +23,7 @@ module.exports = {
     // this output is virtual/in memory when using WebpackDevServer
     path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
-    publicPath: '/dist/',
+    publicPath: '/static/media/',
   },
   plugins: [
     // enable hot module replacement

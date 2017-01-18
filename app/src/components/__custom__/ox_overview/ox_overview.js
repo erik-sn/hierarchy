@@ -13,7 +13,7 @@ import SetpointChart from './setpoint_chart';
 import UptimeChart from './uptime_chart';
 
 
-const setpointFilter = (input, id) => input.filter(setpoint => setpoint.get('machine') === id);
+const setpointFilter = (setpointList, id) => setpointList.filter(setpoint => setpoint.get('machine') === id);
 
 class Overview extends Component {
 
@@ -55,14 +55,14 @@ class Overview extends Component {
 
   getSetpointData() {
     const { data, parent } = this.props;
-    if (!data || !data.get('ox_setpoints') || !data.get('pw_machines')) {
+    if (!data || !data.get('ox_setpoints') || !data.get('hierarchy_machines')) {
       return undefined;
     }
     const setpoints = data.get('ox_setpoints');
     if (this.state.department) {
       return setpoints;
     }
-    const machineId = data.get('pw_machines').find(mch => mch.get('name').substring(0, 4) === parent.get('name')).get('id');
+    const machineId = data.get('hierarchy_machines').find(mch => mch.get('name').substring(0, 4) === parent.get('name')).get('id');
     return Map({
       onspec: setpointFilter(setpoints.get('onspec'), machineId),
       offspec: setpointFilter(setpoints.get('offspec'), machineId),
