@@ -4,13 +4,14 @@ import axios from 'axios';
 import { fromJS, is } from 'immutable';
 import moment from 'moment';
 import AutoComplete from 'material-ui/AutoComplete';
-import SelectField from 'material-ui/SelectField';
+import SelectField from '../../utility/select_field';
 import MenuItem from 'material-ui/MenuItem';
 import Snackbar from 'material-ui/Snackbar';
 import FlatButton from 'material-ui/FlatButton';
 import SearchIcon from 'material-ui/svg-icons/action/search';
 import ClearIcon from 'material-ui/svg-icons/content/clear';
 import StopIcon from 'material-ui/svg-icons/av/stop';
+
 
 import logError from '../__library__/logger';
 import types from '../../../actions/types';
@@ -41,7 +42,7 @@ class ControlPanel extends Component {
       axiosSource: undefined,
       warehouse: undefined,
       group: 'machine',
-      machine: undefined,
+      machine: '',
       shift: undefined,
       yarnid: undefined,
       startDate: moment(),
@@ -49,6 +50,7 @@ class ControlPanel extends Component {
       messageShow: false,
       messageText: '',
     };
+    this.handleSelection = this.handleSelection.bind(this);
     this.handleGroupChange = this.handleGroupChange.bind(this);
     this.handleUpdateInput = this.handleUpdateInput.bind(this);
     this.updateDates = this.updateDates.bind(this);
@@ -198,6 +200,10 @@ class ControlPanel extends Component {
     });
   }
 
+  handleSelection(value, name) {
+    this.setState({ [name]: value });
+  }
+
   updateDates(startDate, endDate) {
     this.setState({ startDate, endDate });
   }
@@ -242,54 +248,49 @@ class ControlPanel extends Component {
           filter={autoCompleteSearch}
           openOnFocus
         />
-        <SelectField
-          className="ewa__control-panel_groups"
-          value={this.state.group}
-          onChange={this.handleGroupChange}
-          underlineStyle={{ bottom: '4px' }}
-          labelStyle={{ color: '#FFF' }}
-        >
-          <MenuItem value={''} label="Group: Date & Shift" primaryText="Date & Shift" />
-          <MenuItem value={'day'} label="Group: Date" primaryText="Date" />
-          <MenuItem value={'machine'} label="Group: Machine" primaryText="Machine" />
-          <MenuItem value={'yarnid'} label="Group: Yarn ID" primaryText="Yarn ID" />
-          <MenuItem value={'shift'} label="Group: Shift" primaryText="Shift" />
-        </SelectField>
         <div className="ewa__control-panel-options-container">
-          <AutoComplete
-            className="ewa__control-panel-autocomplete"
-            hintText="Machine"
-            searchText={this.state.machine}
-            onUpdateInput={text => this.handleUpdateInput('machine', text)}
-            onNewRequest={text => this.handleUpdateInput('machine', text)}
-            dataSource={machine}
-            filter={autoCompleteSearch}
-            openOnFocus
-          />
           <SelectField
-            className="ewa__control-panel-shift"
-            hintText="Shift"
-            hintStyle={{ color: '#999', fontStyle: 'italic', fontSize: '0.8rem'}}
-            value={this.state.shift}
-            onChange={(event, index, shift) => this.setState({ shift })}
-            underlineStyle={{ bottom: '4px' }}
-            labelStyle={{ color: '#FFF' }}
+            name='machine'
+            multiple
+            className="ewa__control-panel-select"
+            hintText='Machine'
+            onSelect={this.handleSelection}
+            value={this.state.machine}
+            style={{ minWidth: 150 }}
+            menuProps={{maxHeight: 370}}
           >
-            <MenuItem value={undefined} label={undefined} primaryText={undefined} />
-            {shift.map((label, i) => (
-              <MenuItem key={i} value={label} label={label} primaryText={label} />
+            {machine.map((label, i) => (
+              <div key={i} value={label} label={label}>{label}</div>
             ))}
           </SelectField>
-          <AutoComplete
-            className="ewa__control-panel-autocomplete"
-            hintText="Yarn ID"
-            searchText={this.state.yarnid}
-            onUpdateInput={text => this.handleUpdateInput('yarnid', text)}
-            onNewRequest={text => this.handleUpdateInput('yarnid', text)}
-            dataSource={yarnid}
-            filter={autoCompleteSearch}
-            openOnFocus
-          />
+          <SelectField
+            name='yarnid'
+            multiple
+            className="ewa__control-panel-select"
+            hintText='Yarn ID'
+            onSelect={this.handleSelection}
+            value={this.state.yarnid}
+            style={{ minWidth: 150 }}
+            menuProps={{maxHeight: 370}}
+          >
+            {yarnid.map((label, i) => (
+              <div key={i} value={label} label={label}>{label}</div>
+            ))}
+          </SelectField>
+          <SelectField
+            name='shift'
+            multiple
+            className="ewa__control-panel-select"
+            hintText='Shifts'
+            onSelect={this.handleSelection}
+            value={this.state.shift}
+            style={{ minWidth: 150 }}
+            menuProps={{maxHeight: 370}}
+          >
+            {shift.map((label, i) => (
+              <div key={i} value={label} label={label}>{label}</div>
+            ))}
+          </SelectField>
         </div>
         <DateRange {...this.dateRangeProps} />
         <div className="ewa__control_panel-actions">
@@ -335,3 +336,19 @@ ControlPanel.propTypes = {
 };
 
 export default ControlPanel;
+
+
+
+        // <SelectField
+        //   className="ewa__control-panel_groups"
+        //   value={this.state.group}
+        //   onChange={this.handleGroupChange}
+        //   underlineStyle={{ bottom: '4px' }}
+        //   labelStyle={{ color: '#FFF' }}
+        // >
+        //   <MenuItem value={''} label="Group: Date & Shift" primaryText="Date & Shift" />
+        //   <MenuItem value={'day'} label="Group: Date" primaryText="Date" />
+        //   <MenuItem value={'machine'} label="Group: Machine" primaryText="Machine" />
+        //   <MenuItem value={'yarnid'} label="Group: Yarn ID" primaryText="Yarn ID" />
+        //   <MenuItem value={'shift'} label="Group: Shift" primaryText="Shift" />
+        // </SelectField>
