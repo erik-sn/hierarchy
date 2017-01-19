@@ -2,10 +2,11 @@ import React, { PropTypes } from 'react';
 import { List, Map } from 'immutable';
 
 import FilterTable from '../../utility/filter_table/filter_table';
-import { isMomentParameter } from '../../../utils/library';
+import { isMomentParameter, commafy } from '../../../utils/library';
 
 // generic sum function, convert to number as we are mostly working with strings
-const sum = (total, value) => total + Number(value);
+// we insert commas for readability, remove them with this regex
+const sum = (total, value) => total + Number(value.replace(/,/g, ''));
 
 // summing functions for each numeric column
 const productionTransform = rowValues => rowValues.get('productionPounds').reduce(sum, 0);
@@ -87,6 +88,14 @@ const Empty = () => (
   </div>
 );
 
+function stringifyCommafy(tableData) {
+  return tableData.map((row) => {
+    return row.map((cell) => {
+      return commafy(String(cell));
+    });
+  });
+}
+
 const TableDisplay = ({ data }) => {
   if (!data) {
     return <Start />;
@@ -95,13 +104,12 @@ const TableDisplay = ({ data }) => {
     return <Empty />;
   }
   const formattedRowMap = buildRowMap(data);
-
   return (
     <div className="ewa__table-container" >
       <FilterTable
         className="ewa__table-filter-table"
         rowMap={formattedRowMap}
-        tableData={data}
+        tableData={stringifyCommafy(data)}
         csv
         filter
         totals

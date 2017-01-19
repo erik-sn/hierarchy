@@ -43,3 +43,15 @@ export function isMomentParameter(list, parameter) {
 export function isNumberParameter(list, parameter) {
   return !list.some(data => Number.isNaN(Number(data.get(parameter))));
 }
+
+
+export function commafy(num) {
+    var str = num.split('.');
+    if (str[0].length >= 4) {
+        str[0] = str[0].replace(/(\d)(?=(\d{3})+$)/g, '$1,');
+    }
+    if (str[1] && str[1].length >= 4) {
+        str[1] = str[1].replace(/(\d{3})/g, '$1 ');
+    }
+    return str.join('.');
+}

@@ -1,6 +1,6 @@
 {
   "name": "hierarchy",
-  "version": "1.0.0",
+  "version": "0.1.1",
   "description": "Collection of process engineering tools",
   "main": "index.js",
   "repository": "",

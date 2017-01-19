@@ -10,8 +10,6 @@ class DateRange extends Component {
     this.state = {
       startDate: props.defaultStartDate,
       endDate: props.defaultEndDate,
-      messageShow: false,
-      messageText: '',
     };
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
@@ -21,29 +19,23 @@ class DateRange extends Component {
   handleStartDateChange(event, date) {
     const { endDate } = this.state;
     const startDate = moment(date);
-    this.checkStartEndDate(startDate, endDate);
+    this.setState({
+      startDate,
+      endDate,
+      messageShow: false,
+      messageText: '',
+    }, this.props.updateParent(startDate, endDate));
   }
 
   handleEndDateChange(event, date) {
     const { startDate } = this.state;
     const endDate = moment(date);
-    this.checkStartEndDate(startDate, endDate);
-  }
-
-  checkStartEndDate(startDate, endDate) {
-    if (startDate > endDate) {
-      this.setState({
-        messageShow: true,
-        messageText: 'The start date must be before the end date',
-      });
-    } else {
-      this.setState({
-        startDate,
-        endDate,
-        messageShow: false,
-        messageText: '',
-      }, this.props.updateParent(startDate, endDate));
-    }
+    this.setState({
+      startDate,
+      endDate,
+      messageShow: false,
+      messageText: '',
+    }, this.props.updateParent(startDate, endDate));
   }
 
   handleMessageClose() {
@@ -93,10 +85,10 @@ class DateRange extends Component {
 DateRange.propTypes = {
   defaultStartDate: PropTypes.object.isRequired,
   defaultEndDate: PropTypes.object.isRequired,
-  updateParent: PropTypes.func.isRequired,
   containerClass: PropTypes.string,
   innerContainerClass: PropTypes.string,
   datePickerClass: PropTypes.string,
+  updateParent: PropTypes.func.isRequired,
 };
 
 export default DateRange;

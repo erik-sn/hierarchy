@@ -13,9 +13,11 @@ import { createStore, applyMiddleware } from 'redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import { Provider } from 'react-redux';
+import config from './webpack.production.config';
 
 import reducers from '../src/reducers/';
 import routes from '../src/routes';
+
 
 global.navigator = { userAgent: 'all' };
 const app = express(); // delcare application
@@ -30,6 +32,7 @@ const muiTheme = getMuiTheme({
     accent1Color: '#999',
   },
 });
+
 
 app.use(compression()); // compress compatible files for quicker client load time
 app.use(logger('dev')); // log content
@@ -53,7 +56,7 @@ app.use('*', (req, res) => {
           </MuiThemeProvider>
         </Provider>
       );
-      res.status(200).send(renderFullPage(html));
+      res.status(200).send(renderFullPage(html, config.version));
     } else {
       res.status(404).send('Not found');
     }
@@ -77,7 +80,7 @@ const rollBar = `
  * @param {string} html - react component to be rendered
  * @return {string} full html page
  */
-function renderFullPage(html) {
+function renderFullPage(html, version) {
   return `
     <!doctype html>
     <html>
@@ -93,14 +96,14 @@ function renderFullPage(html) {
       ${rollBar}
       </script>
       <link href="/processworkshop/static/media/logo-dark.png" rel="shortcut icon" type="image/x-icon" />
-      <link rel="stylesheet" href="/processworkshop/static/bundle.min.css">
+      <link rel="stylesheet" href="/processworkshop/static/bundle.min.${version}.css">
       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
       <link href='https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel="stylesheet" type="text/css" />
     </head>
     <body id="app-body">
       <div id="root">${html}</div>
     </body>
-    <script src="/processworkshop/static/bundle.min.js"></script>
+    <script src="/processworkshop/static/bundle.min.${version}.js"></script>
     </html>
   `;
 }

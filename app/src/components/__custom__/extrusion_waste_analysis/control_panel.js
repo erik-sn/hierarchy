@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import axios from 'axios';
 import { fromJS, is } from 'immutable';
 import moment from 'moment';
-import AutoComplete from 'material-ui/AutoComplete';
 import SelectField from '../../utility/select_field';
 import Snackbar from 'material-ui/Snackbar';
 import FlatButton from 'material-ui/FlatButton';
@@ -17,10 +16,6 @@ import DateRange from '../../utility/date_range';
 import Loader from '../../loader';
 import { getApiConfig } from '../../../utils/network';
 
-
-const autoCompleteSearch = (searchText, key) => (
-  key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
-);
 
 const generateSelectOptions = (label, i) => (
   <div key={i} value={label} label={label}>{label}</div>
@@ -141,8 +136,22 @@ class ControlPanel extends Component {
     });
   }
 
+  isValidDates(startDate, endDate) {
+    if (startDate > endDate) {
+      this.setState({
+        messageShow: true,
+        messageText: 'The start date must be before the end date',
+      });
+      return false;
+    }
+    return true;
+  }
+
   fetchData() {
     const { warehouse, startDate, endDate } = this.state;
+    if (!this.isValidDates(startDate, endDate)) {
+      return;
+    }
     const base = `${types.MAP}/as400/yap100report/${warehouse}/`;
     const dateParams = `?startdate=${startDate.format(DFMT)}&enddate=${endDate.format(DFMT)}`;
     const params = dateParams + this.buildUrlParameters();
