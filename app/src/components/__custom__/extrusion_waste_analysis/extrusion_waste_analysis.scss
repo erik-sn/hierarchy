@@ -54,6 +54,9 @@ action fields related to data selection */
   }
 }
 
+.ewa__control-panel-options-container {
+  margin-top: 5px !important;
+}
 
 .ewa__control-panel-autocomplete {
   width: 100% !important;
@@ -67,10 +70,11 @@ action fields related to data selection */
 }
 
 .ewa__control-panel-select {
-  margin-bottom: 10px;
+  margin-bottom: 15px !important;
 }
 
 .ewa__control-panel-date_range-picker-container {
+  margin-top: -15px;
   display: flex;
   flex-wrap: wrap;
 }

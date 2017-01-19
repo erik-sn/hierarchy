@@ -5,7 +5,6 @@ import { fromJS, is } from 'immutable';
 import moment from 'moment';
 import AutoComplete from 'material-ui/AutoComplete';
 import SelectField from '../../utility/select_field';
-import MenuItem from 'material-ui/MenuItem';
 import Snackbar from 'material-ui/Snackbar';
 import FlatButton from 'material-ui/FlatButton';
 import SearchIcon from 'material-ui/svg-icons/action/search';
@@ -13,7 +12,6 @@ import ClearIcon from 'material-ui/svg-icons/content/clear';
 import StopIcon from 'material-ui/svg-icons/av/stop';
 
 
-import logError from '../__library__/logger';
 import types from '../../../actions/types';
 import DateRange from '../../utility/date_range';
 import Loader from '../../loader';
@@ -22,6 +20,10 @@ import { getApiConfig } from '../../../utils/network';
 
 const autoCompleteSearch = (searchText, key) => (
   key.toLowerCase().indexOf(searchText.toLowerCase()) !== -1
+);
+
+const generateSelectOptions = (label, i) => (
+  <div key={i} value={label} label={label}>{label}</div>
 );
 
 const DFMT = 'MMDDYY'; // API date format
@@ -40,11 +42,11 @@ class ControlPanel extends Component {
       optionsFetched: false,
       fetchingData: false,
       axiosSource: undefined,
-      warehouse: undefined,
+      warehouse: '',
       group: 'machine',
       machine: '',
-      shift: undefined,
-      yarnid: undefined,
+      shift: '',
+      yarnid: '',
       startDate: moment(),
       endDate: moment(),
       messageShow: false,
@@ -114,11 +116,14 @@ class ControlPanel extends Component {
         messageText: 'Error retrieving warehouse list',
         messageShow: true,
       });
-      logError(error);
+      console.error(error);
     });
   }
 
   fetchOptions() {
+    if (!this.state.warehouse) {
+      return;
+    }
     return axios.get(`${types.MAP}/as400/yap100report/${this.state.warehouse}/?params=true`, types.API_CONFIG)
     .then(response => this.setState({
       options: response.data,
@@ -132,7 +137,7 @@ class ControlPanel extends Component {
         messageText: 'Error retrieving report options',
         messageShow: true,
       });
-      logError(error);
+      console.error(error);
     });
   }
 
@@ -154,7 +159,7 @@ class ControlPanel extends Component {
           messageText = 'Query canceled by user';
         }
         this.setState({ messageText, fetchingData: false, fetchingmessageShow: true });
-        logError(error);
+        console.error(error);
       });
     });
   }
@@ -200,8 +205,29 @@ class ControlPanel extends Component {
     });
   }
 
+  matchGroupName(label) {
+    switch (label) {
+      case 'day':
+        return 'Group: Date';
+      case 'machine':
+        return 'Group: Machine';
+      case 'yarnid':
+        return 'Group: Yarn ID';
+      case 'shift':
+        return 'Group: Shift';
+      default:
+        return 'Group: Date & Shift';
+    }
+  }
+
   handleSelection(value, name) {
-    this.setState({ [name]: value });
+    if (name === 'warehouse') {
+      this.setState({ warehouse: value, optionsFetched: false }, () => {
+        this.fetchOptions();
+      });
+    } else {
+      this.setState({ [name]: value });
+    }
   }
 
   updateDates(startDate, endDate) {
@@ -222,74 +248,87 @@ class ControlPanel extends Component {
     if (!warehouse || !optionsFetched) {
       return (
         <div className="ewa__control-panel-container">
-          <AutoComplete
-            className="ewa__control-panel-autocomplete"
-            hintText="Warehouse"
-            searchText={this.state.warehouse}
-            onUpdateInput={text => this.handleUpdateInput('warehouse', text)}
-            onNewRequest={text => this.handleUpdateInput('warehouse', text)}
-            dataSource={warehouseList}
-            filter={autoCompleteSearch}
-            openOnFocus
-          />
-          {this.getUserPrompt()}
+          <div className="ewa__control-panel-options-container">
+            <SelectField
+              name="warehouse"
+              className="ewa__control-panel-select"
+              hintText="Warehouse"
+              onSelect={this.handleSelection}
+              value={this.state.warehouse}
+              style={{ minWidth: 150 }}
+              menuProps={{ maxHeight: 370 }}
+            >
+              {warehouseList.map(generateSelectOptions)}
+            </SelectField>
+            {this.getUserPrompt()}
+          </div>
         </div>
       );
     }
     return (
       <div className="ewa__control-panel-container">
-        <AutoComplete
-          className="ewa__control-panel-autocomplete"
-          hintText="Warehouse"
-          searchText={this.state.warehouse}
-          onUpdateInput={text => this.handleUpdateInput('warehouse', text)}
-          onNewRequest={text => this.handleUpdateInput('warehouse', text)}
-          dataSource={warehouseList}
-          filter={autoCompleteSearch}
-          openOnFocus
-        />
         <div className="ewa__control-panel-options-container">
           <SelectField
-            name='machine'
+            name="warehouse"
+            className="ewa__control-panel-select"
+            hintText="Warehouse"
+            onSelect={this.handleSelection}
+            value={this.state.warehouse}
+            style={{ minWidth: 150 }}
+            menuProps={{ maxHeight: 370 }}
+          >
+            {warehouseList.map(generateSelectOptions)}
+          </SelectField>
+          <SelectField
+            name="group"
+            className="ewa__control-panel-select"
+            hintText="Group"
+            onSelect={this.handleSelection}
+            value={this.matchGroupName(this.state.group)}
+            style={{ minWidth: 150 }}
+            menuProps={{ maxHeight: 370 }}
+          >
+            <div value={''} label="Group: Date & Shift">Date & Shift</div>
+            <div value={'day'} label="Group: Date" >Date</div>
+            <div value={'machine'} label="Group: Machine" >Machine</div>
+            <div value={'yarnid'} label="Group: Yarn ID" >Yarn ID</div>
+            <div value={'shift'} label="Group: Shift" >Shift</div>
+          </SelectField>
+          <SelectField
+            name="machine"
             multiple
             className="ewa__control-panel-select"
-            hintText='Machine'
+            hintText="Machine"
             onSelect={this.handleSelection}
             value={this.state.machine}
             style={{ minWidth: 150 }}
-            menuProps={{maxHeight: 370}}
+            menuProps={{ maxHeight: 370 }}
           >
-            {machine.map((label, i) => (
-              <div key={i} value={label} label={label}>{label}</div>
-            ))}
+            {machine.map(generateSelectOptions)}
           </SelectField>
           <SelectField
-            name='yarnid'
+            name="yarnid"
             multiple
             className="ewa__control-panel-select"
-            hintText='Yarn ID'
+            hintText="Yarn ID"
             onSelect={this.handleSelection}
             value={this.state.yarnid}
             style={{ minWidth: 150 }}
-            menuProps={{maxHeight: 370}}
+            menuProps={{ maxHeight: 370 }}
           >
-            {yarnid.map((label, i) => (
-              <div key={i} value={label} label={label}>{label}</div>
-            ))}
+            {yarnid.map(generateSelectOptions)}
           </SelectField>
           <SelectField
-            name='shift'
+            name="shift"
             multiple
             className="ewa__control-panel-select"
-            hintText='Shifts'
+            hintText="Shift"
             onSelect={this.handleSelection}
             value={this.state.shift}
             style={{ minWidth: 150 }}
-            menuProps={{maxHeight: 370}}
+            menuProps={{ maxHeight: 370 }}
           >
-            {shift.map((label, i) => (
-              <div key={i} value={label} label={label}>{label}</div>
-            ))}
+            {shift.map(generateSelectOptions)}
           </SelectField>
         </div>
         <DateRange {...this.dateRangeProps} />
@@ -301,12 +340,12 @@ class ControlPanel extends Component {
               labelPosition="before"
               icon={<SearchIcon />}
             /> :
-              <FlatButton
-                onClick={this.cancelFetchData}
-                label="Stop"
-                labelPosition="before"
-                icon={<StopIcon />}
-              />
+            <FlatButton
+              onClick={this.cancelFetchData}
+              label="Stop"
+              labelPosition="before"
+              icon={<StopIcon />}
+            />
           }
           <FlatButton
             onClick={this.clearOptionFields}
@@ -336,7 +375,6 @@ ControlPanel.propTypes = {
 };
 
 export default ControlPanel;
-
 
 
         // <SelectField

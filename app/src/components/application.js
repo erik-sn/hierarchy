@@ -40,7 +40,7 @@ export class Application extends Component {
 
     let loader;
     if (!user || !user.get('username') || !sites) {
-      loader = <Loader />;
+      loader = <div style={{ marginTop: '20%' }}><Loader /></div>;
     }
 
     let modalComponent;

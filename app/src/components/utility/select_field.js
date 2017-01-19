@@ -1,11 +1,11 @@
-import React, { Component, PropTypes } from 'react'
-import { findDOMNode } from 'react-dom'
-import Popover from 'material-ui/Popover/Popover'
-import TextField from 'material-ui/TextField/TextField'
-import Menu from 'material-ui/Menu/Menu'
-import MenuItem from 'material-ui/MenuItem/MenuItem'
-import SelectionsPresenter from './selections_presenter'
-import UnCheckedIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank'
+import React, { Component, PropTypes } from 'react';
+import { findDOMNode } from 'react-dom';
+import Popover from 'material-ui/Popover/Popover';
+import TextField from 'material-ui/TextField/TextField';
+import Menu from 'material-ui/Menu/Menu';
+import MenuItem from 'material-ui/MenuItem/MenuItem';
+import SelectionsPresenter from './selections_presenter';
+import UnCheckedIcon from 'material-ui/svg-icons/toggle/check-box-outline-blank';
 
 class SelectField extends Component {
   componentWillMount () {
@@ -139,10 +139,11 @@ class SelectField extends Component {
           <MenuItem
             key={index}
             tabIndex={index}
+            label={child.props.label}
             value={child.props.value}
             checked={multiple && isSelected}
             leftIcon={(multiple && !isSelected) ? <UnCheckedIcon /> : null}
-            primaryText={child}
+            primaryText={child.props.label}
             disableFocusRipple
             innerDivStyle={{ paddingTop: 5, paddingBottom: 5 }}
           />)]
@@ -193,7 +194,6 @@ class SelectField extends Component {
               ref={ref => (this.searchTextField = ref)}
               value={this.state.searchText}
               hintText={hintText}
-              hintStyle={{ color: '#999 !important', fontStyle: 'italic', fontSize: '0.8rem' }}
               onChange={this.handleTextFieldAutocompletionFiltering}
               onKeyDown={this.handleTextFieldKeyDown}
               style={{ marginLeft: 16, width: menuWidth - 16 * 2 }}
