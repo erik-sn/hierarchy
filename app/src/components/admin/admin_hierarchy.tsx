@@ -1,15 +1,17 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import AdminSiteList from './admin_site_list';
-import AdminSite from './admin_site';
-import { buildNavigate } from '../../utils/resolver';
 import { fetchHierarchy } from '../../actions/api';
+import { buildNavigate } from '../../utils/resolver';
+import AdminSite from './admin_site';
+import AdminSiteList from './admin_site_list';
+
+import { ISite } from '../../constants/interfaces';
 
 const navigate = buildNavigate('/admin/hierarchy');
 
 export interface IAdminHierarchyProps {
-  sites: Array<Object>;
+  sites: ISite[];
   splat: string;
   fetchHierarchy?: Function;
 }
@@ -20,7 +22,7 @@ export const AdminHierarchy = (props: IAdminHierarchyProps): JSX.Element => {
   let activeSite;
   let siteNavigate;
   if (code) {
-    activeSite = sites.find(site => code.toUpperCase() === site.get('code'));
+    activeSite = sites.find((site) => code.toUpperCase() === site.code);
     siteNavigate = buildNavigate(`/admin/hierarchy/${code}`);
   }
 

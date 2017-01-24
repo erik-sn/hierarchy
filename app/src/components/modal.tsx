@@ -1,16 +1,30 @@
-import React, { PropTypes } from 'react';
-import { connect } from 'react-redux';
+
+import AppBar from 'material-ui/AppBar';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import ErrorIcon from 'material-ui/svg-icons/alert/error';
-import AppBar from 'material-ui/AppBar';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
 
 import { hideModal } from '../actions/index';
 
-export const Modal = (props) => {
-  const { message, children, error, modal, title, onSubmit, onCancel, className, childClass, contentClass } = props;
+export interface IModalProps {
+  message?: string;
+  children?: JSX.Element[];
+  error?: boolean;
+  modal?: boolean;
+  title?: string;
+  onSubmit?: () => void;
+  onCancel?: () => void;
+  hideModal?: (hide: boolean) => void;
+  className?: string;
+  childClass?: string;
+  contentClass?: string;
+}
 
+export const Modal = (props: IModalProps) => {
+  const { message, children, error, modal, title, onSubmit, onCancel, className, childClass, contentClass } = props;
   const ok = (
     <FlatButton
       label="Ok"
@@ -19,7 +33,6 @@ export const Modal = (props) => {
       onTouchTap={onSubmit}
     />
   );
-
   const cancel = (
     <FlatButton
       label="Cancel"
@@ -78,20 +91,6 @@ export const Modal = (props) => {
   );
 };
 
-Modal.propTypes = {
-  children: PropTypes.array.isRequired,
-  contentClass: PropTypes.string,
-  childClass: PropTypes.string,
-  className: PropTypes.string,
-  error: PropTypes.bool,
-  hideModal: PropTypes.func.isRequired,
-  message: PropTypes.string,
-  modal: PropTypes.object,
-  onSubmit: PropTypes.func,
-  onCancel: PropTypes.func,
-  title: PropTypes.string,
-};
-
-const ModalContainer = connect(null, { hideModal })(Modal);
+const ModalContainer = connect<{}, {}, IModalProps>(null, { hideModal })(Modal);
 
 export default ModalContainer;

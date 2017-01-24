@@ -1,16 +1,31 @@
-import React, { Component, PropTypes } from 'react';
-import axios from 'axios';
-import { List, ListItem } from 'material-ui/List';
+import * as axios from 'axios';
 import FlatButton from 'material-ui/FlatButton';
+import { List, ListItem } from 'material-ui/List';
 import Add from 'material-ui/svg-icons/content/add';
+import * as React from 'react';
 
 import types from '../../actions/types';
 import Modal from '../modal';
 import ConfigurationForm from './forms/admin_configuration';
 
-class AdminSiteList extends Component {
+import { ISite } from '../../constants/interfaces';
 
-  constructor(props) {
+
+export interface IAdminSiteListProps {
+  fetchHierarchy: Function;
+  navigate: Function;
+  sites: ISite[];
+}
+
+export interface IAdminSiteListState {
+  showNewSiteForm: boolean;
+  messageText: string;
+  messageShow: boolean;
+}
+
+class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListState> {
+
+  constructor(props: IAdminSiteListProps) {
     super(props);
     this.state = {
       showNewSiteForm: false,
@@ -21,25 +36,25 @@ class AdminSiteList extends Component {
     this.createSite = this.createSite.bind(this);
   }
 
-  toggleShowNewSiteForm() {
+  public toggleShowNewSiteForm() {
     this.setState({ showNewSiteForm: !this.state.showNewSiteForm });
   }
 
-  createSite(site) {
+  public createSite(site: ISite) {
     axios.post(`${types.API}/sites/`, site, types.API_CONFIG)
     .then(() => this.setState({
       messageShow: true,
-      messageText: `Site Successfully Created: ${site.get('name')}`,
+      messageText: `Site Successfully Created: ${site.name}`,
     }))
     .then(() => this.props.fetchHierarchy())
     .catch(() => this.setState({
       messageShow: true,
-      messageText: `Error Creating Site: ${site.get('name')}`,
+      messageText: `Error Creating Site: ${site.name}`,
     }));
     this.toggleShowNewSiteForm();
   }
 
-  renderNewSiteModal() {
+  public renderNewSiteModal() {
     return (
       <Modal
         title="Create New Site"
@@ -53,20 +68,29 @@ class AdminSiteList extends Component {
       </Modal>
     );
   }
-  render() {
+
+  public renderSiteList(sites: ISite[]): JSX.Element[] {
+    const { navigate } = this.props;
+    return sites.map((site, i) => {
+      const onSiteClick = this.props.navigate(site.code);
+      return (
+        <ListItem
+          key={i}
+          onClick={onSiteClick}
+          primaryText={`${site.name} - ${site.code}`}
+          secondaryText={site.location}
+        />
+      );
+    });
+  }
+
+  public render() {
     const { sites, navigate } = this.props;
     return (
       <div className="admin__site-list-container">
         {this.state.showNewSiteForm ? this.renderNewSiteModal() : undefined}
         <List>
-          {sites.map((site, i) => (
-            <ListItem
-              key={i}
-              onClick={() => navigate(site.get('code'))}
-              primaryText={`${site.get('name')} - ${site.get('code')}`}
-              secondaryText={site.get('location')}
-            />
-          ))}
+          {this.renderSiteList(sites)}
           <FlatButton
             onClick={this.toggleShowNewSiteForm}
             label="Add Site"
@@ -78,11 +102,5 @@ class AdminSiteList extends Component {
     );
   }
 }
-
-AdminSiteList.propTypes = {
-  fetchHierarchy: PropTypes.func.isRequired,
-  navigate: PropTypes.func,
-  sites: PropTypes.object,
-};
 
 export default AdminSiteList;

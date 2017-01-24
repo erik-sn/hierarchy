@@ -1,16 +1,16 @@
-import * as React from 'react';
-import { connect } from 'react-redux';
+import { is } from 'immutable';
 import { Card, CardHeader } from 'material-ui/Card';
 import Lock from 'material-ui/svg-icons/action/lock';
-import { is } from 'immutable';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
-import AdminTabs from './admin_tabs';
+import { fetchHierarchy } from '../../actions/api';
+import { IReduxState, ISite, Iuser } from '../../constants/interfaces';
+import { buildNavigate } from '../../utils/resolver';
+import ApiCalls from './admin_api';
 import AdminHierarchy from './admin_hierarchy';
 import Modules from './admin_module';
-import ApiCalls from './admin_api';
-import { fetchHierarchy } from '../../actions/api';
-import { buildNavigate } from '../../utils/resolver';
-import { IReduxState, Iuser } from '../../constants/interfaces';
+import AdminTabs from './admin_tabs';
 
 const navigate = buildNavigate('/admin');
 
@@ -21,7 +21,7 @@ export interface IAdminProps {
   hierarchy: Object;
   params: Iparams;
   user: Iuser;
-  sites: Array<Object>;
+  sites: ISite[];
 }
 
 export interface IAdminState {

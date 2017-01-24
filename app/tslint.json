@@ -3,6 +3,7 @@
   "rules": {
     // enable tslint-react rules here
     "jsx-no-lambda": true,
-    "quotemark": [true, "single", "jsx-double"]
+    "quotemark": [true, "single", "jsx-double"],
+    "object-literal-sort-keys": false
   }
 }

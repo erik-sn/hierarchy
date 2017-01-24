@@ -1,25 +1,41 @@
-import React, { Component, PropTypes } from 'react';
-import axios from 'axios';
+import * as axios from 'axios';
 import { fromJS } from 'immutable';
 import { CardTitle } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
+import Snackbar from 'material-ui/Snackbar';
 import Settings from 'material-ui/svg-icons/action/settings';
 import Business from 'material-ui/svg-icons/communication/business';
 import Router from 'material-ui/svg-icons/hardware/router';
-import Snackbar from 'material-ui/Snackbar';
+import * as React from 'react';
 
-import ConfigurationForm from './forms/admin_configuration';
+import types from '../../actions/types';
 import DepartmentAdmin from './admin_department';
 import MachineAdmin from './admin_machine';
-import types from '../../actions/types';
+import ConfigurationForm from './forms/admin_configuration';
 
+import { ISite, IApiCall } from '../../constants/interfaces';
 
-const getConfigName = (site, splat) => {
-  const siteCode = site.get('code').toLowerCase();
-  return splat.replace(`/${siteCode}`.toLowerCase(), '').replace('/', '');
+const getConfigName = (site: ISite, splat: string) => {
+  const siteCode = site.code.toLowerCase();
+  return splat.replace(`/${siteCode}`, '').replace('/', '');
 };
 
-class AdminSite extends Component {
+export interface IAdminSiteState {
+  messageText: string;
+  messageShow: boolean;
+  apicalls: IApiCall[];
+  modules: number[];
+}
+
+export interface IAdminSiteProps {
+  fetchHierarchy: Function;
+  navigate: Function;
+  site: ISite;
+  splat: string;
+}
+
+
+class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   constructor(props) {
     super(props);
@@ -142,11 +158,5 @@ class AdminSite extends Component {
   }
 }
 
-AdminSite.propTypes = {
-  fetchHierarchy: PropTypes.func.isRequired,
-  navigate: PropTypes.func,
-  site: PropTypes.object,
-  splat: PropTypes.string,
-};
 
 export default AdminSite;

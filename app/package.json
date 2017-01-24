@@ -112,6 +112,7 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
+    "@types/axios": "^0.9.35",
     "axios": "^0.15.2",
     "compression": "^1.6.2",
     "es6-promise": "^4.0.5",
