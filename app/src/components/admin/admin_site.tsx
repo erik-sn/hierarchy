@@ -13,7 +13,7 @@ import DepartmentAdmin from './admin_department';
 import MachineAdmin from './admin_machine';
 import ConfigurationForm from './forms/admin_configuration';
 
-import { ISite, IApiCall } from '../../constants/interfaces';
+import { IApiCall, IAxiosResponse, ISite } from '../../constants/interfaces';
 
 const getConfigName = (site: ISite, splat: string) => {
   const siteCode = site.code.toLowerCase();
@@ -37,7 +37,7 @@ export interface IAdminSiteProps {
 
 class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
-  constructor(props) {
+  constructor(props: IAdminSiteProps) {
     super(props);
     this.state = {
       messageText: '',
@@ -50,92 +50,107 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
     this.handleMessageClose = this.handleMessageClose.bind(this);
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     axios.get(`${types.API}/modules/`, types.API_CONFIG)
-    .then(response => this.setState({
+    .then((response: IAxiosResponse) => this.setState({
       modules: fromJS(response.data),
     }))
     .catch(() => this.showMessage('Error Loading Modules'));
 
 
     axios.get(`${types.API}/apicalls/`, types.API_CONFIG)
-    .then(response => this.setState({
+    .then((response: IAxiosResponse) => this.setState({
       apicalls: fromJS(response.data),
     }))
     .catch(() => this.showMessage('Error Loading Api Calls'));
   }
 
-  updateSite(site) {
-    const url = `${types.API}/sites/${site.get('id')}/`;
+  public updateSite(site: ISite) {
+    const url = `${types.API}/sites/${site.id}/`;
     axios.put(url, site, types.API_CONFIG)
-    .then(() => this.showMessage(`Site Successfully Updated: ${site.get('name')}`))
+    .then(() => this.showMessage(`Site Successfully Updated: ${site.name}`))
     .then(() => this.props.fetchHierarchy())
-    .catch(() => this.showMessage(`Error Updating Site: ${site.get('name')}`));
+    .catch(() => this.showMessage(`Error Updating Site: ${site.name}`));
   }
 
-  showMessage(messageText) {
+  public showMessage(messageText: string) {
     this.setState({ messageShow: true, messageText });
   }
 
-  handleMessageClose() {
+  public handleMessageClose() {
     this.setState({ messageShow: false });
   }
 
-  renderConfig(site, config) {
+  public renderConfig(site: ISite, config: string) {
     const { modules, apicalls } = this.state;
     if (!modules || !apicalls) {
       return undefined;
     }
-    switch (config) {
-      case 'departments':
-        return (
-          <DepartmentAdmin
-            site={site}
-            modules={modules}
-            apicalls={apicalls}
-            fetchHierarchy={this.props.fetchHierarchy}
-            message={this.showMessage}
-          />
-        );
-      case 'machines':
-        return (
-          <MachineAdmin
-            site={site}
-            modules={modules}
-            fetchHierarchy={this.props.fetchHierarchy}
-            message={this.showMessage}
-          />
-        );
-      default:
-        return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
-    }
+    return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
+    // switch (config) {
+    //   case 'departments':
+    //     return (
+    //       <DepartmentAdmin
+    //         site={site}
+    //         modules={modules}
+    //         apicalls={apicalls}
+    //         fetchHierarchy={this.props.fetchHierarchy}
+    //         message={this.showMessage}
+    //       />
+    //     );
+    //   case 'machines':
+    //     return (
+    //       <MachineAdmin
+    //         site={site}
+    //         modules={modules}
+    //         fetchHierarchy={this.props.fetchHierarchy}
+    //         message={this.showMessage}
+    //       />
+    //     );
+    //   default:
+    //     return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
+    // }
   }
 
-  render() {
+  public configClick() {
+    this.props.navigate('');
+  }
+
+  public departmentClick() {
+    this.props.navigate('departments');
+  }
+
+  public machineClick() {
+    this.props.navigate('machines');
+  }
+
+  public render() {
     const { site, splat, navigate } = this.props;
+
+
     return (
       <div className="admin__site-container">
         <div className="admin__site-sidebar">
           <div className="admin__site-title">
             <CardTitle
-              title={`${site.get('name')} - ${site.get('code')}`}
-              subtitle={site.get('location')}
+              title={`${site.name} - ${site.name}`}
+              subtitle={site.location}
             />
           </div>
           <div className="admin__site-options">
             <List>
               <ListItem
-                onClick={() => navigate('')}
+                onClick={this.configClick}
                 primaryText="Configuration"
                 leftIcon={<Settings />}
               />
               <ListItem
-                onClick={() => navigate('departments')}
+                onClick={this.departmentClick}
                 primaryText="Departments"
                 leftIcon={<Business />}
               />
               <ListItem
-                onClick={() => navigate('machines')}
+                onClick={this.machineClick}
                 primaryText="Machines"
                 leftIcon={<Router />}
               />

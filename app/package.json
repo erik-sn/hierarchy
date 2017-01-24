@@ -42,6 +42,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@types/axios": "^0.9.35",
     "@types/chai": "^3.4.34",
     "@types/compression": "^0.0.33",
     "@types/enzyme": "^2.7.1",
@@ -112,7 +113,6 @@
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {
-    "@types/axios": "^0.9.35",
     "axios": "^0.15.2",
     "compression": "^1.6.2",
     "es6-promise": "^4.0.5",

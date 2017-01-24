@@ -69,9 +69,8 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
     );
   }
 
-  public renderSiteList(sites: ISite[]): JSX.Element[] {
-    const { navigate } = this.props;
-    return sites.map((site, i) => {
+  public renderSiteList(): JSX.Element[] {
+    return this.props.sites.map((site, i) => {
       const onSiteClick = this.props.navigate(site.code);
       return (
         <ListItem
@@ -85,12 +84,12 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
   }
 
   public render() {
-    const { sites, navigate } = this.props;
+    const { sites } = this.props;
     return (
       <div className="admin__site-list-container">
         {this.state.showNewSiteForm ? this.renderNewSiteModal() : undefined}
         <List>
-          {this.renderSiteList(sites)}
+          {this.renderSiteList()}
           <FlatButton
             onClick={this.toggleShowNewSiteForm}
             label="Add Site"

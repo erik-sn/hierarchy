@@ -18,7 +18,6 @@ interface Iparams { menu: string; splat: string; }
 
 export interface IAdminProps {
   fetchHierarchy: Function;
-  hierarchy: Object;
   params: Iparams;
   user: Iuser;
   sites: ISite[];
@@ -57,7 +56,7 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
    *
    * @memberOf Admin
    */
-  componentDidMount() {
+  public componentDidMount() {
     this.props.fetchHierarchy('?inactive=true');
   }
 
@@ -70,10 +69,8 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
    *
    * @memberOf Admin
    */
-  shouldComponentUpdate(nextProps: IAdminProps, nextState: IAdminState) {
-    if (!is(this.props.hierarchy, nextProps.hierarchy)) {
-      return true;
-    } else if (this.props.params.menu !== nextProps.params.menu) {
+  public shouldComponentUpdate(nextProps: IAdminProps, nextState: IAdminState) {
+    if (this.props.params.menu !== nextProps.params.menu) {
       return true;
     } else if (this.props.params.splat !== nextProps.params.splat) {
       return true;
@@ -90,7 +87,7 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
    *
    * @memberOf Admin
    */
-  renderMenu() {
+  public renderMenu() {
     const { menu, splat } = this.props.params;
     switch (menu) {
       case 'specifications':
@@ -104,7 +101,7 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
     }
   }
 
-  render() {
+  public render() {
     if (!this.props.user.admin) {
       return (
         <div className="admin__message">
@@ -132,11 +129,10 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
 
 function mapStateToProps(state: IReduxState) {
   const reduxState: IReduxState = state.toJS();
-  console.log(reduxState);
   return {
-    user: state.auth.user,
-    hierarchy: state.hierarchy.sites,
+    user: reduxState.auth.user,
+    sites: reduxState.hierarchy.sites,
   };
 }
 
-export default connect(mapStateToProps, { fetchHierarchy })(Admin);
+export default connect<{}, {}, IAdminProps>(mapStateToProps, { fetchHierarchy })(Admin);

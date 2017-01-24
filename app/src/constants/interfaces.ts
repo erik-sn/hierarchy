@@ -11,12 +11,12 @@ export interface IAuth {
 }
 
 export interface IHierarchy {
-  sites: Object;
+  sites: ISite[];
 }
 
 export interface IReduxState {
   auth: IAuth;
-  hierarchy: ISite[];
+  hierarchy: IHierarchy;
   toJS: Function;
 }
 
@@ -72,3 +72,7 @@ export interface IApiCall {
 }
 
 
+// axios
+export interface IAxiosResponse {
+  data: Object;
+}
