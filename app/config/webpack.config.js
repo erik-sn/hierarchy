@@ -12,7 +12,7 @@ module.exports = {
     configFile: './.eslintrc.json',
   },
   // see https://webpack.github.io/docs/configuration.html#devtool
-  devtool: 'source-map',
+  devtool: 'eval',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
@@ -43,6 +43,16 @@ module.exports = {
       {
         test: /\.test.js$/,
         loader: 'ignore',
+      },
+      {
+        include: path.join(__dirname, '../src'),
+        loader: 'awesome-typescript-loader',
+        test: /\.tsx$/,
+      },
+      {
+        include: path.join(__dirname, '../src'),
+        loader: 'awesome-typescript-loader',
+        test: /\.ts$/,
       },
       {
         test: /\.js$/,
