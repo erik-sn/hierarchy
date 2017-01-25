@@ -28,7 +28,7 @@ export interface IAdminSiteState {
 }
 
 export interface IAdminSiteProps {
-  fetchHierarchy: Function;
+  fetchHierarchy: () => void;
   navigate: Function;
   site: ISite;
   splat: string;
@@ -87,29 +87,29 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
       return undefined;
     }
     return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
-    // switch (config) {
-    //   case 'departments':
-    //     return (
-    //       <DepartmentAdmin
-    //         site={site}
-    //         modules={modules}
-    //         apicalls={apicalls}
-    //         fetchHierarchy={this.props.fetchHierarchy}
-    //         message={this.showMessage}
-    //       />
-    //     );
-    //   case 'machines':
-    //     return (
-    //       <MachineAdmin
-    //         site={site}
-    //         modules={modules}
-    //         fetchHierarchy={this.props.fetchHierarchy}
-    //         message={this.showMessage}
-    //       />
-    //     );
-    //   default:
-    //     return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
-    // }
+    switch (config) {
+      case 'departments':
+        return (
+          <DepartmentAdmin
+            site={site}
+            modules={modules}
+            apicalls={apicalls}
+            fetchHierarchy={this.props.fetchHierarchy}
+            message={this.showMessage}
+          />
+        );
+      case 'machines':
+        return (
+          <MachineAdmin
+            site={site}
+            modules={modules}
+            fetchHierarchy={this.props.fetchHierarchy}
+            message={this.showMessage}
+          />
+        );
+      default:
+        return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
+    }
   }
 
   public configClick() {

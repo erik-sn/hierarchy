@@ -47,6 +47,7 @@ export interface IDepartment {
   apiCalls: IApiCall[];
   machines: IMachine[];
   defaultModule: number;
+  site: number; // site id
   modules: number[];
   active: boolean;
 }
