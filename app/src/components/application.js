@@ -1,3 +1,4 @@
+import { fromJS } from 'immutable';
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Card } from 'material-ui/Card';
@@ -93,12 +94,12 @@ Application.propTypes = {
 
 function mapStateToProps(state) {
   return {
-    user: state.get('auth').get('user'),
-    userError: state.get('auth').get('error'),
-    sites: state.get('hierarchy').get('sites'),
-    siteError: state.get('hierarchy').get('error'),
-    modal: state.get('display').get('modal'),
-    config: state.get('display').get('config'),
+    user: fromJS(state.auth.user),
+    userError: fromJS(state.auth.error),
+    sites: fromJS(state.hierarchy.sites),
+    siteError: fromJS(state.hierarchy.error),
+    modal: fromJS(state.display.config),
+    config: fromJS(state.display.config),
   };
 }
 

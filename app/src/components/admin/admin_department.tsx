@@ -9,14 +9,14 @@ import types from '../../actions/types';
 import Modal from '../modal';
 import DepartmentForm from './forms/admin_department_form';
 
-import { IApiCall, IDepartment, ISite } from '../../constants/interfaces';
+import { IApiCall, IDepartment, IModule, ISite } from '../../constants/interfaces';
 
 export interface IDepartmentProps {
   fetchHierarchy: () => void;
   message: (message: string) => void;
   site: ISite;
   apicalls: IApiCall[];
-  modules: number[];
+  modules: IModule[];
 }
 
 export interface IDepartmentState {

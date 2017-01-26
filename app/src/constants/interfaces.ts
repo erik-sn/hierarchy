@@ -3,18 +3,45 @@ import { FormStateMap } from 'redux-form';
 /**
  * Redux Interfaces
  */
+
+export interface IAction {
+  error: boolean;
+  payload: any;
+  type: string;
+  meta: any;
+}
+
+// auth reducer
 export interface Iuser {
+  id: number;
+  username: string;
+  ip: string;
   admin: boolean;
 }
 
 export interface IAuth {
-  user: Object;
+  user: Iuser;
+  error: boolean;
 }
 
+// display reducer
+export interface IModal {
+  showModal: boolean;
+  component: JSX.Element;
+}
+
+export interface IDisplay {
+  config: any;
+  modal: IModal;
+}
+
+// hierarchy reducer
 export interface IHierarchy {
   sites: ISite[];
+  error: boolean;
 }
 
+// root reducer
 export interface IReduxState {
   auth: IAuth;
   hierarchy: IHierarchy;
@@ -25,46 +52,38 @@ export interface IReduxState {
 /**
  * Hierarchy interfaces
  */
-export interface ISite {
-  id: number;
+
+export interface IHierarchyTier {
+  id?: number;
   name: string;
+  modules: IModule[];
+  defaultModule?: IModule;
+  created?: string;
+  modified?: string;
+  active: boolean;
+}
+
+export interface ISite extends IHierarchyTier {
   code: string;
   location: string;
   directory: string;
   latitude: string;
   longitude: string;
-  modules: number[];
   departments: IDepartment[];
   address: string;
-  created: string;
-  modified: string;
-  active: boolean;
 }
 
-export interface IDepartment {
-  id: number;
-  created: string;
-  modified: string;
-  name: string;
+export interface IDepartment extends IHierarchyTier {
   apiCalls: IApiCall[];
   machines: IMachine[];
-  defaultModule: number;
   site: number; // site id
-  modules: number[];
-  active: boolean;
 }
 
-export interface IMachine {
-  id?: number;
-  name: string;
+export interface IMachine extends IHierarchyTier {
   type: string;
-  created?: string;
-  modified?: string;
   department?: number;
   site?: number;
-  defaultModule?: number;
-  modules?: number[];
-  active: boolean;
+  defaultModule?: IModule;
 }
 
 export interface IApiCall {

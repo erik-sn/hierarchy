@@ -13,7 +13,7 @@ import DepartmentAdmin from './admin_department';
 import MachineAdmin from './admin_machine';
 import ConfigurationForm from './forms/admin_configuration';
 
-import { IApiCall, IAxiosResponse, ISite } from '../../constants/interfaces';
+import { IApiCall, IAxiosResponse, IModule, ISite } from '../../constants/interfaces';
 
 const getConfigName = (site: ISite, splat: string) => {
   const siteCode = site.code.toLowerCase();
@@ -24,7 +24,7 @@ export interface IAdminSiteState {
   messageText: string;
   messageShow: boolean;
   apicalls: IApiCall[];
-  modules: number[];
+  modules: IModule[];
 }
 
 export interface IAdminSiteProps {

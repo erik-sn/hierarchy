@@ -109,10 +109,9 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
 }
 
 function mapStateToProps(state: IReduxState) {
-  const reduxState: IReduxState = state.toJS();
   return {
-    user: reduxState.auth.user,
-    sites: reduxState.hierarchy.sites,
+    user: state.auth.user,
+    sites: state.hierarchy.sites,
   };
 }
 

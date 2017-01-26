@@ -3,6 +3,7 @@ var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 require('es6-promise').polyfill();
+require('core-js/shim');
 
 // automatically add vendor prefixes to transpiled css
 var autoprefixer = require('autoprefixer');
@@ -78,7 +79,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ["", ".webpack.js", ".web.js", ".js", ".ts", ".tsx"],
+    extensions: ["", ".webpack.js", ".web.js", ".js", ".ts", ".tsx", ".json"],
   },
   postcss: [autoprefixer],
 };

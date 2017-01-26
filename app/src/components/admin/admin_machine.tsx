@@ -6,7 +6,7 @@ import Add from 'material-ui/svg-icons/content/add';
 import * as React from 'react';
 
 import types from '../../actions/types';
-import { IApiCall, IAxiosResponse, IDepartment, IMachine, ISite } from '../../constants/interfaces';
+import { IApiCall, IAxiosResponse, IDepartment, IMachine, IModule, ISite } from '../../constants/interfaces';
 import Modal from '../modal';
 import MachineForm from './forms/admin_machine_form';
 
@@ -14,7 +14,7 @@ export interface IMachineAdminProps {
   site: ISite;
   message: (messageText: string) => void;
   fetchHierarchy: () => void;
-  modules: number[];
+  modules: IModule[];
 }
 
 export interface IMachineAdminState {
@@ -133,7 +133,6 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
       >
         <MachineForm
           submitForm={this.createMachine}
-          cancel={this.resetState}
         />
       </Modal>
     );

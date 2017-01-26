@@ -24,7 +24,7 @@ const store = createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENS
 // this uses the immutablejs implementation
 const history = syncHistoryWithStore(browserHistory, store, {
   selectLocationState(state) {
-    return state.get('routing').toJS();
+    return state.routing;
   },
 });
 
