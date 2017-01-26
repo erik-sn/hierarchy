@@ -1,18 +1,35 @@
-import React, { Component, PropTypes } from 'react';
+
+import * as axios from 'axios';
 import { fromJS } from 'immutable';
-import { connect } from 'react-redux';
-import axios from 'axios';
 import { List, ListItem } from 'material-ui/List';
-import TextField from 'material-ui/TextField';
 import Snackbar from 'material-ui/Snackbar';
+import TextField from 'material-ui/TextField';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
-import Loader from '../loader';
 import types from '../../actions/types';
-import ApiForm, { validateOnSubmit, FORM_NAME } from './forms/admin_api_form';
+import { IApiCall, IReduxState } from '../../constants/interfaces';
+import Loader from '../loader';
+import ApiForm, { FORM_NAME, validateOnSubmit } from './forms/admin_api_form';
 
-export class ApiCalls extends Component {
 
-  constructor(props) {
+export interface IApiCallsProps {
+  apiCall?: IApiCall;
+  apiCallForm?: IApiCall;
+}
+
+export interface IApiCallsState {
+  apicalls: IApiCall[];
+  activeApiCall: IApiCall;
+  messageText: string;
+  messageShow: boolean;
+  filter: string;
+  clean: boolean;
+}
+
+export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
+
+  constructor(props: IApiCallsProps) {
     super(props);
     this.state = {
       apicalls: undefined,
@@ -20,6 +37,7 @@ export class ApiCalls extends Component {
       messageText: '',
       messageShow: false,
       filter: '',
+      clean: true,
     };
     this.createApiCall = this.createApiCall.bind(this);
     this.updateApiCall = this.updateApiCall.bind(this);
@@ -31,67 +49,67 @@ export class ApiCalls extends Component {
     this.fetchApiCalls = this.fetchApiCalls.bind(this);
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.fetchApiCalls();
   }
 
-  fetchApiCalls() {
+  public fetchApiCalls(): void {
     axios.get(`${types.API}/apicalls/?inactive=true`, types.API_CONFIG)
     .then((response) => {
       this.setState({ apicalls: fromJS(response.data) });
     });
   }
 
-  createApiCall(apicall) {
-    validateOnSubmit(apicall);
-    axios.post(`${types.API}/apicalls/`, apicall, types.API_CONFIG)
+  public createApiCall(apiCall: IApiCall): void {
+    validateOnSubmit(apiCall);
+    axios.post(`${types.API}/apicalls/`, apiCall, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
-    .then(() => this.showMessage(`API call Successfully Created: ${apicall.get('key')}`))
-    .catch(() => this.showMessage(`Error Creating API call: ${apicall.get('key')}`))
+    .then(() => this.showMessage(`API call Successfully Created: ${apiCall.key}`))
+    .catch(() => this.showMessage(`Error Creating API call: ${apiCall.key}`))
     .then(() => this.resetState());
   }
 
-  updateApiCall() {
-    const apiCall = this.props.values;
-    axios.put(`${types.API}/apicalls/${this.state.activeApiCall.get('id')}/`, apiCall, types.API_CONFIG)
+  public updateApiCall(): void {
+    const apiCallForm = this.props.apiCall;
+    axios.put(`${types.API}/apicalls/${this.state.activeApiCall.id}/`, apiCallForm, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
-    .then(() => this.showMessage(`API call Successfully Updated: ${apiCall.get('key')}`))
-    .catch(() => this.showMessage(`Error Updating API call: ${apiCall.get('key')}`))
+    .then(() => this.showMessage(`API call Successfully Updated: ${apiCallForm.key}`))
+    .catch(() => this.showMessage(`Error Updating API call: ${apiCallForm.key}`))
     .then(() => this.resetState());
   }
 
-  deleteApiCall() {
-    axios.delete(`${types.API}/apicalls/${this.state.activeApiCall.get('id')}/`, types.API_CONFIG)
+  public deleteApiCall(): void {
+    axios.delete(`${types.API}/apicalls/${this.state.activeApiCall.id}/`, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
-    .then(() => this.showMessage(`API call Successfully Deleted: ${this.state.activeApiCall.get('key')}`))
-    .catch(() => this.showMessage(`Error Deleting API call: ${this.state.activeApiCall.get('key')}`))
+    .then(() => this.showMessage(`API call Successfully Deleted: ${this.state.activeApiCall.key}`))
+    .catch(() => this.showMessage(`Error Deleting API call: ${this.state.activeApiCall.key}`))
     .then(() => this.resetState());
   }
 
-  resetState() {
+  public resetState(): void {
     this.setState({
       activeApiCall: undefined,
     });
   }
 
-  showMessage(messageText) {
+  public showMessage(messageText: string): void {
     this.setState({
       messageShow: true,
       messageText,
     });
   }
 
-  handleMessageClose() {
+  public handleMessageClose(): void {
     this.setState({ messageShow: false });
   }
 
-  handleFilter(event) {
+  public handleFilter(event: React.FormEvent<HTMLInputElement>): void {
     this.setState({
-      filter: event.target.value,
+      filter: event.currentTarget.value,
     });
   }
 
-  renderApiCallForm() {
+  public renderApiCallForm(): JSX.Element {
     if (this.state.activeApiCall) {
       return (
         <ApiForm
@@ -113,26 +131,29 @@ export class ApiCalls extends Component {
     );
   }
 
-  generateApiCalls() {
+  public generateApiCalls(): JSX.Element[] {
     const { apicalls, filter } = this.state;
     let filteredApicalls = apicalls;
     if (filter.trim()) {
-      filteredApicalls = apicalls.filter(module => (
-        module.get('key').toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
-        module.get('url').toLowerCase().indexOf(filter.toLowerCase()) > -1
+      filteredApicalls = apicalls.filter((module) => (
+        module.key.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
+        module.url.toLowerCase().indexOf(filter.toLowerCase()) > -1
       ));
     }
-    return filteredApicalls.map((apicall, i) => (
-      <ListItem
-        key={i}
-        onClick={() => this.setState({ activeApiCall: apicall, clean: false })}
-        primaryText={apicall.get('key')}
-        secondaryText={apicall.get('url')}
-      />
-    ));
+    return filteredApicalls.map((apicall, i) => {
+      const apiItemClick = () => this.setState({ activeApiCall: apicall, clean: false });
+      return (
+        <ListItem
+          key={i}
+          onClick={apiItemClick}
+          primaryText={apicall.key}
+          secondaryText={apicall.url}
+        />
+      );
+    });
   }
 
-  render() {
+  public render() {
     const { apicalls } = this.state;
     if (!apicalls) {
       return (
@@ -152,7 +173,7 @@ export class ApiCalls extends Component {
               value={this.state.filter}
               onChange={this.handleFilter}
             />
-            <List className="admin__apicalls-list">
+            <List>
               {this.generateApiCalls()}
             </List>
           </div>
@@ -173,17 +194,14 @@ export class ApiCalls extends Component {
   }
 }
 
-ApiCalls.propTypes = {
-  values: PropTypes.object.isRequired,
-};
-
-function mapStateToProps(state) {
-  if (!state.get('form').get(FORM_NAME)) {
-    return { values: {} };
+function mapStateToProps(state: any) {
+  const reduxState: IReduxState = state.toJS();
+  if (!reduxState.form[FORM_NAME]) {
+    return { apiCallForm: {} };
   }
   return {
-    values: state.get('form').get(FORM_NAME).get('values') || {},
+    apiCallForm: reduxState.form[FORM_NAME].values || {},
   };
 }
 
-export default connect(mapStateToProps)(ApiCalls);
+export default connect<{}, {}, IApiCallsProps>(mapStateToProps)(ApiCalls);

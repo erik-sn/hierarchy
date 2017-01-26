@@ -29,7 +29,7 @@ export interface IAdminSiteState {
 
 export interface IAdminSiteProps {
   fetchHierarchy: () => void;
-  navigate: Function;
+  navigate: (destination: string) => void;
   site: ISite;
   splat: string;
 }
@@ -48,6 +48,9 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
     this.updateSite = this.updateSite.bind(this);
     this.showMessage = this.showMessage.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
+    this.configClick = this.configClick.bind(this);
+    this.departmentClick = this.departmentClick.bind(this);
+    this.machineClick = this.machineClick.bind(this);
   }
 
   public componentDidMount() {
@@ -86,7 +89,6 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
     if (!modules || !apicalls) {
       return undefined;
     }
-    return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
     switch (config) {
       case 'departments':
         return (

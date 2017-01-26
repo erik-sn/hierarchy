@@ -20,6 +20,10 @@
   dependencies:
     "@types/react" "*"
 
+"@types/es6-promise":
+  version "0.0.32"
+  resolved "https://registry.yarnpkg.com/@types/es6-promise/-/es6-promise-0.0.32.tgz#3bcf44fb1e429f3df76188c8c6d874463ba371fd"
+
 "@types/express-serve-static-core@*":
   version "4.0.40"
   resolved "https://registry.yarnpkg.com/@types/express-serve-static-core/-/express-serve-static-core-4.0.40.tgz#168e82978bffc81ee7737bc60728d64733a4f37b"
@@ -116,6 +120,13 @@
 "@types/react@*", "@types/react@^15.0.1":
   version "15.0.2"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.0.2.tgz#146c80453467d7189838b52622e71086eca17cab"
+
+"@types/redux-form":
+  version "6.3.2"
+  resolved "https://registry.yarnpkg.com/@types/redux-form/-/redux-form-6.3.2.tgz#e0652c75be0fda01cb12dcf690ef6e8de3691196"
+  dependencies:
+    "@types/react" "*"
+    redux "^3.6.0"
 
 "@types/redux-promise@^0.5.24":
   version "0.5.24"

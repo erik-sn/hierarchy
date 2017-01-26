@@ -60,25 +60,6 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
     this.props.fetchHierarchy('?inactive=true');
   }
 
-  /**
-   * Only update if the hierarchy or url has updated
-   *
-   * @param {any} nextProps
-   * @param {any} nextState
-   * @returns
-   *
-   * @memberOf Admin
-   */
-  public shouldComponentUpdate(nextProps: IAdminProps, nextState: IAdminState) {
-    if (this.props.params.menu !== nextProps.params.menu) {
-      return true;
-    } else if (this.props.params.splat !== nextProps.params.splat) {
-      return true;
-    } else if (this.state.activeMenu !== nextState.activeMenu) {
-      return true;
-    }
-    return false;
-  }
 
   /**
    * Render the correct menu based on the URL structure

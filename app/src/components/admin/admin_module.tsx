@@ -1,19 +1,34 @@
-import React, { Component, PropTypes } from 'react';
-import { Map, fromJS } from 'immutable';
-import { connect } from 'react-redux';
-import axios from 'axios';
+import * as axios from 'axios';
+import { fromJS, Map  } from 'immutable';
 import { List, ListItem } from 'material-ui/List';
 import Snackbar from 'material-ui/Snackbar';
-import TextField from 'material-ui/TextField';
 import Add from 'material-ui/svg-icons/content/add';
+import TextField from 'material-ui/TextField';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
-import Loader from '../loader';
 import types from '../../actions/types';
+import { IAxiosResponse, IModule, IReduxState } from '../../constants/interfaces';
+import Loader from '../loader';
 import ModuleForm, { FORM_NAME } from './forms/admin_module_form';
 
-export class Modules extends Component {
+export interface IModulesProps {
+  module?: IModule;
+  moduleForm?: IModule;
+}
 
-  constructor(props) {
+export interface IModulesState {
+  modules: IModule[];
+  activeModule: IModule;
+  messageText: string;
+  messageShow: boolean;
+  filter: string;
+  clean: boolean;
+}
+
+export class Modules extends React.Component<IModulesProps, IModulesState> {
+
+  constructor(props: IModulesProps) {
     super(props);
     this.state = {
       modules: undefined,
@@ -21,6 +36,7 @@ export class Modules extends Component {
       messageText: '',
       messageShow: false,
       filter: '',
+      clean: true,
     };
     this.createModule = this.createModule.bind(this);
     this.updateModule = this.updateModule.bind(this);
@@ -31,107 +47,106 @@ export class Modules extends Component {
     this.handleFilter = this.handleFilter.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
     this.fetchModules = this.fetchModules.bind(this);
-    this.refreshModules = this.refreshModules.bind(this);
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.fetchModules();
   }
 
-  fetchModules() {
+  public fetchModules(): void {
     axios.get(`${types.API}/modules/?inactive=true`, types.API_CONFIG)
-    .then((response) => {
-      this.setState({ modules: fromJS(response.data) });
+    .then(({ data }: IAxiosResponse) => {
+      this.setState({ modules: fromJS(data) });
     });
   }
 
-  createModule() {
-    const module = this.props.values;
-    axios.post(`${types.API}/modules/`, module, types.API_CONFIG)
+  public createModule(): void {
+    const moduleForm: IModule = this.props.module;
+    axios.post(`${types.API}/modules/`, moduleForm, types.API_CONFIG)
     .then(() => this.fetchModules())
-    .then(() => this.showMessage(`Module Successfully Created: ${module.get('name')}`))
-    .catch(() => this.showMessage(`Error Updating Module: ${module.get('name')}`))
+    .then(() => this.showMessage(`Module Successfully Created: ${moduleForm.name}`))
+    .catch(() => this.showMessage(`Error Updating Module: ${moduleForm.name}`))
     .then(() => this.resetState());
   }
 
-  updateModule() {
-    const module = this.props.values;
-    axios.put(`${types.API}/modules/${this.state.activeModule.get('id')}/`, module, types.API_CONFIG)
+  public updateModule(): void {
+    const moduleForm: IModule = this.props.module;
+    axios.put(`${types.API}/modules/${this.state.activeModule.id}/`, moduleForm, types.API_CONFIG)
     .then(() => this.fetchModules())
-    .then(() => this.showMessage(`Module Successfully Updated: ${this.state.activeModule.get('name')}`))
-    .catch(() => this.showMessage(`Error Updating Module: ${this.state.activeModule.get('name')}`))
+    .then(() => this.showMessage(`Module Successfully Updated: ${this.state.activeModule.name}`))
+    .catch(() => this.showMessage(`Error Updating Module: ${this.state.activeModule.name}`))
     .then(() => this.resetState());
   }
 
-  deleteModule() {
-    axios.delete(`${types.API}/modules/${this.state.activeModule.get('id')}/`, types.API_CONFIG)
+  public deleteModule(): void {
+    axios.delete(`${types.API}/modules/${this.state.activeModule.id}/`, types.API_CONFIG)
     .then(() => this.fetchModules())
-    .then(() => this.showMessage(`Module Successfully Deleted: ${this.state.activeModule.get('name')}`))
-    .catch(() => this.showMessage(`Error Deleting Module: ${this.state.activeModule.get('name')}`))
+    .then(() => this.showMessage(`Module Successfully Deleted: ${this.state.activeModule.name}`))
+    .catch(() => this.showMessage(`Error Deleting Module: ${this.state.activeModule.name}`))
     .then(() => this.resetState());
   }
 
-  resetState() {
+  public resetState(): void {
     this.setState({
       activeModule: undefined,
       clean: false,
     });
   }
 
-  showMessage(messageText) {
+  public showMessage(messageText: string): void {
     this.setState({
       messageShow: true,
       messageText,
     });
   }
 
-  handleMessageClose() {
+  public handleMessageClose(): void {
     this.setState({ messageShow: false });
   }
 
-  handleFilter(event) {
+  public handleFilter(event: React.FormEvent<HTMLInputElement>): void {
+    event.preventDefault();
     this.setState({
-      filter: event.target.value,
+      filter: event.currentTarget.value,
     });
   }
 
-  refreshModules() {
-    axios.get(`${types.API}/modules/refresh/`, types.API_CONFIG)
-    .then(response => this.showMessage(`New Modules: ${response.data.new} Deleted: ${response.data.deleted}`))
-    .then(() => this.fetchModules());
-  }
-
-  showCleanModuleForm() {
-    const newModule = Map({
+  public showCleanModuleForm(): void {
+    const newModule: IModule = {
       id: null,
       name: '',
       label: '',
       description: '',
       active: true,
-    });
+      created: null,
+      modified: null,
+    };
     this.setState({ activeModule: newModule, clean: true });
   }
 
-  generateModules() {
+  public generateModules(): JSX.Element[] {
     const { modules, filter } = this.state;
     let filteredModules = modules;
     if (filter.trim()) {
-      filteredModules = modules.filter(module => (
-        module.get('name').toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
-        module.get('description').toLowerCase().indexOf(filter.toLowerCase()) > -1
+      filteredModules = modules.filter((module: IModule) => (
+        module.name.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
+        module.description.toLowerCase().indexOf(filter.toLowerCase()) > -1
       ));
     }
-    return filteredModules.map((module, i) => (
-      <ListItem
-        key={i}
-        onClick={() => this.setState({ activeModule: module, clean: false })}
-        primaryText={module.get('name')}
-        secondaryText={module.get('description')}
-      />
-    ));
+    return filteredModules.map((module, i) => {
+      const clickModuleItem = () => this.setState({ activeModule: module, clean: false });
+      return (
+        <ListItem
+          key={i}
+          onClick={clickModuleItem}
+          primaryText={module.name}
+          secondaryText={module.description}
+        />
+      );
+    });
   }
 
-  renderModuleForm() {
+  public renderModuleForm(): JSX.Element {
     if (this.state.activeModule) {
       return (
         <ModuleForm
@@ -148,7 +163,7 @@ export class Modules extends Component {
     return <h3 style={{ textAlign: 'center' }}>Select a Module</h3>;
   }
 
-  render() {
+  public render(): JSX.Element {
     const { modules } = this.state;
     if (!modules) {
       return (
@@ -168,7 +183,7 @@ export class Modules extends Component {
               value={this.state.filter}
               onChange={this.handleFilter}
             />
-            <List className="admin__modules-list">
+            <List>
               {this.generateModules()}
             </List>
             <div
@@ -196,17 +211,14 @@ export class Modules extends Component {
   }
 }
 
-Modules.propTypes = {
-  values: PropTypes.object.isRequired,
-};
-
-function mapStateToProps(state) {
-  if (!state.get('form').get(FORM_NAME)) {
-    return { values: {} };
-  }
+function mapStateToProps(state: any) {
+  const reduxState: IReduxState = state.toJS();
+  if (!reduxState.form[FORM_NAME]) {
+      return { moduleForm: {} };
+    }
   return {
-    values: state.get('form').get(FORM_NAME).get('values') || {},
+    moduleForm: reduxState.form[FORM_NAME].values || {},
   };
 }
 
-export default connect(mapStateToProps)(Modules);
+export default connect<{}, {}, IModulesProps>(mapStateToProps)(Modules);

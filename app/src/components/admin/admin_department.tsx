@@ -55,9 +55,9 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
   public createDepartment(department: IDepartment): void {
     const departmentWithSite = department.site = this.props.site.id;
     axios.post(`${types.API}/departments/`, departmentWithSite, types.API_CONFIG)
-    .then(() => this.props.message(`Department Successfully Created: ${department.get('name')}`))
+    .then(() => this.props.message(`Department Successfully Created: ${department.name}`))
     .then(() => this.props.fetchHierarchy())
-    .catch(() => this.props.message(`Error Creating Department: ${department.get('name')}`))
+    .catch(() => this.props.message(`Error Creating Department: ${department.name}`))
     .then(() => this.resetState());
   }
 

@@ -155,11 +155,15 @@ class ProcessLog(models.Model):
     """
     id = models.AutoField(primary_key=True, db_column='id')
     timestamp = models.DateTimeField(blank=False, null=False, db_column='timestamp')
-    machine = models.TextField(blank=False, null=False, db_column='machine')
-    userName = models.TextField(blank=False, null=False, db_column='username')
-    description = models.TextField(blank=False, null=False, db_column='description')
+    machine = models.ForeignKey(Machine, models.DO_NOTHING, db_column='machineid')
+    userName = models.TextField(blank=True, null=False, db_column='username')
+    description = models.TextField(blank=True, null=False, db_column='description')
     oldValue = models.TextField(blank=False, null=False, db_column='oldvalue')
     newValue = models.TextField(blank=False, null=False, db_column='newvalue')
+
+    @property
+    def machineName(self):
+        return self.machine.name
 
     class Meta:
         managed = True

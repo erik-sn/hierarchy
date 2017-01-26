@@ -1,5 +1,3 @@
-import os
-
 from django.contrib.auth.models import User
 from django.contrib.auth import models
 from django.utils.timezone import utc
@@ -9,6 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.response import Response
 
+from mohawkapi import utility
 from hierarchy.serializers import *
 from hierarchy import utils
 
@@ -50,25 +49,25 @@ def refresh_modules(request):
     :param request: HTTP request
     :return:
     """
-    db_modules = Module.objects.all()
-
-    # remove invalid or not found modules
-    valid_modules = utils.get_valid_modules()
-    deleted_module_count = 0
-    for module in db_modules:
-        if module.name not in valid_modules:
-            module.delete()
-            deleted_module_count += 1
-
-    # add modules that are valid but not in database
-    new_module_count = 0
-    module_names = [module.name for module in db_modules]
-    for module_name in valid_modules:
-        if module_name not in module_names:
-            new_module = Module(name=module_name, active=True, label='TBD', description='')
-            new_module.save()
-            new_module_count += 1
-    return Response({'new': new_module_count, 'deleted': deleted_module_count})
+    # db_modules = Module.objects.all()
+    #
+    # # remove invalid or not found modules
+    # valid_modules = utils.get_valid_modules()
+    # deleted_module_count = 0
+    # for module in db_modules:
+    #     if module.name not in valid_modules:
+    #         module.delete()
+    #         deleted_module_count += 1
+    #
+    # # add modules that are valid but not in database
+    # new_module_count = 0
+    # module_names = [module.name for module in db_modules]
+    # for module_name in valid_modules:
+    #     if module_name not in module_names:
+    #         new_module = Module(name=module_name, active=True, label='TBD', description='')
+    #         new_module.save()
+    #         new_module_count += 1
+    return Response({'new': 0, 'deleted': 0})
 
 
 class ApiCallView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
@@ -187,13 +186,13 @@ class MachineView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics
             inactive = request.GET.get('inactive', None)
 
             data = self.get_queryset().filter(active=True) if inactive is None else self.get_queryset()
-            data = data.filter(department__name__iexact=department) if department else data
+            data = data.filter(department__id=department) if department else data
             data = data.filter(name__iexact=name) if name else data
             serializer = MachineSerializer(data, many=True)
             return Response(serializer.data, 200)
 
 
-class ModuleView(generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+class ModuleView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
     """
     View for application modules
     Methods supported:
@@ -296,6 +295,11 @@ class ProcessLogView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
     serializer_class = ProcessLogSerializer
     lookup_field = 'id'
 
+    def get_serializer_class(self):
+        if self.request.method in ['POST', 'PUT']:
+            return ProcessLogSerializerPost
+        return ProcessLogSerializer
+
     def get(self, request, *args, **kwargs):
         if 'id' in kwargs:
             return self.retrieve(request, *args, **kwargs)
@@ -304,12 +308,14 @@ class ProcessLogView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
             print(dates.end)
             if not dates.valid:
                 return Response(dates.error, 400)
-
+            
+            department = request.GET.get('department', None)
             machine = request.GET.get('machine', None)
             user = request.GET.get('username', None)
             description = request.GET.get('description', None)
 
             data = self.queryset.filter(timestamp__range=(dates.start, dates.end))
+            data = data.filter(machine__department__id=department) if department else data
             data = data.filter(machine__iexact=machine) if machine else data
             data = data.filter(userName__icontains=user) if user else data
             data = data.filter(description__icontains=description) if description else data
@@ -388,11 +394,16 @@ class SiteView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.Up
             return Response(serializer.data, 200)
 
 
-class SpecificationView(generics.ListAPIView, generics.RetrieveAPIView):
+class SpecificationView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView):
     queryset = Specification.objects.all().order_by('-id')
     permission_classes = (DjangoModelPermissions,)
     serializer_class = SpecificationSerializer
     lookup_field = 'id'
+
+    def get_serializer_class(self):
+        if self.request.method in ['POST', 'PUT']:
+            return SpecificationSerializerPost
+        return self.serializer_class
 
     def get(self, request, *args, **kwargs):
         if 'id' in kwargs:

@@ -13,13 +13,13 @@ const navigate = buildNavigate('/admin/hierarchy');
 export interface IAdminHierarchyProps {
   sites: ISite[];
   splat: string;
-  fetchHierarchy?: Function;
+  fetchHierarchy?: () => void;
 }
 
 export const AdminHierarchy = (props: IAdminHierarchyProps): JSX.Element => {
   const { sites, splat } = props;
   const code: string = splat ? splat.split('/')[1] : undefined; // parse remainder url for parameters
-  let activeSite;
+  let activeSite: ISite;
   let siteNavigate;
   if (code) {
     activeSite = sites.find((site) => code.toUpperCase() === site.code);

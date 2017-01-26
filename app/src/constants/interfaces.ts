@@ -1,3 +1,4 @@
+import { FormStateMap } from 'redux-form';
 
 /**
  * Redux Interfaces
@@ -18,6 +19,7 @@ export interface IReduxState {
   auth: IAuth;
   hierarchy: IHierarchy;
   toJS: Function;
+  form: FormStateMap;
 }
 
 /**
@@ -53,14 +55,15 @@ export interface IDepartment {
 }
 
 export interface IMachine {
-  id: number;
+  id?: number;
   name: string;
   type: string;
-  created: string;
-  modified: string;
-  department: IDepartment;
-  defaultModule: number;
-  modules: number[];
+  created?: string;
+  modified?: string;
+  department?: number;
+  site?: number;
+  defaultModule?: number;
+  modules?: number[];
   active: boolean;
 }
 
@@ -69,6 +72,16 @@ export interface IApiCall {
   key: string;
   url: string;
   description: string;
+  active: boolean;
+}
+
+export interface IModule {
+  id: number;
+  name: string;
+  label: string;
+  description: string;
+  created: string;
+  modified: string;
   active: boolean;
 }
 

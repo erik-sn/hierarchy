@@ -125,7 +125,8 @@ class SetpointSerializer(serializers.ModelSerializer):
 class SetpointBasicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Setpoint
-        fields = ('itemName', 'piTagName', 'specValue', 'piTagValue', 'lowLimit', 'highLimit', 'machine')
+        fields = ('itemName', 'piTagName', 'specValue', 'piTagValue', 'lowLimit', 'highLimit', 'machine', 'percentage',
+                  'contains', 'groupName')
 
 
 class SpecificationSerializer(serializers.ModelSerializer):
@@ -141,10 +142,22 @@ class SpecificationSerializer(serializers.ModelSerializer):
         fields = ('id', 'fileName', 'lotNumber', 'created', 'modified', 'machine')
 
 
-class ProcessLogSerializer(serializers.ModelSerializer):
+class SpecificationSerializerPost(serializers.ModelSerializer):
 
+    class Meta:
+        model = Specification
+        fields = ('fileName', 'lotNumber', 'created', 'modified', 'machine')
+
+
+class ProcessLogSerializer(serializers.ModelSerializer):
+    machineName = serializers.ReadOnlyField()
     timestamp = serializers.DateTimeField(format='iso-8601')
     class Meta:
         model = ProcessLog
-        depth = 1
-        fields = ('id', 'timestamp', 'machine', 'userName', 'description', 'oldValue', 'newValue')
+        fields = ('id', 'timestamp', 'machineName', 'userName', 'description', 'oldValue', 'newValue')
+
+class ProcessLogSerializerPost(serializers.ModelSerializer):
+
+    class Meta:
+        model = ProcessLog
+        fields = ('timestamp', 'machine', 'userName', 'description', 'oldValue', 'newValue')

@@ -71,7 +71,7 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
 
   public renderSiteList(): JSX.Element[] {
     return this.props.sites.map((site, i) => {
-      const onSiteClick = this.props.navigate(site.code);
+      const onSiteClick = () => this.props.navigate(site.code);
       return (
         <ListItem
           key={i}
