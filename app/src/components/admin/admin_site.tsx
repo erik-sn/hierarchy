@@ -1,5 +1,4 @@
 import * as axios from 'axios';
-import { fromJS } from 'immutable';
 import { CardTitle } from 'material-ui/Card';
 import { List, ListItem } from 'material-ui/List';
 import Snackbar from 'material-ui/Snackbar';
@@ -56,14 +55,14 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
   public componentDidMount() {
     axios.get(`${types.API}/modules/`, types.API_CONFIG)
     .then((response: IAxiosResponse) => this.setState({
-      modules: fromJS(response.data),
+      modules: response.data as IModule[],
     }))
     .catch(() => this.showMessage('Error Loading Modules'));
 
 
     axios.get(`${types.API}/apicalls/`, types.API_CONFIG)
     .then((response: IAxiosResponse) => this.setState({
-      apicalls: fromJS(response.data),
+      apicalls: response.data as IApiCall[],
     }))
     .catch(() => this.showMessage('Error Loading Api Calls'));
   }
