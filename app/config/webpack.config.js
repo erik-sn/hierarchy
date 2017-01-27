@@ -2,8 +2,28 @@
 var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-require('es6-promise').polyfill();
-require('core-js/shim');
+
+// polyfills for IE11 support
+require('es6-promise').polyfill(); // promise
+// .isNan
+Number.isNaN = Number.isNaN || function(value) {
+    return typeof value === "number" && isNaN(value);
+}
+// .includes
+if (!String.prototype.includes) {
+  String.prototype.includes = function(search, start) {
+    'use strict';
+    if (typeof start !== 'number') {
+      start = 0;
+    }
+    
+    if (start + search.length > this.length) {
+      return false;
+    } else {
+      return this.indexOf(search, start) !== -1;
+    }
+  };
+}
 
 // automatically add vendor prefixes to transpiled css
 var autoprefixer = require('autoprefixer');
