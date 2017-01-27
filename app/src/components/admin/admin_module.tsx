@@ -212,12 +212,11 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
 }
 
 function mapStateToProps(state: any) {
-  const reduxState: IReduxState = state.toJS();
-  if (!reduxState.form[FORM_NAME]) {
+  if (!state.form[FORM_NAME]) {
       return { moduleForm: {} };
     }
   return {
-    moduleForm: reduxState.form[FORM_NAME].values || {},
+    moduleForm: state.form[FORM_NAME].values || {},
   };
 }
 
