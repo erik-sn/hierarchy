@@ -7,7 +7,7 @@ import * as React from 'react';
 
 import types from '../../actions/types';
 import Modal from '../modal';
-import DepartmentForm from './forms/admin_department_form';
+import DepartmentForm from './forms/department_form';
 
 import { IApiCall, IDepartment, IModule, ISite } from '../../constants/interfaces';
 
@@ -53,7 +53,8 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
   }
 
   public createDepartment(department: IDepartment): void {
-    const departmentWithSite = department.site = this.props.site.id;
+    const departmentWithSite = department;
+    departmentWithSite.site = this.props.site.id;
     axios.post(`${types.API}/departments/`, departmentWithSite, types.API_CONFIG)
     .then(() => this.props.message(`Department Successfully Created: ${department.name}`))
     .then(() => this.props.fetchHierarchy())
@@ -62,7 +63,8 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
   }
 
   public updateDepartment(department: IDepartment): void {
-    const departmentWithSite = department.site = this.props.site.id;
+    const departmentWithSite = department;
+    departmentWithSite.site = this.props.site.id;
     axios.put(`${types.API}/departments/${department.id}/`, departmentWithSite, types.API_CONFIG)
     .then(() => this.props.message(`Department Successfully Updated: ${department.name}`))
     .then(() => this.props.fetchHierarchy())
@@ -84,11 +86,7 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
         title="Create New Department"
         onCancel={this.toggleShowNewDepartmentForm}
       >
-        <DepartmentForm
-          submitForm={this.createDepartment}
-          modal
-          new
-        />
+        <DepartmentForm submitForm={this.createDepartment} />
       </Modal>
     );
   }
@@ -100,7 +98,7 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
         submitForm={this.updateDepartment}
         department={department}
         modules={this.props.modules}
-        apicalls={this.props.apicalls}
+        apiCalls={this.props.apicalls}
       />
     );
   }

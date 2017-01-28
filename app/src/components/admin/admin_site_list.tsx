@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import types from '../../actions/types';
 import Modal from '../modal';
-import ConfigurationForm from './forms/admin_configuration';
+import SiteForm from './forms/site_form';
 
 import { ISite } from '../../constants/interfaces';
 
@@ -54,28 +54,24 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
     this.toggleShowNewSiteForm();
   }
 
-  public renderNewSiteModal() {
+  public renderNewSiteModal(): JSX.Element {
     return (
       <Modal
         title="Create New Site"
         onCancel={this.toggleShowNewSiteForm}
       >
-        <ConfigurationForm
-          submitForm={this.createSite}
-          modal
-          new
-        />
+        <SiteForm submitForm={this.createSite} />
       </Modal>
     );
   }
 
   public renderSiteList(): JSX.Element[] {
     return this.props.sites.map((site, i) => {
-      const onSiteClick = () => this.props.navigate(site.code);
+      const handleSiteClick = () => this.props.navigate(site.code);
       return (
         <ListItem
           key={i}
-          onClick={onSiteClick}
+          onClick={handleSiteClick}
           primaryText={`${site.name} - ${site.code}`}
           secondaryText={site.location}
         />

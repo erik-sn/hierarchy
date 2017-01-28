@@ -7,7 +7,7 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import DjangoModelPermissions
 from rest_framework.response import Response
 
-from mohawkapi import utility
+from hierarchyapi import utility
 from hierarchy.serializers import *
 from hierarchy import utils
 

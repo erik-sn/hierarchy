@@ -3,14 +3,16 @@ import * as axios from 'axios';
 import { fromJS } from 'immutable';
 import { List, ListItem } from 'material-ui/List';
 import Snackbar from 'material-ui/Snackbar';
+import Add from 'material-ui/svg-icons/content/add';
 import TextField from 'material-ui/TextField';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
 import types from '../../actions/types';
-import { IApiCall, IReduxState } from '../../constants/interfaces';
+import { IApiCall, IModule, IReduxState } from '../../constants/interfaces';
 import Loader from '../loader';
-import ApiForm, { FORM_NAME, validateOnSubmit } from './forms/admin_api_form';
+import Modal from '../modal';
+import ApiForm, { FORM_NAME, validateOnSubmit } from './forms/api_form';
 
 
 export interface IApiCallsProps {
@@ -19,25 +21,25 @@ export interface IApiCallsProps {
 }
 
 export interface IApiCallsState {
-  apicalls: IApiCall[];
+  apiCalls: IApiCall[];
   activeApiCall: IApiCall;
   messageText: string;
   messageShow: boolean;
   filter: string;
-  clean: boolean;
+  showNewForm: boolean;
 }
 
-export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
+export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState> {
 
   constructor(props: IApiCallsProps) {
     super(props);
     this.state = {
-      apicalls: undefined,
+      apiCalls: undefined,
       activeApiCall: undefined,
       messageText: '',
       messageShow: false,
       filter: '',
-      clean: true,
+      showNewForm: false,
     };
     this.createApiCall = this.createApiCall.bind(this);
     this.updateApiCall = this.updateApiCall.bind(this);
@@ -47,6 +49,7 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
     this.handleMessageClose = this.handleMessageClose.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.fetchApiCalls = this.fetchApiCalls.bind(this);
+    this.toggleShowNewForm = this.toggleShowNewForm.bind(this);
   }
 
   public componentDidMount(): void {
@@ -56,7 +59,7 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
   public fetchApiCalls(): void {
     axios.get(`${types.API}/apicalls/?inactive=true`, types.API_CONFIG)
     .then((response) => {
-      this.setState({ apicalls: fromJS(response.data) });
+      this.setState({ apiCalls: response.data as IApiCall[] });
     });
   }
 
@@ -99,6 +102,13 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
     });
   }
 
+  public toggleShowNewForm(): void {
+    this.setState({
+      activeApiCall: undefined,
+      showNewForm: !this.state.showNewForm,
+    });
+  }
+
   public handleMessageClose(): void {
     this.setState({ messageShow: false });
   }
@@ -110,38 +120,38 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
   }
 
   public renderApiCallForm(): JSX.Element {
-    if (this.state.activeApiCall) {
-      return (
-        <ApiForm
-          apicall={this.state.activeApiCall}
-          submitForm={this.createApiCall}
-          update={this.updateApiCall}
-          remove={this.deleteApiCall}
-          clear={this.resetState}
-          clean={false}
-        />
-      );
-    }
     return (
       <ApiForm
-        submitForm={this.createApiCall}
-        clear={this.resetState}
-        clean
+        apiCall={this.state.activeApiCall}
+        submitForm={this.updateApiCall}
+        remove={this.deleteApiCall}
+        cancel={this.resetState}
       />
     );
   }
 
+  public renderNewApiCallForm(): JSX.Element {
+    return (
+      <Modal
+        title="Create New API Call"
+        onCancel={this.toggleShowNewForm}
+      >
+        <ApiForm submitForm={this.createApiCall} />
+      </Modal>
+    );
+  }
+
   public generateApiCalls(): JSX.Element[] {
-    const { apicalls, filter } = this.state;
-    let filteredApicalls = apicalls;
+    const { apiCalls, filter } = this.state;
+    let filteredApicalls: IApiCall[] = apiCalls;
     if (filter.trim()) {
-      filteredApicalls = apicalls.filter((module) => (
-        module.key.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
-        module.url.toLowerCase().indexOf(filter.toLowerCase()) > -1
+      filteredApicalls = apiCalls.filter((call) => (
+        call.key.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
+        call.url.toLowerCase().indexOf(filter.toLowerCase()) > -1
       ));
     }
     return filteredApicalls.map((apicall, i) => {
-      const apiItemClick = () => this.setState({ activeApiCall: apicall, clean: false });
+      const apiItemClick = () => this.setState({ activeApiCall: apicall });
       return (
         <ListItem
           key={i}
@@ -154,8 +164,8 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
   }
 
   public render() {
-    const { apicalls } = this.state;
-    if (!apicalls) {
+    const { apiCalls, showNewForm, activeApiCall } = this.state;
+    if (!apiCalls) {
       return (
         <div className="admin__apicalls">
           <Loader />
@@ -165,6 +175,7 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
 
     return (
       <div className="admin__apicalls">
+        {showNewForm ? this.renderNewApiCallForm() : undefined}
         <div className="admin__apicalls-inner-container">
           <div className="admin__apicalls-list-container">
             <TextField
@@ -173,12 +184,19 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
               value={this.state.filter}
               onChange={this.handleFilter}
             />
-            <List>
+            <List style={{ maxHeight: '400px', overflowY: 'auto' }} >
               {this.generateApiCalls()}
             </List>
+            <div
+              className="admin__modules-new-module-container"
+              onClick={this.toggleShowNewForm}
+            >
+              <Add />
+              <span>New API Call</span>
+            </div>
           </div>
           <div className="admin__apicalls-form-container">
-            {this.renderApiCallForm()}
+            {activeApiCall ? this.renderApiCallForm() : <h3>Select an API Call</h3>}
           </div>
         </div>
         <Snackbar
@@ -194,14 +212,13 @@ export class ApiCalls extends React.Component<IApiCallsProps, IApiCallsState> {
   }
 }
 
-function mapStateToProps(state: any) {
-  const reduxState: IReduxState = state.toJS();
-  if (!reduxState.form[FORM_NAME]) {
+function mapStateToProps(state: IReduxState): any {
+  if (!state.form[FORM_NAME]) {
     return { apiCallForm: {} };
   }
   return {
-    apiCallForm: reduxState.form[FORM_NAME].values || {},
+    apiCallForm: state.form[FORM_NAME].values || {},
   };
 }
 
-export default connect<{}, {}, IApiCallsProps>(mapStateToProps)(ApiCalls);
+export default connect<{}, {}, IApiCallsProps>(mapStateToProps)(ApiCallAdmin);

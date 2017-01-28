@@ -109,3 +109,10 @@ export interface IModule {
 export interface IAxiosResponse {
   data: Object;
 }
+
+
+/**
+ * Form interfaces
+ */
+
+export interface IFormValues { initialValues: any; }

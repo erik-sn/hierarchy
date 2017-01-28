@@ -12,7 +12,6 @@ export interface IModuleEditState {
   defaultId: number;
 }
 
-
 export interface IModuleEditProps {
   parentObject: IHierarchyTier;
   change: (key: string, value: any) => void;
@@ -24,13 +23,16 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
 
   constructor(props: IModuleEditProps) {
     super(props);
-    // initialize the form with the parent's module information
-    const moduleIds = props.parentObject.modules.map((mdl) => mdl.id);
     this.state = {
       modules: props.parentObject.modules,
       defaultId: props.parentObject.defaultModule ? props.parentObject.defaultModule.id : -1,
     };
-    props.change('modules', moduleIds);
+  }
+
+  public componentWillMount() {
+    // initialize the form with the parent's module information
+    const moduleIds = this.props.parentObject.modules.map((mdl) => mdl.id);
+    this.props.change('modules', moduleIds);
   }
 
   public handleAddModule(module: IModule): void {
@@ -84,8 +86,8 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
       const handleCloseClick = () => this.handleDeleteModule(module);
       return (
         <MenuItem
-          onTouchTap={handleBodyClick}
           key={i}
+          onTouchTap={handleBodyClick}
           className={defaultId === module.id ? 'admin__modules-default' : undefined}
           value={module.name}
           primaryText={module.name}

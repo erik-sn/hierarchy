@@ -10,7 +10,8 @@ import { connect } from 'react-redux';
 import types from '../../actions/types';
 import { IAxiosResponse, IModule, IReduxState } from '../../constants/interfaces';
 import Loader from '../loader';
-import ModuleForm, { FORM_NAME } from './forms/admin_module_form';
+import Modal from '../modal';
+import ModuleForm, { FORM_NAME } from './forms/module_form';
 
 export interface IModulesProps {
   module?: IModule;
@@ -23,10 +24,10 @@ export interface IModulesState {
   messageText: string;
   messageShow: boolean;
   filter: string;
-  clean: boolean;
+  showNewModuleForm: boolean;
 }
 
-export class Modules extends React.Component<IModulesProps, IModulesState> {
+export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   constructor(props: IModulesProps) {
     super(props);
@@ -36,17 +37,17 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
       messageText: '',
       messageShow: false,
       filter: '',
-      clean: true,
+      showNewModuleForm: false,
     };
     this.createModule = this.createModule.bind(this);
     this.updateModule = this.updateModule.bind(this);
     this.deleteModule = this.deleteModule.bind(this);
     this.resetState = this.resetState.bind(this);
     this.showMessage = this.showMessage.bind(this);
-    this.showCleanModuleForm = this.showCleanModuleForm.bind(this);
     this.handleFilter = this.handleFilter.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
     this.fetchModules = this.fetchModules.bind(this);
+    this.toggleShowNewForm = this.toggleShowNewForm.bind(this);
   }
 
   public componentDidMount(): void {
@@ -56,21 +57,21 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
   public fetchModules(): void {
     axios.get(`${types.API}/modules/?inactive=true`, types.API_CONFIG)
     .then(({ data }: IAxiosResponse) => {
-      this.setState({ modules: fromJS(data) });
+      this.setState({ modules: data as IModule[] });
     });
   }
 
   public createModule(): void {
-    const moduleForm: IModule = this.props.module;
+    const moduleForm: IModule = this.props.moduleForm;
     axios.post(`${types.API}/modules/`, moduleForm, types.API_CONFIG)
     .then(() => this.fetchModules())
     .then(() => this.showMessage(`Module Successfully Created: ${moduleForm.name}`))
-    .catch(() => this.showMessage(`Error Updating Module: ${moduleForm.name}`))
+    .catch(() => this.showMessage(`Error Creating Module: ${moduleForm.name}`))
     .then(() => this.resetState());
   }
 
   public updateModule(): void {
-    const moduleForm: IModule = this.props.module;
+    const moduleForm: IModule = this.props.moduleForm;
     axios.put(`${types.API}/modules/${this.state.activeModule.id}/`, moduleForm, types.API_CONFIG)
     .then(() => this.fetchModules())
     .then(() => this.showMessage(`Module Successfully Updated: ${this.state.activeModule.name}`))
@@ -89,7 +90,7 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
   public resetState(): void {
     this.setState({
       activeModule: undefined,
-      clean: false,
+      showNewModuleForm: false,
     });
   }
 
@@ -111,19 +112,6 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
     });
   }
 
-  public showCleanModuleForm(): void {
-    const newModule: IModule = {
-      id: null,
-      name: '',
-      label: '',
-      description: '',
-      active: true,
-      created: null,
-      modified: null,
-    };
-    this.setState({ activeModule: newModule, clean: true });
-  }
-
   public generateModules(): JSX.Element[] {
     const { modules, filter } = this.state;
     let filteredModules = modules;
@@ -134,7 +122,7 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
       ));
     }
     return filteredModules.map((module, i) => {
-      const clickModuleItem = () => this.setState({ activeModule: module, clean: false });
+      const clickModuleItem = () => this.setState({ activeModule: module });
       return (
         <ListItem
           key={i}
@@ -146,25 +134,40 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
     });
   }
 
-  public renderModuleForm(): JSX.Element {
-    if (this.state.activeModule) {
-      return (
+  public toggleShowNewForm(): void {
+    this.setState({
+      activeModule: undefined,
+      showNewModuleForm: !this.state.showNewModuleForm,
+    });
+  }
+
+  public renderNewModuleForm(): JSX.Element {
+    return (
+      <Modal
+        title="Create New Module"
+        onCancel={this.toggleShowNewForm}
+      >
         <ModuleForm
-          module={this.state.activeModule}
-          submitForm={this.updateModule}
-          create={this.createModule}
-          update={this.updateModule}
-          remove={this.deleteModule}
+          submitForm={this.createModule}
           clear={this.resetState}
-          clean={this.state.clean}
         />
-      );
-    }
-    return <h3 style={{ textAlign: 'center' }}>Select a Module</h3>;
+      </Modal>
+    );
+  }
+
+  public renderModuleForm(): JSX.Element {
+    return (
+      <ModuleForm
+        module={this.state.activeModule}
+        submitForm={this.updateModule}
+        remove={this.deleteModule}
+        clear={this.resetState}
+      />
+    );
   }
 
   public render(): JSX.Element {
-    const { modules } = this.state;
+    const { activeModule, modules, showNewModuleForm } = this.state;
     if (!modules) {
       return (
         <div className="admin__modules">
@@ -172,9 +175,9 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
         </div>
       );
     }
-
     return (
       <div className="admin__modules">
+        {showNewModuleForm ? this.renderNewModuleForm() : undefined}
         <div className="admin__modules-inner-container">
           <div className="admin__modules-list-container">
             <TextField
@@ -183,19 +186,19 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
               value={this.state.filter}
               onChange={this.handleFilter}
             />
-            <List>
+            <List style={{ maxHeight: '400px', overflowY: 'auto' }} >
               {this.generateModules()}
             </List>
             <div
               className="admin__modules-new-module-container"
-              onClick={this.showCleanModuleForm}
+              onClick={this.toggleShowNewForm}
             >
               <Add />
               <span>New Module</span>
             </div>
           </div>
           <div className="admin__modules-form-container">
-            {this.renderModuleForm()}
+            {activeModule ? this.renderModuleForm() : <h3>Select a Module</h3>}
           </div>
         </div>
         <Snackbar
@@ -211,13 +214,11 @@ export class Modules extends React.Component<IModulesProps, IModulesState> {
   }
 }
 
-function mapStateToProps(state: any) {
+function mapStateToProps(state: IReduxState) {
   if (!state.form[FORM_NAME]) {
       return { moduleForm: {} };
     }
-  return {
-    moduleForm: state.form[FORM_NAME].values || {},
-  };
+  return { moduleForm: state.form[FORM_NAME].values || {} };
 }
 
-export default connect<{}, {}, IModulesProps>(mapStateToProps)(Modules);
+export default connect<{}, {}, IModulesProps>(mapStateToProps)(ModuleAdmin);

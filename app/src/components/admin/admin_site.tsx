@@ -10,7 +10,7 @@ import * as React from 'react';
 import types from '../../actions/types';
 import DepartmentAdmin from './admin_department';
 import MachineAdmin from './admin_machine';
-import ConfigurationForm from './forms/admin_configuration';
+import SiteForm from './forms/site_form';
 
 import { IApiCall, IAxiosResponse, IModule, ISite } from '../../constants/interfaces';
 
@@ -109,7 +109,7 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
           />
         );
       default:
-        return <ConfigurationForm site={site} submitForm={this.updateSite} modules={modules} />;
+        return <SiteForm site={site} submitForm={this.updateSite} modules={modules} />;
     }
   }
 

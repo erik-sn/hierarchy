@@ -12,7 +12,8 @@ import AdminHierarchy from './admin_hierarchy';
 import Modules from './admin_module';
 import AdminTabs from './admin_tabs';
 
-const navigate = buildNavigate('/admin');
+const appconfig = require('../../../appconfig.json');
+const navigate = buildNavigate(`${appconfig.baseUrl}/admin`);
 
 interface Iparams { menu: string; splat: string; }
 
@@ -76,7 +77,7 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
       case 'apicalls':
         return <ApiCalls />;
       case 'modules':
-        return <Modules key={Math.random()} />;
+        return <Modules />;
       default:
         return <AdminHierarchy splat={splat} sites={this.props.sites} />;
     }

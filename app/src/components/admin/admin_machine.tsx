@@ -8,7 +8,7 @@ import * as React from 'react';
 import types from '../../actions/types';
 import { IApiCall, IAxiosResponse, IDepartment, IMachine, IModule, ISite } from '../../constants/interfaces';
 import Modal from '../modal';
-import MachineForm from './forms/admin_machine_form';
+import MachineForm from './forms/machine_form';
 
 export interface IMachineAdminProps {
   site: ISite;
@@ -124,16 +124,13 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     this.setState({ machine: undefined, showNewMachine: false, refreshDepartment: true });
   }
 
-
   public renderNewMachine(): JSX.Element {
     return (
       <Modal
         title="Create New Machine"
         onCancel={this.toggleShowNewMachineForm}
       >
-        <MachineForm
-          submitForm={this.createMachine}
-        />
+        <MachineForm submitForm={this.createMachine} />
       </Modal>
     );
   }

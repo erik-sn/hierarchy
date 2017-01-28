@@ -6,10 +6,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
-import { IMachine, IModule, IReduxState, ISite } from '../../../constants/interfaces';
+import { IFormValues, IMachine, IModule, IReduxState, ISite } from '../../../constants/interfaces';
 
 import { renderCheckbox, renderNullField, renderTextField } from '../../../utils/form_renderer';
-import ModuleEdit from './admin_module_edit';
+import ModuleEdit from './module_edit';
 
 
 export interface IMachineFormProps {
@@ -20,8 +20,6 @@ export interface IMachineFormProps {
   machine?: IMachine;
   modules?: IModule[];
 }
-
-interface IFormValues { initialValues: IMachine; }
 
 interface IMachineFormErrors { name?: string; type?: string; }
 
@@ -52,6 +50,16 @@ class MachineForm extends React.Component<IMachineFormProps, {}> {
         parentObject={machine}
         modules={modules}
         change={change}
+      />
+    );
+  }
+
+  public renderCancelButton(): JSX.Element {
+    return (
+      <FlatButton
+        label="Cancel"
+        onClick={this.cancelForm}
+        primary
       />
     );
   }
@@ -94,11 +102,7 @@ class MachineForm extends React.Component<IMachineFormProps, {}> {
             onClick={this.clearForm}
             primary
           />
-          <FlatButton
-            label="Cancel"
-            onClick={this.cancelForm}
-            primary
-          />
+          {machine ? this.renderCancelButton() : undefined}
         </div>
       </form>
     );
