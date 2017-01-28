@@ -1,6 +1,5 @@
 import * as React from 'react';
 
-import Lock from 'material-ui/svg-icons/action/lock';
 import Antenna from 'material-ui/svg-icons/action/settings-input-antenna';
 import Module from 'material-ui/svg-icons/action/view-module';
 import DeviceHub from 'material-ui/svg-icons/hardware/device-hub';
@@ -11,12 +10,14 @@ export interface IAdminTabsProps {
   value: string;
 }
 
-
+/**
+ * Generate a navigational bar that allows the user to navigate to
+ * each of the major configuration tools
+ */
 const AdminTabs = ({ navigate, value }: IAdminTabsProps) => {
   const navigateHierarchy = () => navigate('hierarchy');
   const navigateModules = () => navigate('modules');
   const navigateApiCalls = () => navigate('apicalls');
-  const navigatePermissions = () => navigate('permissions');
   return (
     <Tabs value={value} >
       <Tab
@@ -39,13 +40,6 @@ const AdminTabs = ({ navigate, value }: IAdminTabsProps) => {
         icon={<Antenna />}
         label="api calls"
         value="apicalls"
-      />
-      <Tab
-        onClick={navigatePermissions}
-        className="admin__menu-tab"
-        icon={<Lock />}
-        label="permissions"
-        value="permissions"
       />
     </Tabs>
   );

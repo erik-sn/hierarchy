@@ -13,6 +13,7 @@ export interface IDepartmentFormProps {
   handleSubmit?: (submitForm: {}) => React.EventHandler<React.FormEvent<HTMLFormElement>>;
   change?: (key: string, value: any) => void;
   clear?: () => void;
+  cancel?: () => void;
   reset?: () => void;
   department?: IDepartment;
   apiCalls?: IApiCall[];
@@ -24,13 +25,37 @@ export interface IValidationForm {
 }
 
 
+/**
+ * Form to handle CRUD operations on department objects
+ * 
+ * @class DepartmentForm
+ * @extends {React.Component<IDepartmentFormProps, {}>}
+ */
 class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
 
+  constructor(props: IDepartmentFormProps) {
+    super(props);
+    this.handleCancel = this.handleCancel.bind(this);
+  }
+
+  /**
+   * actions to take when cancel button is clicked 
+   * 
+   * @memberOf DepartmentForm
+   */
   public handleCancel(): void {
-    this.props.clear();
+    this.props.cancel();
     this.props.reset();
   }
 
+  /**
+   * helper method to contain rendering the Module and
+   * Api Call edit components
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf DepartmentForm
+   */
   public renderSubForms(): JSX.Element {
     const { apiCalls, change, department, modules } = this.props;
     return (
@@ -100,6 +125,14 @@ class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
 }
 
 
+/**
+ * Initialize the form with values from either the passed Department,
+ * or a set of default values.
+ * 
+ * @param {IReduxState} state
+ * @param {IDepartmentFormProps} ownProps
+ * @returns {IFormValues}
+ */
 function mapStateToProps(state: IReduxState, ownProps: IDepartmentFormProps): IFormValues {
   if (ownProps.department) {
     const initialValues = ownProps.department;
@@ -110,6 +143,7 @@ function mapStateToProps(state: IReduxState, ownProps: IDepartmentFormProps): IF
   return { initialValues: { active: true, modules: [] } };
 }
 
+// synchronous validation function
 export const validate = (values: IValidationForm): IValidationForm => {
   const errors: IValidationForm = {};
   if (!values.name) {
@@ -121,7 +155,6 @@ export const validate = (values: IValidationForm): IValidationForm => {
 // Decorate the form component
 const DepartmentFormDecorated = reduxForm({
   form: 'department_form',
-  validate,
 })(DepartmentForm);
 
 export default connect<{}, {}, IDepartmentFormProps>(mapStateToProps)(DepartmentFormDecorated);

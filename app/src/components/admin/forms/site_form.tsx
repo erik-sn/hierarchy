@@ -22,6 +22,12 @@ export interface IValidationForm {
   code?: string;
 }
 
+/**
+ * Form component used for CRUD operations on the Site object
+ * 
+ * @class SiteForm
+ * @extends {React.Component<ISiteFormProps, {}>}
+ */
 class SiteForm extends React.Component<ISiteFormProps, {}> {
 
   constructor(props: ISiteFormProps) {
@@ -30,6 +36,14 @@ class SiteForm extends React.Component<ISiteFormProps, {}> {
     this.navigateHome = this.navigateHome.bind(this);
   }
 
+
+  /**
+   * helper function to clean jsx, render the ModuleEdit interface
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf SiteForm
+   */
   public renderModuleEdit(): JSX.Element {
     const { change, modules, site } = this.props;
     return (
@@ -41,10 +55,21 @@ class SiteForm extends React.Component<ISiteFormProps, {}> {
     );
   }
 
+  /**
+   * navigate using react-router back to the hierarchy home
+   * 
+   * @memberOf SiteForm
+   */
   public navigateHome(): void {
     browserHistory.push('/admin/hierarchy/');
   }
 
+
+  /**
+   * Reset form back to default values
+   * 
+   * @memberOf SiteForm
+   */
   public clearForm(): void {
     const { change } = this.props;
     change('name', '');
@@ -112,6 +137,14 @@ class SiteForm extends React.Component<ISiteFormProps, {}> {
 }
 
 
+/**
+ * Initialize the form with the site that was passed through props
+ * or a set of default values if it does not exist
+ * 
+ * @param {IReduxState} state
+ * @param {ISiteFormProps} ownProps
+ * @returns {IFormValues}
+ */
 function mapStateToProps(state: IReduxState, ownProps: ISiteFormProps): IFormValues {
   if (ownProps.site) {
     return { initialValues: ownProps.site };
@@ -119,6 +152,7 @@ function mapStateToProps(state: IReduxState, ownProps: ISiteFormProps): IFormVal
   return { initialValues: { active: true, modules: [] } };
 }
 
+// syncronous validation function
 export const validate = (formValues: IValidationForm): IValidationForm => {
   const errors: IValidationForm = {};
   if (!formValues.name) {
@@ -135,7 +169,6 @@ export const validate = (formValues: IValidationForm): IValidationForm => {
 // Decorate the form component
 const SiteFormDecorated = reduxForm({
   form: 'site_config',
-  validate,
 })(SiteForm);
 
 export default connect<{}, {}, ISiteFormProps>(mapStateToProps)(SiteFormDecorated);

@@ -18,18 +18,25 @@ export interface IMachineAdminProps {
 }
 
 export interface IMachineAdminState {
-  showNewMachine: boolean;
+  showNewForm: boolean;
   department: IDepartment;
   machine: IMachine;
   refreshDepartment: boolean;
 }
 
+/**
+ * Controller component that handles operations on the Machine object
+ * 
+ * @export
+ * @class MachineAdmin
+ * @extends {React.Component<IMachineAdminProps, IMachineAdminState>}
+ */
 export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAdminState> {
 
   constructor(props: IMachineAdminProps) {
     super(props);
     this.state = {
-      showNewMachine: false,
+      showNewForm: false,
       department: undefined,
       machine: undefined,
       refreshDepartment: false,
@@ -55,7 +62,16 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     }
   }
 
-  public getDepartments(site: ISite): JSX.Element[] {
+  /**
+   * Given a site, generate a list of MenuItems that contain departmets belonging
+   * to that site.
+   * 
+   * @param {ISite} site - site to generate department list for
+   * @returns {JSX.Element[]}
+   * 
+   * @memberOf MachineAdmin
+   */
+  public renderDepartmentList(site: ISite): JSX.Element[] {
     return site.departments.map((department, i) => {
       const departmentItemClick = () => this.setActiveDepartment(department);
       return (
@@ -69,7 +85,16 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     });
   }
 
-  public getMachines(department: IDepartment): JSX.Element[] {
+  /**
+   * Given a department, generate a list of MenuItems that contain machines
+   * belonging to that department
+   * 
+   * @param {IDepartment} department - department to generate machine list for
+   * @returns {JSX.Element[]}
+   * 
+   * @memberOf MachineAdmin
+   */
+  public renderMachineList(department: IDepartment): JSX.Element[] {
     if (!department) {
       return [];
     }
@@ -86,14 +111,35 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     });
   }
 
-  public setActiveMachine(machine: IMachine): void {
-    this.setState({ machine });
-  }
-
+  /**
+   * Set a department object as the active department
+   * 
+   * @param {IDepartment} department
+   * 
+   * @memberOf MachineAdmin
+   */
   public setActiveDepartment(department: IDepartment): void {
     this.setState({ department });
   }
 
+  /**
+   * Set a machine object to as the active Machine
+   * 
+   * @param {IMachine} machine
+   * 
+   * @memberOf MachineAdmin
+   */
+  public setActiveMachine(machine: IMachine): void {
+    this.setState({ machine });
+  }
+
+  /**
+   * Create a machine object in thedatabase
+   * 
+   * @param {IMachine} machine
+   * 
+   * @memberOf MachineAdmin
+   */
   public createMachine(machine: IMachine): void {
     const updatedMachine = machine;
     updatedMachine.site =  this.props.site.id;
@@ -105,6 +151,13 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     .then(() => this.resetState());
   }
 
+  /**
+   * Update a machine object in the database
+   * 
+   * @param {IMachine} machine
+   * 
+   * @memberOf MachineAdmin
+   */
   public updateMachine(machine: IMachine): void {
     const updatedMachine = machine;
     updatedMachine.site =  this.props.site.id;
@@ -116,15 +169,34 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     .then(() => this.resetState());
   }
 
+  /**
+   * Toggle the state of showNewForm which controls whether or not a "New"
+   * form is displayed to the user in a modal
+   * 
+   * @memberOf MachineAdmin
+   */
   public toggleShowNewMachineForm(): void {
-    this.setState({ showNewMachine: !this.state.showNewMachine });
+    this.setState({ showNewForm: !this.state.showNewForm });
   }
 
+  /**
+   * Reset the component to its default state
+   * 
+   * @memberOf MachineAdmin
+   */
   public resetState(): void {
-    this.setState({ machine: undefined, showNewMachine: false, refreshDepartment: true });
+    this.setState({ machine: undefined, showNewForm: false, refreshDepartment: true });
   }
 
-  public renderNewMachine(): JSX.Element {
+  /**
+   * Render the Create form. This is an empty machine form that is displayed
+   * to the user inside a Modal.
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf MachineAdmin
+   */
+  public renderNewMachineForm(): JSX.Element {
     return (
       <Modal
         title="Create New Machine"
@@ -135,6 +207,15 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     );
   }
 
+  /**
+   * If both a department and machine have been seleccted
+   * then render a MachineForm with the machine object passed
+   * as props. Otherwise prompt user to select a department/machine
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf MachineAdmin
+   */
   public renderMenu(): JSX.Element {
     const { department, machine } = this.state;
     if (department && machine) {
@@ -161,23 +242,23 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
 
   public render(): JSX.Element {
     const { site } = this.props;
-    const { department, machine, showNewMachine } = this.state;
+    const { department, machine, showNewForm } = this.state;
     return (
       <div className="admin__machine-container">
-        {showNewMachine ? this.renderNewMachine() : undefined}
+        {showNewForm ? this.renderNewMachineForm() : undefined}
         <SelectField
           className="admin__form-field admin__department_select"
           hintText="Department"
           value={department ? department.name : ''}
         >
-          {this.getDepartments(site)}
+          {this.renderDepartmentList(site)}
         </SelectField>
         <SelectField
           className="admin__form-field admin__machine_select"
           hintText="Machine"
           value={machine ? machine.name : ''}
         >
-          {this.getMachines(department)}
+          {this.renderMachineList(department)}
         </SelectField>
         {this.renderMenu()}
       </div>

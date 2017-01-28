@@ -27,6 +27,13 @@ export interface IValidationForm {
   description?: string;
 }
 
+/**
+ * Form component that handles CRUD operations on API calls
+ * 
+ * @export
+ * @class ApiForm
+ * @extends {React.Component<IApiFormProps, {}>}
+ */
 export class ApiForm extends React.Component<IApiFormProps, {}> {
 
   constructor(props: IApiFormProps) {
@@ -37,12 +44,22 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
   }
 
   public componentWillMount() {
-    this.props.reset();
+    this.props.reset();  // for initializing form
   }
 
+
+  /**
+   * When the component receives a new set of props check to see
+   * if it contains a different ApiCall. If so, set that api call
+   * into the form. 
+   * 
+   * @param {IApiFormProps} nextProps
+   * 
+   * @memberOf ApiForm
+   */
   public componentWillReceiveProps(nextProps: IApiFormProps) {
     const { change, apiCall } = nextProps;
-    if ((apiCall && !this.props.apiCall) || (apiCall && apiCall.url !== this.props.apiCall.url)) {
+    if ((apiCall && !this.props.apiCall) || (apiCall && apiCall.id !== this.props.apiCall.id)) {
       change('id', apiCall.id);
       change('url', apiCall.url);
       change('key', apiCall.key);
@@ -51,16 +68,33 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
     }
   }
 
+  /**
+   * handle actions for when the delete button is clicked
+   * 
+   * @memberOf ApiForm
+   */
   public handleDelete(): void {
     this.props.remove();
     this.props.reset();
   }
 
+  /**
+   * handle actions for when the cancel button is clicked 
+   * 
+   * @memberOf ApiForm
+   */
   public handleCancel(): void {
     this.props.cancel();
     this.props.reset();
   }
 
+  /**
+   * handle action when the clear button is clicked. into
+   * this case we use the redux-form function change to
+   * set all fields back to their defaults
+   * 
+   * @memberOf ApiForm
+   */
   public clearForm() {
     const { change } = this.props;
     change('key', '');
@@ -69,7 +103,14 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
     change('active', true);
   }
 
-  public renderCleanButtons(): JSX.Element {
+  /**
+   * Render buttons associated with a new form
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf ApiForm
+   */
+  public renderNewFormButtons(): JSX.Element {
     return (
       <FlatButton
         key={4}
@@ -80,7 +121,14 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
     );
   }
 
-  public renderUpdateButtons(): JSX.Element {
+  /**
+   * Render buttons associated with updating an Api Call
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf ApiForm
+   */
+  public renderUpdateFormButtons(): JSX.Element {
     return (
       <div>
         <FlatButton
@@ -126,7 +174,7 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
             {submitFailed ? 'Error Submitting Form' : ''}
           </div>
         </div>
-        {apiCall ? this.renderUpdateButtons() : this.renderCleanButtons()}
+        {apiCall ? this.renderUpdateFormButtons() : this.renderNewFormButtons()}
         <FlatButton
           key={9}
           onClick={this.clearForm}
@@ -144,6 +192,14 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
   }
 }
 
+
+/**
+ * Initialize the form with the values of the incoming API call
+ * 
+ * @param {IReduxState} state - application state
+ * @param {IApiFormProps} ownProps - props that were passed directly to the component
+ * @returns
+ */
 function mapStateToProps(state: IReduxState, ownProps: IApiFormProps) {
   if (ownProps.apiCall) {
     return { initialValues: ownProps.apiCall };
@@ -151,6 +207,7 @@ function mapStateToProps(state: IReduxState, ownProps: IApiFormProps) {
   return { initialValues: { active: true } };
 }
 
+// validation function used when form is submitted
 export const validateOnSubmit = (values: IValidationForm): IValidationForm => {
   const errors: IValidationForm = {};
   if (!values.url) {
@@ -165,6 +222,7 @@ export const validateOnSubmit = (values: IValidationForm): IValidationForm => {
   return errors;
 };
 
+// validation function used for synchronous form validation
 export const validate = (values: IValidationForm): IValidationForm => {
   const errors: IValidationForm = {};
   if (!values.url) {
@@ -182,7 +240,6 @@ export const validate = (values: IValidationForm): IValidationForm => {
 // Decorate the form component
 const ApiFormDecorated = reduxForm({
   form: FORM_NAME,
-  validate,
 })(ApiForm);
 
 export default connect<{}, {}, IApiFormProps>(mapStateToProps)(ApiFormDecorated);

@@ -29,7 +29,7 @@ export interface IAdminState {
 }
 
 /**
- * General admin controller element
+ * High level admin controller element
  *
  * @export
  * @class Admin

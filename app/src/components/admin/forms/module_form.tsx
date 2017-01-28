@@ -27,6 +27,12 @@ export interface IModuleFormValidation {
 
 export const FORM_NAME = 'MODULE-CONFIG';
 
+/**
+ * Form component to handle CRUD operations on the Module object
+ * 
+ * @class ModuleForm
+ * @extends {React.Component<IModuleFormProps, {}>}
+ */
 class ModuleForm extends React.Component<IModuleFormProps, {}> {
 
   constructor(props: IModuleFormProps) {
@@ -40,6 +46,8 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
   }
 
   public componentWillUpdate(nextProps: IModuleFormProps) {
+    // if nextProps contains a module and it is different then the
+    // current one, set it's values into the form.
     const { module, change } = this.props;
     if (nextProps.module && module && nextProps.module.id !== module.id) {
       const updatedModule = nextProps.module;
@@ -50,11 +58,21 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
     }
   }
 
+  /**
+   * actions to take when delete is clicked
+   * 
+   * @memberOf ModuleForm
+   */
   public handleDelete(): void {
     this.props.remove();
     this.props.reset();
   }
 
+  /**
+   * set the form back to default values
+   * 
+   * @memberOf ModuleForm
+   */
   public handleClear(): void {
     const { change } = this.props;
     change('name', '');
@@ -63,7 +81,16 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
     change('active', true);
   }
 
-  public renderCleanButtons(): JSX.Element {
+
+  /**
+   * Buttons to render when the form is for creating
+   * a new Module object.
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf ModuleForm
+   */
+  public renderNewFormButtons(): JSX.Element {
     return (
       <FlatButton
         key={4}
@@ -74,7 +101,15 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
     );
   }
 
-  public renderUpdateButtons(): JSX.Element {
+
+  /**
+   * Buttons to render when we are updating a module
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf ModuleForm
+   */
+  public renderUpdateFormButtons(): JSX.Element {
     return (
       <div>
         <FlatButton
@@ -119,7 +154,7 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
             {submitFailed ? 'Error Submitting Form' : ''}
           </div>
         </div>
-        {module ? this.renderUpdateButtons() : this.renderCleanButtons()}
+        {module ? this.renderUpdateFormButtons() : this.renderNewFormButtons()}
         <FlatButton
           key={9}
           onClick={this.handleClear}
@@ -132,6 +167,15 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
 }
 
 
+
+/**
+ * Initialize the form from the passed module, or if that does not exist
+ * do so from a set of default values.
+ * 
+ * @param {IReduxState} state
+ * @param {IModuleFormProps} ownProps
+ * @returns
+ */
 function mapStateToProps(state: IReduxState, ownProps: IModuleFormProps) {
   if (ownProps.module) {
     return { initialValues: ownProps.module };
@@ -139,6 +183,7 @@ function mapStateToProps(state: IReduxState, ownProps: IModuleFormProps) {
   return { initialValues: { active: true } };
 }
 
+// validaton function for when form is submited
 export const validateOnSubmit = (formValues: IModuleFormValidation) => {
   const errors: IModuleFormValidation = {};
   if (!formValues.name) {
@@ -147,6 +192,7 @@ export const validateOnSubmit = (formValues: IModuleFormValidation) => {
   return errors;
 };
 
+// synchronous validation function
 export const validate = (formValues: IModuleFormValidation) => {
   const errors: IModuleFormValidation = {};
   if (!formValues.name) {

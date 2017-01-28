@@ -18,17 +18,24 @@ export interface IAdminSiteListProps {
 }
 
 export interface IAdminSiteListState {
-  showNewSiteForm: boolean;
+  showNewForm: boolean;
   messageText: string;
   messageShow: boolean;
 }
 
+
+/**
+ * Component that lists available sites and allows for creation of new sites
+ * 
+ * @class AdminSiteList
+ * @extends {React.Component<IAdminSiteListProps, IAdminSiteListState>}
+ */
 class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListState> {
 
   constructor(props: IAdminSiteListProps) {
     super(props);
     this.state = {
-      showNewSiteForm: false,
+      showNewForm: false,
       messageText: '',
       messageShow: false,
     };
@@ -36,10 +43,23 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
     this.createSite = this.createSite.bind(this);
   }
 
+  /**
+   * Toggle the showNewForm state which controls the creation forms
+   * inside a modal
+   * 
+   * @memberOf AdminSiteList
+   */
   public toggleShowNewSiteForm() {
-    this.setState({ showNewSiteForm: !this.state.showNewSiteForm });
+    this.setState({ showNewForm: !this.state.showNewForm });
   }
 
+  /**
+   * Create a site in the database
+   * 
+   * @param {ISite} site - site object to be created
+   * 
+   * @memberOf AdminSiteList
+   */
   public createSite(site: ISite) {
     axios.post(`${types.API}/sites/`, site, types.API_CONFIG)
     .then(() => this.setState({
@@ -54,6 +74,13 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
     this.toggleShowNewSiteForm();
   }
 
+  /**
+   * Render a clean site form inside a Modal
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf AdminSiteList
+   */
   public renderNewSiteModal(): JSX.Element {
     return (
       <Modal
@@ -65,6 +92,14 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
     );
   }
 
+  /**
+   * Render a list of ListItems, each representing a site
+   * object
+   * 
+   * @returns {JSX.Element[]}
+   * 
+   * @memberOf AdminSiteList
+   */
   public renderSiteList(): JSX.Element[] {
     return this.props.sites.map((site, i) => {
       const handleSiteClick = () => this.props.navigate(site.code);
@@ -83,7 +118,7 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
     const { sites } = this.props;
     return (
       <div className="admin__site-list-container">
-        {this.state.showNewSiteForm ? this.renderNewSiteModal() : undefined}
+        {this.state.showNewForm ? this.renderNewSiteModal() : undefined}
         <List>
           {this.renderSiteList()}
           <FlatButton

@@ -13,10 +13,10 @@ import ModuleEdit from './module_edit';
 
 
 export interface IMachineFormProps {
-  change?: (key: string, value: any) => void;
+  change?: (key: string, value: any) => void;  // redux-form
   cancel?: () => void;
   submitForm: (form: {}) => void;
-  handleSubmit?: (submitForm: {}) => React.EventHandler<React.FormEvent<HTMLFormElement>>;
+  handleSubmit?: (submitForm: {}) => React.EventHandler<React.FormEvent<HTMLFormElement>>;  // redux-form
   machine?: IMachine;
   modules?: IModule[];
 }
@@ -24,6 +24,12 @@ export interface IMachineFormProps {
 interface IMachineFormErrors { name?: string; type?: string; }
 
 
+/**
+ * form component to handle CRUD operations on Machine objects
+ * 
+ * @class MachineForm
+ * @extends {React.Component<IMachineFormProps, {}>}
+ */
 class MachineForm extends React.Component<IMachineFormProps, {}> {
 
   constructor(props: IMachineFormProps) {
@@ -32,6 +38,11 @@ class MachineForm extends React.Component<IMachineFormProps, {}> {
     this.cancelForm = this.cancelForm.bind(this);
   }
 
+  /**
+   * Set the form back to all default values
+   * 
+   * @memberOf MachineForm
+   */
   public clearForm(): void {
     const { change } = this.props;
     change('name', '');
@@ -39,10 +50,22 @@ class MachineForm extends React.Component<IMachineFormProps, {}> {
     change('active', false);
   }
 
+  /**
+   * actions to take when the cancel button is clicked
+   * 
+   * @memberOf MachineForm
+   */
   public cancelForm(): void {
     this.props.cancel();
   }
 
+  /**
+   * helper method to clean JSX, generate ModuleEdit interface
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf MachineForm
+   */
   public renderModuleEdit(): JSX.Element {
     const { machine, modules, change } = this.props;
     return (
@@ -54,6 +77,14 @@ class MachineForm extends React.Component<IMachineFormProps, {}> {
     );
   }
 
+
+  /**
+   * helper method to clean JSX, generate cancel button
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf MachineForm
+   */
   public renderCancelButton(): JSX.Element {
     return (
       <FlatButton
@@ -121,7 +152,7 @@ function mapStateToProps(state: IReduxState, ownProps: IMachineFormProps): IForm
   return { initialValues: { active: true, modules: [], name: '', type: '' } };
 }
 
-
+// synchronous validation function
 export const validate = (machineForm: IMachine) => {
   const errors: IMachineFormErrors = {};
   if (!machineForm.name) {
@@ -144,148 +175,3 @@ const MachineFormDecorated = reduxForm({
 })(MachineForm);
 
 export default connect<{}, {}, IMachineFormProps>(mapStateToProps)(MachineFormDecorated);
-
-// export interface IMachineFormProps {
-//   submitForm: (machine: IMachine) => void;
-//   machine?: IMachine;
-//   modules?: number[];
-//   cancel: () => void;
-// }
-
-// interface IMachineFormError {
-//   name?: string;
-//   type?: string;
-// }
-
-// export interface IMachineFormState {
-//   id: number;
-//   name: string;
-//   type: string;
-//   active: boolean;
-//   error: IMachineFormError;
-// }
-
-// function validate(machineForm: IMachine): IMachineFormError {
-//   const errors: IMachineFormError = {};
-//   if (!machineForm.name) {
-//     errors.name = 'Required';
-//   } else if (!machineForm.name.match(/^[a-zA-Z0-9 ]+$/)) {
-//     errors.name = 'Name can only contain letters and numbers';
-//   }
-//   if (!machineForm.name) {
-//     errors.type = 'Required';
-//   } else if (!machineForm.name.match(/^[a-zA-Z0-9 ]+$/)) {
-//     errors.type = 'Type can only contain letters and numbers';
-//   }
-//   return errors;
-// }
-
-
-// class MachineForm extends React.Component<IMachineFormProps, IMachineFormState> {
-
-//   constructor(props: IMachineFormProps) {
-//     super(props);
-//     // if a machine is specified the form is in update mode, so set initial values
-//     // accordingto the input machine
-//     const machine = props.machine;
-//     this.state = {
-//       id: machine ?  machine.id : null,
-//       name: machine ? machine.name : '',
-//       type: machine ? machine.type : '',
-//       active: machine ? machine.active : true,
-//       error: {},
-//     };
-//     this.handleNameChange = this.handleNameChange.bind(this);
-//     this.handleTypeChange = this.handleTypeChange.bind(this);
-//     this.handleActiveChange = this.handleActiveChange.bind(this);
-//     this.clearForm = this.clearForm.bind(this);
-//     this.submitForm = this.submitForm.bind(this);
-//   }
-
-//   public clearForm(): void {
-//     this.setState({
-//       id: null,
-//       name: '',
-//       type: '',
-//       active: true,
-//       error: {},
-//     });
-//   }
-
-//   public submitForm(): void {
-//     const error: IMachineFormError = validate(this.state);
-//     if (Object.keys(error).length === 0) {
-//       this.props.submitForm(this.state);
-//       this.clearForm();
-//     } else {
-//       this.setState({ error });
-//     }
-//   }
-
-//   public handleNameChange(event: React.FormEvent<HTMLInputElement>): void {
-//     event.preventDefault();
-//     this.setState({ name: event.currentTarget.value });
-//   }
-
-//   public handleTypeChange(event: React.FormEvent<HTMLInputElement>): void {
-//     event.preventDefault();
-//     this.setState({ type: event.currentTarget.value });
-//   }
-
-//   public handleActiveChange(event: React.MouseEvent<{}>, checked: boolean): void {
-//     event.preventDefault();
-//     this.setState({ active: !this.state.active });
-//   }
-
-//   public render(): JSX.Element {
-//     return (
-//       <div className="admin__machine-container">
-//         <div className="mui-form-component">
-//           <TextField
-//             name="name"
-//             hintText="Name"
-//             floatingLabelText="Name"
-//             onChange={this.handleNameChange}
-//             value={this.state.name}
-//           />
-//         </div>
-//         <div className="mui-form-component">
-//           <TextField
-//             name="type"
-//             hintText="Type"
-//             floatingLabelText="Type"
-//             onChange={this.handleTypeChange}
-//             value={this.state.type}
-//           />
-//         </div>
-//         <div className="mui-form-component">
-//           <Checkbox
-//             label="Active"
-//             onCheck={this.handleActiveChange}
-//             checked={this.state.active}
-//           />
-//         </div>
-//         <div className="admin__lower-form-section">
-//           <FlatButton
-//             label={this.props.machine ? 'Update' : 'Create'}
-//             onClick={this.submitForm}
-//             keyboardFocused
-//             primary
-//           />
-//           <FlatButton
-//             label="Clear"
-//             onClick={this.clearForm}
-//             primary
-//           />
-//           <FlatButton
-//             label="Cancel"
-//             onClick={this.props.cancel}
-//             primary
-//           />
-//         </div>
-//       </div>
-//     );
-//   }
-// }
-
-// export default MachineForm;

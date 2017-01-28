@@ -21,24 +21,39 @@ export interface IDepartmentProps {
 
 export interface IDepartmentState {
   department: IDepartment;
-  showNewDepartment: boolean;
+  showNewForm: boolean;
 }
 
 
+/**
+ * Controller component that handles operations on Department objects
+ * 
+ * @class Department
+ * @extends {React.Component<IDepartmentProps, IDepartmentState>}
+ */
 class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   constructor(props: IDepartmentProps) {
     super(props);
     this.state = {
       department: undefined,
-      showNewDepartment: false,
+      showNewForm: false,
     };
     this.createDepartment = this.createDepartment.bind(this);
     this.updateDepartment = this.updateDepartment.bind(this);
     this.toggleShowNewDepartmentForm = this.toggleShowNewDepartmentForm.bind(this);
+    this.resetState = this.resetState.bind(this);
   }
 
-  public getDepartments(site: ISite): JSX.Element[] {
+  /**
+   * Given a site object, render all of its departments into MenuItems
+   * 
+   * @param {ISite} site - site object to retrieve departments from
+   * @returns {JSX.Element[]}
+   * 
+   * @memberOf Department
+   */
+  public renderDepartmentList(site: ISite): JSX.Element[] {
     return site.departments.map((department, i) => {
       const onDepartmentClick = () => this.setState({ department });
       return (
@@ -52,6 +67,13 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
     });
   }
 
+  /**
+   * Create a department object
+   * 
+   * @param {IDepartment} department
+   * 
+   * @memberOf Department
+   */
   public createDepartment(department: IDepartment): void {
     const departmentWithSite = department;
     departmentWithSite.site = this.props.site.id;
@@ -62,6 +84,13 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
     .then(() => this.resetState());
   }
 
+  /**
+   * Update a department object
+   * 
+   * @param {IDepartment} department
+   * 
+   * @memberOf Department
+   */
   public updateDepartment(department: IDepartment): void {
     const departmentWithSite = department;
     departmentWithSite.site = this.props.site.id;
@@ -72,14 +101,33 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
     .then(() => this.resetState());
   }
 
+  /**
+   * Reset the component back to default state
+   * 
+   * @memberOf Department
+   */
   public resetState(): void {
-    this.setState({ department: undefined, showNewDepartment: false });
+    this.setState({ department: undefined, showNewForm: false });
   }
 
+  /**
+   * Toggle the showNewForm state which controls whether or not a
+   * Modal containing an empty department form is rendered 
+   * 
+   * @memberOf Department
+   */
   public toggleShowNewDepartmentForm(): void {
-    this.setState({ showNewDepartment: !this.state.showNewDepartment });
+    this.setState({ showNewForm: !this.state.showNewForm });
   }
 
+  /**
+   * Render the Create form. This is a a clean department form
+   * inside a modal object
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf Department
+   */
   public renderNewDepartment(): JSX.Element {
     return (
       <Modal
@@ -91,7 +139,17 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
     );
   }
 
-  public renderDepartmentForm(department: IDepartment): JSX.Element {
+  /**
+   * Render the edit form. This is aa department form with values 
+   * corresponding to the parameter department. Rendered inside a 
+   * Modal
+   * 
+   * @param {IDepartment} department - department to edit/delete
+   * @returns {JSX.Element}
+   * 
+   * @memberOf Department
+   */
+  public renderUpdateDepartmentForm(department: IDepartment): JSX.Element {
     return (
       <DepartmentForm
         key={department.id}
@@ -99,11 +157,19 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
         department={department}
         modules={this.props.modules}
         apiCalls={this.props.apicalls}
+        cancel={this.resetState}
       />
     );
   }
 
-  public renderAddDepartmentButtion(): JSX.Element {
+  /**
+   * JSX helper method that renders the add button
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf Department
+   */
+  public renderAddDepartmentButton(): JSX.Element {
     return (
       <FlatButton
         onClick={this.toggleShowNewDepartmentForm}
@@ -116,19 +182,19 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   public render(): JSX.Element {
     const { site } = this.props;
-    const { department, showNewDepartment } = this.state;
+    const { department, showNewForm } = this.state;
 
     return (
       <div className="admin__department-container">
-        {showNewDepartment ? this.renderNewDepartment() : undefined}
+        {showNewForm ? this.renderNewDepartment() : undefined}
         <SelectField
           maxHeight={250}
           className="admin__form-field"
           value={department ? department.name : ''}
         >
-          {this.getDepartments(site)}
+          {this.renderDepartmentList(site)}
         </SelectField>
-        {department ? this.renderDepartmentForm(department) : this.renderAddDepartmentButtion()}
+        {department ? this.renderUpdateDepartmentForm(department) : this.renderAddDepartmentButton()}
       </div>
     );
   }

@@ -34,6 +34,13 @@ export interface IAdminSiteProps {
 }
 
 
+/**
+ * Controller component used for handling edit operations on
+ * site objects.
+ * 
+ * @class AdminSite
+ * @extends {React.Component<IAdminSiteProps, IAdminSiteState>}
+ */
 class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   constructor(props: IAdminSiteProps) {
@@ -53,13 +60,14 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
   }
 
   public componentDidMount() {
+    // fetch **active** module objects
     axios.get(`${types.API}/modules/`, types.API_CONFIG)
     .then((response: IAxiosResponse) => this.setState({
       modules: response.data as IModule[],
     }))
     .catch(() => this.showMessage('Error Loading Modules'));
 
-
+    // fetch **active** apicall objects
     axios.get(`${types.API}/apicalls/`, types.API_CONFIG)
     .then((response: IAxiosResponse) => this.setState({
       apicalls: response.data as IApiCall[],
@@ -67,6 +75,13 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
     .catch(() => this.showMessage('Error Loading Api Calls'));
   }
 
+  /**
+   * Update a site in the database
+   * 
+   * @param {ISite} site
+   * 
+   * @memberOf AdminSite
+   */
   public updateSite(site: ISite) {
     const url = `${types.API}/sites/${site.id}/`;
     axios.put(url, site, types.API_CONFIG)
@@ -75,14 +90,37 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
     .catch(() => this.showMessage(`Error Updating Site: ${site.name}`));
   }
 
+  /**
+   * Show a message to the user in a SnackBar
+   * 
+   * @param {string} messageText - message to show
+   * 
+   * @memberOf AdminSite
+   */
   public showMessage(messageText: string) {
     this.setState({ messageShow: true, messageText });
   }
 
+  /**
+   * Close the SnackBar message
+   * 
+   * @memberOf AdminSite
+   */
   public handleMessageClose() {
     this.setState({ messageShow: false });
   }
 
+  /**
+   * Depeniding on the configuration that is passed, render either the
+   * Machine admin configuration, Department admin configuration, or the
+   * site admin configuration for the specified site.
+   * 
+   * @param {ISite} site - site that contains departments/machines
+   * @param {string} config - which menu to render
+   * @returns
+   * 
+   * @memberOf AdminSite
+   */
   public renderConfig(site: ISite, config: string) {
     const { modules, apicalls } = this.state;
     if (!modules || !apicalls) {
@@ -113,22 +151,35 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
     }
   }
 
+  /**
+   * Navigate to base site configuration url
+   * 
+   * @memberOf AdminSite
+   */
   public configClick() {
     this.props.navigate('');
   }
 
+  /**
+   * Navigate to department configuration url
+   * 
+   * @memberOf AdminSite
+   */
   public departmentClick() {
     this.props.navigate('departments');
   }
 
+  /**
+   * Navigate to machine configuration url
+   * 
+   * @memberOf AdminSite
+   */
   public machineClick() {
     this.props.navigate('machines');
   }
 
   public render() {
     const { site, splat, navigate } = this.props;
-
-
     return (
       <div className="admin__site-container">
         <div className="admin__site-sidebar">
@@ -173,6 +224,5 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
     );
   }
 }
-
 
 export default AdminSite;

@@ -16,6 +16,10 @@ export interface IAdminHierarchyProps {
   fetchHierarchy?: () => void;
 }
 
+/**
+ * High level hierarchy component - render either the Site List or Site
+ * controller components
+ */
 export const AdminHierarchy = (props: IAdminHierarchyProps): JSX.Element => {
   const { sites, splat } = props;
   const code: string = splat ? splat.split('/')[1] : undefined; // parse remainder url for parameters

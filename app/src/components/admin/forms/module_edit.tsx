@@ -19,6 +19,15 @@ export interface IModuleEditProps {
 }
 
 
+/**
+ * This component represents an interface that allows the user to
+ * add or remove existing modules to a parent component. It is
+ * designed to be generic in its implementation so any HierarchyTier
+ * could potentially use it.
+ * 
+ * @class ModuleEdit
+ * @extends {React.Component<IModuleEditProps, IModuleEditState>}
+ */
 class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
 
   constructor(props: IModuleEditProps) {
@@ -35,10 +44,15 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
     this.props.change('modules', moduleIds);
   }
 
+
+  /**
+   * Add a module to the parent
+   * 
+   * @param {IModule} module - module being added
+   * 
+   * @memberOf ModuleEdit
+   */
   public handleAddModule(module: IModule): void {
-    if (!module) {
-      return;
-    }
     // In order to avoid duplicates filter off any modules that have the same id as the one
     // we are creating - then push the new module to the array. If it is the only module
     // in the array set it as the defaultModule.
@@ -50,10 +64,14 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
     }
   }
 
+  /**
+   * Delete a module from the parent
+   * 
+   * @param {IModule} module - module to delete
+   * 
+   * @memberOf ModuleEdit
+   */
   public handleDeleteModule(module: IModule): void {
-    if (!module) {
-      return;
-    }
     const modules = this.state.modules.filter((mdl) => mdl.id !== module.id);
     this.updateForm(modules);
     // if there are no modules left set the default to null
@@ -66,6 +84,15 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
     }
   }
 
+  /**
+   * Update the parent's from with a list of module primary keys
+   * using the change function provided by redux form.
+   * 
+   * @param {IModule[]} modules - modules that will be set into the parent's
+   * module list
+   * 
+   * @memberOf ModuleEdit
+   */
   public updateForm(modules: IModule[]): void {
     const moduleIds = modules.map((mdl) => mdl.id);
     this.setState({ modules }, () => {
@@ -73,12 +100,29 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
     });
   }
 
+  /**
+   * Update the parent's default module. This module will appear
+   * first in the module list to the users.
+   * 
+   * @param {number} defaultId - primary key of the default module
+   * 
+   * @memberOf ModuleEdit
+   */
   public updateDefaultModule(defaultId: number): void {
     this.setState({ defaultId }, () => (
       this.props.change('defaultModule', defaultId)
     ));
   }
 
+  /**
+   * Generate a list of MenuItems that represent modules that
+   * belong to the parent.
+   * 
+   * @param {IModule[]} modules - parent's current modules
+   * @returns {JSX.Element[]}
+   * 
+   * @memberOf ModuleEdit
+   */
   public renderModuleMenu(modules: IModule[]): JSX.Element[] {
     const { defaultId } = this.state;
     return modules.map((module, i) => {
@@ -97,6 +141,15 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
     });
   }
 
+  /**
+   * Generate a list of MenuItems that represent the available
+   * modules that are available to add to the parent.
+   * 
+   * @param {IModule[]} modules - available modules
+   * @returns {JSX.Element[]}
+   * 
+   * @memberOf ModuleEdit
+   */
   public renderModuleListItems(modules: IModule[]): JSX.Element[] {
     return modules.map((module, i) => {
       const handleListItemClick = () => this.handleAddModule(module);

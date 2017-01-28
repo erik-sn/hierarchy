@@ -29,6 +29,14 @@ export interface IApiCallsState {
   showNewForm: boolean;
 }
 
+
+/**
+ * Controller component that handles operations on ApiCall objects
+ * 
+ * @export
+ * @class ApiCallAdmin
+ * @extends {React.Component<IApiCallsProps, IApiCallsState>}
+ */
 export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState> {
 
   constructor(props: IApiCallsProps) {
@@ -47,7 +55,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     this.resetState = this.resetState.bind(this);
     this.showMessage = this.showMessage.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
-    this.handleFilter = this.handleFilter.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
     this.fetchApiCalls = this.fetchApiCalls.bind(this);
     this.toggleShowNewForm = this.toggleShowNewForm.bind(this);
   }
@@ -56,6 +64,11 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     this.fetchApiCalls();
   }
 
+  /**
+   * Retrieve all api calls from the database
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public fetchApiCalls(): void {
     axios.get(`${types.API}/apicalls/?inactive=true`, types.API_CONFIG)
     .then((response) => {
@@ -63,6 +76,14 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     });
   }
 
+
+  /**
+   * Add an Api Call to the database
+   * 
+   * @param {IApiCall} apiCall - object to be added
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public createApiCall(apiCall: IApiCall): void {
     validateOnSubmit(apiCall);
     axios.post(`${types.API}/apicalls/`, apiCall, types.API_CONFIG)
@@ -72,6 +93,12 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     .then(() => this.resetState());
   }
 
+
+  /**
+   * Update an Api Call in the database
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public updateApiCall(): void {
     const apiCallForm = this.props.apiCall;
     axios.put(`${types.API}/apicalls/${this.state.activeApiCall.id}/`, apiCallForm, types.API_CONFIG)
@@ -81,6 +108,12 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     .then(() => this.resetState());
   }
 
+
+  /**
+   * Delete an Api Call from the database
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public deleteApiCall(): void {
     axios.delete(`${types.API}/apicalls/${this.state.activeApiCall.id}/`, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
@@ -89,12 +122,26 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     .then(() => this.resetState());
   }
 
+
+  /**
+   * Set the controller back to a default state
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public resetState(): void {
     this.setState({
       activeApiCall: undefined,
     });
   }
 
+
+  /**
+   * Show a message to the user using the snackbar component
+   * 
+   * @param {string} messageText - message to show
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public showMessage(messageText: string): void {
     this.setState({
       messageShow: true,
@@ -102,6 +149,21 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     });
   }
 
+  /**
+   * Close the message Snackbar
+   * 
+   * @memberOf ApiCallAdmin
+   */
+  public handleMessageClose(): void {
+    this.setState({ messageShow: false });
+  }
+
+  /**
+   * Toggle the state of showNewForm which controls whether
+   * or not the Modal containing an ApiForm is rendered
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public toggleShowNewForm(): void {
     this.setState({
       activeApiCall: undefined,
@@ -109,16 +171,29 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     });
   }
 
-  public handleMessageClose(): void {
-    this.setState({ messageShow: false });
-  }
 
-  public handleFilter(event: React.FormEvent<HTMLInputElement>): void {
+  /**
+   * Set the state of the filter based on user input
+   * 
+   * @param {React.FormEvent<HTMLInputElement>} event
+   * 
+   * @memberOf ApiCallAdmin
+   */
+  public handleFilterChange(event: React.FormEvent<HTMLInputElement>): void {
     this.setState({
       filter: event.currentTarget.value,
     });
   }
 
+  /**
+   * Render the update form. This form has the activeApiCall
+   * passed as props which will conver the form to be in edit
+   * and delete mode rather than create.
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public renderApiCallForm(): JSX.Element {
     return (
       <ApiForm
@@ -130,6 +205,15 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     );
   }
 
+
+  /**
+   * Render the create form. This form will be rendered inside
+   * a modal and have only the create operation.
+   * 
+   * @returns {JSX.Element}
+   * 
+   * @memberOf ApiCallAdmin
+   */
   public renderNewApiCallForm(): JSX.Element {
     return (
       <Modal
@@ -141,23 +225,43 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     );
   }
 
-  public generateApiCalls(): JSX.Element[] {
+
+  /**
+   * Filter listed api calls based on user input in the
+   * filter box. 
+   * 
+   * @returns {IApiCall[]}
+   * 
+   * @memberOf ApiCallAdmin
+   */
+  public filteredApiCalls(): IApiCall[] {
     const { apiCalls, filter } = this.state;
-    let filteredApicalls: IApiCall[] = apiCalls;
     if (filter.trim()) {
-      filteredApicalls = apiCalls.filter((call) => (
+      return apiCalls.filter((call) => (
         call.key.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
         call.url.toLowerCase().indexOf(filter.toLowerCase()) > -1
       ));
     }
-    return filteredApicalls.map((apicall, i) => {
-      const apiItemClick = () => this.setState({ activeApiCall: apicall });
+    return apiCalls;
+  }
+
+
+  /**
+   * Generate a list of ListItems that contain the
+   * 
+   * @returns {JSX.Element[]}
+   * 
+   * @memberOf ApiCallAdmin
+   */
+  public generateApiCalls(): JSX.Element[] {
+    return this.filteredApiCalls().map((apiCall, i) => {
+      const apiItemClick = () => this.setState({ activeApiCall: apiCall });
       return (
         <ListItem
           key={i}
           onClick={apiItemClick}
-          primaryText={apicall.key}
-          secondaryText={apicall.url}
+          primaryText={apiCall.key}
+          secondaryText={apiCall.url}
         />
       );
     });
@@ -182,7 +286,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
               id="admin__apicalls-filter"
               hintText="API Call Filter"
               value={this.state.filter}
-              onChange={this.handleFilter}
+              onChange={this.handleFilterChange}
             />
             <List style={{ maxHeight: '400px', overflowY: 'auto' }} >
               {this.generateApiCalls()}
@@ -212,6 +316,13 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
   }
 }
 
+
+/**
+ * Initialize the  form values
+ * 
+ * @param {IReduxState} state
+ * @returns {*}
+ */
 function mapStateToProps(state: IReduxState): any {
   if (!state.form[FORM_NAME]) {
     return { apiCallForm: {} };
