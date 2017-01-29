@@ -4,7 +4,7 @@ import { List, Map } from 'immutable';
 
 import Loader from '../../loader';
 import LineChart from '../../charts/line_chart';
-import { getDateSort } from '../../../utils/sort';
+import { generateDateSort } from '../../../utils/sort';
 
 function checkForDateGaps(subgroupData) {
   return subgroupData.reduce((subgroupList, subgroup, i) => {
@@ -109,7 +109,7 @@ const ControlChart = ({ fetchingTestData, testData, limit }) => {
     return <div className="quality_analysis__prompt">Select a Test</div>;
   }
   const processedData = processTestData(testData, limit);
-  let lineChartData = averageData(processedData).sort(getDateSort('date'));
+  let lineChartData = averageData(processedData).sort(generateDateSort('date'));
   if (limit) {
     const { lrl, lcl, target, ucl, url } = limit.toJS();
     lineChartData = lineChartData.map(sg => (

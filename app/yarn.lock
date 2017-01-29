@@ -37,6 +37,10 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
+"@types/history":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.5.0.tgz#2f5c3aad4fbd00f89e99b83083e354bc5308e307"
+
 "@types/history@^2":
   version "2.0.45"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-2.0.45.tgz#c76d79a65d189220d9d50f62e0143bdac30a564b"
@@ -116,6 +120,10 @@
   dependencies:
     "@types/history" "^2"
     "@types/react" "*"
+
+"@types/react-tap-event-plugin":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/react-tap-event-plugin/-/react-tap-event-plugin-0.0.30.tgz#123f35080412f489b6770c5a65c159ff96654cb5"
 
 "@types/react@*", "@types/react@^15.0.1":
   version "15.0.2"

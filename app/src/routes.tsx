@@ -1,16 +1,16 @@
-import React from 'react';
-import { Route, Router, IndexRoute } from 'react-router';
+import * as React from 'react';
+import { IndexRoute, Route, Router } from 'react-router';
 
-import Application from './components/application';
-import Admin from './components/admin/admin';
-import Settings from './components/settings';
-import NotFound from './components/notfound';
 import About from './components/about';
+import Admin from './components/admin/admin';
+import Application from './components/application';
 import Main from './components/hierarchy/main';
+import NotFound from './components/notfound';
+import Settings from './components/settings';
 
 import Department from './components/hierarchy/department';
 
-const Routes = (
+const Routes: JSX.Element = (
   <Router>
     <Route path="/" component={Application} >
       <IndexRoute component={Main} />

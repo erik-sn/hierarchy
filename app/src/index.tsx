@@ -1,33 +1,33 @@
 /* eslint-disable  */
-import React from 'react';
-import ReactDOM from 'react-dom';
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
 // keep all style imports in this js file so webpack imports them
-import style from '../static/style';
 import App from './app';
-import AppConfig from '../appconfig.json';
+
+const appConfig = require('../appconfig.json');
 
 // check application configuration to make sure all required parameters are set
-if (!AppConfig.hasOwnProperty('baseUrl')) {
+if (!appConfig.hasOwnProperty('baseUrl')) {
   throw Error('A Base URL must be specified in the application config - minimum of "/"');
 }
-if (!AppConfig.hasOwnProperty('name')) {
+if (!appConfig.hasOwnProperty('name')) {
   throw Error('An application name must be specified in the application configuration');
 }
-if (!AppConfig.hasOwnProperty('hierarchyapi')) {
+if (!appConfig.hasOwnProperty('hierarchyapi')) {
   throw Error('The base URL for the hierarchy application API must be specified in the application configuration');
 }
 
 injectTapEventPlugin();
 
-const rootEl = document.getElementById('root');
+const rootEl: HTMLElement = document.getElementById('root');
 ReactDOM.render(
   <AppContainer>
     <App />
   </AppContainer>,
-  rootEl
+  rootEl,
 );
 
 if (module.hot) {
@@ -39,7 +39,7 @@ if (module.hot) {
       <AppContainer>
          <NextApp />
       </AppContainer>,
-      rootEl
+      rootEl,
     );
   });
 }

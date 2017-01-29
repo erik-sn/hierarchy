@@ -1,11 +1,11 @@
-import moment from 'moment';
+import * as moment from 'moment';
 
 /**
  * Sorting function that compares alpha numeric groups in two strings
  * @param  {string} a
  * @param  {string} b
  */
-export function alphaNumSort(a, b) {
+export function alphaNumSort(a: string, b: string): number {
   if (!a || typeof a !== 'string' || !b || typeof b !== 'string') {
     throw Error('Inputs must be valid strings');
   }
@@ -20,10 +20,11 @@ export function alphaNumSort(a, b) {
   return 0;
 }
 
-export function getDateSort(param = undefined, format = undefined) {
-  const dateSort = (a, b) => {
-    const aDate = param ? moment(a.get(param), format) : moment(a, format);
-    const bDate = param ? moment(b.get(param), format) : moment(b, format);
+
+export function generateDateSort(param: string = undefined, format: string = undefined): (a: any, b: any) => number {
+  const dateSort = (a: any, b: any) => {
+    const aDate = param ? moment(a[param], format) : moment(a, format);
+    const bDate = param ? moment(b[param], format) : moment(b, format);
     if (aDate > bDate) {
       return 1;
     } else if (aDate < bDate) {
@@ -34,10 +35,10 @@ export function getDateSort(param = undefined, format = undefined) {
   return dateSort;
 }
 
-export function getNumberSort(param = undefined) {
-  const numberSort = (a, b) => {
-    const aNumber = param ? a.get(param) : a;
-    const bNumber = param ? b.get(param) : b;
+export function generateNumberSort(param: string = undefined): (a: any, b: any) => number {
+  const numberSort = (a: any, b: any) => {
+    const aNumber = param ? a[param] : a;
+    const bNumber = param ? b[param] : b;
     if (aNumber > bNumber) {
       return 1;
     } else if (aNumber < bNumber) {

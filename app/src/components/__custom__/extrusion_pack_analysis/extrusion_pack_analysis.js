@@ -10,7 +10,7 @@ import React, { Component } from 'react';
 import moment from 'moment';
 import { Map } from 'immutable';
 
-import { getDateSort, getNumberSort } from '../../../utils/sort';
+import { generateDateSort, generateNumberSort } from '../../../utils/sort';
 import ControlPanel from './control_panel';
 import PlotDisplay from './plot_display';
 
@@ -45,20 +45,20 @@ class ExtrusionPackAnalysis extends Component {
     const transform = ([key, count]) => Map({ key: formatDate(key), count });
     return this.groupData(packs, 'removedate')
                .map(transform)
-               .sort(getDateSort('key'));
+               .sort(generateDateSort('key'));
   }
 
   groupMachine(packs) {
     return this.groupData(packs, 'line')
            .map(defaultTransform)
-           .sort(getNumberSort('count'))
+           .sort(generateNumberSort('count'))
            .reverse();
   }
 
   groupSpinnerette(packs) {
     return this.groupData(packs, 'spinnerettetype')
            .map(defaultTransform)
-           .sort(getNumberSort('count'))
+           .sort(generateNumberSort('count'))
            .filter(data => data.get('count') > 3)
            .reverse();
   }
