@@ -5,10 +5,10 @@ import { FormStateMap } from 'redux-form';
  */
 
 export interface IAction {
-  error: boolean;
+  error?: boolean;
   payload: any;
   type: string;
-  meta: any;
+  meta?: any;
 }
 
 // auth reducer
@@ -116,3 +116,11 @@ export interface IAxiosResponse {
  */
 
 export interface IFormValues { initialValues: any; }
+
+
+/**
+ * General
+ */
+export interface IDictionary {
+    [key: string]: any;
+}

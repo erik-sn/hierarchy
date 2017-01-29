@@ -1,11 +1,12 @@
-import React from 'react';
-import axios from 'axios';
+import * as axios from 'axios';
+import * as React from 'react';
 
 import Modal from '../components/modal';
+import { IAction } from '../constants/interfaces';
 import types from './types';
 
 
-export function showModal(title, message, child = undefined) {
+export function showModal(title: string, message: string, child: JSX.Element = undefined): IAction {
   return {
     payload: {
       showModal: true,
@@ -15,7 +16,7 @@ export function showModal(title, message, child = undefined) {
   };
 }
 
-export function hideModal() {
+export function hideModal(): IAction {
   return {
     payload: {
       showModal: false,
@@ -24,7 +25,7 @@ export function hideModal() {
   };
 }
 
-export function fetchDepartmentData(departmentId, url, key) {
+export function fetchDepartmentData(departmentId: number, url: string, key: string): IAction {
   const request = axios.get(url, types.API_CONFIG);
   return {
     payload: request,
@@ -36,7 +37,7 @@ export function fetchDepartmentData(departmentId, url, key) {
   };
 }
 
-export function setDepartmentData(departmentId, key, reducerData) {
+export function setDepartmentData(departmentId: number, key: string, reducerData: any): IAction {
   return {
     payload: {
       department: departmentId,

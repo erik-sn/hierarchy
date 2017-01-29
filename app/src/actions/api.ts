@@ -1,7 +1,9 @@
-import axios from 'axios';
+import * as axios from 'axios';
+
+import { IAction } from '../constants/interfaces';
 import types from './types';
 
-export function fetchAuth() {
+export function fetchAuth(): IAction {
   const request = axios.get(`${types.MAP}/userinfo/`, types.API_CONFIG);
   return {
     payload: request,
@@ -9,7 +11,7 @@ export function fetchAuth() {
   };
 }
 
-export function fetchHierarchy(params) {
+export function fetchHierarchy(params: string): IAction {
   const request = axios.get(`${types.API}/sites/${params || ''}`, types.API_CONFIG);
   return {
     payload: request,
