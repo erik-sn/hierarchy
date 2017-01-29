@@ -1,7 +1,15 @@
-import React, { PropTypes } from 'react';
 import CircularProgress from 'material-ui/CircularProgress';
+import * as React from 'react';
 
-const Loader = props => (
+export interface ILoaderProps {
+  message?: string;
+  style?: {};
+  size?: number;
+  thickness?: number;
+  color?: string;
+}
+
+const Loader = (props: ILoaderProps): JSX.Element => (
   <div className="loading__container" style={props.style} >
     <CircularProgress
       size={props.size || 150}
@@ -13,13 +21,5 @@ const Loader = props => (
     </div>
   </div>
 );
-
-Loader.propTypes = {
-  message: PropTypes.string,
-  style: PropTypes.object,
-  size: PropTypes.number,
-  thickness: PropTypes.number,
-  color: PropTypes.string,
-};
 
 export default Loader;

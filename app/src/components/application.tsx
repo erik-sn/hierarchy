@@ -1,21 +1,37 @@
 import { fromJS } from 'immutable';
-import React, { Component, PropTypes } from 'react';
-import { connect } from 'react-redux';
 import { Card } from 'material-ui/Card';
+import * as React from 'react';
+import { connect } from 'react-redux';
 
-import { showModal } from '../actions/index';
 import { fetchAuth, fetchHierarchy } from '../actions/api';
+import { showModal } from '../actions/index';
+import { IAction, IAppConfig, ILocation, IModal, IReduxState, ISite, IUser } from '../constants/interfaces';
 import { resolvePath } from '../utils/resolver';
 
-import Navbar from './navbar';
-import Modal from './modal';
 import Loader from './loader';
+import Modal from './modal';
+import Navbar from './navbar/navbar';
 
-export class Application extends Component {
 
-  componentDidMount() {
+export interface IApplicationProps {
+  children: JSX.Element[];
+  config: IAppConfig;
+  fetchAuth: () => IAction;
+  fetchHierarchy: () => IAction;
+  location: ILocation; // create interface
+  modal: IModal;
+  userError: boolean;
+  user: IUser;
+  siteError: boolean;
+  sites: ISite[];
+}
+
+
+export class Application extends React.Component<IApplicationProps, {}> {
+
+  public componentDidMount() {
     const { user, userError, sites, siteError } = this.props;
-    if (!userError && !siteError && user && !user.get('username')) {
+    if (!userError && !siteError && user && !user.username) {
       this.props.fetchAuth();
     }
     if (!userError && !siteError && !sites) {
@@ -23,7 +39,7 @@ export class Application extends Component {
     }
   }
 
-  render() {
+  public render() {
     const { user, location, userError, sites, siteError, children, modal, config } = this.props;
     // check to see if there are any errors
     let error;
@@ -40,27 +56,27 @@ export class Application extends Component {
     // wait for hierarchy and authentication information to load
 
     let loader;
-    if (!user || !user.get('username') || !sites) {
+    if (!user || !user.username || !sites) {
       loader = <div style={{ marginTop: '20%' }}><Loader /></div>;
     }
 
     let modalComponent;
-    if (modal && modal.get('showModal') && modal.get('component')) {
-      modalComponent = modal.get('component').toJS();
+    if (modal && modal.showModal && modal.component) {
+      modalComponent = modal.component;
     }
 
-    let hierarchy;
+    let hierarchy: any;
     let content;
     if (sites && location) {
       // check to see if hiearchy exists, if not do not resolve path
       try {
-        hierarchy = resolvePath(sites);
+        hierarchy = resolvePath(fromJS(sites)).toJS();
       } catch (e) {
+        console.error(e);
         hierarchy = undefined;
       }
-      content = React.Children.map(children, child => (
-        React.cloneElement(child, { sites, hierarchy }))
-      );
+      const cloneChild = (child: React.ReactElement<{}>) => React.cloneElement(child, { sites, hierarchy } as any);
+      content = React.Children.map(children, cloneChild);
     }
     return (
       <div className="application__container">
@@ -79,31 +95,19 @@ export class Application extends Component {
   }
 }
 
-Application.propTypes = {
-  children: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
-  fetchAuth: PropTypes.func.isRequired,
-  fetchHierarchy: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired,
-  modal: PropTypes.object.isRequired,
-  userError: PropTypes.bool,
-  user: PropTypes.object.isRequired,
-  siteError: PropTypes.bool,
-  sites: PropTypes.object,
-};
 
-function mapStateToProps(state) {
+function mapStateToProps(state: IReduxState): {} {
   return {
-    user: fromJS(state.auth.user),
-    userError: fromJS(state.auth.error),
-    sites: fromJS(state.hierarchy.sites),
-    siteError: fromJS(state.hierarchy.error),
-    modal: fromJS(state.display.config),
-    config: fromJS(state.display.config),
+    user: state.auth.user,
+    userError: state.auth.error,
+    sites: state.hierarchy.sites,
+    siteError: state.hierarchy.error,
+    modal: state.display.config,
+    config: state.display.config,
   };
 }
 
-const ApplicationContainer = connect(mapStateToProps, {
+const ApplicationContainer = connect<{}, {}, IApplicationProps>(mapStateToProps, {
   showModal, fetchAuth, fetchHierarchy })(Application);
 
 export default ApplicationContainer;

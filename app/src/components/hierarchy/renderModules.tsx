@@ -1,24 +1,25 @@
-import React from 'react';
+import * as React from 'react';
 
-import Module from './module';
+import { IHierarchyTier, IModule } from '../../constants/interfaces';
 import { alphaNumSort } from '../../utils/sort';
+import Module from './module';
 
 /**
  * Generate a sorting function unique to a specific hierarchy
  * object. This function will compare all modules to the default
  * and set the default module as first in the list.
  *
- * @param {any} hierarchyObject
+ * @param {IHierarchyTier} hierarchyObject
  * @returns
  */
-function generateSortModules(hierarchyObject) {
+function generateSortModules(hierarchyObject: IHierarchyTier): (a: IModule, b: IModule) => number {
   // case where no default module was set in the admin page
-  const defaultModule = hierarchyObject.get('defaultModule');
-  const defaultId = defaultModule ? defaultModule.get('id') : -1;
-  return (a, b) => {
-    if (a.get('id') === defaultId) {
+  const defaultModule = hierarchyObject.defaultModule;
+  const defaultId = defaultModule ? defaultModule.id : -1;
+  return (a: IModule, b: IModule): number => {
+    if (a.id === defaultId) {
       return -1;
-    } else if (b.get('id') === defaultId) {
+    } else if (b.id === defaultId) {
       return 1;
     }
     return 0;
@@ -34,9 +35,9 @@ function generateSortModules(hierarchyObject) {
  * @param {string} moduleName
  * @returns
  */
-export function retrieveModule(hierarchyObject, moduleName) {
-  return hierarchyObject.get('modules').find(mdl => (
-    mdl.get('label').toLowerCase() === moduleName.toLowerCase()
+export function retrieveModule(hierarchyObject: IHierarchyTier, moduleName: string) {
+  return hierarchyObject.modules.find((mdl) => (
+    mdl.label.toLowerCase() === moduleName.toLowerCase()
   ));
 }
 
@@ -55,10 +56,12 @@ export function retrieveModule(hierarchyObject, moduleName) {
  * is clicked on.
  * @returns
  */
-export default function renderModules(activeModule, hierarchyObject, setActive) {
+export default function renderModules(activeModule: IModule,
+                                      hierarchyObject: IHierarchyTier,
+                                      setActive: (module: IModule) => void): JSX.Element[] {
   const moduleProps = { activeModule, setActive, hierarchyObject };
-  return hierarchyObject.get('modules')
-  .sort((a, b) => alphaNumSort(a.get('name'), b.get('name')))
-  .sort(generateSortModules(hierarchyObject))
-  .map((module, i) => <Module key={i} module={module} {...moduleProps} />);
+  return hierarchyObject.modules
+                        .sort((a: IModule, b: IModule) => alphaNumSort(a.name, b.name))
+                        .sort(generateSortModules(hierarchyObject))
+                        .map((module, i) => <Module key={i} module={module} {...moduleProps} />);
 }

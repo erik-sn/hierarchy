@@ -4,7 +4,7 @@ import { IndexRoute, Route, Router } from 'react-router';
 import About from './components/about';
 import Admin from './components/admin/admin';
 import Application from './components/application';
-import Main from './components/hierarchy/main';
+import Main from './components/hierarchy/main/main';
 import NotFound from './components/notfound';
 import Settings from './components/settings';
 

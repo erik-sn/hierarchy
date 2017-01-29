@@ -12,7 +12,7 @@ export interface IAction {
 }
 
 // auth reducer
-export interface Iuser {
+export interface IUser {
   id: number;
   username: string;
   ip: string;
@@ -20,7 +20,7 @@ export interface Iuser {
 }
 
 export interface IAuth {
-  user: Iuser;
+  user: IUser;
   error: boolean;
 }
 
@@ -41,17 +41,37 @@ export interface IHierarchy {
   error: boolean;
 }
 
+// department store
+export interface IDepartmentIdMap {
+  [key: number]: any;
+}
+
 // root reducer
 export interface IReduxState {
   auth: IAuth;
   hierarchy: IHierarchy;
   toJS: Function;
   form: FormStateMap;
+  display: IDisplay;
+  departmentStores: IDepartmentIdMap;
+}
+
+/**
+ * React Router
+ */
+export interface ILocation {
+  pathname: string;
 }
 
 /**
  * Hierarchy interfaces
  */
+
+export interface IAppConfig {
+  name: string;
+  baseUrl: string;
+  hierarchyapi: string;
+}
 
 export interface IHierarchyTier {
   id?: number;

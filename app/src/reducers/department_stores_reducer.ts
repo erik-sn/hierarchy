@@ -1,12 +1,9 @@
 import types from '../actions/types';
 
-import { IAction, IHierarchy } from '../constants/interfaces';
+import { IAction, IDepartmentIdMap, IHierarchy } from '../constants/interfaces';
 
 export const initialState = {};
 
-interface IDepartmentIdMap {
-  [key: number]: any;
-}
 
 export default (state: any = initialState, action: IAction) => {
   switch (action.type) {

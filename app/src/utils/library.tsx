@@ -3,17 +3,33 @@ import * as React from 'react';
 
 import { IDictionary } from '../constants/interfaces';
 
+/**
+ * Given a component's name, require it and pass it the specified props
+ * within a React component. This method is critical to the functionality
+ * of the application. Because modules are specified in the database,
+ * not the HierarchyTier component's themselves, dynamic requires are
+ * essential to the flexibility of the application.
+ * 
+ * By convention these dynamic components are stored in the __custom__
+ * directory, then given a directory with their name. The index of the
+ * component must also be given the same name.
+ * 
+ * @export
+ * @param {string} name - React component to import
+ * @param {*} props - properties to pass to the component
+ * @returns {JSX.Element}
+ */
 export default function getComponent(name: string, props: any): JSX.Element {
-    try {
-      const Component = require(`../components/__custom__/${name}/${name}.js`).default;
-      if (!Component || typeof Component !== 'function') {
-        throw Error('Component import was not a valid react component');
-      }
-      return <Component {...props} />;
-    } catch (err) {
-      console.error(err);
-      return <h3 style={{ textAlign: 'center' }} >There was an error loading this module</h3>;
+  try {
+    const Component = require(`../components/__custom__/${name}/${name}.js`).default;
+    if (!Component || typeof Component !== 'function') {
+      throw Error('Component import was not a valid react component');
     }
+    return <Component {...props} />;
+  } catch (err) {
+    console.error(err);
+    return <h3 style={{ textAlign: 'center' }} >There was an error loading this module</h3>;
+  }
 }
 
 

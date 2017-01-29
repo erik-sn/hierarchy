@@ -5,7 +5,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { fetchHierarchy } from '../../actions/api';
-import { IReduxState, ISite, Iuser } from '../../constants/interfaces';
+import { IReduxState, ISite, IUser } from '../../constants/interfaces';
 import { buildNavigate } from '../../utils/resolver';
 import ApiCalls from './admin_api';
 import AdminHierarchy from './admin_hierarchy';
@@ -20,7 +20,7 @@ interface Iparams { menu: string; splat: string; }
 export interface IAdminProps {
   fetchHierarchy: Function;
   params: Iparams;
-  user: Iuser;
+  user: IUser;
   sites: ISite[];
 }
 
