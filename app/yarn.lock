@@ -14,6 +14,13 @@
   dependencies:
     "@types/express" "*"
 
+"@types/copy-webpack-plugin":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@types/copy-webpack-plugin/-/copy-webpack-plugin-4.0.0.tgz#bfda8f5ed388cf09c426abe5111fccb7f3f25f0d"
+  dependencies:
+    "@types/minimatch" "*"
+    "@types/webpack" "*"
+
 "@types/enzyme@^2.7.1":
   version "2.7.2"
   resolved "https://registry.yarnpkg.com/@types/enzyme/-/enzyme-2.7.2.tgz#b19a457f29d2d1a054a880feb86666b993ed6cdc"
@@ -36,6 +43,12 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
+
+"@types/extract-text-webpack-plugin":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/extract-text-webpack-plugin/-/extract-text-webpack-plugin-2.0.0.tgz#7dfb884827e503660a4fc7cc7ac1bef0e212cc2a"
+  dependencies:
+    "@types/webpack" "*"
 
 "@types/history":
   version "4.5.0"
@@ -66,6 +79,10 @@
 "@types/mime@*":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-0.0.29.tgz#fbcfd330573b912ef59eeee14602bface630754b"
+
+"@types/minimatch@*":
+  version "2.0.29"
+  resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-2.0.29.tgz#5002e14f75e2d71e564281df0431c8c1b4a2a36a"
 
 "@types/mocha@^2.2.38":
   version "2.2.38"

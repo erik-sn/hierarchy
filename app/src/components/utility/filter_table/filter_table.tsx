@@ -1,15 +1,51 @@
-import React, { Component, PropTypes } from 'react';
-import { fromJS, is, List } from 'immutable';
-import moment from 'moment';
-import AllIcon from 'material-ui/svg-icons/communication/clear-all';
-import AnyIcon from 'material-ui/svg-icons/content/filter-list';
+import {fromJS, is, List } from 'immutable';
+import * as moment from 'moment';
+import * as React from 'react';
 
+import { IDictionary } from '../../../constants/interfaces';
 import { isMomentParameter, isNumberParameter } from '../../../utils/library';
-import Csv from '../../csv_generator';
+import FilterCsv from './filter_csv';
+import TableData from './filter_table_data';
 import Filter from './filter_table_filter';
 import Header from './filter_table_header';
-import TableData from './filter_table_data';
 import TableTotal from './filter_table_total';
+import FilterToggle from './filter_toggle';
+
+interface IFilter {
+  exact?: boolean;
+  cleanedFilterValue?: string;
+  filterKey?: string;
+  filterValue?: string;
+}
+
+interface IConfig {
+  header: string;
+  label: string;
+  width: number;
+  className?: string;
+  childrenClass?: string;
+  transform: () => void;
+}
+
+export interface IFilterTableProps {
+  tableData: Array<IDictionary<string>>;
+  className?: string;
+  hasFilter: boolean;
+  hasCsv: boolean;
+  showResults: boolean;
+  hasTotals: boolean;
+  config: IConfig[];
+  handleRowClick: () => void;
+}
+
+export interface IFilterTableState {
+    filterText: string;
+    filterAny: boolean;
+    filters: string[];
+    sortParameter: string;
+    sortDirection: number;
+    tableData: Array<IDictionary<string>>;
+}
 
 /**
  * Responsible for outputting list of immutable Maps into a filterable,
@@ -18,7 +54,7 @@ import TableTotal from './filter_table_total';
  * @class FilterTable
  * @extends {Component}
  */
-class FilterTable extends Component {
+class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> {
 
   /**
    * Creates an instance of FilterTable. Critical properties
@@ -32,20 +68,19 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  constructor(props) {
+  constructor(props: IFilterTableProps) {
     super(props);
-    const { tableData, rowMap } = props;
-    const initialTableData = List.isList(tableData) ? tableData : fromJS(tableData);
-    const initialRowMap = List.isList(rowMap) ? rowMap : fromJS(rowMap);
-    this.checkRowMap(initialRowMap);
+    const { tableData, config } = props;
+    this.checkConfig(config);
     this.state = {
       filterText: '',
       filterAny: true,
-      filters: List([]),
+      filters: [],
       sortParameter: undefined,
       sortDirection: undefined,
-      tableData: this.cleanData(initialTableData),
-      rowMap: initialRowMap,
+       // we pass tableData from props to state so that filters can be
+       // applied to it
+      tableData: this.cleanTableData(tableData),
     };
     this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
     this.handleToggleMode = this.handleToggleMode.bind(this);
@@ -63,19 +98,9 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  componentWillReceiveProps(nextProps) {
-    const { tableData, rowMap } = nextProps;
-    const nextTableData = List.isList(tableData) ? tableData : fromJS(tableData);
-    const nextRowMap = List.isList(rowMap) ? rowMap : fromJS(rowMap);
-    const update = {};
-    if (!is(this.state.tableData, nextTableData)) {
-      update.tableData = this.cleanData(nextTableData);
-    }
-    if (!is(this.state.rowMap, nextRowMap)) {
-      this.checkRowMap(nextRowMap);
-      update.rowMap = nextRowMap;
-    }
-    this.setState(update);
+  public componentWillReceiveProps(nextProps: IFilterTableProps): void {
+    const { tableData } = nextProps;
+    this.setState({ tableData: this.cleanTableData(tableData) });
   }
 
   /**
@@ -91,14 +116,14 @@ class FilterTable extends Component {
    *  - childrenClass - class applied to all cells of a column
    *  - transform - function used to generate a totals object
    *
-   * @param {object} rowMap - table configuration
+   * @param {object} config - table configuration
    *
    * @memberOf FilterTable
    */
-  checkRowMap(rowMap) {
-    rowMap.forEach((option, i) => {
+  public checkConfig(config: IConfig[]): void{
+    config.forEach((option, i) => {
       ['header', 'label', 'width'].forEach((param) => {
-        if (!option.has(param)) {
+        if (!option.hasOwnProperty(param)) {
           throw TypeError(`Invalid table configuration object. Configuration option at index ${i} 
                            is invalid. Missing parameter: ${param}`);
         }
@@ -116,10 +141,10 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  cleanFilter(filterValue) {
-    let exact = false;
-    let cleanedFilterValue = filterValue;
-    const ei = filterValue.length - 1; // end index
+  public parseAndCleanFilter(filterValue: string): IFilter {
+    let exact: boolean = false;
+    let cleanedFilterValue: string = filterValue;
+    const ei: number = filterValue.length - 1; // end index
     if ((filterValue[0] === '"' || filterValue[0] === "'") &&
         (filterValue[ei] === '"' || filterValue[ei] === "'")) {
       exact = true;
@@ -138,7 +163,7 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  castToString(value) {
+  public castToString(value: string): string {
     if (typeof value === 'string') {
       return value;
     }
@@ -157,8 +182,23 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  cleanData(tableData) {
-    return tableData.map(row => row.map((value, key) => key === 'classNames' ? value : this.castToString(value).trim()));
+  public cleanTableData(tableData: Array<IDictionary<string>>): Array<IDictionary<string>> {
+    return tableData.map((row) => {
+      for (const key in row) {
+        if (row.hasOwnProperty(key) && key !== 'classNames') {
+          row[key] = this.castToString(row[key]).trim();
+        }
+      }
+      return row;
+    });
+  }
+
+  public parseDataLabel(filterKey: string): string {
+    const { config } = this.props;
+    const option = config.find((configOption) => (
+      configOption.header.toLowerCase() === filterKey.toLowerCase()
+    ));
+    return option ? option.label : undefined;
   }
 
   /**
@@ -174,14 +214,12 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  generateKeyFilter(filterKey, filterValue, exact) {
-    const { rowMap } = this.state;
-    const option = rowMap.find(rowMapOption => (
-      rowMapOption.get('header').toLowerCase() === filterKey.toLowerCase()
-    ));
-    const dataLabel = option ? option.get('label') : undefined;
-    return (data) => {
-      const dataValue = data.get(dataLabel) ? data.get(dataLabel).toLowerCase() : undefined;
+  public generateKeyFilter(filterKey: string,
+                           filterValue: string,
+                           exact: boolean): (row: IDictionary<string>) => boolean {
+    const dataLabel: string = this.parseDataLabel(filterKey);
+    return (row: IDictionary<string>) => {
+      const dataValue = row[dataLabel] ? row[dataLabel].toLowerCase() : undefined;
       try {
         return exact ? dataValue === filterValue : dataValue.indexOf(filterValue) > -1;
       } catch (error) {
@@ -203,22 +241,16 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  generateSomeFilter(filterValue, exact) {
-    let predicate = (value) => {
-      if (typeof value === 'string') {
-        return value.toLowerCase().indexOf(filterValue) > -1;
-      }
-      return false;
-    };
-    if (exact) {
-      predicate = (value) => {
-        if (typeof value === 'string') {
-          return value.toLowerCase() === filterValue;
+  public generateSomeFilter(filterValue: string, exact: boolean): (row: IDictionary<string>) => boolean {
+    return (row: IDictionary<string>) => {
+      for (let key in row) {
+        if (row.hasOwnProperty(key)) {
+          const value: string = row[key];
+          return exact ? value.toLowerCase() === filterValue :
+                         value.toLowerCase().indexOf(filterValue) > -1;
         }
-        return false;
-      };
-    }
-    return data => data.some(predicate);
+      }
+    };
   }
 
   /**
@@ -233,8 +265,8 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  parseFilterParameters(filter) {
-    const filterParameters = filter.split('=').map(param => param.trim()).filter(param => param);
+  public parseFilterParameters(filter: string): IFilter {
+    const filterParameters = filter.split('=').map((param) => param.trim()).filter((param) => param);
     const filterKey = filterParameters.length === 2 ? filterParameters[0].toLowerCase() : undefined;
     const filterValue = filterParameters.length === 2 ? filterParameters[1] : filterParameters[0];
     return { filterKey, filterValue };
@@ -249,9 +281,9 @@ class FilterTable extends Component {
    *
    * @memberOf FilterTable
    */
-  generateFilters(filter) {
-    const { filterKey, filterValue } = this.parseFilterParameters(filter);
-    const { exact, cleanedFilterValue } = this.cleanFilter(filterValue);
+  public generateFilters(filter: string): (row: IDictionary<string>) => boolean {
+    const { filterKey, filterValue }: IFilter = this.parseFilterParameters(filter);
+    const { exact, cleanedFilterValue }: IFilter = this.parseAndCleanFilter(filterValue);
     if (filterKey) {
       return this.generateKeyFilter(filterKey, cleanedFilterValue, exact);
     }
@@ -428,7 +460,7 @@ class FilterTable extends Component {
 
   render() {
     const { className, filter, csv, results, totals, handleRowClick } = this.props;
-    const { tableData, rowMap } = this.state;
+    const { tableData, rowMap, filterAny } = this.state;
     const filteredTableData = this.filterData(tableData);
     const sortedTableData = this.sortData(filteredTableData);
     const ratio = `${filteredTableData.size}/${tableData.size}`;
@@ -446,20 +478,12 @@ class FilterTable extends Component {
               /> : undefined}
           </div>
           {filter ?
-            <div className="filter_table__mode-container" onClick={this.handleToggleMode} >
-              {this.state.filterAny ? <AllIcon /> : <AnyIcon />}
-              <div className="tooltip__text">Toggle Filter Mode</div>
-            </div> : undefined
+            <FilterToggle
+              filterAny={filterAny}
+              handleClick={this.handleToggleMode}
+            /> : undefined
           }
-          {csv ?
-            <div className="filter_table__csv-container">
-              <Csv
-                fileName={`ProcessWorkshop_${moment().format('MMDDYY-HHmm')}`}
-                data={sortedTableData.toJS()}
-                params={rowMap.toJS()}
-              />
-              <div className="tooltip__text">Download CSV</div>
-            </div> : undefined}
+          {csv ? <FilterCsv tableData={sortedTableData} rowMap={rowMap} /> : undefined}
         </div>
         <Header
           rowMap={rowMap}
@@ -479,20 +503,6 @@ class FilterTable extends Component {
  * tableData - an immutable list of immutable maps.
  */
 FilterTable.propTypes = {
-  tableData: PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.array,
-  ]).isRequired,
-  className: PropTypes.string,
-  filter: PropTypes.bool,
-  csv: PropTypes.bool,
-  results: PropTypes.bool,
-  totals: PropTypes.bool,
-  rowMap: PropTypes.oneOfType([
-    React.PropTypes.object,
-    React.PropTypes.array,
-  ]).isRequired,
-  handleRowClick: PropTypes.func,
 };
 
 export default FilterTable;

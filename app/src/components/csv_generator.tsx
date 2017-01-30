@@ -1,15 +1,17 @@
 import Download from 'material-ui/svg-icons/file/file-download';
 import * as React from 'react';
 
+import { IDictionary } from '../constants/interfaces';
+
 interface IParam {
   header: string;
   label: string;
 }
 
 export interface ICsvGeneratorProps {
-  customClass: string;
-  customStyle: any;
-  data: any;
+  customClass?: string;
+  customStyle?: any;
+  data: Array<IDictionary<any>>;
   params: IParam[];
   fileName: string;
 }
