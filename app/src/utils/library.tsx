@@ -43,7 +43,7 @@ export default function getComponent(name: string, props: any): JSX.Element {
  * @returns {boolean}
  *
  */
-export function isMomentParameter(list: IDictionary[], parameter: string) {
+export function isMomentParameter(list: Array<IDictionary<any>>, parameter: string) {
   return !list.some((listItem) => !moment(listItem[parameter]).isValid());
 }
 
@@ -57,7 +57,7 @@ export function isMomentParameter(list: IDictionary[], parameter: string) {
  * @returns {boolean}
  *
  */
-export function isNumberParameter(list: IDictionary[], parameter: string) {
+export function isNumberParameter(list: Array<IDictionary<any>>, parameter: string) {
   return !list.some((listItem) => isNaN(Number(listItem[parameter])));
 }
 

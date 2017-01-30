@@ -172,7 +172,6 @@ describe('navbar.test.js |', () => {
         hierarchy: resolvePath(data, '/ox/extrusion/ox11')
       };
       const diffStateDropdownValid = { dropdownContainer: 'yes' };
-      const diffStateDropdownInvalid = { dropdownContainer: undefined };
       expect(ist.shouldComponentUpdate(diffPropsPath, component.state())).to.equal(true);
       expect(ist.shouldComponentUpdate(diffPropsHierarchy, component.state())).to.equal(true);
       expect(ist.shouldComponentUpdate(props, diffStateDropdownValid)).to.equal(true);

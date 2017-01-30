@@ -20,7 +20,7 @@ function getUrl() {
 const Module = ({ activeModule, module, setActive, hierarchyObject }: IModuleProps) => {
   const url = getUrl();
   const isActive = activeModule && activeModule.name === module.name;
-  const isDefault = module.id === hierarchyObject.defaultModule.id;
+  const isDefault = hierarchyObject.defaultModule && module.id === hierarchyObject.defaultModule.id;
   const handleClick = () => setActive(module);
   return (
     <Link to={isDefault ? url : `${url}/m/${module.label}`.toLowerCase()} >

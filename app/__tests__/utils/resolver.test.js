@@ -5,7 +5,7 @@ import sinon from 'sinon';
 
 import { getSite, getDepartment, getDepartments, getMachines, lowIfStr,
   getMachine, resolvePath, buildNavigate } from '../../src/utils/resolver';
-import { sites } from '../../__test__/sample';
+import { sites } from '../../__tests__/sample';
 
 
 describe('resolver.test.js |', () => {
@@ -20,7 +20,6 @@ describe('resolver.test.js |', () => {
   });
 
   describe('buildNavigate | >>>', () => {
-
     it('1. throws an error if input string is empty', () => {
       expect(() => buildNavigate('')).to.throw('A base string is required');
     });

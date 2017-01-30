@@ -27,17 +27,13 @@
     ]
   },
   "scripts": {
-    "play": "node ./config/playground.js",
-    "module-new": "node ./config/newmodule.js",
-    "module-test": "mocha -R min --compilers js:babel-core/register --require ./__test__/helper.js --recursive ./src/components/__custom__",
-    "module-test:watch": "npm run module-test -- --watch",
+    "new": "node ./config/newmodule.js",
     "dev": "node ./config/server.js",
-    "test-one": "mocha -R min --compilers js:babel-core/register --require ./__test__/helper.js --recursive ./__test__",
-    "test": "npm run test-one -- --watch",
-    "coverage": "jest --coverage",
-    "lint": "eslint ./src ./test --fix",
-    "build": "webpack -p --config ./config/webpack.production.config.js --progress --profile --colors",
-    "start": "nodemon ./config/server.production.js --exec babel-node"
+    "tdd": "npm run test -- --watch",
+    "test": "mocha -R min --compilers ts:ts-node/register,tsx:ts-node/register,js:babel-core/register --require ./__tests__/helper.js --recursive ./__tests__/utils/resolver.test.js",
+    "cover": "istanbul cover -x **/__tests__/** -e .tsx _mocha -- --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__",
+    "build": "webpack -p --config ./config/webpack.production.config.ts --progress --profile --colors",
+    "start": "nodemon ./config/server.production.tsx --exec ts-node"
   },
   "author": "",
   "license": "ISC",

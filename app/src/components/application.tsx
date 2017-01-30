@@ -70,7 +70,7 @@ export class Application extends React.Component<IApplicationProps, {}> {
     if (sites && location) {
       // check to see if hiearchy exists, if not do not resolve path
       try {
-        hierarchy = resolvePath(fromJS(sites)).toJS();
+        hierarchy = resolvePath(sites, location.pathname);
       } catch (e) {
         console.error(e);
         hierarchy = undefined;

@@ -1,5 +1,7 @@
-import React, { PropTypes } from 'react';
-import DropDownArrow from 'material-ui/svg-icons/navigation/arrow-drop-down'
+import DropDownArrow from 'material-ui/svg-icons/navigation/arrow-drop-down';
+import * as React from 'react';
+
+import { IDictionary } from '../../constants/interfaces';
 
 const hrBorderColor = 'rgb(244, 244, 244)';
 
@@ -15,10 +17,19 @@ const hrBorder = {
   width: '100%',
 };
 
+export interface ISelectionsPresenterProps {
+  value: string;
+  hintText: string;
+}
 
+const displaySelectionsRenderer = (value: any, hintText: string): JSX.Element => {
+  return value.length
+    ? typeof value === 'string' ? value : value.join(', ')
+    : hintText;
+};
 
-const SelectionsPresenter = ({ value, hintText, displaySelectionsRenderer }) => {
-  let hintStyle = { flex: 1 };
+const SelectionsPresenter = ({ value, hintText }: ISelectionsPresenterProps) => {
+  let hintStyle: IDictionary<any> = { flex: 1 };
   if (!value) {
     hintStyle = { flex: 1, color: '#999', fontStyle: 'italic', fontSize: '0.8rem' };
   }
@@ -33,25 +44,5 @@ const SelectionsPresenter = ({ value, hintText, displaySelectionsRenderer }) => 
   );
 };
 
-SelectionsPresenter.propTypes = {
-  value: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.arrayOf(PropTypes.string),
-    PropTypes.object,
-    PropTypes.arrayOf(PropTypes.object),
-  ]),
-  displaySelectionsRenderer: PropTypes.func,
-  hintText: PropTypes.string,
-}
-
-SelectionsPresenter.defaultProps = {
-  hintText: 'Click me',
-  // eslint-disable-next-line no-unused-vars
-  displaySelectionsRenderer: (value, hintText) => {
-    return value.length
-      ? typeof value === 'string' ? value : value.join(', ')
-      : hintText
-  }
-}
 
 export default SelectionsPresenter;

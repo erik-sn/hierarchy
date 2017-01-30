@@ -1,22 +1,40 @@
-import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
 import DatePicker from 'material-ui/DatePicker';
 import Snackbar from 'material-ui/Snackbar';
+import * as moment from 'moment';
+import * as React from 'react';
 
-class DateRange extends Component {
+export interface IDateRangeProps {
+  defaultStartDate: moment.Moment;
+  defaultEndDate: moment.Moment;
+  containerClass?: string;
+  innerContainerClass?: string;
+  datePickerClass?: string;
+  updateParent: (startDate: moment.Moment, endDate: moment.Moment) => any;
+}
 
-  constructor(props) {
+export interface IDateRangeState {
+  startDate: moment.Moment;
+  endDate: moment.Moment;
+  messageText: string;
+  messageShow: boolean;
+}
+
+class DateRange extends React.Component<IDateRangeProps, IDateRangeState> {
+
+  constructor(props: IDateRangeProps) {
     super(props);
     this.state = {
       startDate: props.defaultStartDate,
       endDate: props.defaultEndDate,
+      messageText: '',
+      messageShow: false,
     };
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleMessageClose = this.handleMessageClose.bind(this);
   }
 
-  handleStartDateChange(event, date) {
+  public handleStartDateChange(event: any, date: Date): void {
     const { endDate } = this.state;
     const startDate = moment(date);
     this.setState({
@@ -27,7 +45,7 @@ class DateRange extends Component {
     }, this.props.updateParent(startDate, endDate));
   }
 
-  handleEndDateChange(event, date) {
+  public handleEndDateChange(event: any, date: Date): void {
     const { startDate } = this.state;
     const endDate = moment(date);
     this.setState({
@@ -38,11 +56,11 @@ class DateRange extends Component {
     }, this.props.updateParent(startDate, endDate));
   }
 
-  handleMessageClose() {
+  public handleMessageClose(): void {
     this.setState({ messageShow: false });
   }
 
-  render() {
+  public render() {
     const { containerClass, innerContainerClass, datePickerClass } = this.props;
     const { startDate, endDate, messageShow, messageText } = this.state;
     return (
@@ -82,13 +100,5 @@ class DateRange extends Component {
   }
 }
 
-DateRange.propTypes = {
-  defaultStartDate: PropTypes.object.isRequired,
-  defaultEndDate: PropTypes.object.isRequired,
-  containerClass: PropTypes.string,
-  innerContainerClass: PropTypes.string,
-  datePickerClass: PropTypes.string,
-  updateParent: PropTypes.func.isRequired,
-};
 
 export default DateRange;

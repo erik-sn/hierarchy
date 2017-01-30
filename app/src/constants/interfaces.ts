@@ -141,6 +141,7 @@ export interface IFormValues { initialValues: any; }
 /**
  * General
  */
-export interface IDictionary {
-    [key: string]: any;
+
+export interface IDictionary<T> {
+  [key: string]: T;
 }
