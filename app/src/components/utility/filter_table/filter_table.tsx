@@ -303,13 +303,13 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  filterData(tableData) {
+  public filterData(tableData: Array<IDictionary<string>>): Array<IDictionary<string>> {
     const { filters, filterAny } = this.state;
     const filterFunctions = filters.map(this.generateFilters);
-    if (filters.size > 0 && filterAny) {
-      return tableData.filter(row => filterFunctions.some(filter => filter(row)));
-    } else if (filters.size > 0) {
-      return tableData.filter(row => filterFunctions.every(filter => filter(row)));
+    if (filters.length > 0 && filterAny) {
+      return tableData.filter((row) => filterFunctions.some((filter) => filter(row)));
+    } else if (filters.length > 0) {
+      return tableData.filter((row) => filterFunctions.every((filter) => filter(row)));
     }
     return tableData;
   }
