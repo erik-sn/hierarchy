@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react';
-import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import * as React from 'react';
+import { Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 import ChartContainer from './chart_container';
 import CustomTick from './custom_tick';
+import { IChartProps } from './interfaces';
 
-const AreaChartComponent = props => (
+const AreaChartComponent = (props: IChartProps) => (
   <ChartContainer {...props} >
     <LineChart
-      data={props.data}
+      data={props.chartData}
       margin={{ top: 0, right: 0, left: 0, bottom: 35 }}
     >
       <XAxis dataKey={props.xAxis} tick={<CustomTick />} padding={props.padding} />
@@ -17,13 +18,5 @@ const AreaChartComponent = props => (
     </LineChart>
   </ChartContainer>
 );
-
-AreaChartComponent.propTypes = {
-  data: PropTypes.array.isRequired,
-  padding: PropTypes.object,
-  xAxis: PropTypes.string,
-  domain: PropTypes.array,
-  lines: PropTypes.array.isRequired,
-};
 
 export default AreaChartComponent;

@@ -1,13 +1,14 @@
-import React, { PropTypes } from 'react';
-import { BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts';
+import * as  React from 'react';
+import { Bar, BarChart, Tooltip, XAxis, YAxis } from 'recharts';
 
-import CustomTick from './custom_tick';
 import ChartContainer from './chart_container';
+import CustomTick from './custom_tick';
+import { IChartProps } from './interfaces';
 
-const BarChartComponent = props => (
+const BarChartComponent = (props: IChartProps) => (
   <ChartContainer {...props} >
     <BarChart
-      data={props.data}
+      data={props.chartData}
       margin={{ top: 0, right: 0, left: 0, bottom: 35 }}
     >
       <XAxis dataKey={props.xAxis} tick={<CustomTick />} padding={props.padding} />
@@ -18,12 +19,5 @@ const BarChartComponent = props => (
   </ChartContainer>
 );
 
-BarChartComponent.propTypes = {
-  data: PropTypes.array.isRequired,
-  padding: PropTypes.object,
-  xAxis: PropTypes.string,
-  domain: PropTypes.array,
-  bars: PropTypes.array.isRequired,
-};
 
 export default BarChartComponent;

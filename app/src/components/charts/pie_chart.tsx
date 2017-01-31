@@ -1,7 +1,10 @@
-import React, { Component, PropTypes } from 'react';
-import { PieChart, Pie, Sector, Cell } from 'recharts';
+import * as React from 'react';
+import { Cell, Pie, PieChart, Sector } from 'recharts';
 
-const renderActiveShape = (props) => {
+import { IChartProps } from './interfaces';
+
+
+const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
   const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle,
     fill, payload, percent, value } = props;
@@ -46,10 +49,19 @@ const renderActiveShape = (props) => {
   );
 };
 
+export interface IPieChartProps extends IChartProps {
+  handleClick: (entry: any) => void;
+}
 
-class TwoLevelPieChart extends Component {
+export interface IPieChartState {
+  activeIndex: number;
+  activeShape: JSX.Element;
+  label: string;
+}
 
-  constructor(props) {
+class TwoLevelPieChart extends React.Component<IPieChartProps, IPieChartState> {
+
+  constructor(props: IChartProps) {
     super(props);
     this.state = {
       activeIndex: 0,
@@ -60,47 +72,40 @@ class TwoLevelPieChart extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  onPieEnter(input, index) {
+  public onPieEnter(input: any, index: number) {
     this.setState({
       activeIndex: index,
     });
   }
 
-  handleClick(entry) {
+  public handleClick(entry: any) {
     if (this.props.handleClick) {
       this.props.handleClick(entry);
     }
   }
 
-  render() {
+  public render() {
     const { activeIndex } = this.state;
-    const { data } = this.props;
-
+    const { chartData } = this.props;
     return (
       <div>
         <PieChart width={400} height={400} onMouseEnter={this.onPieEnter}>
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
-            data={data}
+            data={chartData}
             cx={200}
             cy={200}
             innerRadius={55}
             outerRadius={80}
-            fill="yellow"
             onClick={this.handleClick}
           >
-            {data.map((entry, i) => <Cell key={i} fill={entry.color || '#59A1B6'} />)}
+            {chartData.map((entry, i) => <Cell key={i} fill={entry['color'] || '#59A1B6'} />)}
           </Pie>
         </PieChart>
       </div>
     );
   }
 }
-
-TwoLevelPieChart.propTypes = {
-  data: PropTypes.array,
-  handleClick: PropTypes.func,
-};
 
 export default TwoLevelPieChart;

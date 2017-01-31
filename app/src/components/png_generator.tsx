@@ -4,8 +4,8 @@ import * as React from 'react';
 const saveSvgAsPng = require('save-svg-as-png').saveSvgAsPng;
 
 export interface IPngGeneratorProps {
-  customClass: string;
-  customStyle: {};
+  customClass?: string;
+  customStyle?: {};
   fileName: string;
   target: string;
 }
