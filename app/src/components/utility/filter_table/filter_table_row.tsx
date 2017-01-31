@@ -1,16 +1,23 @@
-import React, { Component, PropTypes } from 'react';
+import * as React from 'react';
 
+import { IConfig, IDictionary, IRowData } from '../../../constants/interfaces';
 import Cell from './filter_table_cell';
 
+export interface IRowProps {
+  config: IConfig[];
+  className?: string;
+  rowData: IRowData;
+  handleClick?: (rowData: IRowData, index: number) => void;
+}
 
 /**
  * Container component to order a row of table cells
  *
  * @param {any} { className, rowData, rowMap }
  */
-class Row extends Component {
+class Row extends React.Component<IRowProps, {}> {
 
-  constructor(props) {
+  constructor(props: IRowProps) {
     super(props);
     this.handleCellClick = this.handleCellClick.bind(this);
   }
@@ -27,17 +34,20 @@ class Row extends Component {
    * @param {object} rowMap - immutable List, table configuration
    * @returns {object} - immutable List of JSX.Elements
    */
-  generateCells(rowData, rowMap) {
-    const classNames = rowData.get('classNames');
-    return rowMap.map((config, index) => (
-      <Cell
-        key={index}
-        handleClick={() => this.handleCellClick(index)}
-        width={config.get('width')}
-        value={rowData.get(config.get('label'))}
-        className={classNames ? classNames.get(config.get('label')) : ''}
-      />
-    ));
+  public generateCells(rowData: IRowData, config: IConfig[]): JSX.Element[] {
+    const classNames = rowData.classNames as string;
+    return config.map((option, index) => {
+      const handleCellClick = () => this.handleCellClick(index);
+      return (
+        <Cell
+          key={index}
+          handleClick={handleCellClick}
+          width={option.width}
+          value={rowData[option.label]}
+          className={classNames ? classNames[option.label as any] : ''}
+        />
+      );
+    });
   }
 
   /**
@@ -49,28 +59,21 @@ class Row extends Component {
    *
    * @memberOf Row
    */
-  handleCellClick(columnIndex) {
+  public handleCellClick(columnIndex: number) {
     const { handleClick } = this.props;
     if (handleClick) {
       handleClick(this.props.rowData, columnIndex);
     }
   }
 
-  render() {
-    const { rowData, rowMap, className } = this.props;
+  public render(): JSX.Element {
+    const { rowData, config, className } = this.props;
     return (
-      <div onClick={this.handleClick} className={`filter_table__row${className ? ` ${className}` : ''}`}>
-        {this.generateCells(rowData, rowMap)}
+      <div className={`filter_table__row${className ? ` ${className}` : ''}`}>
+        {this.generateCells(rowData, config)}
       </div>
     );
   }
 }
-
-Row.propTypes = {
-  rowMap: PropTypes.object.isRequired,
-  className: PropTypes.string,
-  rowData: PropTypes.object.isRequired,
-  handleClick: PropTypes.func,
-};
 
 export default Row;

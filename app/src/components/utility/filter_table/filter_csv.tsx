@@ -13,15 +13,15 @@ interface IParam {
 
 export interface ITableCsvProps {
   tableData: Array<IDictionary<any>>;
-  rowMap: IParam[];
+  config: IParam[];
 }
 
-const TableCsv = ({ tableData, rowMap }: ITableCsvProps) => (
+const TableCsv = ({ tableData, config }: ITableCsvProps) => (
   <div className="filter_table__csv-container">
     <Csv
       fileName={`${appConfig.name}_${moment().format('MMDDYY-HHmm')}`}
       data={tableData}
-      params={rowMap}
+      params={config}
     />
     <div className="tooltip__text">Download CSV</div>
   </div>

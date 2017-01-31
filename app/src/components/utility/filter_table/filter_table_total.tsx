@@ -1,19 +1,20 @@
-import React, { PropTypes } from 'react';
-import { Map, List } from 'immutable';
+import * as React from 'react';
 
+import { IConfig, IDictionary, IRowData } from '../../../constants/interfaces';
 import Row from './filter_table_row';
 
 /**
  * Generate an immutable map with keys for each configuration
  * object, and values being empty immutable lists.
  *
- * @param {object} rowMap - table configuration object
+ * @param {object} config - table configuration object
  * @returns
  */
-function getBaseValues(rowMap) {
-  return rowMap.reduce((values, row) => (
-    values.set(row.get('label'), List([]))
-  ), Map({}));
+function getBaseValues(config: IConfig[]): IDictionary<any> {
+  return config.reduce((values: IDictionary<any>, option: IConfig) => {
+    values[option.label] = [];
+    return values;
+  }, {});
 }
 
 /**
@@ -25,11 +26,15 @@ function getBaseValues(rowMap) {
  * @param {object} row - immutable map representing table row
  * @returns
  */
-function updateValues(baseValues, row) {
-  let updatedValues = baseValues;
-  row.forEach((value, key) => {
-    updatedValues = updatedValues.set(key, updatedValues.get(key).push(value));
-  });
+function updateValues(baseValues: IDictionary<any>, row: IDictionary<string>) {
+  const updatedValues = baseValues;
+  for (let key in row) {
+    if (row.hasOwnProperty(key)) {
+      const resultValues = updatedValues[key];
+      resultValues.push(row[key]); // add value to results
+      updatedValues[key] = resultValues;
+    }
+  }
   return updatedValues;
 }
 
@@ -39,12 +44,12 @@ function updateValues(baseValues, row) {
  * all of that column's data.
  *
  * @param {object} tableData - immutable list of immutable maps representing table data
- * @param {object} rowMap - table configuration object
+ * @param {object} config - table configuration object
  * @returns
  */
-function getRowValues(tableData, rowMap) {
+function getRowValues(tableData: Array<IDictionary<string>>, config: IConfig[]): IDictionary<any> {
   return tableData.reduce((values, row) => (
-    updateValues(values, row)), getBaseValues(rowMap)
+    updateValues(values, row)), getBaseValues(config),
   );
 }
 
@@ -60,43 +65,45 @@ function getRowValues(tableData, rowMap) {
  * to the data and return their values to be used in the total row. If none are
  * specified return an empty string.
  *
- * @param {object} rowMap - table configuration object
+ * @param {object} config - table configuration object
  * @param {object} rowValues - column data
  * @returns
  */
-function applyTransforms(rowMap, rowValues) {
-  return rowMap.get('transform') ? rowMap.get('transform')(rowValues, rowMap.get('label')) : '';
+function applyTransforms(config: IConfig, rowValues: IDictionary<any>) {
+  return config.transform ? config.transform(rowValues, config.label) : '';
 }
 
 /**
  * Generate an immutable map representing the "totals" of a column.
  *
- * @param {object} rowMap - table configuration object
+ * @param {object} config - table configuration object
  * @param {object} tableData - immutable list of immutable maps representing table data
  * @returns
  */
-function getTotalData(rowMap, tableData) {
-  const rowValues = getRowValues(tableData, rowMap);
-  return rowMap.reduce((rowData, config) => (
-    rowData.set(config.get('label'), applyTransforms(config, rowValues))
-  ), Map({}));
+function getTotalData(config: IConfig[], tableData: IRowData[]) {
+  const rowValues = getRowValues(tableData, config);
+  const initialRowData: IDictionary<string> = {};
+  return config.reduce((rowData, option) => {
+    rowData[option.label as any] = applyTransforms(option, rowValues);
+    return rowData;
+  }, initialRowData);
 }
 
+export interface ITotalProps {
+  tableData: Array<IDictionary<string>>;
+  config: IConfig[];
+}
 /**
  * A row of data representing totals
  *
  * @param {any} { tableData, rowMap }
  * @returns
  */
-const TableTotal = ({ tableData, rowMap }) => (
+const TableTotal = ({ tableData, config }: ITotalProps): JSX.Element => (
   <div className="filter_table__totals-container">
-    <Row rowMap={rowMap} rowData={getTotalData(rowMap, tableData)} />
+    <Row config={config} rowData={getTotalData(config, tableData)} />
   </div>
 );
 
-TableTotal.propTypes = {
-  tableData: PropTypes.object.isRequired,
-  rowMap: PropTypes.object.isRequired,
-};
 
 export default TableTotal;

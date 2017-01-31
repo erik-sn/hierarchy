@@ -1,11 +1,18 @@
-import React, { PropTypes } from 'react';
+import * as React from 'react';
+
+export interface ICellProps {
+  width: number;
+  value: string;
+  className?: string;
+  handleClick: () => void;
+}
 
 /**
  * Basic cell component for filter table
  *
  * @param {string, string, string} { width, className, value }
  */
-const Cell = ({ width, value, className, handleClick }) => (
+const Cell = ({ width, value, className, handleClick }: ICellProps) => (
   <div
     onClick={handleClick}
     style={{ width }}
@@ -13,13 +20,6 @@ const Cell = ({ width, value, className, handleClick }) => (
   >
     <span>{value}</span>
   </div>
-  );
-
-Cell.propTypes = {
-  className: PropTypes.string.isRequired,
-  width: PropTypes.string.isRequired,
-  value: PropTypes.string,
-  handleClick: PropTypes.func,
-};
+);
 
 export default Cell;

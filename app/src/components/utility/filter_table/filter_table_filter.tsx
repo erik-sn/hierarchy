@@ -1,7 +1,15 @@
-import React, { Component, PropTypes } from 'react';
 import { debounce } from 'lodash';
 import TextField from 'material-ui/TextField';
+import * as React from 'react';
 
+export interface IFilterProps {
+  filterAny: boolean;
+  updateFilter: (filterValue: string) => void;
+}
+
+export interface IFilterState {
+  filterValue: string;
+}
 
 /**
  *
@@ -9,7 +17,9 @@ import TextField from 'material-ui/TextField';
  * @class Filter
  * @extends {Component}
  */
-class Filter extends Component {
+class Filter extends React.Component<IFilterProps, IFilterState> {
+
+  private updateFilter: (filterValue: string) => void;
 
   /**
    * Creates an instance of Filter.
@@ -18,7 +28,7 @@ class Filter extends Component {
    *
    * @memberOf Filter
    */
-  constructor(props) {
+  constructor(props: IFilterProps) {
     super(props);
     this.state = {
       filterValue: '',
@@ -37,15 +47,16 @@ class Filter extends Component {
    *
    * @memberOf Filter
    */
-  handleChange(event) {
-    const filterValue = event.target.value;
+  public handleChange(event: React.FormEvent<HTMLInputElement>): void {
+    event.preventDefault();
+    const filterValue = event.currentTarget.value;
     if (this.updateFilter) {
       this.updateFilter(filterValue);
     }
     this.setState({ filterValue });
   }
 
-  render() {
+  public render(): JSX.Element {
     const hintAny = 'matching any filter';
     const hintAll = 'matching all filters';
     const hintText = this.props.filterAny ? hintAny : hintAll;
@@ -62,9 +73,5 @@ class Filter extends Component {
   }
 }
 
-Filter.propTypes = {
-  filterAny: PropTypes.bool,
-  updateFilter: PropTypes.func.isRequired,
-};
 
 export default Filter;

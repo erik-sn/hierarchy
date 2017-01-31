@@ -1,7 +1,14 @@
-import React, { Component, PropTypes } from 'react';
-import { is } from 'immutable';
-import Infinite from 'react-infinite';
+import * as React from 'react';
+import * as Infinite from 'react-infinite';
+
+import { IConfig, IDictionary } from '../../../constants/interfaces';
 import Row from './filter_table_row';
+
+export interface ITableDataProps {
+  finalTableData: Array<IDictionary<string>>;
+  handleRowClick: () => void;
+  config: IConfig[];
+}
 
 /**
  * Contains filter table rows in an infinite list. The infinite
@@ -13,7 +20,7 @@ import Row from './filter_table_row';
  * @class TableData
  * @extends {Component}
  */
-class TableData extends Component {
+class TableData extends React.Component<ITableDataProps, {}> {
 
   /**
    * Only update when the row data has changed
@@ -23,9 +30,9 @@ class TableData extends Component {
    *
    * @memberOf TableData
    */
-  shouldComponentUpdate(nextProps) {
+  public shouldComponentUpdate(nextProps: ITableDataProps): boolean {
     const { finalTableData } = this.props;
-    return !is(nextProps.finalTableData, finalTableData);
+    return nextProps.finalTableData.length !== finalTableData.length;
   }
 
   /**
@@ -36,14 +43,14 @@ class TableData extends Component {
    *
    * @memberOf TableData
    */
-  generateRows(handleRowClick) {
-    const { finalTableData, rowMap } = this.props;
+  public generateRows(handleRowClick: () => void): JSX.Element[] {
+    const { finalTableData, config } = this.props;
     return finalTableData.map((data, i) => (
-      <Row key={i} rowData={data} rowMap={rowMap} handleClick={handleRowClick} />
+      <Row key={i} rowData={data} config={config} handleClick={handleRowClick} />
     ));
   }
 
-  render() {
+  public render(): JSX.Element {
     return (
       <div className="filter_table__row-container">
         <Infinite
@@ -58,16 +65,5 @@ class TableData extends Component {
   }
 }
 
-/**
- * finalTableData - list of table data after it has
- * been sorted and filteredData
- *
- * rowMap - table configuration
- */
-TableData.propTypes = {
-  finalTableData: PropTypes.object.isRequired,
-  handleRowClick: PropTypes.func,
-  rowMap: PropTypes.object.isRequired,
-};
 
 export default TableData;

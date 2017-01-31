@@ -2,12 +2,12 @@ import {fromJS, is, List } from 'immutable';
 import * as moment from 'moment';
 import * as React from 'react';
 
-import { IDictionary } from '../../../constants/interfaces';
+import { IConfig, IDictionary } from '../../../constants/interfaces';
 import { isMomentParameter, isNumberParameter } from '../../../utils/library';
 import FilterCsv from './filter_csv';
 import TableData from './filter_table_data';
 import Filter from './filter_table_filter';
-import Header from './filter_table_header';
+import HeaderColumn from './filter_table_header_column';
 import TableTotal from './filter_table_total';
 import FilterToggle from './filter_toggle';
 
@@ -18,33 +18,25 @@ interface IFilter {
   filterValue?: string;
 }
 
-interface IConfig {
-  header: string;
-  label: string;
-  width: number;
-  className?: string;
-  childrenClass?: string;
-  transform: () => void;
-}
 
 export interface IFilterTableProps {
   tableData: Array<IDictionary<string>>;
   className?: string;
-  hasFilter: boolean;
-  hasCsv: boolean;
+  showFilter: boolean;
+  showCsv: boolean;
   showResults: boolean;
-  hasTotals: boolean;
+  showTotals: boolean;
   config: IConfig[];
   handleRowClick: () => void;
 }
 
 export interface IFilterTableState {
-    filterText: string;
-    filterAny: boolean;
-    filters: string[];
-    sortParameter: string;
-    sortDirection: number;
-    tableData: Array<IDictionary<string>>;
+  filterText: string;
+  filterAny: boolean;
+  filters: string[];
+  sortParameter: string;
+  sortDirection: number;
+  tableData: Array<IDictionary<string>>;
 }
 
 /**
@@ -85,7 +77,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
     this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
     this.handleToggleMode = this.handleToggleMode.bind(this);
     this.handleToggleSort = this.handleToggleSort.bind(this);
-    this.filterData = this.filterData.bind(this);
+    this.filterTableData = this.filterTableData.bind(this);
     this.generateFilters = this.generateFilters.bind(this);
   }
 
@@ -303,7 +295,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  public filterData(tableData: Array<IDictionary<string>>): Array<IDictionary<string>> {
+  public filterTableData(tableData: Array<IDictionary<string>>): Array<IDictionary<string>> {
     const { filters, filterAny } = this.state;
     const filterFunctions = filters.map(this.generateFilters);
     if (filters.length > 0 && filterAny) {
@@ -323,9 +315,11 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  handleFilterUpdate(filterText) {
-    const filters = filterText.split(',').map(filter => filter.trim().toLowerCase()).filter(filter => filter);
-    this.setState({ filters: List(filters), filterText });
+  public handleFilterUpdate(filterText: string): void {
+    const filters: string[] = filterText.split(',')
+                              .map((filter) => (filter.trim().toLowerCase()))
+                              .filter((filter) => filter);
+    this.setState({ filters, filterText });
   }
 
   /**
@@ -335,31 +329,29 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  handleToggleMode() {
+  public handleToggleMode(): void {
     this.setState({ filterAny: !this.state.filterAny });
   }
 
   /**
-   *
    * Given an object parameter, a direction and a formatting function,
    * generate a sorting function that acts as a predicate for the general
    * sorting implementation.
    *
    * @param {string} sortParameter - object parameter to retrieve when sorting
-   * @param {number} sortDirection - 1 = ascending, 0 = descending
+   * @param {number} sortDirection - (1 = ascending, -1 = descending)
    * @param {function} formatData - an function that serves to format the data. If
    *                   nothing is specified simply return the input as is
    * @returns {function}
    *
    * @memberOf FilterTable
    */
-  generateSortFunction(sortParameter, sortDirection, formatData = input => input) {
-    if (sortDirection === 1) {
-      return (a, b) => (
-        formatData(a.get(sortParameter)) > formatData(b.get(sortParameter)) ? 1 : -1
-      );
-    }
-    return (a, b) => (formatData(a.get(sortParameter)) < formatData(b.get(sortParameter)) ? 1 : -1);
+  public generateSortFunction(sortParameter: string,
+                              sortDirection: number,
+                              formatData: (input: string) => string = (input) => input) {
+    return (a: IDictionary<string>, b: IDictionary<string>) => (
+      formatData(a[sortParameter]) > formatData(b[sortParameter]) ? sortDirection : -1 * sortDirection
+    );
   }
 
   /**
@@ -373,8 +365,8 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  isNumberParameter(list, parameter) {
-    return !list.some(data => Number.isNaN(Number(data.get(parameter))));
+  public isNumberParameter(tableData: Array<IDictionary<string>>, parameter: string): boolean {
+    return !tableData.some((row) => Number.isNaN(Number(row[parameter])));
   }
 
 
@@ -390,14 +382,14 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  generateFormatData(tableData, sortParameter) {
+  public generateFormatData(tableData: Array<IDictionary<string>>, sortParameter: string) {
     if (isNumberParameter(tableData, sortParameter)) {
-      return input => Number(input);
+      return (input: any) => Number(input);
     }
     if (isMomentParameter(tableData, sortParameter)) {
-      return input => moment(input);
+      return (input: any) => moment(input);
     }
-    return input => typeof input === 'string' ? input.toLowerCase() : input;
+    return (input: any) => typeof input === 'string' ? input.toLowerCase() : input;
   }
 
   /**
@@ -409,7 +401,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  sortData(tableData) {
+  public sortTableData(tableData: Array<IDictionary<string>>) {
     const { sortParameter, sortDirection } = this.state;
     if (sortParameter && sortDirection !== undefined) {
       const formatData = this.generateFormatData(tableData, sortParameter);
@@ -433,7 +425,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  handleToggleSort(header) {
+  public handleToggleSort(header: string): void {
     const { sortDirection, sortParameter } = this.state;
     let updatedSortParameter = header;
     let updatedSortDirection;
@@ -445,7 +437,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
           updatedSortDirection = 1;
           break;
         case 1:
-          updatedSortDirection = 0;
+          updatedSortDirection = -1;
           break;
         default:
           updatedSortParameter = undefined;
@@ -458,51 +450,53 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
     });
   }
 
-  render() {
-    const { className, filter, csv, results, totals, handleRowClick } = this.props;
-    const { tableData, rowMap, filterAny } = this.state;
-    const filteredTableData = this.filterData(tableData);
-    const sortedTableData = this.sortData(filteredTableData);
-    const ratio = `${filteredTableData.size}/${tableData.size}`;
-    const percent = ((100 * sortedTableData.size) / tableData.size).toFixed(1);
+  public render(): JSX.Element {
+    const { className, config, showFilter, showCsv, showResults,
+      showTotals, handleRowClick } = this.props;
+    const { tableData, filterAny } = this.state;
+    const filteredTableData = this.filterTableData(tableData);
+    const sortedTableData = this.sortTableData(filteredTableData);
+    const ratio = `${filteredTableData.length}/${tableData.length}`;
+    const percent = ((100 * sortedTableData.length) / tableData.length).toFixed(1);
     return (
       <div className={`filter_table__container${className ? ` ${className}` : ''}`}>
         <div className="filter_table__filter-bar">
           <div className="filter_table__filter-container" >
-            {filter ?
+            {showFilter ?
               <Filter
-                tableData={sortedTableData}
-                filter={this.state.filterText}
                 updateFilter={this.handleFilterUpdate}
                 filterAny={this.state.filterAny}
               /> : undefined}
           </div>
-          {filter ?
+          {showFilter ?
             <FilterToggle
               filterAny={filterAny}
               handleClick={this.handleToggleMode}
             /> : undefined
           }
-          {csv ? <FilterCsv tableData={sortedTableData} rowMap={rowMap} /> : undefined}
+          {showCsv ? <FilterCsv tableData={sortedTableData} config={config} /> : undefined}
         </div>
-        <Header
-          rowMap={rowMap}
-          handleClick={this.handleToggleSort}
-          sortDirection={this.state.sortDirection}
-          sortParameter={this.state.sortParameter}
+        <div className="filter_table__header" >
+          {config.map((option, i) => (
+            <HeaderColumn
+              key={i}
+              handleClick={this.handleToggleSort}
+              option={option}
+              sortDirection={this.state.sortDirection}
+              sortParameter={this.state.sortParameter}
+            />
+          ))}
+        </div>
+        <TableData
+          finalTableData={sortedTableData}
+          config={config}
+          handleRowClick={handleRowClick}
         />
-        <TableData finalTableData={sortedTableData} rowMap={rowMap} handleRowClick={handleRowClick} />
-        {totals ? <TableTotal tableData={sortedTableData} rowMap={rowMap} /> : undefined}
-        {results ? <div>{`Displaying ${ratio} rows - ${percent}%`}</div> : undefined}
+        {showTotals ? <TableTotal tableData={sortedTableData} rowMap={rowMap} /> : undefined}
+        {showResults ? <div>{`Displaying ${ratio} rows - ${percent}%`}</div> : undefined}
       </div>
     );
   }
 }
-
-/**
- * tableData - an immutable list of immutable maps.
- */
-FilterTable.propTypes = {
-};
 
 export default FilterTable;

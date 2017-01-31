@@ -5,6 +5,7 @@
     "jsx-no-lambda": true,
     "quotemark": [true, "single", "jsx-double"],
     "object-literal-sort-keys": false,
-    "no-var-requires": false
+    "no-var-requires": false,
+    "jsx-no-multiline-js": false
   }
 }

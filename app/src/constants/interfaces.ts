@@ -130,6 +130,22 @@ export interface IAxiosResponse {
   data: Object;
 }
 
+/**
+ * Filter Table Interfaces
+ */
+export interface IConfig {
+  header: string;
+  label: string;
+  width: number;
+  className?: string;
+  childrenClass?: string;
+  transform: (rowValues: IDictionary<any>, label: any) => any;
+}
+
+export interface IRowData extends IDictionary<string> {
+  classNames?: string;
+}
+
 
 /**
  * Form interfaces

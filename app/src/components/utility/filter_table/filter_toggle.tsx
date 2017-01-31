@@ -3,12 +3,12 @@ import AnyIcon from 'material-ui/svg-icons/content/filter-list';
 import * as React from 'react';
 
 export interface IFilterToggleProps {
-  handleToggleMode: () => void;
+  handleClick: () => void;
   filterAny: boolean;
 }
 
-const FilterToggle = ({ handleToggleMode, filterAny }: IFilterToggleProps): JSX.Element => (
-  <div className="filter_table__mode-container" onClick={this.handleToggleMode} >
+const FilterToggle = ({ handleClick, filterAny }: IFilterToggleProps): JSX.Element => (
+  <div className="filter_table__mode-container" onClick={this.handleClick} >
     {this.state.filterAny ? <AllIcon /> : <AnyIcon />}
     <div className="tooltip__text">Toggle Filter Mode</div>
   </div>
