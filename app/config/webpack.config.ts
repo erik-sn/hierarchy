@@ -104,11 +104,6 @@ module.exports = {
         test: /\.ts$/,
       },
       {
-        test: /\.js$/,
-        loaders: ['babel'],
-        include: path.join(__dirname, '../src'),
-      },
-      {
         test: /\.css$/,
         loaders: ['style', 'css', 'postcss'],
       },

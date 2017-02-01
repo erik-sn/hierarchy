@@ -1,8 +1,10 @@
 import { expect } from 'chai';
-import moxios from 'moxios';
+
+const moxios = require('moxios');
 
 import * as actions from '../../src/actions/api';
 import types from '../../src/actions/types';
+import { IAction } from '../../src/constants/interfaces';
 
 describe('api.test.js (Actions)', () => {
   describe('Auth Actions | >>>', () => {
@@ -16,7 +18,7 @@ describe('api.test.js (Actions)', () => {
 
     it('1. Should generate the correct action for fetchAuth', () => {
       moxios.withMock(() => {
-        const action = actions.fetchAuth();
+        const action: IAction = actions.fetchAuth();
         expect(action.type).to.equal(types.FETCH_AUTH);
         expect(action.payload).to.be.a('promise');
       });
@@ -24,7 +26,7 @@ describe('api.test.js (Actions)', () => {
 
     it('2. Should generate the correct action for fetchHierachy', () => {
       moxios.withMock(() => {
-        const action = actions.fetchHierarchy();
+        const action: IAction = actions.fetchHierarchy();
         expect(action.type).to.equal(types.FETCH_HIERARCHY);
         expect(action.payload).to.be.a('promise');
       });

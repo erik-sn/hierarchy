@@ -12,12 +12,12 @@ import * as promise from 'redux-promise';
 import { IDictionary } from '../src/constants/interfaces';
 import reducers from '../src/reducers';
 
-
 // jsdom configuration
 declare const global: any;
 const doc = jsdom.jsdom('<!doctype html><html><body></body></html>');
 const window = doc.defaultView;
 global['document'] = doc;
+global['document'] = '';
 global['window'] = window;
 global['window'].localStorage = storageMock();
 global['navigator'] = {userAgent: 'node.js'};

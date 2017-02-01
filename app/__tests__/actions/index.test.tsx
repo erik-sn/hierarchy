@@ -1,5 +1,6 @@
-import React from 'react';
 import { expect } from 'chai';
+import * as React from 'react';
+
 import * as actions from '../../src/actions/index';
 import types from '../../src/actions/types';
 
@@ -10,14 +11,14 @@ describe('index.test.js (Actions)', () => {
       const action = actions.showModal('test title', 'test message', child);
       expect(action.type).to.equal(types.SHOW_MODAL);
       expect(action.payload.showModal).to.equal(true);
-      expect(action.payload.component.$$typeof).to.exist();
+      expect(action.payload.component.$$typeof).to.exist;
     });
 
     it('2. Should generate the correct response if no child is specified', () => {
       const action = actions.showModal('test title', 'test message');
       expect(action.type).to.equal(types.SHOW_MODAL);
       expect(action.payload.showModal).to.equal(true);
-      expect(action.payload.component.$$typeof).to.exist();
+      expect(action.payload.component.$$typeof).to.exist;
     });
 
     it('3. Should generate the correct action for hideModal', () => {

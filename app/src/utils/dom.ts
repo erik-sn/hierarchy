@@ -21,8 +21,11 @@ export default function getBoundingBox(e: any) {
 
 
 export function getCookie(name: string): string {
-  if (document.cookie && document.cookie !== '') {
-    for (const cookie of document.cookie.split(';')) {
+  // add type check for document so test environment can
+  // be run successfully on server side
+  const doc: any = typeof document === 'undefined' ? '' : document;
+  if (doc && doc.cookie && doc.cookie !== '') {
+    for (const cookie of doc.cookie.split(';')) {
       // Does this cookie string begin with the name we want?
       if (cookie.trim().substring(0, name.length + 1) === (name + '=')) {
           return decodeURIComponent(cookie.trim().substring(name.length + 1));

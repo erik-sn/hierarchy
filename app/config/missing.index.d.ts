@@ -20,8 +20,6 @@ declare module 'react-infinite' {
   export = _;
 }
 
-
-
 declare module 'recharts' {
 	export const BarChart: any
 	export const Bar: any
