@@ -42,6 +42,7 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
     // initialize the form with the parent's module information
     const moduleIds = this.props.parentObject.modules.map((mdl) => mdl.id);
     this.props.change('modules', moduleIds);
+    this.props.change('defaultModule', this.props.parentObject.defaultModule.id);
   }
 
 

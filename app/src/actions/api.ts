@@ -4,7 +4,7 @@ import { IAction } from '../constants/interfaces';
 import types from './types';
 
 export function fetchAuth(): IAction {
-  const request = axios.get(`${types.MAP}/userinfo/`, types.API_CONFIG);
+  const request = axios.get(`${types.API}/auth/`, types.API_CONFIG);
   return {
     payload: request,
     type: types.FETCH_AUTH,

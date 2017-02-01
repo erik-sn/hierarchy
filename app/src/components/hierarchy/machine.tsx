@@ -92,7 +92,7 @@ class Machine extends React.Component<IMachineProps, IMachineState> {
           {renderModules(activeModule, hierarchy.machine, this.setActiveModule)}
         </div>
         <div className="display__content-container" >
-          {description.trim() !== '' ? this.renderDescriptionContainer(description) : undefined}
+          {description && description.trim() !== '' ? this.renderDescriptionContainer(description) : undefined}
           <div className="display__component-container">
             {activeModule === null ? this.renderNoModules() : this.renderActiveModule()}
           </div>

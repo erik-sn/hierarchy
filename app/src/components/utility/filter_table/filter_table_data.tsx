@@ -4,6 +4,7 @@ import * as Infinite from 'react-infinite';
 import { IConfig, IDictionary } from '../../../constants/interfaces';
 import Row from './filter_table_row';
 
+
 export interface ITableDataProps {
   finalTableData: Array<IDictionary<string>>;
   handleRowClick: () => void;

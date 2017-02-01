@@ -4,31 +4,9 @@
   "description": "Collection of process engineering tools",
   "main": "index.js",
   "repository": "",
-  "jest": {
-    "verbose": false,
-    "coverageThreshold": {
-      "global": {
-        "branches": 90,
-        "functions": 95,
-        "lines": 90,
-        "statements": 90
-      }
-    },
-    "collectCoverage": false,
-    "collectCoverageFrom": [
-      "src/actions/**/*.{js,jsx}",
-      "src/components/**/*.{js,jsx}",
-      "src/reducers/**/*.{js,jsx}",
-      "src/utils/**/*.{js,jsx}"
-    ],
-    "coverageFormats": [
-      "json",
-      "html"
-    ]
-  },
   "scripts": {
     "new": "node ./config/newmodule.js",
-    "dev": "node ./config/server.js",
+    "dev": "ts-node ./config/server.ts",
     "tdd": "npm run test -- --watch",
     "test": "mocha -R min --compilers ts:ts-node/register,tsx:ts-node/register,js:babel-core/register --require ./__tests__/helper.js --recursive ./__tests__/utils/resolver.test.js",
     "cover": "istanbul cover -x **/__tests__/** -e .tsx _mocha -- --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__",

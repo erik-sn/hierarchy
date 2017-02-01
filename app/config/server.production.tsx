@@ -13,10 +13,12 @@ import { renderToString } from 'react-dom/server';
 import { Provider } from 'react-redux';
 import { match, RouterContext } from 'react-router';
 import { applyMiddleware, createStore  } from 'redux';
-import * as config from './webpack.production.config';
+
 
 import reducers from '../src/reducers/';
 import routes from '../src/routes';
+
+const appconfig = require('../package.json');
 
 declare var global: any;
 global.navigator = { userAgent: 'all' };
@@ -54,9 +56,9 @@ app.use('*', (req, res) => {
           <MuiThemeProvider muiTheme={muiTheme}>
             <RouterContext {...renderProps} />
           </MuiThemeProvider>
-        </Provider>
+        </Provider>,
       );
-      res.status(200).send(renderFullPage(html, config.version));
+      res.status(200).send(renderFullPage(html, appconfig.version));
     } else {
       res.status(404).send('Not found');
     }

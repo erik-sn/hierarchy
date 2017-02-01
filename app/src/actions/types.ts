@@ -1,3 +1,5 @@
+import { getCookie } from '../utils/dom';
+
 const config = require('../../appconfig.json');
 
 export default {
@@ -8,6 +10,9 @@ export default {
     timeout: 30000,
     withCredentials: true,
     responseType: 'json',
+    header: {
+      'X-CSRFToken': getCookie('csrftoken'),
+    },
   },
 
   FETCH_DEPARTMENT_DATA: 'FETCH_DEPARTMENT_DATA',

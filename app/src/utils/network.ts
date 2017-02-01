@@ -1,4 +1,4 @@
-import * as axios from 'axios';
+const axios = require('axios');
 
 import types from '../actions/types';
 

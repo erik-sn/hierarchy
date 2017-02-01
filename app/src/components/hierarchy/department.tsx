@@ -118,7 +118,7 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
           {renderModules(activeModule, hierarchy.department, this.setActiveModule)}
         </div>
         <div className="display__content-container" >
-          {description.trim() !== '' ? this.renderDescriptionContainer(description) : undefined}
+          {description && description.trim() !== '' ? this.renderDescriptionContainer(description) : undefined}
           <div className="display__component-container">
             {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>

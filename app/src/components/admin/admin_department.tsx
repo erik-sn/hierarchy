@@ -77,6 +77,7 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
   public createDepartment(department: IDepartment): void {
     const departmentWithSite = department;
     departmentWithSite.site = this.props.site.id;
+    console.log(types.API_CONFIG);
     axios.post(`${types.API}/departments/`, departmentWithSite, types.API_CONFIG)
     .then(() => this.props.message(`Department Successfully Created: ${department.name}`))
     .then(() => this.props.fetchHierarchy())

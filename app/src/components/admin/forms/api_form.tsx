@@ -181,12 +181,13 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
           label="Clear"
           primary
         />
+        {apiCall ?
         <FlatButton
           key={10}
           onClick={this.handleCancel}
           label="Cancel"
           primary
-        />
+        /> : undefined}
       </form>
     );
   }

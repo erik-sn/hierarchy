@@ -131,6 +131,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
   public resetState(): void {
     this.setState({
       activeApiCall: undefined,
+      showNewForm: false,
     });
   }
 

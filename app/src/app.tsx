@@ -13,7 +13,7 @@ import * as promise from 'redux-promise';
 import reducers from './reducers';
 import routes from './routes';
 
-
+// const useBasename = require('history').useBaseName;
 const appConfig = require('../appconfig.json');
 // promise polyfill for ie11
 polyfill();

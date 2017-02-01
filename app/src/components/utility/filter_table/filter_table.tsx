@@ -492,7 +492,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
           config={config}
           handleRowClick={handleRowClick}
         />
-        {showTotals ? <TableTotal tableData={sortedTableData} rowMap={rowMap} /> : undefined}
+        {showTotals ? <TableTotal tableData={sortedTableData} config={config} /> : undefined}
         {showResults ? <div>{`Displaying ${ratio} rows - ${percent}%`}</div> : undefined}
       </div>
     );

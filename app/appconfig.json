@@ -1,5 +1,5 @@
 {
-  "name": "Process Workshop",
-  "baseUrl": "/processworkshop",
+  "name": "Plant View",
+  "baseUrl": "",
   "hierarchyapi": "http://localhost:8000/hierarchy"
 }

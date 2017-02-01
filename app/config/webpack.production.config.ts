@@ -3,10 +3,10 @@ import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
 import * as path from 'path';
 import * as webpack from 'webpack';
 
+const appconfig = require('../package.json');
 const autoprefixer = require('autoprefixer');
 require('es6-promise').polyfill();
 
-const version = '0.0.1';
 
 module.exports = {
   devtool: 'cheap-module-source-map',
@@ -15,7 +15,7 @@ module.exports = {
   ],
   output: {
     path: path.join(__dirname, '../dist'),
-    filename: 'bundle.min.' + version + '.js',
+    filename: 'bundle.min.' + appconfig.version + '.js',
     publicPath: '/static/',
   },
   plugins: [
@@ -28,7 +28,7 @@ module.exports = {
       compress: { warnings: false },
     }),
     new webpack.optimize.DedupePlugin(),
-    new ExtractTextPlugin('bundle.min.' + version + '.css', {
+    new ExtractTextPlugin('bundle.min.' + appconfig.version + '.css', {
       allChunks: true,
     }),
     // copy images from the media folder to the dist folder
@@ -69,5 +69,4 @@ module.exports = {
     extensions: ['', '.webpack.js', '.web.js', '.js', '.ts', '.tsx'],
   },
   postcss: [autoprefixer],
-  version,
 };

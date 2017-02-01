@@ -125,11 +125,12 @@ class SiteForm extends React.Component<ISiteFormProps, {}> {
             onClick={this.clearForm}
             primary
           />
+          {site ?
           <FlatButton
             label="Cancel"
             onClick={this.navigateHome}
             primary
-          />
+          /> : undefined}
         </div>
       </form>
     );
