@@ -1,20 +1,23 @@
-import React from 'react';
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import sinon from 'sinon';
+import { ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import MenuItem from 'material-ui/MenuItem';
 import { RadioButton } from 'material-ui/RadioButton';
+import * as React from 'react';
+import * as sinon from 'sinon';
 
+import { IDateProps, IFieldProps, renderCheckbox, renderDateField, renderRadioGroup, renderSelect,
+   renderTextArea, renderTextField, renderTimeField } from '../../src/utils/form_renderer';
 import { mountWithTheme } from '../helper';
-import { renderDateField, renderTimeField, renderTextField, renderTextArea,
-  renderCheckbox, renderRadioGroup, renderSelect } from '../../src/utils/form_renderer';
 
 describe('Form Renderer | ', () => {
-  let component;
+  let component: ShallowWrapper<{}, {}>;
   describe('renderDateField | >>>', () => {
-    let onChange;
-    const props = {
-      input: { value: 'test value' },
+    let onChange: sinon.SinonSpy;
+    const props: IDateProps<Date> = {
+      input: {
+        value: new Date(),
+        onChange: undefined, // set as spy in beforeEach
+      },
       label: 'test label',
       meta: { touched: true, error: true },
     };
@@ -38,9 +41,12 @@ describe('Form Renderer | ', () => {
   });
 
   describe('renderTimeField | >>>', () => {
-    let onChange;
-    const props = {
-      input: { value: 'test value' },
+    let onChange: sinon.SinonSpy;
+    const props: IDateProps<Date> = {
+      input: {
+        value: new Date(),
+        onChange: undefined, // set as spy in beforeEach
+      },
       label: 'test label',
       meta: { touched: true, error: true },
     };
@@ -64,9 +70,12 @@ describe('Form Renderer | ', () => {
   });
 
   describe('renderTextField | >>>', () => {
-    let onChange;
-    const props = {
-      input: { value: 'test value' },
+    let onChange: sinon.SinonSpy;
+    const props: IFieldProps = {
+      input: {
+        value: 'test value',
+        onChange: undefined, // set as spy in beforeEach
+      },
       label: 'test label',
       meta: { touched: true, error: true },
     };
@@ -90,9 +99,12 @@ describe('Form Renderer | ', () => {
   });
 
   describe('renderTextArea | >>>', () => {
-    let onChange;
-    const props = {
-      input: { value: 'test value' },
+    let onChange: sinon.SinonSpy;
+    const props: IFieldProps = {
+      input: {
+        value: 'test value',
+        onChange: undefined, // set as spy in beforeEach
+      },
       label: 'test label',
       meta: { touched: true, error: true },
     };
@@ -137,13 +149,17 @@ describe('Form Renderer | ', () => {
   // });
 
   describe('renderRadioGroup | >>>', () => {
+    let mountedComponent: ReactWrapper<{}, {}>;
     let onChange;
     const children = [
       <RadioButton key={1} value="test1" />,
       <RadioButton key={2} value="test2" />,
     ];
-    const props = {
-      input: { value: 'test1' },
+    const props: IFieldProps = {
+      input: {
+        value: 'test1',
+        onChange: undefined,
+      },
       label: 'test label',
       meta: { touched: true, error: true },
       children,
@@ -153,25 +169,28 @@ describe('Form Renderer | ', () => {
       onChange = sinon.spy();
       props.input.onChange = onChange;
       const Element = renderRadioGroup(props);
-      component = mountWithTheme(Element);
+      mountedComponent = mountWithTheme(Element);
     });
 
     it('1. Renders correct form component', () => {
-      expect(component.find('.mui-form-component')).to.have.length(1);
-      expect(component.find('RadioButtonGroup')).to.have.length(1);
+      expect(mountedComponent.find('.mui-form-component')).to.have.length(1);
+      expect(mountedComponent.find('RadioButtonGroup')).to.have.length(1);
     });
   });
 
   describe('renderSelectField | >>>', () => {
-    let onChange;
+    let onChange: sinon.SinonSpy;
     const children = [
       <MenuItem key={1} primaryText="test1" />,
       <MenuItem key={2} primaryText="test2" />,
       <MenuItem key={3} primaryText="test3" />,
       <MenuItem key={4} primaryText="test4" />,
     ];
-    const props = {
-      input: { value: 'test value' },
+    const props: IFieldProps = {
+      input: {
+        value: 'test value',
+        onChange: undefined,
+      },
       label: 'test label',
       meta: { touched: true, error: true },
       children,

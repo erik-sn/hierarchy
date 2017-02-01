@@ -1,16 +1,17 @@
-
 import * as chai from 'chai';
 import { mount, ReactWrapper } from 'enzyme';
-import * as enzyme from 'enzyme'
+import * as enzyme from 'enzyme';
 import * as jsdom from 'jsdom';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import * as MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { applyMiddleware, createStore } from 'redux';
 import * as promise from 'redux-promise';
 
 import { IDictionary } from '../src/constants/interfaces';
+
 import reducers from '../src/reducers';
+
 
 // jsdom configuration
 declare const global: any;
@@ -67,7 +68,7 @@ function storageMock(): Object {
 }
 
 export function triggerResize() {
-  const evt = window.document.createEvent('UIEvents'); 
-  evt.initUIEvent('resize', true, false, window, 0); 
+  const evt = window.document.createEvent('UIEvents');
+  evt.initUIEvent('resize', true, false, window, 0);
   window.dispatchEvent(evt);
 }
