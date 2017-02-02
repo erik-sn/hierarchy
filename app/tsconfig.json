@@ -4,10 +4,15 @@
         "sourceMap": true,
         "noImplicitAny": true,
         "module": "commonjs",
+        "moduleResolution": "node",
         "target": "es5",
-        "jsx": "react"
+        "jsx": "react",
+        "typeRoots": [
+            "./node_modules/@types"
+        ]
     },
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "__tests__"
     ]
 }

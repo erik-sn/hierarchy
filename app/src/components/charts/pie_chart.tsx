@@ -61,7 +61,7 @@ export interface IPieChartState {
 
 class TwoLevelPieChart extends React.Component<IPieChartProps, IPieChartState> {
 
-  constructor(props: IChartProps) {
+  constructor(props: IPieChartProps) {
     super(props);
     this.state = {
       activeIndex: 0,

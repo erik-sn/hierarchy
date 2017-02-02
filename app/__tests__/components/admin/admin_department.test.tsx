@@ -5,11 +5,11 @@ import * as React from 'react';
 import * as sinon from 'sinon';
 
 import Department from '../../../src/components/admin/admin_department';
-import { ISite } from '../../../src/constants/interfaces';
+import { IDepartment, ISite } from '../../../src/constants/interfaces';
 
 const siteList: ISite[] = require('../../sites.json');
 
-describe('admin_department.test.js |', () => {
+describe('admin_department.test.tsx |', () => {
   const department = siteList[0].departments[0];
   describe('Expected | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
@@ -60,80 +60,85 @@ describe('admin_department.test.js |', () => {
     });
 
     it('set the menu items value in the select box and show the department form', () => {
-      console.log(component.debug())
-      component.find('MenuItem').simulate('click');
-      console.log(component.debug())
+      component.find('MenuItem').first().simulate('TouchTap');
       expect(component.find('SelectField').props().value).to.equal('Extrusion');
       expect(component.find('Connect(ReduxForm)')).to.have.length(1);
       expect(component.find('FlatButton')).to.have.length(0);
     });
 
-    // it('6. alters the state correctly on successful createDepartment call', (done) => {
-    //   component.instance().createDepartment(Map({ name: 'test' }));
-    //   moxios.wait(() => {
-    //     const request = moxios.requests.mostRecent();
-    //     request.respondWith({
-    //       status: 201,
-    //       response: department,
-    //     }).then(() => {
-    //       expect(message.callCount).to.equal(1);
-    //       expect(message.args[0][0]).to.equal('Department Successfully Created: test');
-    //       expect(fetchHierarchy.callCount).to.equal(1);
-    //       done();
-    //     });
-    //   });
-    // });
+    it('alters the state correctly on successful createDepartment call', (done) => {
+      const instance: any = component.instance();
+      instance.createDepartment({ name: 'test' });
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 201,
+          response: department,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Department Successfully Created: test');
+          expect(fetchHierarchy.callCount).to.equal(1);
+          done();
+        });
+      });
+    });
 
-    // it('7. calls message with an error message on createDepartment fail', (done) => {
-    //   component.instance().createDepartment(Map({ name: 'test' }));
-    //   moxios.wait(() => {
-    //     const request = moxios.requests.mostRecent();
-    //     request.respondWith({
-    //       status: 401,
-    //       response: undefined,
-    //     }).then(() => {
-    //       expect(message.callCount).to.equal(1);
-    //       expect(message.args[0][0]).to.equal('Error Creating Department: test');
-    //       expect(fetchHierarchy.callCount).to.equal(0);
-    //       done();
-    //     });
-    //   });
-    // });
+    it('calls message with an error message on createDepartment fail', (done) => {
+      const instance: any = component.instance();
+      instance.createDepartment({ name: 'test' });
+      instance.createDepartment({ name: 'test' });
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 401,
+          response: undefined,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Error Creating Department: test');
+          expect(fetchHierarchy.callCount).to.equal(0);
+          done();
+        });
+      });
+    });
 
-    // it('8. alters the state correctly on successful updateDepartment call', (done) => {
-    //   component.setState({ department });
-    //   component.instance().updateDepartment(Map({ name: 'test' }));
-    //   moxios.wait(() => {
-    //     const request = moxios.requests.mostRecent();
-    //     request.respondWith({
-    //       status: 201,
-    //       response: department,
-    //     }).then(() => {
-    //       expect(message.callCount).to.equal(1);
-    //       expect(message.args[0][0]).to.equal('Department Successfully Updated: test');
-    //       expect(fetchHierarchy.callCount).to.equal(1);
-    //       expect(component.state().department).to.equal(undefined);
-    //       done();
-    //     });
-    //   });
-    // });
+    it('alters the state correctly on successful updateDepartment call', (done) => {
+      component.setState({ department });
+      const instance: any = component.instance();
+      instance.updateDepartment({ name: 'test' });
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 201,
+          response: department,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Department Successfully Updated: test');
+          expect(fetchHierarchy.callCount).to.equal(1);
+          const state: any = component.state();
+          expect(state.department).to.equal(undefined);
+          done();
+        });
+      });
+    });
 
-    // it('9. calls message with an error message on updateDepartment fail', (done) => {
-    //   component.setState({ department });
-    //   component.instance().updateDepartment(Map({ name: 'test' }));
-    //   moxios.wait(() => {
-    //     const request = moxios.requests.mostRecent();
-    //     request.respondWith({
-    //       status: 401,
-    //       response: undefined,
-    //     }).then(() => {
-    //       expect(message.callCount).to.equal(1);
-    //       expect(message.args[0][0]).to.equal('Error Updating Department: test');
-    //       expect(fetchHierarchy.callCount).to.equal(0);
-    //       expect(component.state().department).to.equal(undefined);
-    //       done();
-    //     });
-    //   });
-    // });
+    it('calls message with an error message on updateDepartment fail', (done) => {
+      component.setState({ department });
+      const instance: any = component.instance();
+      instance.updateDepartment({ name: 'test' });
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request.respondWith({
+          status: 401,
+          response: undefined,
+        }).then(() => {
+          expect(message.callCount).to.equal(1);
+          expect(message.args[0][0]).to.equal('Error Updating Department: test');
+          expect(fetchHierarchy.callCount).to.equal(0);
+          const state: any = component.state();
+          expect(state.department).to.equal(undefined);
+          done();
+        });
+      });
+    });
   });
 });
