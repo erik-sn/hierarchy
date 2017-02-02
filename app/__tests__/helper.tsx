@@ -35,12 +35,12 @@ export function reduxWrap(component: JSX.Element): JSX.Element {
   );
 }
 
-export function mountWithTheme(component: JSX.Element): ReactWrapper<{}, {}> {
-  return mount((
+export function mountWithTheme(component: JSX.Element, props?: any): ReactWrapper<{}, {}> {
+  return mount(
     <MuiThemeProvider>
       {component}
-    </MuiThemeProvider>
-  ));
+    </MuiThemeProvider>,
+  );
 }
 
 

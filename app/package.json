@@ -7,8 +7,8 @@
   "scripts": {
     "new": "node ./config/newmodule.js",
     "dev": "ts-node ./config/server.ts",
+    "test": "mocha -R min --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/components/admin/admin_department.test.tsx",
     "tdd": "npm run test -- --watch",
-    "test": "mocha -R min --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/components/admin/admin.test.tsx",
     "cover": "istanbul cover -x **/__tests__/** -e .tsx _mocha -- --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__",
     "build": "webpack -p --config ./config/webpack.production.config.ts --progress --profile --colors",
     "start": "nodemon ./config/server.production.tsx --exec ts-node"

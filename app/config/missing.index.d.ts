@@ -20,6 +20,11 @@ declare module 'react-infinite' {
   export = _;
 }
 
+declare module 'moxios' {
+  const _: any;
+  export = _;
+}
+
 
 declare module 'recharts' {
 	export const BarChart: any
