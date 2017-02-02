@@ -2,7 +2,12 @@ import types from '../actions/types';
 import { IAction, IAuth } from '../constants/interfaces';
 
 export const initialState: IAuth = {
-  user: { id: undefined, username: undefined, ip: undefined, admin: false },
+  user: {
+    id: undefined,
+    username: undefined,
+    ip: undefined,
+    admin: false,
+  },
   error: false,
 };
 

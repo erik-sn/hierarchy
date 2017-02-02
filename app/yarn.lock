@@ -2701,15 +2701,7 @@ map-stream@~0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/map-stream/-/map-stream-0.1.0.tgz#e56aa94c4c8055a16404a0674b78f215f7c8e194"
 
-material-ui-chip-input@^0.12.0:
-  version "0.12.2"
-  resolved "https://registry.yarnpkg.com/material-ui-chip-input/-/material-ui-chip-input-0.12.2.tgz#b0d225a91df2f54d7d7df3388d8f17b7a2bb4f07"
-
-material-ui-password-field@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/material-ui-password-field/-/material-ui-password-field-1.0.4.tgz#8da874b5392f543d41b0a5e5ad64279df0b2378d"
-
-material-ui@^0.16.7:
+material-ui:
   version "0.16.7"
   resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-0.16.7.tgz#5ec5080d5f227817092c449105df9cbc8807941c"
   dependencies:
@@ -2724,6 +2716,14 @@ material-ui@^0.16.7:
     recompose "^0.21.0"
     simple-assign "^0.1.0"
     warning "^3.0.0"
+
+material-ui-chip-input@^0.12.0:
+  version "0.12.2"
+  resolved "https://registry.yarnpkg.com/material-ui-chip-input/-/material-ui-chip-input-0.12.2.tgz#b0d225a91df2f54d7d7df3388d8f17b7a2bb4f07"
+
+material-ui-password-field@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/material-ui-password-field/-/material-ui-password-field-1.0.4.tgz#8da874b5392f543d41b0a5e5ad64279df0b2378d"
 
 math-expression-evaluator@^1.2.14:
   version "1.2.15"

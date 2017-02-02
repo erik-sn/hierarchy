@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 
 import types from '../../src/actions/types';
+import { IAction, IHierarchy } from '../../src/constants/interfaces';
 import reducer, { initialState } from '../../src/reducers/hierarchy_reducer';
 
 describe('hierarchy_reducer.test.js | >>>', () => {
@@ -11,13 +12,20 @@ describe('hierarchy_reducer.test.js | >>>', () => {
   });
 
   it('2. should return the correct value for fetching auth', () => {
-    const result = reducer(initialState, { payload: response, type: types.FETCH_HIERARCHY });
-    expect(result.get('sites').size).to.equal(3);
+    const result: IHierarchy = reducer(initialState, {
+      payload: response,
+      type: types.FETCH_HIERARCHY,
+    });
+    expect(result.sites.length).to.equal(3);
   });
 
   it('3. should have error = true if there is an error', () => {
-    const result = reducer(initialState, { error: true, type: types.FETCH_HIERARCHY });
-    expect(result.get('error')).to.equal(true);
+    const result: IHierarchy = reducer(initialState, {
+      error: true,
+      payload: response,
+      type: types.FETCH_HIERARCHY,
+    });
+    expect(result.error).to.equal(true);
   });
 });
 

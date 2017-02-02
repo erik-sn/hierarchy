@@ -29,7 +29,7 @@ export function fetchDepartmentData(departmentId: number, url: string, key: stri
   const request = axios.get(url, types.API_CONFIG);
   return {
     payload: request,
-    type: types.FETCH_DEPARTMENT_DATA,
+    type: types.SET_DEPARTMENT_DATA,
     meta: {
       department: departmentId,
       key,
@@ -37,13 +37,3 @@ export function fetchDepartmentData(departmentId: number, url: string, key: stri
   };
 }
 
-export function setDepartmentData(departmentId: number, key: string, reducerData: any): IAction {
-  return {
-    payload: {
-      department: departmentId,
-      key,
-      reducerData,
-    },
-    type: types.SET_DEPARTMENT_DATA,
-  };
-}

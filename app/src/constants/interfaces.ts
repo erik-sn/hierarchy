@@ -43,6 +43,7 @@ export interface IHierarchy {
 
 // department store
 export interface IDepartmentIdMap {
+  error: boolean;
   [key: number]: any;
 }
 
@@ -71,6 +72,12 @@ export interface IAppConfig {
   name: string;
   baseUrl: string;
   hierarchyapi: string;
+}
+
+export interface IHierarchyItems {
+  site: ISite;
+  department: IDepartment;
+  machine: IMachine;
 }
 
 export interface IHierarchyTier {

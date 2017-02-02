@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { connect } from 'react-redux';
 
 import { fetchHierarchy } from '../../actions/api';
 import { buildNavigate } from '../../utils/resolver';
@@ -13,7 +12,7 @@ const navigate = buildNavigate('/admin/hierarchy');
 export interface IAdminHierarchyProps {
   sites: ISite[];
   splat: string;
-  fetchHierarchy?: () => void;
+  fetchHierarchy: (params?: string) => void;
 }
 
 /**
@@ -52,4 +51,4 @@ export const AdminHierarchy = (props: IAdminHierarchyProps): JSX.Element => {
   );
 };
 
-export default connect<{}, {}, IAdminHierarchyProps>(null, { fetchHierarchy })(AdminHierarchy);
+export default AdminHierarchy;

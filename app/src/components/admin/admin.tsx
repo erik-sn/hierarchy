@@ -1,4 +1,3 @@
-import { is } from 'immutable';
 import { Card, CardHeader } from 'material-ui/Card';
 import Lock from 'material-ui/svg-icons/action/lock';
 import * as React from 'react';
@@ -18,7 +17,7 @@ const navigate = buildNavigate(`${appconfig.baseUrl}/admin`);
 interface Iparams { menu: string; splat: string; }
 
 export interface IAdminProps {
-  fetchHierarchy: Function;
+  fetchHierarchy: (params?: string) => void;
   params: Iparams;
   user: IUser;
   sites: ISite[];
@@ -70,7 +69,8 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
    * @memberOf Admin
    */
   public renderMenu() {
-    const { menu, splat } = this.props.params;
+    const { fetchHierarchy, params, sites } = this.props;
+    const { menu, splat } = params;
     switch (menu) {
       case 'specifications':
         return <div className="admin__specifications">specification</div>;
@@ -79,7 +79,7 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
       case 'modules':
         return <Modules />;
       default:
-        return <AdminHierarchy splat={splat} sites={this.props.sites} />;
+        return <AdminHierarchy splat={splat} sites={sites} fetchHierarchy={fetchHierarchy} />;
     }
   }
 
@@ -93,9 +93,7 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
       );
     }
     return (
-      <Card
-        className="admin__container"
-      >
+      <Card className="admin__container" >
         <CardHeader
           titleStyle={{ fontSize: '1.75rem' }}
           subtitleStyle={{ fontSize: '1.15rem' }}

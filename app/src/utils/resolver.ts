@@ -1,18 +1,12 @@
 import { browserHistory } from 'react-router';
 
-import { IDepartment, IMachine, ISite } from '../constants/interfaces';
+import { IDepartment, IHierarchyItems, IMachine, ISite } from '../constants/interfaces';
 
 const appConfig = require('../../appconfig.json');
 
 
-interface IHierarchy {
-  site: ISite;
-  department: IDepartment;
-  machine: IMachine;
-}
-
-export function parseSite(hierarchy: ISite[], siteCode: string): ISite {
-  return hierarchy.find((site) => (
+export function parseSite(siteList: ISite[], siteCode: string): ISite {
+  return siteList.find((site) => (
     site.code.toLowerCase() === siteCode.toLowerCase()
   ));
 }
@@ -44,7 +38,7 @@ export function parseMachine(hierarchy: ISite[],
   ));
 }
 
-function parsePath(pathName: string): string[] {
+export function parsePath(pathName: string): string[] {
   const route = decodeURIComponent(pathName).replace(appConfig.baseUrl, '');
   // strip modules from route
   const moduleIndex = route.indexOf('/m/');
@@ -52,7 +46,7 @@ function parsePath(pathName: string): string[] {
   return path.split('/').filter((param) => param.trim() !== '');
 }
 
-export function resolvePath(hierarchy: ISite[], pathName: string): IHierarchy {
+export function resolvePath(hierarchy: ISite[], pathName: string): IHierarchyItems {
   const path = parsePath(pathName);
   const site: ISite = path[0] ? parseSite(hierarchy, path[0]) : undefined;
   const department: IDepartment = path[1] ? parseDepartment(hierarchy, path[0], path[1]) : undefined;
