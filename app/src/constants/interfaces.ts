@@ -126,8 +126,8 @@ export interface IModule {
   name: string;
   label: string;
   description: string;
-  created: string;
-  modified: string;
+  created?: string;
+  modified?: string;
   active: boolean;
 }
 

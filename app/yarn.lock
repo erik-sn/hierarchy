@@ -50,13 +50,9 @@
   dependencies:
     "@types/webpack" "*"
 
-"@types/history@^2":
+"@types/history@^2", "@types/history@2.0.45":
   version "2.0.45"
   resolved "https://registry.yarnpkg.com/@types/history/-/history-2.0.45.tgz#c76d79a65d189220d9d50f62e0143bdac30a564b"
-
-"@types/history@^4.5.0":
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/@types/history/-/history-4.5.0.tgz#2f5c3aad4fbd00f89e99b83083e354bc5308e307"
 
 "@types/jquery@*":
   version "2.0.40"
@@ -1912,12 +1908,13 @@ history@^3.0.0:
     query-string "^4.2.2"
     warning "^3.0.0"
 
-history@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/history/-/history-3.0.0.tgz#02cff4e6f69dc62dd81161104a63f5b85ead0c85"
+history@2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/history/-/history-2.1.2.tgz#4aa2de897a0e4867e4539843be6ecdb2986bfdec"
   dependencies:
+    deep-equal "^1.0.0"
     invariant "^2.0.0"
-    query-string "^4.1.0"
+    query-string "^3.0.0"
     warning "^2.0.0"
 
 hoek@2.x.x:
@@ -3658,6 +3655,12 @@ qs@^6.0.2, qs@~6.3.0:
 qs@6.2.0:
   version "6.2.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.2.0.tgz#3b7848c03c2dece69a9522b0fae8c4126d745f3b"
+
+query-string@^3.0.0:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/query-string/-/query-string-3.0.3.tgz#ae2e14b4d05071d4e9b9eb4873c35b0dcd42e638"
+  dependencies:
+    strict-uri-encode "^1.0.0"
 
 query-string@^4.1.0, query-string@^4.2.2:
   version "4.3.1"

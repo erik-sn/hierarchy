@@ -148,8 +148,8 @@ describe('admin_machine.test.js |', () => {
     });
 
     it('calls message with an error message on updateMachine fail', (done) => {
-      const department = { name: 'test_department', machines: [] };
-      const machine = { name: 'test_machine' };
+      const department: any = { name: 'test_department', machines: [] };
+      const machine: any = { name: 'test_machine' };
       component.setState({ machine, department, showNewMachine: true });
       const instance: any = component.instance();
       instance.updateMachine(machine);

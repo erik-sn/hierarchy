@@ -6,7 +6,7 @@ import * as React from 'react';
 
 import types from '../../actions/types';
 import Modal from '../modal';
-import SiteForm from './forms/site_form';
+import SiteForm, { validateOnSubmit } from './forms/site_form';
 
 import { ISite } from '../../constants/interfaces';
 
@@ -61,6 +61,7 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
    * @memberOf AdminSiteList
    */
   public createSite(site: ISite) {
+    validateOnSubmit(site);
     axios.post(`${types.API}/sites/`, site, types.API_CONFIG)
     .then(() => this.setState({
       messageShow: true,

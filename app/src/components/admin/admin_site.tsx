@@ -92,9 +92,9 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   /**
    * Show a message to the user in a SnackBar
-   * 
+   *
    * @param {string} messageText - message to show
-   * 
+   *
    * @memberOf AdminSite
    */
   public showMessage(messageText: string) {

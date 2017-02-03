@@ -223,20 +223,6 @@ export const validateOnSubmit = (values: IValidationForm): IValidationForm => {
   return errors;
 };
 
-// validation function used for synchronous form validation
-export const validate = (values: IValidationForm): IValidationForm => {
-  const errors: IValidationForm = {};
-  if (!values.url) {
-    errors.url = 'Required';
-  }
-  if (!values.key) {
-    errors.key = 'Required';
-  }
-  if (!values.description) {
-    errors.description = 'Required';
-  }
-  return errors;
-};
 
 // Decorate the form component
 const ApiFormDecorated = reduxForm({

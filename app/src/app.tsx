@@ -1,8 +1,8 @@
 
 import { polyfill } from 'es6-promise';
 import { useBasename } from 'history';
-import getMuiTheme from 'material-ui/Styles/getMuiTheme';
-import MuiThemeProvider from 'material-ui/Styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
 import { Provider } from 'react-redux';
 import { browserHistory, Router } from 'react-router';

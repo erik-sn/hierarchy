@@ -65,8 +65,8 @@ function getRowValues(tableData: Array<IDictionary<string>>, config: IConfig[]):
  * to the data and return their values to be used in the total row. If none are
  * specified return an empty string.
  *
- * @param {object} config - table configuration object
- * @param {object} rowValues - column data
+ * @param {IConfig} config - table configuration object
+ * @param {IDictionary<any>} rowValues - column data
  * @returns
  */
 function applyTransforms(config: IConfig, rowValues: IDictionary<any>) {

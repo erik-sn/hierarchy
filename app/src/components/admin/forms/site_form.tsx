@@ -1,8 +1,9 @@
+import { debounce } from 'lodash';
 import FlatButton from 'material-ui/FlatButton';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import { browserHistory } from 'react-router';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 
 import { IFormValues, IModule, IReduxState, ISite } from '../../../constants/interfaces';
 import { renderCheckbox as CheckBox, renderNullField as Null,
@@ -15,6 +16,7 @@ export interface ISiteFormProps {
   change?: (key: string, value: any) => void;
   site?: ISite;
   modules?: IModule[];
+  meta?: any;
 }
 
 export interface IValidationForm {
@@ -28,7 +30,7 @@ export interface IValidationForm {
  * @class SiteForm
  * @extends {React.Component<ISiteFormProps, {}>}
  */
-class SiteForm extends React.Component<ISiteFormProps, {}> {
+export class SiteForm extends React.Component<ISiteFormProps, {}> {
 
   constructor(props: ISiteFormProps) {
     super(props);
@@ -83,10 +85,24 @@ class SiteForm extends React.Component<ISiteFormProps, {}> {
 
   }
 
+  public validateOnSubmit = (formValues: IValidationForm) => {
+    if (!formValues.name) {
+      throw new SubmissionError({ name: 'Name is a required field', _error: 'Submit Failed' });
+    }
+    if (!formValues.code) {
+      throw new SubmissionError({ key: 'Code is a required field', _error: 'Submit Failed' });
+    }
+    if (!formValues.code.match(/[A-Z]+/)) {
+      throw new SubmissionError({ name: 'Code must be uppercase letters', _error: 'Submit Failed' });
+    }
+    this.props.submitForm(formValues);
+  }
+
   public render() {
+    console.log(this.props);
     const { change, submitForm, handleSubmit, site, modules } = this.props;
     return (
-      <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
+      <form onSubmit={handleSubmit(this.validateOnSubmit)} className="admin__form-container" >
         <div className="admin__form-section" >
           <h3>General</h3>
           <Field className="admin__form-field" name="id" component={Null} />
@@ -141,7 +157,7 @@ class SiteForm extends React.Component<ISiteFormProps, {}> {
 /**
  * Initialize the form with the site that was passed through props
  * or a set of default values if it does not exist
- * 
+ *
  * @param {IReduxState} state
  * @param {ISiteFormProps} ownProps
  * @returns {IFormValues}
@@ -153,19 +169,6 @@ function mapStateToProps(state: IReduxState, ownProps: ISiteFormProps): IFormVal
   return { initialValues: { active: true, modules: [] } };
 }
 
-// syncronous validation function
-export const validate = (formValues: IValidationForm): IValidationForm => {
-  const errors: IValidationForm = {};
-  if (!formValues.name) {
-    errors.name = 'Required';
-  }
-  if (!formValues.code) {
-    errors.code = 'Required';
-  } else if (!formValues.code.match(/[A-Z]+/)) {
-    errors.code = 'Must be uppercase Letters';
-  }
-  return errors;
-};
 
 // Decorate the form component
 const SiteFormDecorated = reduxForm({
