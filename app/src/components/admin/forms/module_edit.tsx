@@ -179,7 +179,7 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
           hintText="Add Module"
           maxHeight={300}
         >
-          {this.props.modules ? this.renderModuleListItems(this.props.modules) : ''}
+          {this.props.modules ? this.renderModuleListItems(this.props.modules) : undefined}
         </SelectField>
       </div>
     );

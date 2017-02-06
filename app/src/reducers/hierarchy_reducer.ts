@@ -8,7 +8,6 @@ export const initialState: IHierarchy = {
 };
 
 export default (state = initialState, action: IAction) => {
-  console.log(action.type);
   switch (action.type) {
     case types.FETCH_HIERARCHY:
       if (action.error) {

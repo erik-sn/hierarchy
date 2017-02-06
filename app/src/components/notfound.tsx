@@ -8,5 +8,4 @@ export const NotFound = (): JSX.Element => (
   </div>
 );
 
-const NotfoundContainer = NotFound;
-export default NotfoundContainer;
+export default NotFound;

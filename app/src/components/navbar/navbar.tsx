@@ -1,9 +1,19 @@
 import * as React from 'react';
 import { Link } from 'react-router';
 
-import { IAppConfig, IDepartment, IHierarchyTier, IMachine, ISite, IUser } from '../../constants/interfaces';
+import {
+  IAppConfig,
+  IDepartment,
+  IDictionary,
+  IHierarchyTier,
+  IMachine,
+  ISite,
+  IUser,
+} from '../../constants/interfaces';
 import getBoundingBox from '../../utils/dom';
 import { alphaNumSort } from '../../utils/sort';
+import Dropdown from './navbar_dropdown';
+import Nav from './navbar_nav';
 import Neighbor from './navbar_neighbor';
 import Settings from './navbar_settings';
 
@@ -41,25 +51,14 @@ class Navbar extends React.Component<INavbarProps, INavbarState> {
   }
 
   public componentDidMount() {
-    window.addEventListener('resize', this.hideNeighbors);
+    window.addEventListener('resize', this.hideNeighbors.bind(this));
   }
-
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (nextProps.path !== this.props.path) {
-  //     return true;
-  //   }
-  //   if ((!nextState.dropdownContainer && this.state.dropdownContainer) ||
-  //       (nextState.dropdownContainer && !this.state.dropdownContainer)) {
-  //     return true;
-  //   }
-  //   return !is(this.props.hierarchy, nextProps.hierarchy);
-  // }
 
   public componentWillUnmount() {
-    window.removeEventListener('resize', this.hideNeighbors);
+    window.removeEventListener('resize', this.hideNeighbors.bind(this));
   }
 
-  public hideNeighbors() {
+  public hideNeighbors(e: React.MouseEvent<{}>) {
     this.setState({
       dropdownX: undefined,
       dropdownY: undefined,
@@ -73,62 +72,42 @@ class Navbar extends React.Component<INavbarProps, INavbarState> {
     ));
   }
 
-  public showNeighbors(e: React.MouseEvent<{}>, neighbors: string[]) {
-    // hide niehbors if they are currently shown
-    if (this.state.dropdownContainer) {
-      this.hideNeighbors();
-      return;
-    }
-    if (!neighbors) {
-      return;
-    }
-    const { path } = this.props;
+  public getDropdownMeasurements(e: React.MouseEvent<{}>, length: number): IDictionary<string> {
     const { dropdownX, dropdownY, windowWidth } = getBoundingBox(e);
-    const height = neighbors.length * 40;
-    const neighborContainerStyle = {
+    const height = length * 40;
+    return {
       left: `${Math.round(windowWidth - dropdownX - 215 <= 0 ? windowWidth - 240 : dropdownX)}`,
       top: `${Math.round(windowWidth < 970 ? dropdownY + 15 : dropdownY + 10)}`,
       height: `${height <= 400 ? height : 400}`,
     };
+  }
+
+  public showNeighbors(e: React.MouseEvent<{}>, neighbors: string[]) {
+    // hide niehbors if they are currently shown
+    if (this.state.dropdownContainer) {
+      this.hideNeighbors(e);
+      return;
+    }
+    const { path } = this.props;
+    const styles: IDictionary<string> = this.getDropdownMeasurements(e, neighbors.length);
+    const { dropdownX, dropdownY, windowWidth } = getBoundingBox(e);
     const dropdownContainer = (
-      <div
-        className="navbar__neighbor-container"
-        style={neighborContainerStyle}
-      >
-        <div className="navbar__neighbor-list">
-          {this.renderNeighbors(path, neighbors)}
-        </div>
-      </div>
+      <Dropdown
+        style={styles}
+        neighbors={this.renderNeighbors(path, neighbors)}
+      />
     );
     this.setState({ dropdownX, dropdownY, dropdownContainer });
   }
 
   public renderSiteNav(hierarchyTier: IHierarchyTier, last: IHierarchyTier, to: string, neighbors: string[]) {
+    let handleClick = this.hideNeighbors;
+    let active: boolean = false;
     if (hierarchyTier.name === last.name) {
-      const handleClick = (e: React.MouseEvent<{}>) => this.showNeighbors(e, neighbors);
-      return (
-        <div
-          role="button"
-          className="navbar__hierarchy-item-parent navbar__hierarchy-item-last"
-        >
-          <div className="navbar__chain-container" />
-          <div
-            className="navbar__hierarchy-item-child"
-            onClick={handleClick}
-          >
-            {hierarchyTier.name}
-          </div>
-        </div>
-      );
+      active = true;
+      handleClick = (e: React.MouseEvent<{}>) => this.showNeighbors(e, neighbors);
     }
-    return (
-      <div className="navbar__hierarchy-item-parent" >
-        <div className="navbar__chain-container" />
-        <Link to={to.toLowerCase()} onClick={this.hideNeighbors}>
-          <div className="navbar__hierarchy-item-child">{hierarchyTier.name}</div>
-        </Link>
-      </div>
-    );
+    return <Nav to={to} name={hierarchyTier.name} handleClick={handleClick} active={active} />;
   }
 
   public render() {

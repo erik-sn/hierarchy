@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 export interface INeighborProps {
   path: string;
   name: string;
-  hide: () => void;
+  hide: (e: React.MouseEvent<{}>) => void;
 }
 
 

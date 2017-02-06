@@ -21,7 +21,7 @@ import { IDictionary } from '../constants/interfaces';
  */
 export default function getComponent(name: string, props: any): JSX.Element {
   try {
-    const Component = require(`../components/__modules__/${name}/${name}.js`).default;
+    const Component = require(`../components/__modules__/${name}/${name}.tsx`).default;
     if (!Component || typeof Component !== 'function') {
       throw Error('Component import was not a valid react component');
     }

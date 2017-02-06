@@ -1,10 +1,10 @@
 import { Card, CardHeader, CardText } from 'material-ui/Card';
-import Arrow from 'material-ui/svg-icons/hardware/keyboard-arrow-right';
 import * as React from 'react';
 import { Link } from 'react-router';
 
 import { IDepartment, ISite } from '../../../constants/interfaces';
 import MachineContainer from './machine_container';
+import DepartmentTitle from './main_department_title';
 
 export interface IMainDepartmentProps {
   site: ISite;
@@ -13,22 +13,10 @@ export interface IMainDepartmentProps {
 
 export const MainDepartment = ({ site, department }: IMainDepartmentProps) => {
   const url = `/${site.code}/${department.name}`;
-  const title = (
-    <Link to={url.toLowerCase()} >
-      <div className="main__department-title">
-        <div className="main__department-title-icon">
-          <Arrow style={{ height: '35px', width: '35px' }} />
-        </div>
-        <div className="main__department-title-label">
-          {`${department.name}`}
-        </div>
-      </div>
-    </Link>
-  );
   return (
     <Card className="main__department-container">
       <CardHeader
-        title={title}
+        title={<DepartmentTitle url={url} name={department.name} />}
         actAsExpander
         showExpandableButton
       />

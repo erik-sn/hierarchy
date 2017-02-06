@@ -28,16 +28,16 @@ function generateSortModules(hierarchyObject: IHierarchyTier): (a: IModule, b: I
 
 /**
  * Search a hierarchy object (machine/department) for a specific
- * module by name (case insensitive);
+ * module by label (case insensitive);
  *
  * @export
- * @param {object} hierarchyObject
- * @param {string} moduleName
+ * @param {IHierarchyTier} hierarchyObject
+ * @param {string} moduleLabel
  * @returns
  */
-export function retrieveModule(hierarchyObject: IHierarchyTier, moduleName: string) {
+export function retrieveModule(hierarchyObject: IHierarchyTier, moduleLabel: string) {
   return hierarchyObject.modules.find((mdl) => (
-    mdl.label.toLowerCase() === moduleName.toLowerCase()
+    moduleLabel ? mdl.label.toLowerCase() === moduleLabel.toLowerCase() : false
   ));
 }
 

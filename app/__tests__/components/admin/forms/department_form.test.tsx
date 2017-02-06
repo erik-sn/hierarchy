@@ -4,11 +4,11 @@ import * as React from 'react';
 import * as sinon from 'sinon';
 
 import { mountWithTheme, reduxWrap } from '../../../../__tests__/helper';
-import SiteFormConnected, { ISiteFormProps, SiteForm } from '../../../../src/components/admin/forms/site_form';
+import DepartmentConnected, { DepartmentForm,
+  IDepartmentFormProps } from '../../../../src/components/admin/forms/department_form';
 import { IModule, ISite } from '../../../../src/constants/interfaces';
 
 const siteList: ISite[] = require('../../../sites.json');
-
 
 const modules: IModule[] = [
   { name: 'module1', id: 1, label: 'module1', description: 'first', active: true },
@@ -16,13 +16,16 @@ const modules: IModule[] = [
   { name: 'module3', id: 3, label: 'module3', description: 'third', active: true },
 ];
 
-describe('admin_configuration.test.js |', () => {
+describe('admin_department_form.test.js |', () => {
   let component: ShallowWrapper<{}, {}>;
-  let change: sinon.SinonSpy;
   let handleSubmit: sinon.SinonSpy;
-  describe('Expected | >>>', () => {
-    const props: ISiteFormProps = {
-      site: siteList[0],
+  let change: sinon.SinonSpy;
+  let cancel: sinon.SinonSpy;
+  let reset: sinon.SinonSpy;
+
+  describe('Default | >>>', () => {
+    const props: IDepartmentFormProps = {
+      department: siteList[0].departments[0],
       modules,
       submitForm: (form) => undefined,
       change: undefined,
@@ -30,13 +33,17 @@ describe('admin_configuration.test.js |', () => {
     };
 
     beforeEach(() => {
-      change = sinon.spy();
       handleSubmit = sinon.spy();
+      change = sinon.spy();
+      cancel = sinon.spy();
+      reset = sinon.spy();
       component = shallow(
-        <SiteForm
+        <DepartmentForm
           {...props}
-          change={change}
           handleSubmit={handleSubmit}
+          change={change}
+          cancel={cancel}
+          reset={reset}
         />,
       );
     });
@@ -47,17 +54,31 @@ describe('admin_configuration.test.js |', () => {
     });
 
     it('has the correct elements', () => {
-      expect(component.find('Field')).to.have.length(9);
+      expect(component.find('Field')).to.have.length(3);
+      expect(component.find('FlatButton')).to.have.length(2);
       expect(component.find('ModuleEdit')).to.have.length(1);
-      expect(component.find('h3')).to.have.length(2);
-      expect(component.find('h3').get(0).props.children).to.equal('General');
-      expect(component.find('h3').get(1).props.children).to.equal('Location');
+    });
+
+    it('has the correct button labels', () => {
+      expect(component.find('FlatButton').at(1).props().label).to.equal('Cancel');
+      expect(component.find('FlatButton').at(0).props().label).to.equal('Update');
+    });
+
+    it('calls cancel on cancel click', () => {
+      component.find('FlatButton').at(1).simulate('click');
+      expect(cancel.callCount).to.equal(1);
+      expect(reset.callCount).to.equal(1);
+    });
+
+    it('calls handleSubmit on form submit', () => {
+      component.find('FlatButton').at(0).simulate('click');
+      expect(handleSubmit.callCount).to.equal(1);
     });
   });
 
-  describe('Inside Modal | >>>', () => {
-    const props: ISiteFormProps = {
-      site: undefined,
+  describe('Modal | >>>', () => {
+    const props: IDepartmentFormProps = {
+      department: undefined,
       modules,
       submitForm: (form) => undefined,
       change: undefined,
@@ -65,39 +86,39 @@ describe('admin_configuration.test.js |', () => {
     };
 
     beforeEach(() => {
-      change = sinon.spy();
       handleSubmit = sinon.spy();
-      component = shallow(
-        <SiteForm
-          {...props}
-          change={change}
-          handleSubmit={handleSubmit}
-        />,
-      );
+      component = shallow(<DepartmentForm {...props} handleSubmit={handleSubmit} />);
     });
 
-    it('1. does not have a ModuleEdit while in a modal', () => {
+    it('1. submit button has the label Create when in a modal', () => {
+      expect(component.find('FlatButton').at(0).props().label).to.equal('Create');
+    });
+
+    it('2. has no ModuleEdit in modal mode', () => {
       expect(component.find('ModuleEdit')).to.have.length(0);
     });
   });
 
   describe('Connected to redux and redux-form | >>>', () => {
     let mountedComponent: ReactWrapper<{}, {}>;
-    const site: ISite = siteList[0];
-    const props: ISiteFormProps = {
-      site: undefined,
+    const props: IDepartmentFormProps = {
+      department: undefined,
       modules,
       submitForm: (form) => undefined,
       change: undefined,
       handleSubmit: undefined,
     };
 
+    const department = siteList[0].departments[0];
+    department.modules = modules;
     beforeEach(() => {
       handleSubmit = sinon.spy();
       mountedComponent = mountWithTheme(reduxWrap(
-        <SiteFormConnected
+        <DepartmentConnected
           {...props}
+          department={department}
           handleSubmit={handleSubmit}
+          change={change}
           modules={modules}
         />,
       ));

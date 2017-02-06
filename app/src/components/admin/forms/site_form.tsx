@@ -85,24 +85,10 @@ export class SiteForm extends React.Component<ISiteFormProps, {}> {
 
   }
 
-  public validateOnSubmit = (formValues: IValidationForm) => {
-    if (!formValues.name) {
-      throw new SubmissionError({ name: 'Name is a required field', _error: 'Submit Failed' });
-    }
-    if (!formValues.code) {
-      throw new SubmissionError({ key: 'Code is a required field', _error: 'Submit Failed' });
-    }
-    if (!formValues.code.match(/[A-Z]+/)) {
-      throw new SubmissionError({ name: 'Code must be uppercase letters', _error: 'Submit Failed' });
-    }
-    this.props.submitForm(formValues);
-  }
-
   public render() {
-    console.log(this.props);
     const { change, submitForm, handleSubmit, site, modules } = this.props;
     return (
-      <form onSubmit={handleSubmit(this.validateOnSubmit)} className="admin__form-container" >
+      <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
         <div className="admin__form-section" >
           <h3>General</h3>
           <Field className="admin__form-field" name="id" component={Null} />

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import { IAction, IDepartment, IMachine, IModule, IReduxState, ISite } from '../../constants/interfaces';
+import { IDepartment, IMachine, IModule, IReduxState, ISite } from '../../constants/interfaces';
 import getComponent from '../../utils/library';
 import renderModules, { retrieveModule } from './renderModules';
 
@@ -22,7 +22,7 @@ export interface IMachineState {
   url: string;
 }
 
-class Machine extends React.Component<IMachineProps, IMachineState> {
+export class Machine extends React.Component<IMachineProps, IMachineState> {
 
   constructor(props: IMachineProps) {
     super(props);
@@ -74,27 +74,19 @@ class Machine extends React.Component<IMachineProps, IMachineState> {
     );
   }
 
-  public renderNoModules() {
-    return (
-      <h3 style={{ textAlign: 'center' }}>
-        No Modules Available
-      </h3>
-    );
-  }
-
   public render() {
     const { activeModule } = this.state;
     const { hierarchy } = this.props;
-    const description = activeModule ? activeModule.description : 'Machine List';
+    const description = activeModule ? activeModule.description : undefined;
     return (
       <div className="display__container">
         <div className="display__module-container">
           {renderModules(activeModule, hierarchy.machine, this.setActiveModule)}
         </div>
         <div className="display__content-container" >
-          {description && description.trim() !== '' ? this.renderDescriptionContainer(description) : undefined}
+          {description ? this.renderDescriptionContainer(description) : undefined}
           <div className="display__component-container">
-            {activeModule === null ? this.renderNoModules() : this.renderActiveModule()}
+            {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>
         </div>
       </div>

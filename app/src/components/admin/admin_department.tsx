@@ -27,7 +27,7 @@ export interface IDepartmentState {
 
 /**
  * Controller component that handles operations on Department objects
- * 
+ *
  * @class Department
  * @extends {React.Component<IDepartmentProps, IDepartmentState>}
  */

@@ -24,18 +24,18 @@ describe('admin_site_list.test.js |', () => {
       component = shallow(<AdminSiteList {...props} navigate={navigate} />);
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(component).to.have.length(1);
       expect(component.find('.admin__site-list-container')).to.have.length(1);
     });
 
-    it('2. has the correct elements', () => {
+    it('has the correct elements', () => {
       expect(component.find('List')).to.have.length(1);
       expect(component.find('ListItem')).to.have.length(3);
       expect(component.find('FlatButton')).to.have.length(1);
     });
 
-    it('3. calls navigate on click', () => {
+    it('calls navigate on click', () => {
       component.find('ListItem').first().simulate('click');
       expect(navigate.callCount).to.equal(1);
     });

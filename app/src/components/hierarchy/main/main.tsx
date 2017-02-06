@@ -52,6 +52,7 @@ const Main = ({ hierarchy, sites }: IMainProps) => {
       {display}
     </div>
   );
-}
+};
+
 export default Main;
 

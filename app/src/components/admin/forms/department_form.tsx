@@ -31,7 +31,7 @@ export interface IValidationForm {
  * @class DepartmentForm
  * @extends {React.Component<IDepartmentFormProps, {}>}
  */
-class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
+export class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
 
   constructor(props: IDepartmentFormProps) {
     super(props);
@@ -39,8 +39,8 @@ class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
   }
 
   /**
-   * actions to take when cancel button is clicked 
-   * 
+   * actions to take when cancel button is clicked
+   *
    * @memberOf DepartmentForm
    */
   public handleCancel(): void {
@@ -51,9 +51,9 @@ class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
   /**
    * helper method to contain rendering the Module and
    * Api Call edit components
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf DepartmentForm
    */
   public renderSubForms(): JSX.Element {
@@ -143,14 +143,6 @@ function mapStateToProps(state: IReduxState, ownProps: IDepartmentFormProps): IF
   return { initialValues: { active: true, modules: [] } };
 }
 
-// synchronous validation function
-export const validate = (values: IValidationForm): IValidationForm => {
-  const errors: IValidationForm = {};
-  if (!values.name) {
-    errors.name = 'Required';
-  }
-  return errors;
-};
 
 // Decorate the form component
 const DepartmentFormDecorated = reduxForm({

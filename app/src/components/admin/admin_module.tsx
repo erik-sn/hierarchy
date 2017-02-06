@@ -233,7 +233,6 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
       >
         <ModuleForm
           submitForm={this.createModule}
-          clear={this.resetState}
         />
       </Modal>
     );
@@ -253,7 +252,6 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
         module={this.state.activeModule}
         submitForm={this.updateModule}
         remove={this.deleteModule}
-        clear={this.resetState}
       />
     );
   }

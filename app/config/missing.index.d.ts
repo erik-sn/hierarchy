@@ -25,6 +25,11 @@ declare module 'moxios' {
   export = _;
 }
 
+declare module 'username' {
+  const _: any;
+  export = _;
+}
+
 
 declare module 'recharts' {
 	export const BarChart: any

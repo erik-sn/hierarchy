@@ -1,6 +1,7 @@
-const moment = require('moment');
-const username = require('username');
-const fs = require('fs');
+import * as fs from 'fs';
+import * as moment from 'moment';
+import * as username from 'username';
+
 
 function getComponent(name: string, user: string): string {
   const timestamp: string = moment().format('YYYY-MM-DD HH:mm:ss Z');
@@ -10,43 +11,46 @@ function getComponent(name: string, user: string): string {
  * Module Created: ${timestamp}
  * Author: ${user}
  */
-if (process.env.BROWSER) {
-  require('./${name}.scss');  // eslint-disable-line global-require
+import * as React from 'react';
+
+import { IHierarchyTier } from '../../../../src/constants/interfaces';
+
+export interface I${componentName}Props {
+  parent: IHierarchyTier;
 }
 
-import React, { PropTypes } from 'react';
-
-const ${componentName} = props => (
+const ${componentName} = ({ parent }: I${componentName}Props) => (
   <div className="${name}__container" >
     <h3>Hello ${name}</h3>
-    <div>Parent: {props.parent.get('name')}</div>
+    <div>Parent: {parent.name}</div>
   </div>
 );
 
-${componentName}.propTypes = {
-  parent: PropTypes.object.isRequired,
-};
-
 export default ${componentName};
-`
+`;
   return content;
 }
 
 function getTestComponent(name: string): string {
   const componentName: string = name.split('_').map((word) => word.charAt(0).toUpperCase() + word.slice(1)).join('');
   const content: string =
-`import React from 'react';
+`
 import { expect } from 'chai';
-import { shallow } from 'enzyme';
-import { Map } from 'immutable';
+import { shallow, ShallowWrapper } from 'enzyme';
+import * as React from 'react';
 
-import ${componentName} from './${name}';
+import { IHierarchyTier } from '../../../../src/constants/interfaces';
+import ${componentName}, { I${componentName}Props } from './${name}';
 
-describe('${name}.js |', () => {
+describe('${name}.tsx |', () => {
   describe('Default | >>>', () => {
-    let component;
-    const props = {
-      parent: Map({ name: 'test_parent' }),
+    let component: ShallowWrapper<{}, {}>;
+    const props: I${componentName}Props = {
+      parent: {
+        name: 'parent',
+        modules: undefined,
+        active: true,
+      },
     };
 
     beforeEach(() => {
@@ -84,15 +88,15 @@ if (!/^[\w]+$/.test(moduleName)) {
 }
 
 // create module if it does not exist
-const dir: string = `src/components/__custom__/${moduleName}/`;
+const dir: string = `src/components/__modules__/${moduleName}/`;
 try {
-  fs.accessSync(dir, fs.F_OK);
-  console.log(`The module '${moduleName} already exists.`);
+  fs.accessSync(dir);
+  console.log(`The module '${moduleName}' already exists.`);
 } catch (e) {
   fs.mkdir(dir);
   username().then((user: string) => {
-    fs.writeFile(`${dir}/${moduleName}.js`, getComponent(moduleName, user));
-    fs.writeFile(`${dir}/${moduleName}.test.js`, getTestComponent(moduleName));
+    fs.writeFile(`${dir}/${moduleName}.tsx`, getComponent(moduleName, user));
+    fs.writeFile(`${dir}/${moduleName}.test.tsx`, getTestComponent(moduleName));
     fs.writeFile(`${dir}/${moduleName}.scss`, getStyle(moduleName));
     console.log(`Successfully created module: '${moduleName}`);
   });

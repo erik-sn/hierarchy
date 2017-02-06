@@ -10,13 +10,9 @@ import { renderCheckbox as CheckBox, renderTextField as Text  } from '../../../u
 export interface IModuleFormProps {
   handleSubmit?: (submitForm: {}) => React.EventHandler<React.FormEvent<HTMLFormElement>>;
   submitForm: (form: {}) => void;
-  cancel?: () => void;
   change?: (key: string, value: any) => void;
-  clear?: () => void;
-  clean?: boolean;
   reset?: () => void;
   remove?: () => void;
-  submitFailed?: boolean;
   module?: IModule;
 }
 
@@ -33,7 +29,7 @@ export const FORM_NAME = 'MODULE-CONFIG';
  * @class ModuleForm
  * @extends {React.Component<IModuleFormProps, {}>}
  */
-class ModuleForm extends React.Component<IModuleFormProps, {}> {
+export class ModuleForm extends React.Component<IModuleFormProps, {}> {
 
   constructor(props: IModuleFormProps) {
     super(props);
@@ -45,7 +41,7 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
     this.props.reset();
   }
 
-  public componentWillUpdate(nextProps: IModuleFormProps) {
+  public componentWillReceiveProps(nextProps: IModuleFormProps) {
     // if nextProps contains a module and it is different then the
     // current one, set it's values into the form.
     const { module, change } = this.props;
@@ -129,8 +125,7 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
   }
 
   public render(): JSX.Element {
-    const { submitForm, handleSubmit, remove, clear, module,
-            reset, submitFailed } = this.props;
+    const { submitForm, handleSubmit, remove, module, reset } = this.props;
     return (
       <form onSubmit={handleSubmit(submitForm)} className="admin__form-container" >
         <Field className="admin__form-field" name="name" component={Text} label="Name" />
@@ -149,11 +144,6 @@ class ModuleForm extends React.Component<IModuleFormProps, {}> {
           component={CheckBox}
           label="Active"
         />
-        <div className="admin__form-container">
-          <div className="admin__error-field">
-            {submitFailed ? 'Error Submitting Form' : ''}
-          </div>
-        </div>
         {module ? this.renderUpdateFormButtons() : this.renderNewFormButtons()}
         <FlatButton
           key={9}
@@ -182,27 +172,6 @@ function mapStateToProps(state: IReduxState, ownProps: IModuleFormProps) {
   }
   return { initialValues: { active: true } };
 }
-
-// validaton function for when form is submited
-export const validateOnSubmit = (formValues: IModuleFormValidation) => {
-  const errors: IModuleFormValidation = {};
-  if (!formValues.name) {
-    throw new SubmissionError({ name: 'Name does not exixt' });
-  }
-  return errors;
-};
-
-// synchronous validation function
-export const validate = (formValues: IModuleFormValidation) => {
-  const errors: IModuleFormValidation = {};
-  if (!formValues.name) {
-    errors.name = 'Required';
-  }
-  if (!formValues.label) {
-    errors.label = 'Required';
-  }
-  return errors;
-};
 
 // Decorate the form component
 const ModuleFormDecorated = reduxForm({

@@ -30,7 +30,7 @@ interface IMachineFormErrors { name?: string; type?: string; }
  * @class MachineForm
  * @extends {React.Component<IMachineFormProps, {}>}
  */
-class MachineForm extends React.Component<IMachineFormProps, {}> {
+export class MachineForm extends React.Component<IMachineFormProps, {}> {
 
   constructor(props: IMachineFormProps) {
     super(props);
@@ -47,6 +47,7 @@ class MachineForm extends React.Component<IMachineFormProps, {}> {
     const { change } = this.props;
     change('name', '');
     change('type', '');
+    change('defaultModule', undefined);
     change('active', false);
   }
 
@@ -151,22 +152,6 @@ function mapStateToProps(state: IReduxState, ownProps: IMachineFormProps): IForm
   }
   return { initialValues: { active: true, modules: [], name: '', type: '' } };
 }
-
-// synchronous validation function
-export const validate = (machineForm: IMachine) => {
-  const errors: IMachineFormErrors = {};
-  if (!machineForm.name) {
-    errors.name = 'Required';
-  } else if (!machineForm.name.match(/^[a-zA-Z0-9 ]+$/)) {
-    errors.name = 'Name can only contain letters and numbers';
-  }
-  if (!machineForm.type) {
-    errors.type = 'Required';
-  } else if (!machineForm.type.match(/^[a-zA-Z0-9 ]+$/)) {
-    errors.type = 'Type can only contain letters and numbers';
-  }
-  return errors;
-};
 
 
 // Decorate the form component

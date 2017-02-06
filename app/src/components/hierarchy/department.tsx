@@ -35,7 +35,7 @@ export interface IDepartmentState {
   url: string;
 }
 
-class Department extends React.Component<IDepartmentProps, IDepartmentState> {
+export class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   constructor(props: IDepartmentProps) {
     super(props);
