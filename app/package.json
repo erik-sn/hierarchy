@@ -7,7 +7,7 @@
   "scripts": {
     "new": "ts-node ./config/newmodule.ts",
     "dev": "ts-node ./config/server.ts",
-    "test": "mocha --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/components/hierarchy/",
+    "test": "mocha --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/components/utility/filter_table/filter_table_cell.test.tsx",
     "tdd": "npm run test -- --watch",
     "cover": "istanbul cover -x **/__tests__/** -e .tsx _mocha -- --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/components/admin",
     "build": "webpack -p --config ./config/webpack.production.config.ts --progress --profile --colors",

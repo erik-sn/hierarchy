@@ -18,7 +18,7 @@ const Cell = ({ width, value, className, handleClick }: ICellProps) => (
     style={{ width }}
     className={`filter_table__cell${className ? ` ${className}` : ''}`}
   >
-    <span>{value}</span>
+    {value}
   </div>
 );
 

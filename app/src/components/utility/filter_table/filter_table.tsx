@@ -474,7 +474,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
               handleClick={this.handleToggleMode}
             /> : undefined
           }
-          {showCsv ? <FilterCsv tableData={sortedTableData} config={config} /> : undefined}
+          {showCsv ? <FilterCsv tableData={sortedTableData} tableHeaders={config} /> : undefined}
         </div>
         <div className="filter_table__header" >
           {config.map((option, i) => (
