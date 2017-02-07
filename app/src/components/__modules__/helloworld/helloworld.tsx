@@ -13,7 +13,9 @@ export interface IHelloworldProps {
 const Helloworld = ({ parent }: IHelloworldProps) => (
   <div className="helloworld__container" >
     <h3>Hello helloworld</h3>
-    <div>Parent: {parent.name}</div>
+    <div className="helloworld__parent" >
+      Parent: {parent.name}
+    </div>
   </div>
 );
 

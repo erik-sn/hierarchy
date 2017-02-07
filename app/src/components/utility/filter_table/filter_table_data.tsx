@@ -24,19 +24,6 @@ export interface ITableDataProps {
 class TableData extends React.Component<ITableDataProps, {}> {
 
   /**
-   * Only update when the row data has changed
-   *
-   * @param {object} nextProps
-   * @returns {boolean}
-   *
-   * @memberOf TableData
-   */
-  public shouldComponentUpdate(nextProps: ITableDataProps): boolean {
-    const { finalTableData } = this.props;
-    return nextProps.finalTableData.length !== finalTableData.length;
-  }
-
-  /**
    * Return a list of Row components
    *
    * @param {function} handleRowClick - function called with row object when clicked

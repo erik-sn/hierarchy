@@ -12,7 +12,7 @@ import Module from './module';
  * @param {IHierarchyTier} hierarchyObject
  * @returns
  */
-function generateSortModules(hierarchyObject: IHierarchyTier): (a: IModule, b: IModule) => number {
+export function generateSortModules(hierarchyObject: IHierarchyTier): (a: IModule, b: IModule) => number {
   // case where no default module was set in the admin page
   const defaultModule = hierarchyObject.defaultModule;
   const defaultId = defaultModule ? defaultModule.id : -1;

@@ -9,7 +9,7 @@ import DepartmentConnected, { Department,
   IDepartmentProps } from '../../../src/components/hierarchy/department';
 import Module from '../../../src/components/hierarchy/module';
 import NotFound from '../../../src/components/notfound';
-import { ISite } from '../../../src/constants/interfaces';
+import { IModule, ISite } from '../../../src/constants/interfaces';
 import { resolvePath } from '../../../src/utils/resolver';
 
 const siteList: ISite[] = require('../../sites.json');
@@ -74,6 +74,16 @@ describe('department.test.tsx |', () => {
       component.setState({ activeModule: undefined });
       expect(component.find('h3')).to.have.length(1);
       expect(component.find('h3').text()).to.equal('No Modules Available');
+    });
+
+    it('sets the activeModule in state with setActiveModule function', () => {
+      const instance: any = component.instance();
+      const initialState: any = component.state();
+      expect(initialState.activeModule.name).to.equal('helloworld');
+
+      instance.setActiveModule(siteList[0].departments[0].modules[1]);
+      const finalState: any = component.state();
+      expect(finalState.activeModule.name).to.equal('extrusion_labor');
     });
   });
 

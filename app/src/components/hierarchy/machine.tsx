@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 
 import { IDepartment, IMachine, IModule, IReduxState, ISite } from '../../constants/interfaces';
-import getComponent from '../../utils/library';
+import { getComponent } from '../../utils/library';
 import renderModules, { retrieveModule } from './renderModules';
 
 interface IHierarchy {

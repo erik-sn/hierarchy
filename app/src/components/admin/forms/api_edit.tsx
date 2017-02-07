@@ -21,7 +21,7 @@ export interface IApiEditState {
  * add or remove existing api calls to a parent component. It is
  * designed to be generic in its implementation so any HierarchyTier
  * could potentially use it.
- * 
+ *
  * @class ApiEdit
  * @extends {React.Component<IApiEditProps, IApiEditState>}
  */
@@ -45,11 +45,11 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
 
 
   /**
-   * Add an API call to the list. 
-   * 
+   * Add an API call to the list.
+   *
    * @param {IApiCall} apiCall - apiCall we are adding
    * @returns {void}
-   * 
+   *
    * @memberOf ApiEdit
    */
   public handleAddApiCall(apiCall: IApiCall): void {
@@ -61,10 +61,10 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
 
   /**
    * Delete an API call from the list
-   * 
+   *
    * @param {IApiCall} apicall - api call we are deleting
    * @returns {void}
-   * 
+   *
    * @memberOf ApiEdit
    */
   public handleDeleteApiCall(apiCall: IApiCall): void {
@@ -74,11 +74,11 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
 
   /**
    * Update the parent's form using the change function that
-   * was passed to this component. The change function is a 
+   * was passed to this component. The change function is a
    * redux-form specific function
-   * 
+   *
    * @param {IApiCall[]} apiCalls - list of api calls to update
-   * 
+   *
    * @memberOf ApiEdit
    */
   public updateForm(apiCalls: IApiCall[]): void {
@@ -91,10 +91,10 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
   /**
    * Generate a list of MenuIems that will go into the list of api calls
    * that belong to the parent.
-   * 
+   *
    * @param {IApiCall[]} apiCalls - parent's apiCalls
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf ApiEdit
    */
   public renderApiCallList(apiCalls: IApiCall[]): JSX.Element[] {
@@ -114,9 +114,9 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
   /**
    * Generate a list of MenuItems that will go into the select field
    * that lists available ApiCalls.
-   * 
+   *
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf ApiEdit
    */
   public renderApiCallSelectItems(): JSX.Element[] {

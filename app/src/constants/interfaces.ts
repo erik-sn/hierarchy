@@ -149,8 +149,8 @@ export interface IConfig {
   transform: (rowValues: IDictionary<any>, label: any) => any;
 }
 
-export interface IRowData extends IDictionary<string> {
-  classNames?: string;
+export interface IRowData extends IDictionary<any> {
+  classNames?: IDictionary<string>;
 }
 
 

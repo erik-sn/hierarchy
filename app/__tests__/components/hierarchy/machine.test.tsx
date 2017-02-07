@@ -13,7 +13,7 @@ import { resolvePath } from '../../../src/utils/resolver';
 
 const siteList: ISite[] = require('../../sites.json');
 
-describe('about.test.js |', () => {
+describe('machine.test.tsx |', () => {
   describe('Expected | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
     const props: IMachineProps = {
@@ -60,6 +60,16 @@ describe('about.test.js |', () => {
 
       const finalState: any = component.state();
       expect(finalState.activeModule.name).to.equal('extrusion_overview');
+    });
+
+    it('sets the activeModule in state with setActiveModule function', () => {
+      const instance: any = component.instance();
+      const initialState: any = component.state();
+      expect(initialState.activeModule.name).to.equal('helloworld');
+
+      instance.setActiveModule(siteList[0].departments[0].machines[0].modules[1]);
+      const finalState: any = component.state();
+      expect(finalState.activeModule.name).to.equal('extruder_efficiency');
     });
 
     it('same machine, only update url', () => {

@@ -12,8 +12,6 @@ export interface IFilterState {
 }
 
 /**
- *
- *
  * @class Filter
  * @extends {Component}
  */

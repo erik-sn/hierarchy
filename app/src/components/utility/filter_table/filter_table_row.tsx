@@ -35,7 +35,7 @@ class Row extends React.Component<IRowProps, {}> {
    * @returns {object} - immutable List of JSX.Elements
    */
   public generateCells(rowData: IRowData, config: IConfig[]): JSX.Element[] {
-    const classNames = rowData.classNames as string;
+    const classNames = rowData.classNames as IDictionary<string>;
     return config.map((option, index) => {
       const handleCellClick = () => this.handleCellClick(index);
       return (
@@ -61,6 +61,7 @@ class Row extends React.Component<IRowProps, {}> {
    */
   public handleCellClick(columnIndex: number) {
     const { handleClick } = this.props;
+    console.log(handleClick);
     if (handleClick) {
       handleClick(this.props.rowData, columnIndex);
     }

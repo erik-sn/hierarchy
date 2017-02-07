@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-import getComponent from '../../utils/library';
+import { getComponent } from '../../utils/library';
 import NotFound from '../notfound';
 import Machine from './machine';
 

@@ -8,6 +8,7 @@ import FilterCsv from './filter_csv';
 import TableData from './filter_table_data';
 import Filter from './filter_table_filter';
 import HeaderColumn from './filter_table_header_column';
+import Results from './filter_table_results';
 import TableTotal from './filter_table_total';
 import FilterToggle from './filter_toggle';
 
@@ -112,7 +113,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    *
    * @memberOf FilterTable
    */
-  public checkConfig(config: IConfig[]): void{
+  public checkConfig(config: IConfig[]): void {
     config.forEach((option, i) => {
       ['header', 'label', 'width'].forEach((param) => {
         if (!option.hasOwnProperty(param)) {
@@ -348,27 +349,11 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    */
   public generateSortFunction(sortParameter: string,
                               sortDirection: number,
-                              formatData: (input: string) => string = (input) => input) {
+                              formatData: (input: string) => string) {
     return (a: IDictionary<string>, b: IDictionary<string>) => (
       formatData(a[sortParameter]) > formatData(b[sortParameter]) ? sortDirection : -1 * sortDirection
     );
   }
-
-  /**
-   * Iterate over the input list and check whether or not all members
-   * of an object are or can be converted to numbers. If any value cannot
-   * be converted return false, otherwise true.
-   *
-   * @param {object} list - immutable list of immutable map objects
-   * @param {string} parameter - the field of a map object for which each map is checked
-   * @returns {boolean}
-   *
-   * @memberOf FilterTable
-   */
-  public isNumberParameter(tableData: Array<IDictionary<string>>, parameter: string): boolean {
-    return !tableData.some((row) => Number.isNaN(Number(row[parameter])));
-  }
-
 
   /**
    * Generate a function that takes in an input, formats it,
@@ -389,7 +374,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
     if (isMomentParameter(tableData, sortParameter)) {
       return (input: any) => moment(input);
     }
-    return (input: any) => typeof input === 'string' ? input.toLowerCase() : input;
+    return (input: any) => input.toLowerCase();
   }
 
   /**
@@ -429,20 +414,17 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
     const { sortDirection, sortParameter } = this.state;
     let updatedSortParameter = header;
     let updatedSortDirection;
-    if (header !== sortParameter) {
-      updatedSortDirection = 1;
-    } else {
-      switch (sortDirection) {
-        case undefined:
-          updatedSortDirection = 1;
-          break;
-        case 1:
-          updatedSortDirection = -1;
-          break;
-        default:
-          updatedSortParameter = undefined;
-          break;
-      }
+    switch (sortDirection) {
+      case undefined:
+        updatedSortDirection = 1;
+        break;
+      case 1:
+        updatedSortDirection = -1;
+        break;
+      default:
+        updatedSortParameter = undefined;
+        updatedSortDirection = undefined;
+        break;
     }
     this.setState({
       sortParameter: updatedSortParameter,
@@ -456,7 +438,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
     const { tableData, filterAny } = this.state;
     const filteredTableData = this.filterTableData(tableData);
     const sortedTableData = this.sortTableData(filteredTableData);
-    const ratio = `${filteredTableData.length}/${tableData.length}`;
+    const ratio = `${sortedTableData.length}/${tableData.length}`;
     const percent = ((100 * sortedTableData.length) / tableData.length).toFixed(1);
     return (
       <div className={`filter_table__container${className ? ` ${className}` : ''}`}>
@@ -493,7 +475,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
           handleRowClick={handleRowClick}
         />
         {showTotals ? <TableTotal tableData={sortedTableData} config={config} /> : undefined}
-        {showResults ? <div>{`Displaying ${ratio} rows - ${percent}%`}</div> : undefined}
+        {showResults ? <Results ratio={ratio} percent={percent} /> : undefined}
       </div>
     );
   }

@@ -17,7 +17,7 @@ import { IConfig } from '../../../constants/interfaces';
 function generateSortIcon(parameter: string, label: string, direction: number): JSX.Element {
   if (parameter === label && direction === 1) {
     return <UpIcon />;
-  } else if (parameter === label && direction === 0) {
+  } else if (parameter === label && direction === -1) {
     return <DownIcon />;
   }
 }
