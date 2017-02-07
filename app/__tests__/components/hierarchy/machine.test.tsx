@@ -84,7 +84,6 @@ describe('machine.test.tsx |', () => {
       expect(finalState.url).to.equal('blank');
     });
 
-
     it('shows a prompt if the active module was not found', () => {
       component.setState({ activeModule: undefined });
       expect(component.find('h3')).to.have.length(1);

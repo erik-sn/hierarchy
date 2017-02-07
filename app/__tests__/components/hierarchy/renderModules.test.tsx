@@ -7,7 +7,6 @@ import { generateSortModules,
 import renderModules from '../../../src/components/hierarchy/renderModules';
 import { ISite } from '../../../src/constants/interfaces';
 
-
 describe('renderModules.test.tsx |', () => {
   describe('generateSortModules | >>>', () => {
     it('generates a function that meets expected IO', () => {

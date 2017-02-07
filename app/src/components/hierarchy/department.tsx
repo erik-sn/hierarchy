@@ -128,7 +128,6 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
   }
 }
 
-
 function mapStateToProps(state: IReduxState, ownProps: IDepartmentProps) {
   if (!ownProps.hierarchy) {
     return { notFound: true };

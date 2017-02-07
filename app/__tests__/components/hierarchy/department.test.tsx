@@ -14,7 +14,6 @@ import { resolvePath } from '../../../src/utils/resolver';
 
 const siteList: ISite[] = require('../../sites.json');
 
-
 const propsWithModule: IDepartmentProps = {
   fetchDepartmentData: undefined,
   hierarchy: resolvePath(siteList, '/atl/extrusion'),

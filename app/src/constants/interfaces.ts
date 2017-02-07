@@ -131,7 +131,6 @@ export interface IModule {
   active: boolean;
 }
 
-
 // axios
 export interface IAxiosResponse {
   data: Object;
@@ -153,18 +152,15 @@ export interface IRowData extends IDictionary<any> {
   classNames?: IDictionary<string>;
 }
 
-
 /**
  * Form interfaces
  */
 
 export interface IFormValues { initialValues: any; }
 
-
 /**
  * General
  */
-
 export interface IDictionary<T> {
   [key: string]: T;
 }
