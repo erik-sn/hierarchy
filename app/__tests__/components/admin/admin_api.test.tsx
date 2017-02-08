@@ -4,15 +4,23 @@ import * as moxios from 'moxios';
 import * as React from 'react';
 
 import { mountWithTheme, reduxWrap } from '../../../__tests__/helper';
-import ModuleAdminConnected, { IModulesProps, ModuleAdmin } from '../../../src/components/admin/admin_module';
+import ApiAdminConnected, { ApiCallAdmin, IApiCallsProps } from '../../../src/components/admin/admin_api';
 import Loader from '../../../src/components/loader';
+import { IApiCall, ISite } from '../../../src/constants/interfaces';
 
-describe('admin_module.test.tsx |', () => {
-  const modules = [
-    { name: 'module1', id: 1 },
-    { name: 'module2', id: 2 },
-    { name: 'module3', id: 3 },
+describe('admin_api.test.tsx |', () => {
+  const apiCalls: IApiCall[] = [
+    { key: 'api1', id: 1, url: 'module1', description: 'first', active: true },
+    { key: 'api2', id: 2, url: 'module2', description: 'second', active: false },
+    { key: 'api3', id: 3, url: 'module3', description: 'third', active: true },
   ];
+  const newApiCall: IApiCall = {
+    key: 'api4',
+    id: 4,
+    url: 'module4',
+    description: 'four',
+    active: true,
+  };
   describe('Default | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
     const props = {
@@ -20,7 +28,7 @@ describe('admin_module.test.tsx |', () => {
 
     beforeEach(() => {
       moxios.install();
-      component = shallow(<ModuleAdmin {...props} />);
+      component = shallow(<ApiCallAdmin {...props} />);
     });
 
     afterEach(() => {
@@ -28,120 +36,116 @@ describe('admin_module.test.tsx |', () => {
     });
 
     it('renders something & has correct containers', () => {
-      expect(component).to.have.length(1);
-      expect(component.find('.admin__modules')).to.have.length(1);
+      expect(component).to.exist;
+      expect(component.find('.admin__apicalls')).to.have.length(1);
     });
 
-    it('shows a loader if state.modules is undefined', () => {
+    it('shows a loader if state.apiCalls is undefined', () => {
       expect(component.find(Loader)).to.have.length(1);
     });
 
-    it('alters the state correctly on successful createModule call', (done) => {
-      component.setState({ modules });
+    it('alters the state correctly on successful createApiCall call', (done) => {
+      component.setState({ apiCalls });
       expect(component.find('Snackbar').props().open).to.equal(false);
-      const module: any = { name: 'test_module', description: 'test1', active: true };
-      component.setProps({ moduleForm: module });
+
       const instance: any = component.instance();
-      instance.createModule();
+      instance.createApiCall(newApiCall);
       moxios.wait(() => {
-        const request = moxios.requests.mostRecent();
-        request.respondWith({
+        moxios.requests.mostRecent().respondWith({
           status: 201,
-          response: module,
+          response: newApiCall,
         }).then(() => {
           const state: any = component.state();
           expect(state.messageShow).to.equal(true);
-          expect(state.messageText).to.equal('Module Successfully Created: test_module');
+          expect(state.messageText).to.equal('API call Successfully Created: api4');
           done();
         });
       });
     });
 
-    it('alters the state correctly on createModule failure', (done) => {
-      component.setState({ modules });
+    it('alters the state correctly on createApiCall failure', (done) => {
+      component.setState({ apiCalls });
       expect(component.find('Snackbar').props().open).to.equal(false);
-      const module: any = { name: 'test_module', description: 'test1', active: true };
-      component.setProps({ moduleForm: module });
+
       const instance: any = component.instance();
-      instance.createModule();
+      instance.createApiCall(newApiCall);
       moxios.wait(() => {
-        const request = moxios.requests.mostRecent();
-        request.respondWith({
+        moxios.requests.mostRecent().respondWith({
           status: 401,
-          response: module,
+          response: undefined,
         }).then(() => {
           const state: any = component.state();
           expect(state.messageShow).to.equal(true);
-          expect(state.messageText).to.equal('Error Creating Module: test_module');
+          expect(state.messageText).to.equal('Error Creating API call: api4');
           done();
         });
       });
     });
 
-    it('alters the state correctly on successful updateModule call', (done) => {
-      component.setState({ modules, activeModule: modules[0] });
-      const module: any = { name: 'test_module', description: 'test1', active: true };
-      component.setProps({ moduleForm: module });
+    it('alters the state correctly on successful updateApiCall call', (done) => {
+      component.setState({ apiCalls, activeApiCall: apiCalls[0] });
+      component.setProps({ apiCall: newApiCall });
+
       const instance: any = component.instance();
-      instance.updateModule();
+      instance.updateApiCall();
       moxios.wait(() => {
         const request = moxios.requests.mostRecent();
         request.respondWith({
           status: 200,
-          response: modules[0],
+          response: newApiCall,
         }).then(() => {
           const state: any = component.state();
           expect(state.messageShow).to.equal(true);
-          expect(state.messageText).to.equal('Module Successfully Updated: module1');
+          expect(state.messageText).to.equal('API call Successfully Updated: api4');
           done();
         });
       });
     });
 
     it('alters the state correctly on updateModule failure', (done) => {
-      component.setState({ modules, activeModule: modules[0] });
+      component.setState({ apiCalls, activeApiCall: apiCalls[0] });
+      component.setProps({ apiCall: newApiCall });
       expect(component.find('Snackbar').props().open).to.equal(false);
-      component.setProps({ moduleForm: {} });
+
       const instance: any = component.instance();
-      instance.updateModule();
+      instance.updateApiCall();
       moxios.wait(() => {
         const request = moxios.requests.mostRecent();
         request.respondWith({
           status: 401,
-          response: modules[0],
+          response: apiCalls[0],
         }).then(() => {
           const state: any = component.state();
           expect(state.messageShow).to.equal(true);
-          expect(state.messageText).to.equal('Error Updating Module: module1');
+          expect(state.messageText).to.equal('Error Updating API call: api4');
           done();
         });
       });
     });
 
     it('alters the state correctly on successful deleteModule call', (done) => {
-      component.setState({ modules, activeModule: modules[0] });
+      component.setState({ apiCalls, activeApiCall: apiCalls[0] });
       expect(component.find('Snackbar').props().open).to.equal(false);
       const instance: any = component.instance();
-      instance.deleteModule();
+      instance.deleteApiCall();
       moxios.wait(() => {
-        const request = moxios.requests.mostRecent();
-        request.respondWith({
+        moxios.requests.mostRecent().respondWith({
           status: 204,
           response: undefined,
         }).then(() => {
           const state: any = component.state();
           expect(state.messageShow).to.equal(true);
-          expect(state.messageText).to.equal('Module Successfully Deleted: module1');
+          expect(state.messageText).to.equal('API call Successfully Deleted: api1');
           done();
         });
       });
     });
 
     it('alters the state correctly on deleteModule failure', (done) => {
-      component.setState({ modules, activeModule: modules[0] });
+      component.setState({ apiCalls, activeApiCall: apiCalls[0] });
       expect(component.find('Snackbar').props().open).to.equal(false);
       const instance: any = component.instance();
-      instance.deleteModule();
+      instance.deleteApiCall();
       moxios.wait(() => {
         const request = moxios.requests.mostRecent();
         request.respondWith({
@@ -150,7 +154,7 @@ describe('admin_module.test.tsx |', () => {
         }).then(() => {
           const state: any = component.state();
           expect(state.messageShow).to.equal(true);
-          expect(state.messageText).to.equal('Error Deleting Module: module1');
+          expect(state.messageText).to.equal('Error Deleting API call: api1');
           done();
         });
       });
@@ -166,7 +170,7 @@ describe('admin_module.test.tsx |', () => {
 
     it('populates modules on componentDidMount', (done) => {
       const initialState: any = component.state();
-      expect(initialState.modules).to.equal(undefined);
+      expect(initialState.apiCalls).to.equal(undefined);
 
       const instance: any = component.instance();
       instance.componentDidMount();
@@ -174,40 +178,40 @@ describe('admin_module.test.tsx |', () => {
         const request = moxios.requests.mostRecent();
         request.respondWith({
           status: 200,
-          response: modules,
+          response: apiCalls,
         }).then(() => {
           const finalState: any = component.state();
-          expect(finalState.modules).to.deep.equal(modules);
+          expect(finalState.apiCalls).to.deep.equal(apiCalls);
           done();
         });
       });
     });
   });
 
-  describe('Modules Loaded | >>>', () => {
+  describe('ApiCalls Loaded | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
     const props = {
     };
 
     beforeEach(() => {
-      component = shallow(<ModuleAdmin {...props} />);
-      component.setState({ modules });
+      component = shallow(<ApiCallAdmin {...props} />);
+      component.setState({ apiCalls });
     });
 
-    it('1. renders something & has correct containers', () => {
-      expect(component).to.have.length(1);
-      expect(component.find('.admin__modules')).to.have.length(1);
+    it('renders something & has correct containers', () => {
+      expect(component).to.exist;
+      expect(component.find('.admin__apicalls')).to.have.length(1);
     });
 
-    it('2. shows a loader if state.modules is undefined', () => {
+    it('shows a loader if state.apiCalls is undefined', () => {
       expect(component.find('List')).to.have.length(1);
       expect(component.find('ListItem')).to.have.length(3);
     });
 
-    it('3. shows a form when active module is set', () => {
+    it('shows a form when active module is set', () => {
       component.find('ListItem').at(0).simulate('click');
       const state: any = component.state();
-      expect(state.activeModule).to.deep.equal(modules[0]);
+      expect(state.activeApiCall).to.deep.equal(apiCalls[0]);
       expect(component.find('Connect(ReduxForm)')).to.have.length(1);
     });
   });
@@ -218,12 +222,12 @@ describe('admin_module.test.tsx |', () => {
     };
 
     beforeEach(() => {
-      component = mountWithTheme(reduxWrap(<ModuleAdminConnected {...props} />));
+      component = mountWithTheme(reduxWrap(<ApiAdminConnected {...props} />));
     });
 
-    it('1. renders something & has correct containers', () => {
-      expect(component).to.have.length(1);
-      expect(component.find('.admin__modules')).to.have.length(1);
+    it('renders something & has correct containers', () => {
+      expect(component).to.exist;
+      expect(component.find('.admin__apicalls')).to.have.length(1);
     });
   });
 });

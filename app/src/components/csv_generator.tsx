@@ -64,7 +64,7 @@ class CsvGenerator extends React.Component<ICsvGeneratorProps, {}> {
    * @param  {object} params table parameters
    * @return  {string} content
    */
-  public generateContent(rowData: any, header: string[], params: IParam[]): string {
+  public generateContent(rowData: Array<IDictionary<string>>, header: string[], params: IParam[]): string {
     let content = '';
     // make a single header row
     if (header && header.length > 0) {

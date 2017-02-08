@@ -2,8 +2,13 @@ import { expect } from 'chai';
 import { ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import * as sinon from 'sinon';
-
+;
+import Csv from '../../../../src/components/utility/filter_table/filter_csv';
 import FilterTable, { IFilterTableProps } from '../../../../src/components/utility/filter_table/filter_table';
+import Header from '../../../../src/components/utility/filter_table/filter_table_header_column';
+import Results from '../../../../src/components/utility/filter_table/filter_table_results';
+import Total from '../../../../src/components/utility/filter_table/filter_table_total';
+import FilterToggle from '../../../../src/components/utility/filter_table/filter_toggle';
 import { IConfig, IDictionary } from '../../../../src/constants/interfaces';
 import { mountWithTheme } from '../../../helper';
 
@@ -73,14 +78,14 @@ describe('filter_table.test.tsx |', () => {
     it('has all optional components with booleans = true', () => {
       expect(component.find('.test_class').length).to.equal(1);
       expect(component.find('Filter').length).to.equal(1);
-      expect(component.find('FilterToggle').length).to.equal(1);
-      expect(component.find('TableTotal').length).to.equal(1);
-      expect(component.find('TableCsv').length).to.equal(1);
-      expect(component.find('Results').length).to.equal(1);
+      expect(component.find(FilterToggle).length).to.equal(1);
+      expect(component.find(Total).length).to.equal(1);
+      expect(component.find(Csv).length).to.equal(1);
+      expect(component.find(Results).length).to.equal(1);
     });
 
-    it('has two header columns', () => {
-      expect(component.find('HeaderColumn').length).to.equal(3);
+    it('has correct number of header columns', () => {
+      expect(component.find(Header).length).to.equal(3);
     });
 
     it('updates the filter, filterText, and tableData on filterText change', () => {

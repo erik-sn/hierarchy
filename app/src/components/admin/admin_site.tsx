@@ -60,19 +60,32 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
   }
 
   public componentDidMount() {
-    // fetch **active** module objects
-    axios.get(`${types.API}/modules/`, types.API_CONFIG)
-    .then((response: IAxiosResponse) => this.setState({
-      modules: response.data as IModule[],
-    }))
-    .catch(() => this.showMessage('Error Loading Modules'));
+    this.fetchModules();
+    this.fetchApiCalls();
+  }
 
-    // fetch **active** apicall objects
-    axios.get(`${types.API}/apicalls/`, types.API_CONFIG)
+  public fetchModules(): Promise<any> {
+    return axios.get(`${types.API}/modules/`, types.API_CONFIG)
+    .then((response: IAxiosResponse) => {
+      this.setState({
+        modules: response.data as IModule[],
+      });
+    })
+    .catch((error) => {
+      // console.error(error);
+      this.showMessage('Error Loading Modules');
+    });
+  }
+
+  public fetchApiCalls(): Promise<any> {
+    return axios.get(`${types.API}/apicalls/`, types.API_CONFIG)
     .then((response: IAxiosResponse) => this.setState({
       apicalls: response.data as IApiCall[],
     }))
-    .catch(() => this.showMessage('Error Loading Api Calls'));
+    .catch((error) => {
+      // console.error(error);
+      this.showMessage('Error Loading Api Calls');
+    });
   }
 
   /**

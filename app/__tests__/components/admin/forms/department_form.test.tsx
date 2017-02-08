@@ -102,21 +102,18 @@ describe('admin_department_form.test.js |', () => {
   describe('Connected to redux and redux-form | >>>', () => {
     let mountedComponent: ReactWrapper<{}, {}>;
     const props: IDepartmentFormProps = {
-      department: undefined,
+      department: siteList[0].departments[0],
       modules,
       submitForm: (form) => undefined,
       change: undefined,
       handleSubmit: undefined,
     };
 
-    const department = siteList[0].departments[0];
-    department.modules = modules;
     beforeEach(() => {
       handleSubmit = sinon.spy();
       mountedComponent = mountWithTheme(reduxWrap(
         <DepartmentConnected
           {...props}
-          department={department}
           handleSubmit={handleSubmit}
           change={change}
           modules={modules}

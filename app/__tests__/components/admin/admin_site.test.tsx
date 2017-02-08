@@ -119,14 +119,26 @@ describe('admin_site.test.tsx |', () => {
       moxios.uninstall();
     });
 
-    it('populates modules on componentDidMount', (done) => {
+    it('fetches modules and apicalls on componentDidMount', () => {
+      const fetchModules: sinon.SinonSpy = sinon.spy();
+      const fetchApiCalls: sinon.SinonSpy = sinon.spy();
+      const instance: any = component.instance();
+      instance.fetchModules = fetchModules;
+      instance.fetchApiCalls = fetchApiCalls;
+
+      instance.componentDidMount();
+      expect(fetchModules.callCount).to.equal(1);
+      expect(fetchApiCalls.callCount).to.equal(1);
+    });
+
+    it('populates modules', (done) => {
       const initialState: any = component.state();
       expect(initialState.modules).to.equal(undefined);
 
       const instance: any = component.instance();
-      instance.componentDidMount();
+      instance.fetchModules();
       moxios.wait(() => {
-        moxios.requests.__items[0].respondWith({
+        moxios.requests.mostRecent().respondWith({
           status: 200,
           response: modules,
         }).then(() => {
@@ -137,14 +149,14 @@ describe('admin_site.test.tsx |', () => {
       });
     });
 
-    it('populates apiCalls on componentDidMount', (done) => {
+    it('populates apiCalls', (done) => {
       const initialState: any = component.state();
       expect(initialState.apicalls).to.equal(undefined);
 
       const instance: any = component.instance();
-      instance.componentDidMount();
+      instance.fetchApiCalls();
       moxios.wait(() => {
-        moxios.requests.__items[1].respondWith({
+        moxios.requests.mostRecent().respondWith({
           status: 200,
           response: apicalls,
         }).then(() => {
@@ -160,10 +172,10 @@ describe('admin_site.test.tsx |', () => {
       expect(initialState.modules).to.equal(undefined);
 
       const instance: any = component.instance();
-      instance.componentDidMount();
+      instance.fetchModules();
 
       moxios.wait(() => {
-        moxios.requests.__items[0].respondWith({
+        moxios.requests.mostRecent().respondWith({
           status: 401,
           response: undefined,
         }).then(() => {
@@ -180,7 +192,7 @@ describe('admin_site.test.tsx |', () => {
       expect(initialState.apicalls).to.equal(undefined);
 
       const instance: any = component.instance();
-      instance.componentDidMount();
+      instance.fetchApiCalls();
 
       moxios.wait(() => {
         moxios.requests.mostRecent().respondWith({

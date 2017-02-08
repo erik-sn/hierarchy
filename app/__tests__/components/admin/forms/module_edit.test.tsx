@@ -15,7 +15,7 @@ const modules: IModule[] = [
   { name: 'module3', id: 3, label: 'module3', description: 'third', active: true },
 ];
 
-describe('admin_module_edit.test.js |', () => {
+describe('module_edit.test.tsx |', () => {
   let component: ShallowWrapper<{}, {}>;
   let change: sinon.SinonSpy;
 
@@ -59,7 +59,7 @@ describe('admin_module_edit.test.js |', () => {
     it('calls add module when a select field menu item is clicked', () => {
       expect(component.find('List').find('MenuItem')).to.have.length(3);
       component.find('SelectField').find('MenuItem').at(0).simulate('click');
-      expect(component.find('List').find('MenuItem')).to.have.length(3);
+      expect(component.find('List').find('MenuItem')).to.have.length(4);
     });
   });
 

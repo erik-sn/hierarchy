@@ -27,6 +27,7 @@ global['HTMLElement'] = global['window'].HTMLElement;
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 const store = createStoreWithMiddleware(reducers);
 
+
 export function reduxWrap(component: JSX.Element): JSX.Element {
   return (
     <Provider store={store}>

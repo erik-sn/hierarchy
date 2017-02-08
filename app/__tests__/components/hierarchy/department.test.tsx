@@ -53,6 +53,12 @@ describe('department.test.tsx |', () => {
       expect(component.find(Module)).to.have.length(3);
     });
 
+    it('fetchDepartmentData called for every apiCall on componentDidMount', () => {
+      const instance: any = component.instance();
+      instance.componentDidMount();
+      expect(fetchDepartmentData.callCount).to.equal(3);
+    });
+
     it('updates the state when a different module is received in props', () => {
       const initialState: any = component.state();
       expect(initialState.activeModule.name).to.equal('helloworld');
@@ -152,9 +158,8 @@ describe('department.test.tsx |', () => {
     });
   });
 
-  describe('Mounted | >>>', () => {
+  describe('Mounted with hierarchy | >>>', () => {
     let mountedComponent: ReactWrapper<{}, {}>;
-    let fetchDepartmentData: sinon.SinonSpy;
     const props: IDepartmentProps = {
       fetchDepartmentData: undefined,
       hierarchy: resolvePath(siteList, '/atl/extrusion'),
@@ -167,18 +172,13 @@ describe('department.test.tsx |', () => {
     };
 
     beforeEach(() => {
-      fetchDepartmentData = sinon.spy();
       mountedComponent = mountWithTheme(reduxWrap(
-        <Department {...props} fetchDepartmentData={fetchDepartmentData} />,
+        <DepartmentConnected {...props} />,
       ));
     });
 
     it('renders something & has correct containers', () => {
       expect(mountedComponent.find('.display__container')).to.have.length(1);
-    });
-
-    it('calls fetchDepartment data for each api call', () => {
-      expect(fetchDepartmentData.callCount).to.equal(3);
     });
   });
 });

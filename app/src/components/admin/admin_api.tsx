@@ -12,7 +12,7 @@ import types from '../../actions/types';
 import { IApiCall, IModule, IReduxState } from '../../constants/interfaces';
 import Loader from '../loader';
 import Modal from '../modal';
-import ApiForm, { FORM_NAME, validateOnSubmit } from './forms/api_form';
+import ApiForm, { FORM_NAME } from './forms/api_form';
 
 
 export interface IApiCallsProps {
@@ -29,10 +29,9 @@ export interface IApiCallsState {
   showNewForm: boolean;
 }
 
-
 /**
  * Controller component that handles operations on ApiCall objects
- * 
+ *
  * @export
  * @class ApiCallAdmin
  * @extends {React.Component<IApiCallsProps, IApiCallsState>}
@@ -66,7 +65,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Retrieve all api calls from the database
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public fetchApiCalls(): void {
@@ -79,13 +78,11 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Add an Api Call to the database
-   * 
+   *
    * @param {IApiCall} apiCall - object to be added
-   * 
    * @memberOf ApiCallAdmin
    */
   public createApiCall(apiCall: IApiCall): void {
-    validateOnSubmit(apiCall);
     axios.post(`${types.API}/apicalls/`, apiCall, types.API_CONFIG)
     .then(() => this.fetchApiCalls())
     .then(() => this.showMessage(`API call Successfully Created: ${apiCall.key}`))
@@ -96,7 +93,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Update an Api Call in the database
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public updateApiCall(): void {
@@ -111,7 +108,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Delete an Api Call from the database
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public deleteApiCall(): void {
@@ -125,7 +122,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Set the controller back to a default state
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public resetState(): void {
@@ -229,10 +226,10 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Filter listed api calls based on user input in the
-   * filter box. 
-   * 
+   * filter box.
+   *
    * @returns {IApiCall[]}
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public filteredApiCalls(): IApiCall[] {
@@ -249,9 +246,9 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Generate a list of ListItems that contain the
-   * 
+   *
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public generateApiCalls(): JSX.Element[] {

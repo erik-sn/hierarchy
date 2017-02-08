@@ -121,7 +121,7 @@ describe('machine.test.tsx |', () => {
     };
 
     beforeEach(() => {
-      mountedComponent = mountWithTheme(reduxWrap(<Machine {...props} />));
+      mountedComponent = mountWithTheme(reduxWrap(<MachineConnected {...props} />));
     });
 
     it('renders something & has correct containers', () => {

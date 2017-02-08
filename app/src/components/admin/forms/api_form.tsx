@@ -79,8 +79,8 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
   }
 
   /**
-   * handle actions for when the cancel button is clicked 
-   * 
+   * handle actions for when the cancel button is clicked
+   *
    * @memberOf ApiForm
    */
   public handleCancel(): void {
@@ -92,7 +92,7 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
    * handle action when the clear button is clicked. into
    * this case we use the redux-form function change to
    * set all fields back to their defaults
-   * 
+   *
    * @memberOf ApiForm
    */
   public clearForm() {
@@ -105,9 +105,9 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
 
   /**
    * Render buttons associated with a new form
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ApiForm
    */
   public renderNewFormButtons(): JSX.Element {
@@ -123,9 +123,9 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
 
   /**
    * Render buttons associated with updating an Api Call
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ApiForm
    */
   public renderUpdateFormButtons(): JSX.Element {
@@ -169,11 +169,6 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
           component={CheckBox}
           label="Active"
         />
-        <div className="admin__form-container">
-          <div className="admin__error-field">
-            {submitFailed ? 'Error Submitting Form' : ''}
-          </div>
-        </div>
         {apiCall ? this.renderUpdateFormButtons() : this.renderNewFormButtons()}
         <FlatButton
           key={9}
@@ -196,7 +191,7 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
 
 /**
  * Initialize the form with the values of the incoming API call
- * 
+ *
  * @param {IReduxState} state - application state
  * @param {IApiFormProps} ownProps - props that were passed directly to the component
  * @returns
@@ -207,22 +202,6 @@ function mapStateToProps(state: IReduxState, ownProps: IApiFormProps) {
   }
   return { initialValues: { active: true } };
 }
-
-// validation function used when form is submitted
-export const validateOnSubmit = (values: IValidationForm): IValidationForm => {
-  const errors: IValidationForm = {};
-  if (!values.url) {
-    throw new SubmissionError({ url: 'Url does not exixt' });
-  }
-  if (!values.key) {
-    throw new SubmissionError({ key: 'Key does not exixt' });
-  }
-  if (!values.description) {
-    throw new SubmissionError({ name: 'Description does not exixt' });
-  }
-  return errors;
-};
-
 
 // Decorate the form component
 const ApiFormDecorated = reduxForm({

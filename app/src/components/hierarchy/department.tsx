@@ -49,12 +49,12 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
   }
 
   public componentDidMount() {
-    const { hierarchy } = this.props;
+    const { hierarchy, fetchDepartmentData } = this.props;
     // apiCall objects are stored in the department hierarchy in the
     // databse. Iterate over each api call and update an index of redux
     // state with the data from the response
     hierarchy.department.apiCalls.forEach((apiCall) => {
-      this.props.fetchDepartmentData(hierarchy.department.id, apiCall.url, apiCall.key);
+      fetchDepartmentData(hierarchy.department.id, apiCall.url, apiCall.key);
     });
   }
 
@@ -119,7 +119,7 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
         </div>
         <div className="display__content-container" >
           {description && description.trim() !== '' ? this.renderDescriptionContainer(description) : undefined}
-          <div className="display__component-container">
+          <div className="display__component-container" >
             {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>
         </div>
@@ -129,9 +129,6 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
 }
 
 function mapStateToProps(state: IReduxState, ownProps: IDepartmentProps) {
-  if (!ownProps.hierarchy) {
-    return { notFound: true };
-  }
   const id = ownProps.hierarchy.department.id;
   return { departmentDataStore: state.departmentStores[id] };
 }

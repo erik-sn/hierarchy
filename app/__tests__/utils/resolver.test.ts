@@ -10,15 +10,17 @@ const siteList: ISite[] = require('../sites.json');
 
 describe('resolver.test.js |', () => {
   describe('buildNavigate | >>>', () => {
-    it('1. throws an error if input string is empty', () => {
+    it('throws an error if input string is empty', () => {
       expect(() => buildNavigate('')).to.throw('A base string is required');
     });
 
-    it('2. calls browserhistory.push with the correct input', () => {
-      sinon.stub(router.browserHistory, 'push', (target: any) => target);
+    it('calls browserhistory.push with the correct input', () => {
+      const sandbox = sinon.sandbox.create();
+      sandbox.stub(router.browserHistory, 'push', (target: any) => target);
       const navigate = buildNavigate('/testMe');
       expect(navigate('tohere')).to.equal('/testme/tohere/');
       expect(navigate('tOHERE/and/there')).to.equal('/testme/tohere/and/there/');
+      sandbox.restore();
     });
   });
 

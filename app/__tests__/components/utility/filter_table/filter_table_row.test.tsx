@@ -3,6 +3,7 @@ import { ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 import * as sinon from 'sinon';
 
+import Cell from '../../../../src/components/utility/filter_table/filter_table_cell';
 import Row, { IRowProps } from '../../../../src/components/utility/filter_table/filter_table_row';
 import { IDictionary } from '../../../../src/constants/interfaces';
 import { mountWithTheme } from '../../../helper';
@@ -50,12 +51,12 @@ describe('filter_table_row.test.tsx |', () => {
     });
 
     it('has two cells with the correct values', () => {
-      expect(component.find('Cell').length).to.equal(2);
+      expect(component.find(Cell).length).to.equal(2);
 
-      const cell1Props: any = component.find('Cell').at(0).props();
+      const cell1Props: any = component.find(Cell).at(0).props();
       expect(cell1Props.value).to.equal('one');
 
-      const cell2Props = component.find('Cell').at(1).props();
+      const cell2Props = component.find(Cell).at(1).props();
       expect(cell2Props.value).to.equal('1');
     });
   });
@@ -106,7 +107,7 @@ describe('filter_table_row.test.tsx |', () => {
     });
 
     it('calls handleClick no cell click', () => {
-      component.find('Cell').at(0).simulate('click');
+      component.find(Cell).at(0).simulate('click');
       expect(handleClick.callCount).to.equal(1);
     });
   });
@@ -118,7 +119,7 @@ describe('filter_table_row.test.tsx |', () => {
     });
 
     it('does not error when handleClick is undefined and cell is clicked', () => {
-      component.find('Cell').at(0).simulate('click');
+      component.find(Cell).at(0).simulate('click');
     });
   });
 });
