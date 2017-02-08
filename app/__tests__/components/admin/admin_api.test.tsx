@@ -6,6 +6,7 @@ import * as React from 'react';
 import { mountWithTheme, reduxWrap } from '../../../__tests__/helper';
 import ApiAdminConnected, { ApiCallAdmin, IApiCallsProps } from '../../../src/components/admin/admin_api';
 import Loader from '../../../src/components/loader';
+import Modal from '../../../src/components/modal';
 import { IApiCall, ISite } from '../../../src/constants/interfaces';
 
 describe('admin_api.test.tsx |', () => {
@@ -186,6 +187,14 @@ describe('admin_api.test.tsx |', () => {
         });
       });
     });
+
+    it('toggles state on toggleShowNewForm call', () => {
+      const instance: any = component.instance();
+      instance.toggleShowNewForm();
+      const state: any = component.state();
+      expect(state.activeApiCall).to.equal(undefined);
+      expect(state.showNewForm).to.be.true;
+    });
   });
 
   describe('ApiCalls Loaded | >>>', () => {
@@ -213,6 +222,37 @@ describe('admin_api.test.tsx |', () => {
       const state: any = component.state();
       expect(state.activeApiCall).to.deep.equal(apiCalls[0]);
       expect(component.find('Connect(ReduxForm)')).to.have.length(1);
+    });
+
+    it('sets the filter based on the input event change', () => {
+      const event: any = {
+        currentTarget: { value: 'test_value' },
+      };
+      component.find('TextField').simulate('change', event);
+      const state: any = component.state();
+      expect(state.filter).to.equal('test_value');
+    });
+
+    it('does not filter if there is an empty input in the search box', () => {
+      const event: any = {
+        currentTarget: { value: '  ' },
+      };
+      component.find('TextField').simulate('change', event);
+    });
+  });
+
+  describe('ApiCalls Loaded and showNewForm is true | >>>', () => {
+    let component: ShallowWrapper<{}, {}>;
+    const props = {
+    };
+
+    beforeEach(() => {
+      component = shallow(<ApiCallAdmin {...props} />);
+      component.setState({ apiCalls, showNewForm: true });
+    });
+
+    it('Has a modal object', () => {
+      expect(component.find(Modal)).to.have.length(1);
     });
   });
 

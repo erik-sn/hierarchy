@@ -71,6 +71,20 @@ describe('admin.test.tsx |', () => {
       expect(component.find('Connect(ModuleAdmin)')).to.have.length(1);
     });
 
+    it('shows the apiCalls config if modules are selected', () => {
+      const newProps: IAdminProps = {
+        fetchHierarchy: undefined,
+        sites: siteList,
+        params: {
+          menu: 'apicalls',
+          splat: undefined,
+        },
+        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1' },
+      };
+      component = shallow(<Admin {...newProps} />);
+      expect(component.find('Connect(ApiCallAdmin)')).to.have.length(1);
+    });
+
     it('renders hierarchy if no menu in props', () => {
       const newProps: IAdminProps = {
         fetchHierarchy: undefined,
