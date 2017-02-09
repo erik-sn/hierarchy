@@ -50,9 +50,9 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
 
   /**
    * Add a module to the parent
-   * 
+   *
    * @param {IModule} module - module being added
-   * 
+   *
    * @memberOf ModuleEdit
    */
   public handleAddModule(module: IModule): void {
@@ -69,9 +69,9 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
 
   /**
    * Delete a module from the parent
-   * 
+   *
    * @param {IModule} module - module to delete
-   * 
+   *
    * @memberOf ModuleEdit
    */
   public handleDeleteModule(module: IModule): void {
@@ -90,10 +90,10 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
   /**
    * Update the parent's from with a list of module primary keys
    * using the change function provided by redux form.
-   * 
+   *
    * @param {IModule[]} modules - modules that will be set into the parent's
    * module list
-   * 
+   *
    * @memberOf ModuleEdit
    */
   public updateForm(modules: IModule[]): void {
@@ -106,9 +106,9 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
   /**
    * Update the parent's default module. This module will appear
    * first in the module list to the users.
-   * 
+   *
    * @param {number} defaultId - primary key of the default module
-   * 
+   *
    * @memberOf ModuleEdit
    */
   public updateDefaultModule(defaultId: number): void {
@@ -120,10 +120,10 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
   /**
    * Generate a list of MenuItems that represent modules that
    * belong to the parent.
-   * 
+   *
    * @param {IModule[]} modules - parent's current modules
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf ModuleEdit
    */
   public renderModuleMenu(modules: IModule[]): JSX.Element[] {

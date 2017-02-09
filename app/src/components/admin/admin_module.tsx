@@ -176,8 +176,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
     const { modules, filter } = this.state;
     if (filter.trim()) {
       return modules.filter((module: IModule) => (
-        module.name.toLowerCase().indexOf(filter.toLowerCase()) > -1 ||
-        module.description.toLowerCase().indexOf(filter.toLowerCase()) > -1
+        module.name.toLowerCase().indexOf(filter.toLowerCase()) > -1
       ));
     }
     return modules;

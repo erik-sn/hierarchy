@@ -78,6 +78,23 @@ describe('admin_machine.test.js |', () => {
       expect(component.find('Connect(ReduxForm)')).to.have.length(1);
     });
 
+    it('componentWillMount updates the state', () => {
+      const nextProps: IMachineAdminProps = {
+        site: siteList[1],
+        modules: siteList[0].departments[0].machines[0].modules,
+        message: undefined,
+        fetchHierarchy: undefined,
+      };
+      component.setState({
+        department: siteList[1].departments[0],
+        refreshDepartment: true,
+      });
+      component.setProps(nextProps);
+      const state: any = component.state();
+      expect(state.refreshDepartment).to.be.false;
+      expect(state.department).to.deep.equal(siteList[1].departments[0]);
+    });
+
     it('alters the state correctly on successful updateMachine call', (done) => {
       const department: any = { name: 'test_department', machines: [] };
       const machine: any = { name: 'test_machine' };

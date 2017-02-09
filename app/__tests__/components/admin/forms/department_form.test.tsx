@@ -121,7 +121,35 @@ describe('admin_department_form.test.js |', () => {
       ));
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
+      expect(mountedComponent).to.have.length(1);
+      expect(mountedComponent.find('Connect(ReduxForm)')).to.have.length(1);
+    });
+  });
+
+  describe('Connected to redux - department undefined| >>>', () => {
+    let mountedComponent: ReactWrapper<{}, {}>;
+    const props: IDepartmentFormProps = {
+      department: undefined,
+      modules,
+      submitForm: (form) => undefined,
+      change: undefined,
+      handleSubmit: undefined,
+    };
+
+    beforeEach(() => {
+      handleSubmit = sinon.spy();
+      mountedComponent = mountWithTheme(reduxWrap(
+        <DepartmentConnected
+          {...props}
+          handleSubmit={handleSubmit}
+          change={change}
+          modules={modules}
+        />,
+      ));
+    });
+
+    it('renders something & has correct containers', () => {
       expect(mountedComponent).to.have.length(1);
       expect(mountedComponent.find('Connect(ReduxForm)')).to.have.length(1);
     });

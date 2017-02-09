@@ -6,6 +6,7 @@ import * as React from 'react';
 import { mountWithTheme, reduxWrap } from '../../../__tests__/helper';
 import ModuleAdminConnected, { IModulesProps, ModuleAdmin } from '../../../src/components/admin/admin_module';
 import Loader from '../../../src/components/loader';
+import Modal from '../../../src/components/modal';
 
 describe('admin_module.test.tsx |', () => {
   const modules = [
@@ -34,6 +35,14 @@ describe('admin_module.test.tsx |', () => {
 
     it('shows a loader if state.modules is undefined', () => {
       expect(component.find(Loader)).to.have.length(1);
+    });
+
+    it('toggles state on toggleShowNewForm call', () => {
+      const instance: any = component.instance();
+      instance.toggleShowNewForm();
+      const state: any = component.state();
+      expect(state.activeModule).to.equal(undefined);
+      expect(state.showNewForm).to.be.true;
     });
 
     it('alters the state correctly on successful createModule call', (done) => {
@@ -194,21 +203,47 @@ describe('admin_module.test.tsx |', () => {
       component.setState({ modules });
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(component).to.have.length(1);
       expect(component.find('.admin__modules')).to.have.length(1);
     });
 
-    it('2. shows a loader if state.modules is undefined', () => {
+    it('shows a loader if state.modules is undefined', () => {
       expect(component.find('List')).to.have.length(1);
       expect(component.find('ListItem')).to.have.length(3);
     });
 
-    it('3. shows a form when active module is set', () => {
+    it('sets the filter based on the input event change', () => {
+      const preventDefault: any = (): any => undefined;
+      const event: any = {
+        preventDefault,
+        currentTarget: { value: 'test_value' },
+      };
+      component.find('TextField').simulate('change', event);
+      const state: any = component.state();
+      expect(state.filter).to.equal('test_value');
+    });
+
+    it('shows a form when active module is set', () => {
       component.find('ListItem').at(0).simulate('click');
       const state: any = component.state();
       expect(state.activeModule).to.deep.equal(modules[0]);
       expect(component.find('Connect(ReduxForm)')).to.have.length(1);
+    });
+  });
+
+  describe('modules loaded and showNewForm is true | >>>', () => {
+    let component: ShallowWrapper<{}, {}>;
+    const props = {
+    };
+
+    beforeEach(() => {
+      component = shallow(<ModuleAdmin {...props} />);
+      component.setState({ modules, showNewForm: true });
+    });
+
+    it('Has a modal object', () => {
+      expect(component.find(Modal)).to.have.length(1);
     });
   });
 

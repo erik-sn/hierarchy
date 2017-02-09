@@ -56,7 +56,7 @@ export class ModuleForm extends React.Component<IModuleFormProps, {}> {
 
   /**
    * actions to take when delete is clicked
-   * 
+   *
    * @memberOf ModuleForm
    */
   public handleDelete(): void {
@@ -66,7 +66,7 @@ export class ModuleForm extends React.Component<IModuleFormProps, {}> {
 
   /**
    * set the form back to default values
-   * 
+   *
    * @memberOf ModuleForm
    */
   public handleClear(): void {
@@ -100,9 +100,9 @@ export class ModuleForm extends React.Component<IModuleFormProps, {}> {
 
   /**
    * Buttons to render when we are updating a module
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ModuleForm
    */
   public renderUpdateFormButtons(): JSX.Element {

@@ -5,8 +5,9 @@ import { RadioButton } from 'material-ui/RadioButton';
 import * as React from 'react';
 import * as sinon from 'sinon';
 
-import { IDateProps, IFieldProps, renderCheckbox, renderDateField, renderRadioGroup, renderSelect,
-   renderTextArea, renderTextField, renderTimeField } from '../../src/utils/form_renderer';
+import { renderCheckbox as Checkbox, IDateProps, IFieldProps, renderDateField,
+  renderRadioGroup, renderSelect, renderTextArea, renderTextField,
+  renderTimeField } from '../../src/utils/form_renderer';
 import { mountWithTheme } from '../helper';
 
 describe('Form Renderer | ', () => {
@@ -58,12 +59,12 @@ describe('Form Renderer | ', () => {
       component = shallow(Element);
     });
 
-    it('1. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       expect(component.find('.mui-form-component')).to.have.length(1);
       expect(component.find('TimePicker')).to.have.length(1);
     });
 
-    it('2. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       component.find('TimePicker').simulate('change');
       expect(onChange.callCount).to.equal(1);
     });
@@ -87,12 +88,12 @@ describe('Form Renderer | ', () => {
       component = shallow(Element);
     });
 
-    it('1. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       expect(component.find('.mui-form-component')).to.have.length(1);
       expect(component.find('TextField')).to.have.length(1);
     });
 
-    it('2. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       component.find('TextField').simulate('change');
       expect(onChange.callCount).to.equal(1);
     });
@@ -116,37 +117,36 @@ describe('Form Renderer | ', () => {
       component = shallow(Element);
     });
 
-    it('1. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       expect(component.find('.mui-form-component')).to.have.length(1);
       expect(component.find('TextField')).to.have.length(1);
     });
 
-    it('2. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       component.find('TextField').simulate('change');
       expect(onChange.callCount).to.equal(1);
     });
   });
 
-  // describe('renderCheckbox | >>>', () => {
-  //   let onChange;
-  //   const props = {
-  //     input: { value: true },
-  //     label: 'test label',
-  //     meta: { touched: true, error: true },
-  //   };
+  describe('renderCheckbox | >>>', () => {
+    let checkbox: ShallowWrapper<{}, {}>;
+    const onChange: sinon.SinonSpy = sinon.spy();
+    const props = {
+      input: { checked: true, onChange },
+      label: 'test label',
+    };
 
-  //   beforeEach(() => {
-  //     onChange = sinon.spy();
-  //     props.input.onCheck = onChange;
-  //     component = shallow(<renderCheckbox {...props} />);
-  //   });
+    beforeEach(() => {
+      checkbox = shallow(<Checkbox {...props}  />);
+    });
 
-  //   it('1. Renders correct form component', () => {
-  //     console.log(component.debug());
-  //     expect(component.find('.mui-form-component')).to.have.length(1);
-  //     expect(component.find('Checkbox')).to.have.length(1);
-  //   });
-  // });
+    it('Renders correct form component', () => {
+      expect(checkbox.find('Checkbox')).to.have.length(1);
+      expect(checkbox.find('Checkbox').props().checked).to.be.true;
+      checkbox.find('Checkbox').simulate('check');
+      expect(onChange.callCount).to.equal(1);
+    });
+  });
 
   describe('renderRadioGroup | >>>', () => {
     let mountedComponent: ReactWrapper<{}, {}>;
@@ -172,7 +172,7 @@ describe('Form Renderer | ', () => {
       mountedComponent = mountWithTheme(Element);
     });
 
-    it('1. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       expect(mountedComponent.find('.mui-form-component')).to.have.length(1);
       expect(mountedComponent.find('RadioButtonGroup')).to.have.length(1);
     });
@@ -203,13 +203,13 @@ describe('Form Renderer | ', () => {
       component = shallow(Element);
     });
 
-    it('1. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       expect(component.find('.mui-form-component')).to.have.length(1);
       expect(component.find('SelectField')).to.have.length(1);
       expect(component.find('MenuItem')).to.have.length(4);
     });
 
-    it('2. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       component.find('SelectField').simulate('change');
       expect(onChange.callCount).to.equal(1);
     });

@@ -40,7 +40,7 @@ export class MachineForm extends React.Component<IMachineFormProps, {}> {
 
   /**
    * Set the form back to all default values
-   * 
+   *
    * @memberOf MachineForm
    */
   public clearForm(): void {
@@ -53,7 +53,7 @@ export class MachineForm extends React.Component<IMachineFormProps, {}> {
 
   /**
    * actions to take when the cancel button is clicked
-   * 
+   *
    * @memberOf MachineForm
    */
   public cancelForm(): void {
@@ -62,9 +62,9 @@ export class MachineForm extends React.Component<IMachineFormProps, {}> {
 
   /**
    * helper method to clean JSX, generate ModuleEdit interface
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf MachineForm
    */
   public renderModuleEdit(): JSX.Element {

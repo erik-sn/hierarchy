@@ -90,9 +90,9 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   /**
    * Update a site in the database
-   * 
+   *
    * @param {ISite} site
-   * 
+   *
    * @memberOf AdminSite
    */
   public updateSite(site: ISite) {
@@ -127,11 +127,11 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
    * Depeniding on the configuration that is passed, render either the
    * Machine admin configuration, Department admin configuration, or the
    * site admin configuration for the specified site.
-   * 
+   *
    * @param {ISite} site - site that contains departments/machines
    * @param {string} config - which menu to render
    * @returns
-   * 
+   *
    * @memberOf AdminSite
    */
   public renderConfig(site: ISite, config: string) {
@@ -166,7 +166,7 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   /**
    * Navigate to base site configuration url
-   * 
+   *
    * @memberOf AdminSite
    */
   public configClick() {
@@ -175,7 +175,7 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   /**
    * Navigate to department configuration url
-   * 
+   *
    * @memberOf AdminSite
    */
   public departmentClick() {

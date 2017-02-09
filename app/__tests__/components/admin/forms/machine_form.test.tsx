@@ -67,6 +67,11 @@ describe('admin_machine_form.test.js |', () => {
       component.find('FlatButton').at(0).simulate('click');
       expect(handleSubmit.callCount).to.equal(1);
     });
+
+    it('calls cancel on cancelForm click', () => {
+      component.find('FlatButton').at(2).simulate('click');
+      expect(cancel.callCount).to.equal(1);
+    });
   });
 
   describe('Modal | >>>', () => {

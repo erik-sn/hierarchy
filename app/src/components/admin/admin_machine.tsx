@@ -124,9 +124,9 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
 
   /**
    * Set a machine object to as the active Machine
-   * 
+   *
    * @param {IMachine} machine
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public setActiveMachine(machine: IMachine): void {
@@ -135,9 +135,9 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
 
   /**
    * Create a machine object in thedatabase
-   * 
+   *
    * @param {IMachine} machine
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public createMachine(machine: IMachine): void {
@@ -153,9 +153,9 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
 
   /**
    * Update a machine object in the database
-   * 
+   *
    * @param {IMachine} machine
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public updateMachine(machine: IMachine): void {
@@ -172,7 +172,7 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
   /**
    * Toggle the state of showNewForm which controls whether or not a "New"
    * form is displayed to the user in a modal
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public toggleShowNewMachineForm(): void {
@@ -181,7 +181,7 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
 
   /**
    * Reset the component to its default state
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public resetState(): void {
@@ -191,9 +191,9 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
   /**
    * Render the Create form. This is an empty machine form that is displayed
    * to the user inside a Modal.
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public renderNewMachineForm(): JSX.Element {
@@ -211,9 +211,9 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
    * If both a department and machine have been seleccted
    * then render a MachineForm with the machine object passed
    * as props. Otherwise prompt user to select a department/machine
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public renderMenu(): JSX.Element {

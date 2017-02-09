@@ -57,6 +57,18 @@ describe('admin_module_form.test.js |', () => {
     });
 
     it('calls remove and reset on clear button click', () => {
+      const props: any = component.find('FlatButton').at(1).props();
+      expect(props.label).to.equal('Delete');
+
+      component.find('FlatButton').at(1).simulate('click');
+      expect(remove.callCount).to.equal(1);
+      expect(reset.callCount).to.equal(2);
+    });
+
+    it('calls change on all fields on clear click', () => {
+      const props: any = component.find('FlatButton').at(2).props();
+      expect(props.label).to.equal('Clear');
+
       component.find('FlatButton').at(2).simulate('click');
       expect(change.callCount).to.equal(4);
     });

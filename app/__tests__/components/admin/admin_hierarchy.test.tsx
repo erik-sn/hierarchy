@@ -52,4 +52,22 @@ describe('admin_hierarchy.test.tsx |', () => {
       expect(component.find('AdminSite')).to.have.length(1);
     });
   });
+
+  describe('splat missing | >>>', () => {
+    let component: ShallowWrapper<{}, {}>;
+    const props: IAdminHierarchyProps = {
+      fetchHierarchy: (params: string) => undefined,
+      sites: siteList,
+      splat: '',
+    };
+
+    beforeEach(() => {
+      component = shallow(<AdminHierarchy {...props} />);
+    });
+
+    it('renders something & has correct containers', () => {
+      expect(component).to.have.length(1);
+      expect(component.find('.admin__hierarchy-container')).to.have.length(1);
+    });
+  });
 });

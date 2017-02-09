@@ -33,7 +33,7 @@ describe('admin_site.test.tsx |', () => {
     beforeEach(() => {
       navigate = sinon.spy();
       component = shallow(<AdminSite {...props} navigate={navigate} />);
-      component.setState({ modules });
+      component.setState({ modules, apicalls });
     });
 
     it('renders something & has correct containers', () => {
@@ -42,6 +42,7 @@ describe('admin_site.test.tsx |', () => {
     });
 
     it('has the correct elements', () => {
+      expect(component.find('Connect(ReduxForm)')).to.have.length(1);
       expect(component.find('CardTitle')).to.have.length(1);
       expect(component.find('List')).to.have.length(1);
       expect(component.find('ListItem')).to.have.length(3);
@@ -57,6 +58,26 @@ describe('admin_site.test.tsx |', () => {
     });
   });
 
+  describe('modules/apicalls are undefined | >>>', () => {
+    let component: ShallowWrapper<{}, {}>;
+    let navigate: sinon.SinonSpy;
+    const props: IAdminSiteProps = {
+      site: siteList[0],
+      splat: '/atl/',
+      fetchHierarchy: undefined,
+      navigate: undefined,
+    };
+
+    beforeEach(() => {
+      navigate = sinon.spy();
+      component = shallow(<AdminSite {...props} navigate={navigate} />);
+      component.setState({ modules: undefined, apicalls: undefined });
+    });
+
+    it(`does not throw an error if renderConfig is called
+        andmodules/apicalls are not defined`, () => undefined);
+  });
+
   describe('Departments | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
     let navigate: sinon.SinonSpy;
@@ -70,11 +91,12 @@ describe('admin_site.test.tsx |', () => {
     beforeEach(() => {
       navigate = sinon.spy();
       component = shallow(<AdminSite {...props} navigate={navigate} />);
-      component.setState({ modules });
+      component.setState({ modules, apicalls });
     });
 
     it('renders a department screen', () => {
       expect(component.find('.admin__site-content-departments')).to.have.length(1);
+      expect(component.find('Department')).to.have.length(1);
     });
   });
 
@@ -91,11 +113,12 @@ describe('admin_site.test.tsx |', () => {
     beforeEach(() => {
       navigate = sinon.spy();
       component = shallow(<AdminSite {...props} navigate={navigate} />);
-      component.setState({ modules });
+      component.setState({ modules, apicalls });
     });
 
     it('renders a department screen', () => {
       expect(component.find('.admin__site-content-machines')).to.have.length(1);
+      expect(component.find('MachineAdmin')).to.have.length(1);
     });
   });
 
@@ -225,7 +248,7 @@ describe('admin_site.test.tsx |', () => {
       });
     });
 
-    it('4. shows an error message on fail', (done) => {
+    it('shows an error message on fail', (done) => {
       const instance: any = component.instance();
       instance.updateSite(siteList[0]);
       moxios.wait(() => {
@@ -242,7 +265,7 @@ describe('admin_site.test.tsx |', () => {
       });
     });
 
-    it('5. sets state correctly on handleMessageClose', () => {
+    it('sets state correctly on handleMessageClose', () => {
       component.setState({ messageShow: true });
       const instance: any = component.instance();
       instance.handleMessageClose();
