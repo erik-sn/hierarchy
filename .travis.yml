@@ -2,6 +2,5 @@ language: node_js
 node_js:
   - "6.1"
 before_install: "cd app"
-install: "yarn"
 before_script: "cd app"
-script: "cd ./appnpm test"
+script: "npm t"
