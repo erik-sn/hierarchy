@@ -16,7 +16,7 @@ const modules: IModule[] = [
   { name: 'module3', id: 3, label: 'module3', description: 'third', active: true },
 ];
 
-describe('admin_department_form.test.js |', () => {
+describe('department_form.test.tsx |', () => {
   let component: ShallowWrapper<{}, {}>;
   let handleSubmit: sinon.SinonSpy;
   let change: sinon.SinonSpy;
@@ -90,11 +90,11 @@ describe('admin_department_form.test.js |', () => {
       component = shallow(<DepartmentForm {...props} handleSubmit={handleSubmit} />);
     });
 
-    it('1. submit button has the label Create when in a modal', () => {
+    it('submit button has the label Create when in a modal', () => {
       expect(component.find('FlatButton').at(0).props().label).to.equal('Create');
     });
 
-    it('2. has no ModuleEdit in modal mode', () => {
+    it('has no ModuleEdit in modal mode', () => {
       expect(component.find('ModuleEdit')).to.have.length(0);
     });
   });

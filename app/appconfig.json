@@ -1,5 +1,6 @@
 {
-  "name": "Plant View",
-  "baseUrl": "",
-  "hierarchyapi": "http://localhost:8000/hierarchy"
+  "name": "Process Workshop",
+  "baseUrl": "/processworkshop",
+  "authUrl": "http://10.137.19.200/v1/userinfo/",
+  "hierarchyapi": "http://10.137.19.200/v1/hierarchy"
 }

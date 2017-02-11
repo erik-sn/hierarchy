@@ -4,14 +4,14 @@ import types from '../../src/actions/types';
 import { IAction, IAuth } from '../../src/constants/interfaces';
 import reducer, { initialState } from '../../src/reducers/auth_reducer';
 
-describe('auth_reducer.test.js | >>>', () => {
+describe('auth_reducer.test.ts | >>>', () => {
   const response = { data: { username: 'na\\test', ip: '0.0.0.0' } };
 
-  it('1. should return the initial state', () => {
+  it('should return the initial state', () => {
     expect(reducer(initialState, { payload: {}, type: 'test' })).to.deep.equal(initialState);
   });
 
-  it('2. should return the correct value for fetching auth', () => {
+  it('should return the correct value for fetching auth', () => {
     const result: IAuth = reducer(initialState, {
       payload: response,
       type: types.FETCH_AUTH,
@@ -21,7 +21,7 @@ describe('auth_reducer.test.js | >>>', () => {
     expect(result.error).to.equal(false);
   });
 
-  it('3. should have error = true if there is an error', () => {
+  it('should have error = true if there is an error', () => {
     const result = reducer(initialState, {
       error: true,
       type: types.FETCH_AUTH,

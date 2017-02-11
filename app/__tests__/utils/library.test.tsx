@@ -12,12 +12,19 @@ describe('library.test.tsx >>>', () => {
   describe('getComponent >>>', () => {
 
     it('returns the correct component with the correct props', () => {
-      const component: JSX.Element = getComponent('helloworld', { parent: { name: 'test' }});
+      const component: JSX.Element = getComponent('helloworld', { parent: { name: 'test' }}, '__test__');
       const wrapper = shallow(component);
       expect(wrapper.find('.helloworld__parent').text()).to.equal('Parent: test');
     });
 
     it('returns an invalid error if component was not found', () => {
+      const component: JSX.Element = getComponent('wrong', { parent: { name: 'test' }}, '__test__');
+      const wrapper = shallow(component);
+      expect(wrapper.find('h3').length).to.equal(1);
+      expect(wrapper.find('h3').text()).to.equal('There was an error loading this module');
+    });
+
+    it('returns an invalid error if component was not found - default __custom__ directory', () => {
       const component: JSX.Element = getComponent('wrong', { parent: { name: 'test' }});
       const wrapper = shallow(component);
       expect(wrapper.find('h3').length).to.equal(1);

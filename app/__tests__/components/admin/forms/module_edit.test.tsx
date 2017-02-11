@@ -149,7 +149,7 @@ describe('module_edit.test.tsx |', () => {
       );
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(component.find('SelectField').children()).to.have.length(0);
     });
   });

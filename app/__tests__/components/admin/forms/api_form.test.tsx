@@ -110,12 +110,12 @@ describe('api_form.test.tsx |', () => {
       );
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(component).to.have.length(1);
       expect(component.find('.admin__form-container')).to.have.length(1);
     });
 
-    it('2. renders correct elements', () => {
+    it('renders correct elements', () => {
       expect(component.find('Field')).to.have.length(4);
       expect(component.find('FlatButton')).to.have.length(2);
     });
@@ -138,7 +138,7 @@ describe('api_form.test.tsx |', () => {
       ));
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(mountedComponent).to.have.length(1);
       expect(mountedComponent.find('Connect(ReduxForm)')).to.have.length(1);
     });
@@ -159,7 +159,7 @@ describe('api_form.test.tsx |', () => {
       ));
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(mountedComponent).to.have.length(1);
       expect(mountedComponent.find('Connect(ReduxForm)')).to.have.length(1);
     });

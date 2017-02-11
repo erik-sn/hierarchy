@@ -94,7 +94,7 @@ describe('navbar.test.tsx |', () => {
       component = shallow(<Navbar {...props} />);
     });
 
-    it('1. shows no hierarchy items if no hierarchy is present', () => {
+    it('shows no hierarchy items if no hierarchy is present', () => {
       expect(component).to.exist;
       expect(component.find('.navbar__icon-container')).to.have.length(1);
     });
@@ -123,7 +123,7 @@ describe('navbar.test.tsx |', () => {
       component = shallow(<Navbar {...props} />);
     });
 
-    it('1. shows no hierarchy items if no hierarchy is present', () => {
+    it('shows no hierarchy items if no hierarchy is present', () => {
       expect(component.find('.navbar__hierarchy-item-parent')).to.have.length(0);
     });
   });
@@ -151,7 +151,7 @@ describe('navbar.test.tsx |', () => {
       component = shallow(<Navbar {...props} />);
     });
 
-    it('1. shows no hierarchy items if no hierarchy is present', () => {
+    it('shows no hierarchy items if no hierarchy is present', () => {
       expect(component.find('.navbar__hierarchy-item-parent')).to.have.length(0);
     });
   });

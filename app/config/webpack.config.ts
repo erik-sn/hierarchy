@@ -125,4 +125,11 @@ module.exports = {
     extensions: ['', '.webpack.js', '.web.js', '.js', '.ts', '.tsx', '.json'],
   },
   postcss: [autoprefixer],
+  // allow for dynamic requires
+  externals: {
+    'cheerio': 'window',
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true
+  }
 };

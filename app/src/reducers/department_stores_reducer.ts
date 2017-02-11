@@ -1,5 +1,6 @@
-import types from '../actions/types';
+import { fromJS } from 'immutable';
 
+import types from '../actions/types';
 import { IAction, IDepartmentIdMap, IHierarchy } from '../constants/interfaces';
 
 export const initialState = { error: false };
@@ -13,7 +14,7 @@ export default (state: any = initialState, action: IAction) => {
       }
       const { department, key } = action.meta;
       const departmentState: any = state[department] || {};
-      departmentState[key] = action.payload.data;
+      departmentState[key] = fromJS(action.payload.data);
       return {...state, [department]: departmentState };
     }
     default:
