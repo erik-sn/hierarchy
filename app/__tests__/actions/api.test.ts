@@ -16,7 +16,7 @@ describe('api.test.js (Actions)', () => {
       moxios.uninstall();
     });
 
-    it('1. Should generate the correct action for fetchAuth', () => {
+    it('Should generate the correct action for fetchAuth', () => {
       moxios.withMock(() => {
         const action: IAction = actions.fetchAuth();
         expect(action.type).to.equal(types.FETCH_AUTH);
@@ -24,7 +24,7 @@ describe('api.test.js (Actions)', () => {
       });
     });
 
-    it('2. Should generate the correct action for fetchHierachy', () => {
+    it('Should generate the correct action for fetchHierachy', () => {
       moxios.withMock(() => {
         const action: IAction = actions.fetchHierarchy();
         expect(action.type).to.equal(types.FETCH_HIERARCHY);

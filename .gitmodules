@@ -1,9 +1,12 @@
+<<<<<<< HEAD
 [submodule "app/src/components/__modules__/processworkshop"]
 	path = app/src/components/__modules__/processworkshop
 	url = git@github.com:erik-sn/processworkshop.git
 [submodule "app/src/components/__modules__/__modules__"]
 	path = app/src/components/__modules__/__modules__
 	url = git@github.com:erik-sn/processworkshop.git
+=======
+>>>>>>> 9e246042d52d245c8161cd4d638e8999f367b167
 [submodule "app/src/components/__custom__"]
 	path = app/src/components/__custom__
 	url = git@github.com:erik-sn/processworkshop.git

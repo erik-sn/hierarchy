@@ -2,10 +2,13 @@ app/node_modules
 app/coverage
 app/dist
 app/*.log*
+app/appconfig.json
 
 api/hierarchyenv
 api/env
 api/hierarchyapi/hierarchyapi/settings.py
+
+.gitmodules
 .idea
 .vscode
 *.error

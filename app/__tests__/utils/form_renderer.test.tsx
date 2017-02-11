@@ -10,7 +10,7 @@ import { renderCheckbox as Checkbox, IDateProps, IFieldProps, renderDateField,
   renderTimeField } from '../../src/utils/form_renderer';
 import { mountWithTheme } from '../helper';
 
-describe('Form Renderer | ', () => {
+describe('form_renderer.test.tsx | ', () => {
   let component: ShallowWrapper<{}, {}>;
   describe('renderDateField | >>>', () => {
     let onChange: sinon.SinonSpy;
@@ -30,12 +30,12 @@ describe('Form Renderer | ', () => {
       component = shallow(Element);
     });
 
-    it('1. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       expect(component.find('.mui-form-component')).to.have.length(1);
       expect(component.find('DatePicker')).to.have.length(1);
     });
 
-    it('2. Renders correct form component', () => {
+    it('Renders correct form component', () => {
       component.find('DatePicker').simulate('change');
       expect(onChange.callCount).to.equal(1);
     });

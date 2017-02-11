@@ -19,14 +19,15 @@ import { IDictionary } from '../constants/interfaces';
  * @param {*} props - properties to pass to the component
  * @returns {JSX.Element}
  */
-export function getComponent(name: string, props: any): JSX.Element {
+export function getComponent(name: string, props: any, directory: string = '__custom__'): JSX.Element {
   try {
-    const Component = require(`../components/__modules__/${name}/${name}.tsx`).default;
+    const Component = require(`../components/${directory}/${name}/${name}.tsx`).default;
     return <Component {...props} />;
   } catch (err) {
     console.error(err);
     return <h3 style={{ textAlign: 'center' }} >There was an error loading this module</h3>;
   }
+  
 }
 
 

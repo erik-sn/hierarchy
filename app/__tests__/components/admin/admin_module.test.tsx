@@ -256,7 +256,7 @@ describe('admin_module.test.tsx |', () => {
       component = mountWithTheme(reduxWrap(<ModuleAdminConnected {...props} />));
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(component).to.have.length(1);
       expect(component.find('.admin__modules')).to.have.length(1);
     });

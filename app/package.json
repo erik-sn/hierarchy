@@ -8,7 +8,7 @@
     "new": "ts-node ./config/newmodule.ts",
     "play": "ts-node ./config/playground.ts",
     "dev": "ts-node ./config/server.ts",
-    "test": "mocha --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/",
+    "test": "mocha --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/reducers/department_stores_reducer.test.ts",
     "tdd": "npm run test -- --watch",
     "coverage": "istanbul cover -x **/__tests__/** -e .tsx node_modules/mocha/bin/_mocha -- --compilers ts:ts-node/register,tsx:ts-node/register --require ./__tests__/helper.tsx --recursive ./__tests__/",
     "build": "webpack -p --config ./config/webpack.production.config.ts --progress --profile --colors",
@@ -103,7 +103,6 @@
     "recharts": "^0.19.0",
     "redux": "^3.6.0",
     "redux-form": "^6.2.0",
-    "redux-immutable": "^3.0.8",
     "redux-promise": "^0.5.3",
     "save-svg-as-png": "^1.0.3"
   }

@@ -16,7 +16,7 @@ const modules: IModule[] = [
   { name: 'module3', id: 3, label: 'module3', description: 'third', active: true },
 ];
 
-describe('admin_module_form.test.js |', () => {
+describe('module_form.test.tsx |', () => {
   let component: ShallowWrapper<{}, {}>;
   let handleSubmit: sinon.SinonSpy;
   let submitForm: sinon.SinonSpy;
@@ -113,12 +113,12 @@ describe('admin_module_form.test.js |', () => {
       );
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(component).to.have.length(1);
       expect(component.find('.admin__form-container')).to.have.length(1);
     });
 
-    it('2. renders correct elements', () => {
+    it('renders correct elements', () => {
       expect(component.find('Field')).to.have.length(4);
       expect(component.find('FlatButton')).to.have.length(2);
     });
@@ -141,7 +141,7 @@ describe('admin_module_form.test.js |', () => {
       ));
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(mountedComponent).to.have.length(1);
       expect(mountedComponent.find('Connect(ReduxForm)')).to.have.length(1);
     });
@@ -162,7 +162,7 @@ describe('admin_module_form.test.js |', () => {
       ));
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(mountedComponent).to.have.length(1);
       expect(mountedComponent.find('Connect(ReduxForm)')).to.have.length(1);
     });

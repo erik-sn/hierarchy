@@ -51,12 +51,12 @@ describe('application.test.tsx |', () => {
       );
     });
 
-    it('1. renders something & has correct containers', () => {
+    it('renders something & has correct containers', () => {
       expect(component.find('Navbar')).to.exist;
       expect(component.find('.application__content-container')).to.have.length(1);
     });
 
-    it('2. renders child components', () => {
+    it('renders child components', () => {
       expect(component.find('h3').text()).to.equal('Child');
     });
   });

@@ -26,7 +26,7 @@ polyfill();
 if (process.env.BROWSER) {
   const requireAll = (r: any) => r.keys().forEach(r);
   requireAll(require.context('../static/sass/', true, /\.scss$/));
-  requireAll(require.context('./components/__modules__', true, /\.scss$/));
+  requireAll(require.context('./components/__custom__', true, /\.scss$/));
 }
 
 // add redux middleware
