@@ -97,7 +97,7 @@ function renderFullPage(html: string, version: string): string {
       };
       ${rollBar}
       </script>
-      <link href="/processworkshop/static/media/logo-dark.png" rel="shortcut icon" type="image/x-icon" />
+      <link href="https://res.cloudinary.com/dvr87tqip/image/upload/v1486861616/logo-dark_nfrr2v.png" rel="shortcut icon" type="image/x-icon" />
       <link rel="stylesheet" href="/processworkshop/static/bundle.min.${version}.css">
       <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
       <link href='https://fonts.googleapis.com/css?family=Maven+Pro:400,500,700,900' rel="stylesheet" type="text/css" />

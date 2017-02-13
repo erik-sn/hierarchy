@@ -23,12 +23,12 @@ interface IFilter {
 export interface IFilterTableProps {
   tableData: Array<IDictionary<string>>;
   className?: string;
-  showFilter: boolean;
-  showCsv: boolean;
-  showResults: boolean;
-  showTotals: boolean;
+  showFilter?: boolean;
+  showCsv?: boolean;
+  showResults?: boolean;
+  showTotals?: boolean;
   config: IConfig[];
-  handleRowClick: () => void;
+  handleRowClick?: () => void;
 }
 
 export interface IFilterTableState {
@@ -239,10 +239,14 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
       for (let key in row) {
         if (row.hasOwnProperty(key)) {
           const value: string = row[key];
-          return exact ? value.toLowerCase() === filterValue :
-                         value.toLowerCase().indexOf(filterValue) > -1;
+          if (exact && value.toLowerCase() === filterValue) {
+            return true;
+          } else if (value.toLowerCase().indexOf(filterValue) > -1) {
+            return true;
+          }
         }
       }
+      return false;
     };
   }
 

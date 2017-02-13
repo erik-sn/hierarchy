@@ -14,13 +14,13 @@ describe('filter_table_data.test.tsx |', () => {
       {
         header: 'Name',
         label: 'name',
-        width: 200,
+        width: '200px',
         transform: undefined,
       },
       {
         header: 'Value',
         label: 'value',
-        width: 300,
+        width: '300px',
         transform: undefined,
       },
     ],

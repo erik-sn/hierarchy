@@ -59,11 +59,13 @@ class Navbar extends React.Component<INavbarProps, INavbarState> {
   }
 
   public hideNeighbors(e: React.MouseEvent<{}>) {
-    this.setState({
-      dropdownX: undefined,
-      dropdownY: undefined,
-      dropdownContainer: undefined,
-    });
+    if (this.state.dropdownContainer) {
+      this.setState({
+        dropdownX: undefined,
+        dropdownY: undefined,
+        dropdownContainer: undefined,
+      });
+    }
   }
 
   public renderNeighbors(path: string, neighbors: string[]): JSX.Element[] {
@@ -132,7 +134,12 @@ class Navbar extends React.Component<INavbarProps, INavbarState> {
         {this.state.dropdownContainer}
         <Link to="/" onClick={this.hideNeighbors} >
           <div className="navbar__icon-container">
-            <img alt="Logo" className="nav-bar-logo" src="/processworkshop/static/media/logo.png" height="40px" />
+            <img
+              alt="Logo"
+              className="nav-bar-logo"
+              src="https://res.cloudinary.com/dvr87tqip/image/upload/v1486861546/logo_jvidta.png"
+              height="40px"
+            />
           </div>
         </Link>
         <Link to="/" onClick={this.hideNeighbors}>

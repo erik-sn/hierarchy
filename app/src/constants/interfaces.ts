@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import { FormStateMap } from 'redux-form';
 
 /**
@@ -41,11 +42,6 @@ export interface IHierarchy {
   error: boolean;
 }
 
-// department store
-export interface IDepartmentIdMap {
-  error: boolean;
-  [key: number]: any;
-}
 
 // root reducer
 export interface IReduxState {
@@ -54,7 +50,7 @@ export interface IReduxState {
   toJS: Function;
   form: FormStateMap;
   display: IDisplay;
-  departmentStores: IDepartmentIdMap;
+  departmentStores: Map<number, any>;
 }
 
 /**
@@ -142,10 +138,10 @@ export interface IAxiosResponse {
 export interface IConfig {
   header: string;
   label: string;
-  width: number;
+  width: string;
   className?: string;
   childrenClass?: string;
-  transform: (rowValues: IDictionary<any>, label: any) => any;
+  transform?: (rowValues: IDictionary<any>, label: any) => any;
 }
 
 export interface IRowData extends IDictionary<any> {

@@ -31,19 +31,19 @@ describe('filter_table.test.tsx |', () => {
     {
       header: 'Name',
       label: 'name',
-      width: 200,
+      width: '200px',
       transform: undefined,
     },
     {
       header: 'Value',
       label: 'value',
-      width: 300,
+      width: '200px',
       transform: undefined,
     },
     {
       header: 'date',
       label: 'date',
-      width: 400,
+      width: '400px',
       transform: undefined,
     },
   ];

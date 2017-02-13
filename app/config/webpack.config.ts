@@ -37,14 +37,11 @@ if (!Array.prototype.some) {
     if (this == null) {
       throw new TypeError('Array.prototype.some called on null or undefined');
     }
-
     if (typeof fun !== 'function') {
       throw new TypeError();
     }
-
     const t: any = Object(this);
     const len: any = t.length >>> 0;
-
     const thisArg = arguments.length >= 2 ? arguments[1] : void 0;
     for (let i = 0; i < len; i++) {
       if (i in t && fun.call(thisArg, t[i], i, t)) {
@@ -55,13 +52,9 @@ if (!Array.prototype.some) {
   };
 }
 
-
 module.exports = {
-  eslint: {
-    configFile: './.eslintrc.json',
-  },
   // see https://webpack.github.io/docs/configuration.html#devtool
-  devtool: 'eval',
+  devtool: 'eval-source-map',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
@@ -85,9 +78,6 @@ module.exports = {
     }),
   ],
   module: {
-    /**
-     * Run linting to generate warnings, then transpile through babel
-     */
     loaders: [
       {
         test: /\.test.js$/,

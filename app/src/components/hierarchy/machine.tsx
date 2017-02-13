@@ -96,7 +96,7 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
 
 function mapStateToProps(state: IReduxState, ownProps: IMachineProps) {
   const id = ownProps.hierarchy.department.id;
-  return { departmentDataStore: state.departmentStores[id] };
+  return { departmentDataStore: state.departmentStores.get(id) };
 }
 
 export default connect<{}, {}, IMachineProps>(mapStateToProps)(Machine);

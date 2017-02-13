@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 export interface ICellProps {
-  width: number;
+  width: string;
   value: string;
   className?: string;
   handleClick: () => void;

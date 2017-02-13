@@ -28,28 +28,28 @@
 .host__label-large {
   @include host__default;
   width: 400px;
-  background-image: url('/processworkshop/static/media/host_br.svg');
+  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860428/host_br_klz6yq.svg);
 }
 
 .host__label-large:hover {
-  background-image: url('/processworkshop/static/media/host_br_fill.svg');
+  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860496/host_br_fill_r9lbq4.svg);
   transform: translateX(15px);
 }
 
 .host__tab {
   @include host__default;
   border-left: 2px solid $secondary;
-  background-image: url('/processworkshop/static/media/host_tab.svg');
+  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860532/host_tab_odxix3.svg);
 }
 
 .host__tab-selected {
   @include host__default;
   border-left: 2px solid $secondary;
-  background-image: url('/processworkshop/static/media/host_tab_selected.svg');
+  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860569/host_tab_selected_xkl3d4.svg);
   color: $primary;
 }
 
 .host__tab:hover {
-  background-image: url('/processworkshop/static/media/host_tab_fill.svg');
+  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860597/host_tab_fill_nrjy2l.svg);
   cursor: pointer;
 }

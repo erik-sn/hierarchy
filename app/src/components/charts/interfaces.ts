@@ -1,14 +1,15 @@
 import { IDictionary } from '../../constants/interfaces';
 
 export interface IChartProps {
-  chartData: Array<IDictionary<number>>;
-  padding: IPadding;
-  xAxis: string;
-  domain: number[];
+  chartData: Array<IDictionary<any>>;
+  padding?: IPadding;
+  xAxis?: string;
+  domain?: number[];
   lines?: any[];
   bars?: any[];
   showImage?: boolean;
   showDownload?: boolean;
+  colors?: string[];
 }
 
 

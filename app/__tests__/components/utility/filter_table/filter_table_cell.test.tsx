@@ -11,7 +11,7 @@ describe('filter_table_cell.test.tsx |', () => {
   let component: ShallowWrapper<{}, {}>;
   let handleClick: sinon.SinonSpy;
   const props: ICellProps = {
-    width: 200,
+    width: '200px',
     value: 'testval',
     className: 'test_class',
     handleClick: undefined,

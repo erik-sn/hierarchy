@@ -1,21 +1,25 @@
-import { fromJS } from 'immutable';
+import { fromJS, Map } from 'immutable';
 
 import types from '../actions/types';
-import { IAction, IDepartmentIdMap, IHierarchy } from '../constants/interfaces';
+import { IAction, IHierarchy } from '../constants/interfaces';
 
-export const initialState = { error: false };
+export const initialState = Map({ error: false });
 
 
 export default (state: any = initialState, action: IAction) => {
   switch (action.type) {
     case types.SET_DEPARTMENT_DATA: {
       if (action.error) {
-        return {...state, error: true };
+        return { error: true, ...state };
       }
+      /**
+       * department == department's primary key
+       * key == string representing apiCall's keyword
+       */
       const { department, key } = action.meta;
-      const departmentState: any = state[department] || {};
-      departmentState[key] = fromJS(action.payload.data);
-      return {...state, [department]: departmentState };
+      const departmentState = state.get(department) || Map({});
+      const departmentKeyData = departmentState.set(key, fromJS(action.payload.data));
+      return state.set(department, departmentKeyData);
     }
     default:
       return state;

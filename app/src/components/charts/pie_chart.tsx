@@ -50,7 +50,7 @@ const renderActiveShape = (props: any) => {
 };
 
 export interface IPieChartProps extends IChartProps {
-  handleClick: (entry: any) => void;
+  handleClick?: (entry: any) => void;
 }
 
 export interface IPieChartState {

@@ -6,6 +6,10 @@ interface String {
     includes: any;
 }
 
+interface ObjectConstructor {
+  assign: any;
+}
+
 interface NumberConstructor {
     isNaN: any;
 }

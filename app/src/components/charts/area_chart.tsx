@@ -8,12 +8,15 @@ import { IPadding } from './interfaces';
 
 export interface IAreaChartProps {
   chartData: Array<IDictionary<number>>;
-  padding: IPadding;
+  padding?: IPadding;
   xAxis: string;
-  domain: number[];
+  domain?: number[];
   lines: any[];
   showImage?: boolean;
   showDownload?: boolean;
+  fill?: string;
+  download?: boolean;
+  image?: boolean;
 }
 
 const AreaChartComponent = (props: IAreaChartProps) => {

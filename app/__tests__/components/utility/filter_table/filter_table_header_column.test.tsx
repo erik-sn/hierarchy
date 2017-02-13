@@ -13,7 +13,7 @@ describe('filter_table_header_column.test.tsx |', () => {
     let handleClick: sinon.SinonSpy;
     const props: IHeaderColumnProps = {
       option: {
-        width: 200,
+        width: '200px',
         header: 'name',
         label: 'Name',
         transform: undefined,
@@ -51,7 +51,7 @@ describe('filter_table_header_column.test.tsx |', () => {
     let handleClick: sinon.SinonSpy;
     const props: IHeaderColumnProps = {
       option: {
-        width: 200,
+        width: '200px',
         header: 'name',
         label: 'Name',
         transform: undefined,
@@ -77,7 +77,7 @@ describe('filter_table_header_column.test.tsx |', () => {
     let handleClick: sinon.SinonSpy;
     const props: IHeaderColumnProps = {
       option: {
-        width: 200,
+        width: '200px',
         header: 'name',
         label: 'Name',
         transform: undefined,
@@ -103,7 +103,7 @@ describe('filter_table_header_column.test.tsx |', () => {
     let handleClick: sinon.SinonSpy;
     const props: IHeaderColumnProps = {
       option: {
-        width: 200,
+        width: '200px',
         header: 'name',
         label: 'Name',
         transform: undefined,

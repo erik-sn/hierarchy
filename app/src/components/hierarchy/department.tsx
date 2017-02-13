@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -23,7 +24,7 @@ interface IParams {
 }
 
 export interface IDepartmentProps {
-  departmentDataStore: any;
+  departmentDataStore: Map<number, any>;
   hierarchy: IHierarchy;
   fetchDepartmentData: (id: number, url: string, key: string) => IAction;
   params: IParams;
@@ -48,7 +49,7 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
     this.setActiveModule = this.setActiveModule.bind(this);
   }
 
-  public componentDidMount() {
+  public componentDidMount(): void {
     const { hierarchy, fetchDepartmentData } = this.props;
     // apiCall objects are stored in the department hierarchy in the
     // databse. Iterate over each api call and update an index of redux
@@ -58,7 +59,7 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
     });
   }
 
-  public componentWillReceiveProps(nextProps: IDepartmentProps) {
+  public componentWillReceiveProps(nextProps: IDepartmentProps): void {
     const nextDepartment = nextProps.hierarchy.department;
     const url = window.location.pathname;
 
@@ -71,11 +72,11 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
     this.setState({ url, activeModule });
   }
 
-  public setActiveModule(activeModule: IModule) {
+  public setActiveModule(activeModule: IModule): void {
     this.setState({ activeModule });
   }
 
-  public renderActiveModule() {
+  public renderActiveModule(): JSX.Element {
     const { departmentDataStore, hierarchy } = this.props;
     const { activeModule } = this.state;
     const componentProps = {
@@ -96,7 +97,7 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
     );
   }
 
-  public render() {
+  public render(): JSX.Element {
     const { params, departmentDataStore, hierarchy, notFound } = this.props;
     if (notFound) {
       return <NotFound />;
@@ -130,7 +131,7 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
 
 function mapStateToProps(state: IReduxState, ownProps: IDepartmentProps) {
   const id = ownProps.hierarchy.department.id;
-  return { departmentDataStore: state.departmentStores[id] };
+  return { departmentDataStore: state.departmentStores.get(id) };
 }
 
 export default connect<{}, {}, IDepartmentProps>(mapStateToProps, { fetchDepartmentData })(Department);
