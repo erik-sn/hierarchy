@@ -1,3 +1,4 @@
+
 interface Array<T> {
     find(predicate: (search: T) => boolean) : T;
 }
@@ -34,6 +35,7 @@ declare module 'username' {
   export = _;
 }
 
+declare const Rollbar: any;
 
 declare module 'recharts' {
 	export const BarChart: any

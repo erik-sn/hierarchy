@@ -10,7 +10,7 @@ export default (state: any = initialState, action: IAction) => {
   switch (action.type) {
     case types.SET_DEPARTMENT_DATA: {
       if (action.error) {
-        return { error: true, ...state };
+        return state.set('error', true);
       }
       /**
        * department == department's primary key

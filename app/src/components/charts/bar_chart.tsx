@@ -5,7 +5,11 @@ import ChartContainer from './chart_container';
 import CustomTick from './custom_tick';
 import { IChartProps } from './interfaces';
 
-const BarChartComponent = (props: IChartProps) => (
+interface IBarChartProps extends IChartProps {
+  fill?: string;
+}
+
+const BarChartComponent = (props: IBarChartProps) => (
   <ChartContainer {...props} >
     <BarChart
       data={props.chartData}

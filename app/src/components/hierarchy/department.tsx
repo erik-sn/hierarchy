@@ -86,6 +86,9 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
       module: activeModule,
       departmentDataStore,
     };
+    if (process.env.TEST) {
+      return getComponent(activeModule.name, componentProps, '__test__');
+    }
     return getComponent(activeModule.name, componentProps);
   }
 

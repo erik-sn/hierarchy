@@ -39,17 +39,13 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.test.js$/,
+        test: /\.test.js$|\.test.ts$|\.test.tsx$/,
         loader: 'ignore',
       },
       {
-        test: /\.js$/,
-        loaders: ['babel'],
         include: path.join(__dirname, '../src'),
-      },
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css', 'postcss'],
+        loader: 'awesome-typescript-loader',
+        test: /\.tsx$|\.ts$/,
       },
       {
         test: /\.scss$/,
@@ -58,10 +54,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json',
-      },
-      {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        loader: 'file-loader',
       },
     ],
   },

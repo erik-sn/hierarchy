@@ -90,13 +90,13 @@ describe('filter_table.test.tsx |', () => {
 
     it('updates the filter, filterText, and tableData on filterText change', () => {
       const instance: any = component.instance();
-      instance.handleFilterUpdate('ne, z, name="hello", \'u\', test=missing');
+      instance.handleFilterUpdate('name="three", "one", z, \'u\', test=missing, value=7');
 
       const finalState: any = component.state();
-      expect(finalState.filters).to.deep.equal(['ne', 'z', 'name="hello"', "'u'", 'test=missing']);
+      expect(finalState.filters).to.deep.equal(['name="three"', '"one"', 'z', "'u'", 'test=missing', 'value=7']);
 
       const tableProps: any = component.find('TableData').props();
-      expect(tableProps.finalTableData.length).to.equal(2);  // two matches to these filters
+      expect(tableProps.finalTableData.length).to.equal(3);  // two matches to these filters
     });
 
     it('correctly filters when filterAny === false', () => {

@@ -241,7 +241,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
           const value: string = row[key];
           if (exact && value.toLowerCase() === filterValue) {
             return true;
-          } else if (value.toLowerCase().indexOf(filterValue) > -1) {
+          } else if (!exact && value.toLowerCase().indexOf(filterValue) > -1) {
             return true;
           }
         }

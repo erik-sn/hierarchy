@@ -1,3 +1,4 @@
+import { Map } from 'immutable';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
@@ -12,7 +13,7 @@ interface IHierarchy {
 }
 
 export interface IMachineProps {
-  departmentDataStore: any;
+  departmentDataStore: Map<number, any>;
   hierarchy: IHierarchy;
   activeModuleLabel: string;
 }
@@ -63,6 +64,9 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
       module: activeModule,
       departmentDataStore,
     };
+    if (process.env.TEST) {
+      return getComponent(activeModule.name, componentProps, '__test__');
+    }
     return getComponent(activeModule.name, componentProps);
   }
 

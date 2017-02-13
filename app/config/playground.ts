@@ -20,5 +20,3 @@ const isImmutable = fromJS([
   { key: 3, value: 'three' },
   { key: 4, value: 'four' },
 ]);
-
-console.log(is(isImmutable, toList))

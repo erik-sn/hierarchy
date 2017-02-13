@@ -1,10 +1,13 @@
+process.env.TEST = true;
+
 import { expect } from 'chai';
 import { ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
+import { Map } from 'immutable';
 import * as React from 'react';
 import * as sinon from 'sinon';
 
 import { mountWithTheme, reduxWrap } from '../../../__tests__/helper';
-import HelloWorld from '../../../src/components/__modules__/helloworld/helloworld';
+import HelloWorld from '../../../src/components/__test__/helloworld/helloworld';
 import DepartmentConnected, { Department,
   IDepartmentProps } from '../../../src/components/hierarchy/department';
 import Module from '../../../src/components/hierarchy/module';
@@ -21,7 +24,7 @@ const propsWithModule: IDepartmentProps = {
     machine: undefined,
     module: 'hello world',
   },
-  departmentDataStore: {},
+  departmentDataStore: Map<number, any>({}),
   notFound: false,
 };
 
@@ -36,7 +39,7 @@ describe('department.test.tsx |', () => {
         machine: undefined,
         module: undefined,
       },
-      departmentDataStore: {},
+      departmentDataStore: Map<number, any>({}),
       notFound: false,
     };
 
@@ -120,7 +123,7 @@ describe('department.test.tsx |', () => {
         machine: 'ax7',
         module: undefined,
       },
-      departmentDataStore: {},
+      departmentDataStore: Map<number, any>({}),
       notFound: false,
     };
 
@@ -144,7 +147,7 @@ describe('department.test.tsx |', () => {
         machine: undefined,
         module: 'helloworld',
       },
-      departmentDataStore: {},
+      departmentDataStore: Map<number, any>({}),
       notFound: true,
     };
 
@@ -167,7 +170,7 @@ describe('department.test.tsx |', () => {
         machine: undefined,
         module: undefined,
       },
-      departmentDataStore: {},
+      departmentDataStore: Map<number, any>({}),
       notFound: false,
     };
 

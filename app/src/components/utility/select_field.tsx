@@ -10,18 +10,18 @@ import { IDictionary } from '../../constants/interfaces';
 import SelectionsPresenter from './selections_presenter';
 
 export interface ISelectFieldProps {
-  style?: IDictionary<string>;
+  style?: IDictionary<any>;
   menuProps?: any;
   children?: JSX.Element[];
   value?: any;
-  autocompleteFilter: (filter: string, value: string) => boolean;
+  autocompleteFilter?: (filter: string, value: string) => boolean;
   displaySelectionsRenderer?: (value: string, hint: string) => void;
   name?: string;
   hintText?: string;
   className?: string;
-  autoComplete: boolean;
-  multiple: boolean;
-  disableSearch: boolean;
+  autoComplete?: boolean;
+  multiple?: boolean;
+  disableSearch?: boolean;
   onSelect?: (selectedMenuItem: any, name: string) => void;
 }
 

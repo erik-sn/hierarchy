@@ -1,10 +1,13 @@
+process.env['TEST'] = true;
+
 import { expect } from 'chai';
 import { ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
+import { Map } from 'immutable';
 import * as React from 'react';
 import * as sinon from 'sinon';
 
 import { mountWithTheme, reduxWrap } from '../../../__tests__/helper';
-import HelloWorld from '../../../src/components/__modules__/helloworld/helloworld';
+import HelloWorld from '../../../src/components/__test__/helloworld/helloworld';
 import MachineConnected, { IMachineProps,
   Machine } from '../../../src/components/hierarchy/machine';
 import Module from '../../../src/components/hierarchy/module';
@@ -19,7 +22,7 @@ describe('machine.test.tsx |', () => {
     const props: IMachineProps = {
       hierarchy: resolvePath(siteList, '/atl/extrusion/ax7'),
       activeModuleLabel: undefined,
-      departmentDataStore: {},
+      departmentDataStore: Map<number, any>({}),
     };
 
     beforeEach(() => {
@@ -38,7 +41,7 @@ describe('machine.test.tsx |', () => {
       const nextProps: IMachineProps = {
         hierarchy: resolvePath(siteList, '/atl/extrusion/ax2'),
         activeModuleLabel: undefined,
-        departmentDataStore: {},
+        departmentDataStore: Map<number, any>({}),
       };
       const initialState: any = component.state();
       expect(initialState.activeModule.name).to.equal('helloworld');
@@ -52,7 +55,7 @@ describe('machine.test.tsx |', () => {
       const nextProps: IMachineProps = {
         hierarchy: resolvePath(siteList, '/atl/extrusion/ax4'),
         activeModuleLabel: 'overview',
-        departmentDataStore: {},
+        departmentDataStore: Map<number, any>({}),
       };
       const initialState: any = component.state();
       expect(initialState.activeModule.name).to.equal('helloworld');
@@ -76,7 +79,7 @@ describe('machine.test.tsx |', () => {
       const nextProps: IMachineProps = {
         hierarchy: resolvePath(siteList, '/atl/extrusion/ax7'),
         activeModuleLabel: undefined,
-        departmentDataStore: {},
+        departmentDataStore: Map<number, any>({}),
       };
       const initialState: any = component.state();
       component.setProps(nextProps);
@@ -96,7 +99,7 @@ describe('machine.test.tsx |', () => {
     const props: IMachineProps = {
       hierarchy: resolvePath(siteList, '/atl/extrusion/ax7'),
       activeModuleLabel: 'hello world',
-      departmentDataStore: {},
+      departmentDataStore: Map<number, any>({}),
     };
 
     beforeEach(() => {
@@ -117,7 +120,7 @@ describe('machine.test.tsx |', () => {
     const props: IMachineProps = {
       hierarchy: resolvePath(siteList, '/atl/extrusion/ax7'),
       activeModuleLabel: undefined,
-      departmentDataStore: {},
+      departmentDataStore: Map<number, any>({}),
     };
 
     beforeEach(() => {

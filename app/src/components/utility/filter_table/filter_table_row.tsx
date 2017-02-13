@@ -61,7 +61,6 @@ class Row extends React.Component<IRowProps, {}> {
    */
   public handleCellClick(columnIndex: number) {
     const { handleClick } = this.props;
-    console.log(handleClick);
     if (handleClick) {
       handleClick(this.props.rowData, columnIndex);
     }

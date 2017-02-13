@@ -54,7 +54,7 @@ if (!Array.prototype.some) {
 
 module.exports = {
   // see https://webpack.github.io/docs/configuration.html#devtool
-  devtool: 'eval-source-map',
+  devtool: 'eval',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
@@ -80,22 +80,13 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.test.js$/,
+        test: /\.test.js$|\.test.ts$|\.test.tsx$/,
         loader: 'ignore',
       },
       {
         include: path.join(__dirname, '../src'),
         loader: 'awesome-typescript-loader',
-        test: /\.tsx$/,
-      },
-      {
-        include: path.join(__dirname, '../src'),
-        loader: 'awesome-typescript-loader',
-        test: /\.ts$/,
-      },
-      {
-        test: /\.css$/,
-        loaders: ['style', 'css', 'postcss'],
+        test: /\.tsx$|\.ts$/,
       },
       {
         test: /\.scss$/,
@@ -104,10 +95,6 @@ module.exports = {
       {
         test: /\.json$/,
         loader: 'json',
-      },
-      {
-        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
-        loader: 'file-loader',
       },
     ],
   },
@@ -120,6 +107,6 @@ module.exports = {
     'cheerio': 'window',
     'react/addons': true,
     'react/lib/ExecutionEnvironment': true,
-    'react/lib/ReactContext': true
-  }
+    'react/lib/ReactContext': true,
+  },
 };
