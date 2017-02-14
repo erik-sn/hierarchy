@@ -31,7 +31,7 @@ const displaySelectionsRenderer = (value: any, hintText: string): JSX.Element =>
 const SelectionsPresenter = ({ value, hintText }: ISelectionsPresenterProps) => {
   let hintStyle: IDictionary<any> = { flex: 1 };
   if (!value) {
-    hintStyle = { flex: 1, color: '#999', fontStyle: 'italic', fontSize: '0.8rem' };
+    hintStyle = { flex: 1, color: '#999', fontStyle: 'italic', fontSize: '0.8rem', outline: 'none' };
   }
   return (
     <div style={{ height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>

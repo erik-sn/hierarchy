@@ -48,6 +48,7 @@ export class Application extends React.Component<IApplicationProps, {}> {
         <Modal
           title="Error"
           error
+          contentClass="modal__error"
           message={`There was an error retrieving application information - 
             please refresh the page or contact the administrator`}
         />
@@ -57,7 +58,7 @@ export class Application extends React.Component<IApplicationProps, {}> {
 
     let loader;
     if (!user || !user.username || !sites) {
-      loader = <div style={{ marginTop: '20%' }}><Loader /></div>;
+      loader = <div style={{ marginTop: '20%' }}><Loader scale={3} /></div>;
     }
 
     let modalComponent;

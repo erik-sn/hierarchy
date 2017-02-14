@@ -27,7 +27,6 @@ export function getComponent(name: string, props: any, directory: string = '__cu
     console.error(err);
     return <h3 style={{ textAlign: 'center' }} >There was an error loading this module</h3>;
   }
-  
 }
 
 
@@ -42,7 +41,9 @@ export function getComponent(name: string, props: any, directory: string = '__cu
  *
  */
 export function isMomentParameter(list: Array<IDictionary<any>>, parameter: string) {
-  return !list.some((listItem) => !moment(listItem[parameter]).isValid());
+  const isMoment: boolean = !list.some((listItem) => !moment(listItem[parameter]).isValid());
+  console.log(list, parameter, isMoment);
+  return isMoment;
 }
 
 /**

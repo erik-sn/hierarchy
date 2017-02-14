@@ -71,7 +71,7 @@ export const Modal = (props: IModalProps) => {
   return (
     <div className={`modal__container${className ? ` ${className}` : ''}`} >
       <Dialog
-        contentClassName={`modal__dialog-container${contentClass ? ` ${contentClass}` : ''}`}
+        contentClassName="modal__dialog-container"
         bodyClassName="modal__dialog-body-container"
         titleStyle={{ fontSize: '1.5rem' }}
         title={titleBar}
@@ -80,7 +80,7 @@ export const Modal = (props: IModalProps) => {
         onRequestClose={props.hideModal}
         actions={!modal ? actions : undefined}
       >
-        <div className="modal__message-container">
+        <div className={`modal__message-container${contentClass ? ` ${contentClass}` : ''}`}>
           {message}
         </div>
         <div className={`modal__child-container ${childClass || ''}`.trim()}>

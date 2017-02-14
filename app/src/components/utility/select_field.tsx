@@ -211,7 +211,7 @@ class SelectField extends React.Component<ISelectFieldProps, ISelectFieldState> 
               hintText={hintText}
               onChange={this.handleTextFieldAutocompletionFiltering}
               onKeyDown={this.handleTextFieldKeyDown}
-              style={{ marginLeft: 16, width: menuWidth - 16 * 2, outline: 'none' }}
+              style={{ marginLeft: 16, width: menuWidth - 16 * 2}}
             />
           }
           <Menu

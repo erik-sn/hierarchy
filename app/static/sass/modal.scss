@@ -5,6 +5,10 @@
   width: 400px !important;
 }
 
+.modal__dialog-container svg {
+  fill: whitesmoke !important;
+}
+
 .modal__child-container {
   display: flex;
   justify-content: center;
@@ -18,4 +22,8 @@
 
 .modal__dialog-body-container {
   padding: 0px !important;
+}
+
+.modal__error {
+  margin: 15px;
 }
