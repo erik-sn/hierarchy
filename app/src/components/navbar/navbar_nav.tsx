@@ -11,10 +11,10 @@ export interface INavbarNavProps {
 const Nav = ({ active, to, name, handleClick }: INavbarNavProps) => {
   const isLast = active ? 'navbar__hierarchy-item-last' : '';
   return (
-    <div className={`navbar__hierarchy-item-parent ${isLast}`} onClick={handleClick}>
+    <div className="navbar__hierarchy-item-parent" onClick={handleClick}>
       <div className="navbar__chain-container" />
       <Link to={to.toLowerCase()} >
-        <div className="navbar__hierarchy-item-child">{name}</div>
+        <div className={`navbar__hierarchy-item-child ${isLast}`}>{name}</div>
       </Link>
     </div>
   );

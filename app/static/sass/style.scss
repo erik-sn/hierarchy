@@ -114,3 +114,8 @@ html, body {
     }
   }
 }
+
+div:focus, textarea:focus, input:focus{
+  outline: 0 !important;
+  outline: none !important;
+}

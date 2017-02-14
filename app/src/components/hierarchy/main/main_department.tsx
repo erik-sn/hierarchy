@@ -17,6 +17,7 @@ export const MainDepartment = ({ site, department }: IMainDepartmentProps) => {
     <Card className="main__department-container">
       <CardHeader
         title={<DepartmentTitle url={url} name={department.name} />}
+        className="main__department-title-container"
         actAsExpander
         showExpandableButton
       />

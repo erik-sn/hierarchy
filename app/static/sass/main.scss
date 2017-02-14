@@ -64,6 +64,7 @@ a {
 
   svg {
     color: white !important;
+    fill: white !important;
   }
 
   span {
@@ -73,7 +74,7 @@ a {
 }
 
 .main__department-title-container:hover {
-  background: $tertiary;
+  background: $tertiary !important;
 }
 
 .main__department-title {
@@ -86,7 +87,7 @@ a {
 }
 
 .main__department-title:hover {
-  transform: translateX(25px);
+  transform: translateX(25px) scale(1.1);
   transition: 0.25s ease-in-out;
 }
 
@@ -103,7 +104,12 @@ a {
 .main__department-title-icon {
   display: none;
   align-items: center;
+    
+  button > svg {
+    fill: whitesmoke !important;
+  }
 }
+
 
 .main__site-place {
   position: absolute;

@@ -11,7 +11,7 @@ export const DepartmentTitle = ({ name, url }: IDepartmentTitleProps) => (
   <Link to={url.toLowerCase()} >
     <div className="main__department-title">
       <div className="main__department-title-icon">
-        <Arrow style={{ height: '35px', width: '35px' }} />
+        <Arrow style={{ height: '35px', width: '35px', color: 'whitesmoke' }} />
       </div>
       <div className="main__department-title-label">
         {`${name}`}
