@@ -1,5 +1,8 @@
 import * as React from 'react';
 
+import { detectIE } from '../utils/dom';
+import IeLoader from './ie_loader';
+
 export interface ILoaderProps {
   style?: {};
   fill?: string;
@@ -7,6 +10,13 @@ export interface ILoaderProps {
 }
 
 const Loader = ({ style, scale, fill }: ILoaderProps): JSX.Element => {
+  if(detectIE()) {
+    return (
+      <div className="loading__container" style={style} >
+        <IeLoader />
+      </div>
+    )
+  }
   return (
     <div className="loading__container" style={style} >
       <svg

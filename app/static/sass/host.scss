@@ -16,11 +16,11 @@
 .host__label-small {
   @include host__default;
   width: 150px;
-  background-image: url(https://b.thumbs.redditmedia.com/daOZsA2E0SvASkEZYB-hfgBtBlpgcM6P2NBxBpta5CE.png);
+  background-image: url("https://b.thumbs.redditmedia.com/daOZsA2E0SvASkEZYB-hfgBtBlpgcM6P2NBxBpta5CE.png");
 }
 
 .host__label-small:hover {
-  background-image: url(https://b.thumbs.redditmedia.com/f-IZ6Y83scWHx1MSElLDJF-fjzqiLkqH0X6nWRG4rKo.png);
+  background-image: url("https://b.thumbs.redditmedia.com/f-IZ6Y83scWHx1MSElLDJF-fjzqiLkqH0X6nWRG4rKo.png");
   border-left: 1px solid #67fffe;
   cursor: pointer;
 }
@@ -28,28 +28,28 @@
 .host__label-large {
   @include host__default;
   width: 400px;
-  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860428/host_br_klz6yq.svg);
+  background-image: url("https://res.cloudinary.com/dvr87tqip/image/upload/v1486860428/host_br_klz6yq.svg");
 }
 
 .host__label-large:hover {
-  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860496/host_br_fill_r9lbq4.svg);
+  background-image: url("https://res.cloudinary.com/dvr87tqip/image/upload/v1486860496/host_br_fill_r9lbq4.svg");
   transform: translateX(15px);
 }
 
 .host__tab {
   @include host__default;
   border-left: 2px solid $secondary;
-  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860532/host_tab_odxix3.svg);
+  background-image: url("https://res.cloudinary.com/dvr87tqip/image/upload/v1486860532/host_tab_odxix3.svg");
 }
 
 .host__tab-selected {
   @include host__default;
   border-left: 2px solid $secondary;
-  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860569/host_tab_selected_xkl3d4.svg);
+  background-image: url("https://res.cloudinary.com/dvr87tqip/image/upload/v1486860569/host_tab_selected_xkl3d4.svg");
   color: $primary;
 }
 
 .host__tab:hover {
-  background-image: url(https://res.cloudinary.com/dvr87tqip/image/upload/v1486860597/host_tab_fill_nrjy2l.svg);
+  background-image: url("https://res.cloudinary.com/dvr87tqip/image/upload/v1486860597/host_tab_fill_nrjy2l.svg");
   cursor: pointer;
 }

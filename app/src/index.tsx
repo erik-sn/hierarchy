@@ -3,9 +3,15 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
+import runPolyfills from './utils/polyfill';
 
 // keep all style imports in this js file so webpack imports them
 import App from './app';
+
+
+// support for ie11
+runPolyfills();
+
 
 const appConfig = require('../appconfig.json');
 

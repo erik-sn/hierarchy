@@ -1,7 +1,7 @@
 import types from '../actions/types';
 import { IAction, IDisplay } from '../constants/interfaces';
 
-const config = require('../../appconfig');
+const config = require('../../appconfig.json');
 
 export const initialState: IDisplay = {
   config,

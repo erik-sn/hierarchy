@@ -106,6 +106,16 @@ function renderFullPage(html: string, version: string): string {
       <div id="root">${html}</div>
     </body>
     <script src="/processworkshop/static/bundle.min.${version}.js"></script>
+    <script>
+      var ua = window.navigator.userAgent;
+      if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+        var ieCount = JSON.parse(localStorage.getItem('ieCount')) || 0;
+        localStorage.setItem('ieCount', JSON.stringify(ieCount + 1));
+        if (ieCount === 0 || ieCount % 5 === 0) {
+          alert('We recommend using Google Chrome for this application - It can be installed through the Mohawk Software Portal.');
+        }
+      }
+    </script>
     </html>
   `;
 }

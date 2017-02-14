@@ -3,6 +3,7 @@ import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
 import * as path from 'path';
 import * as webpack from 'webpack';
 
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const appconfig = require('../package.json');
 const autoprefixer = require('autoprefixer');
 require('es6-promise').polyfill();
@@ -24,6 +25,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('production'),
       },
     }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
     new webpack.optimize.UglifyJsPlugin({
       compress: { warnings: false },
     }),
@@ -35,6 +37,7 @@ module.exports = {
     new CopyWebpackPlugin([
         { context: './static/media/', from: '*' },
     ]),
+    new BundleAnalyzerPlugin(),
   ],
   module: {
     loaders: [

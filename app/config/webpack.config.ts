@@ -1,56 +1,8 @@
 import * as CopyWebpackPlugin from 'copy-webpack-plugin';
 import * as path from 'path';
 import * as webpack from 'webpack';
-
+ 
 const autoprefixer = require('autoprefixer');
-
-// polyfills for IE11 support
-require('es6-promise').polyfill(); // promise
-
-// .isNan
-Number.isNaN = Number.isNaN || function(value: any) {
-    return typeof value === 'number' && isNaN(value);
-};
-
-// .includes
-if (!String.prototype.includes) {
-  String.prototype.includes = function(search: string, start: number) {
-    'use strict';
-    if (typeof start !== 'number') {
-      start = 0;
-    }
-    if (start + search.length > this.length) {
-      return false;
-    } else {
-      return this.indexOf(search, start) !== -1;
-    }
-  };
-}
-
-// .some
-// Production steps of ECMA-262, Edition 5, 15.4.4.17
-// Reference: http://es5.github.io/#x15.4.4.17
-if (!Array.prototype.some) {
-  Array.prototype.some = function(fun/*, thisArg*/) {
-    'use strict';
-
-    if (this == null) {
-      throw new TypeError('Array.prototype.some called on null or undefined');
-    }
-    if (typeof fun !== 'function') {
-      throw new TypeError();
-    }
-    const t: any = Object(this);
-    const len: any = t.length >>> 0;
-    const thisArg = arguments.length >= 2 ? arguments[1] : void 0;
-    for (let i = 0; i < len; i++) {
-      if (i in t && fun.call(thisArg, t[i], i, t)) {
-        return true;
-      }
-    }
-    return false;
-  };
-}
 
 module.exports = {
   // see https://webpack.github.io/docs/configuration.html#devtool
@@ -76,6 +28,7 @@ module.exports = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
   ],
   module: {
     loaders: [

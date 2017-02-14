@@ -79,6 +79,7 @@
     "url-loader": "^0.5.7",
     "username": "^2.3.0",
     "webpack": "^1.12.9",
+    "webpack-bundle-analyzer": "^2.3.0",
     "webpack-dev-server": "^1.16.2"
   },
   "dependencies": {

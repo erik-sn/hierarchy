@@ -35,7 +35,31 @@ declare module 'username' {
   export = _;
 }
 
+// global variable RollBar
 declare const Rollbar: any;
+
+// extra definitions for JSX
+declare namespace JSX {
+  interface IntrinsicElements {
+    animate: any;
+  }
+}
+
+// extra definitions for axios
+declare namespace Axios {
+  interface AxiosStatic {
+    isCancel: any;
+  }
+}
+
+// extra definitions for material-ui
+declare namespace __MaterialUI {
+  namespace Card {
+    interface CardHeaderProps {
+      className?: string;
+    }
+  }
+}
 
 declare module 'recharts' {
 	export const BarChart: any

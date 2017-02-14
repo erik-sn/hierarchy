@@ -73,6 +73,7 @@ export class Application extends React.Component<IApplicationProps, {}> {
       try {
         hierarchy = resolvePath(sites, location.pathname);
       } catch (e) {
+        console.error(e);
         hierarchy = undefined;
       }
       const cloneChild = (child: React.ReactElement<{}>) => React.cloneElement(child, { sites, hierarchy } as any);

@@ -1,5 +1,3 @@
-
-import { polyfill } from 'es6-promise';
 import { useBasename } from 'history';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -15,8 +13,7 @@ import routes from './routes';
 
 // const useBasename = require('history').useBaseName;
 const appConfig = require('../appconfig.json');
-// promise polyfill for ie11
-polyfill();
+
 
 
 // require all .scss files for deploy if we are not server rendering
