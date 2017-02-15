@@ -1,6 +1,6 @@
 /* eslint-disable  */
 import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import { render } from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 import runPolyfills from './utils/polyfill';
@@ -29,7 +29,7 @@ if (!appConfig.hasOwnProperty('hierarchyapi')) {
 injectTapEventPlugin();
 
 const rootEl: HTMLElement = document.getElementById('root');
-ReactDOM.render(
+render(
   <AppContainer>
     <App />
   </AppContainer>,
@@ -41,7 +41,7 @@ if (module.hot) {
     // If you use Webpack 2 in ES modules mode, you can
     // use <App /> here rather than require() a <NextApp />.
     const NextApp = require('./app').default;
-    ReactDOM.render(
+    render(
       <AppContainer>
          <NextApp />
       </AppContainer>,

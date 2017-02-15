@@ -35,7 +35,12 @@ export function getCookie(name: string): string {
 }
 
 export function detectIE() {
-  const ua = window.navigator.userAgent;
+  let ua;
+  try {
+    ua = window.navigator.userAgent;
+  } catch (e) {
+      return true;
+  }
   const msie = ua.indexOf('MSIE ');
   if (msie > 0) {
     return parseInt(ua.substring(msie + 5, ua.indexOf('.', msie)), 10);

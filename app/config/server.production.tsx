@@ -23,7 +23,7 @@ const appconfig = require('../package.json');
 declare var global: any;
 global.navigator = { userAgent: 'all' };
 const app = express(); // delcare application
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // material-ui theme
 const muiTheme = getMuiTheme({
