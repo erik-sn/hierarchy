@@ -88,7 +88,7 @@ if (!/^[\w]+$/.test(moduleName)) {
 }
 
 // create module if it does not exist
-const dir: string = `src/components/__modules__/${moduleName}/`;
+const dir: string = `src/components/__custom__/${moduleName}/`;
 try {
   fs.accessSync(dir);
   console.log(`The module '${moduleName}' already exists.`);

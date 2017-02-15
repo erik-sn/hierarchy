@@ -162,10 +162,10 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     const updatedMachine = machine;
     updatedMachine.site =  this.props.site.id;
     updatedMachine.department = this.state.department.id;
-    axios.put(`${types.API}/machines/${machine.id}/`, updatedMachine, types.API_CONFIG)
-    .then(() => this.props.message(`Machine Successfully Updated: ${machine.name}`))
+    axios.put(`${types.API}/machines/${updatedMachine.id}/`, updatedMachine, types.API_CONFIG)
+    .then(() => this.props.message(`Machine Successfully Updated: ${updatedMachine.name}`))
     .then(() => this.props.fetchHierarchy())
-    .catch(() => this.props.message(`Error Updating Machine: ${machine.name}`))
+    .catch(() => this.props.message(`Error Updating Machine: ${updatedMachine.name}`))
     .then(() => this.resetState());
   }
 
