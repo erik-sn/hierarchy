@@ -7,7 +7,8 @@ import AdminSiteList from './admin_site_list';
 
 import { ISite } from '../../constants/interfaces';
 
-const navigate = buildNavigate('/admin/hierarchy');
+const appConfig = require('../../../appconfig.json');
+const navigate = buildNavigate(`${appConfig.baseUrl}/admin/hierarchy`);
 
 export interface IAdminHierarchyProps {
   sites: ISite[];
@@ -26,7 +27,7 @@ export const AdminHierarchy = (props: IAdminHierarchyProps): JSX.Element => {
   let siteNavigate;
   if (code) {
     activeSite = sites.find((site) => code.toUpperCase() === site.code);
-    siteNavigate = buildNavigate(`/admin/hierarchy/${code}`);
+    siteNavigate = buildNavigate(`${appConfig.baseUrl}/admin/hierarchy/${code}`);
   }
 
   const adminSiteList = (
