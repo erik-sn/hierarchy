@@ -1,5 +1,6 @@
 import { Map } from 'immutable';
 import * as React from 'react';
+import { spring } from 'react-motion';
 import { connect } from 'react-redux';
 
 import { getComponent } from '../../utils/library';
@@ -9,6 +10,8 @@ import Machine from './machine';
 import { fetchDepartmentData } from '../../actions/index';
 import { IAction, IDepartment, IMachine, IModule, IReduxState, ISite } from '../../constants/interfaces';
 import renderModules, { retrieveModule } from './renderModules';
+
+const Transition = require('react-motion-ui-pack').default;
 
 interface IHierarchy {
   site: ISite;
@@ -92,6 +95,8 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
     return getComponent(activeModule.name, componentProps);
   }
 
+  public generateSpring = (value: number) => spring(value, { stiffness: 70, damping: 40 });
+
   public render(): JSX.Element {
     const { params, departmentDataStore, hierarchy, notFound } = this.props;
     if (notFound) {
@@ -112,11 +117,21 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
         <div className="display__module-container">
           {renderModules(activeModule, hierarchy.department, this.setActiveModule)}
         </div>
-        <div className="display__content-container" >
-          <div className="display__component-container" >
-            {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
+        <Transition
+          key={activeModule.id}
+          component={'div'} // don't use a wrapping component
+          enter={{ opacity: this.generateSpring(1), scale: 1 }}
+          leave={{ opacity: this.generateSpring(0), scale: 0.99 }}
+        >
+          {
+          <div key={activeModule.id + 1} className="display__content-container" >
+            <div className="display__component-container" >
+              {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3>
+              : this.renderActiveModule()}
+            </div>
           </div>
-        </div>
+          }
+        </Transition>
       </div>
     );
   }

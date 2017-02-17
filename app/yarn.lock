@@ -122,6 +122,12 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-motion":
+  version "0.0.21"
+  resolved "https://registry.yarnpkg.com/@types/react-motion/-/react-motion-0.0.21.tgz#4d341968c541de7ab5fee7814e2edc3c737b3eba"
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^4.4.35":
   version "4.4.36"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-4.4.36.tgz#5d1e768f3291c66c8e54d8a48e42f7cb554a7d87"
@@ -1796,6 +1802,10 @@ generate-object-property@^1.1.0:
 get-caller-file@^1.0.1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/get-caller-file/-/get-caller-file-1.0.2.tgz#f702e63127e7e231c160a80c1554acb70d5047e5"
+
+get-prefix@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/get-prefix/-/get-prefix-1.0.0.tgz#0d305448a4e3176f9c277175b14e16dbe6fba0b5"
 
 get-stdin@^4.0.1:
   version "4.0.1"
@@ -3474,7 +3484,7 @@ pbkdf2-compat@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pbkdf2-compat/-/pbkdf2-compat-2.0.1.tgz#b6e0c8fa99494d94e0511575802a59a5c142f288"
 
-performance-now@~0.2.0:
+performance-now@^0.2.0, performance-now@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-0.2.0.tgz#33ef30c5c77d4ea21c5a53869d91b56d8f2555e5"
 
@@ -3856,7 +3866,7 @@ querystringify@0.0.x:
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/querystringify/-/querystringify-0.0.4.tgz#0cf7f84f9463ff0ae51c4c4b142d95be37724d9c"
 
-raf@^3.2.0:
+raf@^3.1.0, raf@^3.2.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/raf/-/raf-3.3.0.tgz#93845eeffc773f8129039f677f80a36044eee2c3"
   dependencies:
@@ -3948,6 +3958,20 @@ react-infinite@^0.10.0:
     lodash.isarray "3.0.4"
     lodash.isfinite "3.2.0"
     object-assign "4.0.1"
+
+react-motion-ui-pack:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/react-motion-ui-pack/-/react-motion-ui-pack-0.10.2.tgz#adcf3c4fe280eded93cee04669c60b390d5416a7"
+  dependencies:
+    get-prefix "^1.0.0"
+    react-motion "^0.4.5"
+
+react-motion@^0.4.5:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.4.7.tgz#f77331ec7920bdb0d0cfc37eb6ffa10571bf42c7"
+  dependencies:
+    performance-now "^0.2.0"
+    raf "^3.1.0"
 
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"

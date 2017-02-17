@@ -1,10 +1,13 @@
 import { Map } from 'immutable';
 import * as React from 'react';
+import { spring } from 'react-motion';
 import { connect } from 'react-redux';
 
 import { IDepartment, IMachine, IModule, IReduxState, ISite } from '../../constants/interfaces';
 import { getComponent } from '../../utils/library';
 import renderModules, { retrieveModule } from './renderModules';
+
+const Transition = require('react-motion-ui-pack').default;
 
 interface IHierarchy {
   site: ISite;
@@ -21,6 +24,7 @@ export interface IMachineProps {
 export interface IMachineState {
   activeModule: IModule;
   url: string;
+  moduleExists: boolean;
 }
 
 export class Machine extends React.Component<IMachineProps, IMachineState> {
@@ -31,6 +35,7 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
     this.state = {
       activeModule: props.activeModuleLabel ? retrieveModule(machine, props.activeModuleLabel) : machine.defaultModule,
       url: `/${window.location.pathname}/${machine.name.toLowerCase()}`,
+      moduleExists: false,
     };
     this.setActiveModule = this.setActiveModule.bind(this);
   }
@@ -70,6 +75,8 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
     return getComponent(activeModule.name, componentProps);
   }
 
+  public generateSpring = (value: number) => spring(value, { stiffness: 70, damping: 40 });
+
   public render() {
     const { activeModule } = this.state;
     const { hierarchy } = this.props;
@@ -79,11 +86,21 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
         <div className="display__module-container">
           {renderModules(activeModule, hierarchy.machine, this.setActiveModule)}
         </div>
-        <div className="display__content-container" >
-          <div className="display__component-container">
-            {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
+        <Transition
+          key={activeModule.id}
+          component={'div'} // don't use a wrapping component
+          enter={{ opacity: this.generateSpring(1), scale: 1 }}
+          leave={{ opacity: this.generateSpring(0), scale: 0.99 }}
+        >
+          {
+          <div key={activeModule.id + 1} className="display__content-container" >
+            <div className="display__component-container" >
+              {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3>
+              : this.renderActiveModule()}
+            </div>
           </div>
-        </div>
+          }
+        </Transition>
       </div>
     );
   }

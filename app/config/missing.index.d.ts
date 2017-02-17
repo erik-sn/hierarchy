@@ -20,6 +20,11 @@ declare module 'extract-text-webpack-plugin' {
   export = _;
 }
 
+declare module 'react-motion-ui-pack' {
+  const _: any;
+  export = _;
+}
+
 declare module 'react-infinite' {
   const _: any;
   export = _;
