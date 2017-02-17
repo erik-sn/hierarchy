@@ -1,7 +1,7 @@
 import * as CopyWebpackPlugin from 'copy-webpack-plugin';
 import * as path from 'path';
 import * as webpack from 'webpack';
- 
+
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
@@ -22,6 +22,7 @@ module.exports = {
   plugins: [
     // enable hot module replacement
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
         BROWSER: JSON.stringify(true),

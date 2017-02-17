@@ -10,11 +10,24 @@ import * as promise from 'redux-promise';
 
 import reducers from './reducers';
 import routes from './routes';
+import runPolyfills from './utils/polyfill';
+
 
 // const useBasename = require('history').useBaseName;
 const appConfig = require('../appconfig.json');
 
+// check application configuration to make sure all required parameters are set
+if (!appConfig.hasOwnProperty('baseUrl')) {
+  throw Error('A Base URL must be specified in the application config - minimum of "/"');
+}
+if (!appConfig.hasOwnProperty('name')) {
+  throw Error('An application name must be specified in the application configuration');
+}
+if (!appConfig.hasOwnProperty('hierarchyapi')) {
+  throw Error('The base URL for the hierarchy application API must be specified in the application configuration');
+}
 
+runPolyfills(); // support for ie11
 
 // require all .scss files for deploy if we are not server rendering
 // process.env.BROWSER is set in webpack.config.ts in development but deleted
