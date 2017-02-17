@@ -24,7 +24,6 @@ describe('navbar_nav.test.tsx |', () => {
 
     it('renders something & has correct containers', () => {
       expect(component.find('.navbar__hierarchy-item-parent')).to.have.length(1);
-      expect(component.find('Link')).to.have.length(1);
     });
 
     it('contains the nav name inside the child container', () => {

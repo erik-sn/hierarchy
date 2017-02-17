@@ -3,7 +3,6 @@ import { mount, ReactWrapper, shallow, ShallowWrapper } from 'enzyme';
 import { createMemoryHistory } from 'history';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import * as React from 'react';
-import { Router } from 'react-router';
 import * as sinon from 'sinon';
 
 import { mountWithTheme, triggerResize } from '../../../__tests__/helper';
@@ -157,6 +156,7 @@ describe('navbar.test.tsx |', () => {
   });
 
   describe('Event Listeners | >>>', () => {
+    let sandbox: sinon.SinonSandbox;
     let component: ShallowWrapper<{}, {}>;
     let mountedComponent: ReactWrapper<{}, {}>;
     const props: INavbarProps = {
@@ -177,7 +177,6 @@ describe('navbar.test.tsx |', () => {
     };
 
     it('hides neighbors on screen resize', () => {
-      const history = createMemoryHistory();
       mountedComponent = mount((
         <MuiThemeProvider>
           <Navbar {...props} />

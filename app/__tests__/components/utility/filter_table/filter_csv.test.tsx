@@ -32,7 +32,6 @@ describe('filter_csv.test.tsx |', () => {
   it('renders something & has correct containers', () => {
     expect(component).to.exist;
     expect(component.find('.filter_table__csv-container').length).to.equal(1);
-    expect(component.find('.tooltip__text').length).to.equal(1);
   });
 
   it('contains a Csv element', () => {

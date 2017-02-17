@@ -89,15 +89,15 @@ class TwoLevelPieChart extends React.Component<IPieChartProps, IPieChartState> {
     const { chartData } = this.props;
     return (
       <div>
-        <PieChart width={400} height={400} onMouseEnter={this.onPieEnter}>
+        <PieChart width={400} height={300} onMouseEnter={this.onPieEnter}>
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
             data={chartData}
             cx={200}
             cy={200}
-            innerRadius={55}
-            outerRadius={80}
+            innerRadius={50}
+            outerRadius={70}
             onClick={this.handleClick}
           >
             {chartData.map((entry, i) => <Cell key={i} fill={entry['color'] || '#59A1B6'} />)}

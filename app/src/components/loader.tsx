@@ -1,7 +1,6 @@
 import * as React from 'react';
 
 import { detectIE } from '../utils/dom';
-import IeLoader from './ie_loader';
 
 export interface ILoaderProps {
   style?: {};
@@ -10,12 +9,12 @@ export interface ILoaderProps {
 }
 
 const Loader = ({ style, scale, fill }: ILoaderProps): JSX.Element => {
-  if(detectIE()) {
+  if (detectIE()) {
     return (
       <div className="loading__container" style={style} >
-        <IeLoader />
+          <img src="https://res.cloudinary.com/dvr87tqip/image/upload/v1487098118/loader.gif" alt="Loading..." />
       </div>
-    )
+    );
   }
   return (
     <div className="loading__container" style={style} >

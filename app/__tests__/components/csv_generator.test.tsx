@@ -23,6 +23,7 @@ describe('csv_generator.test.tsx |', () => {
         { header: 'value', label: 'Value' },
       ],
       fileName: 'test_file',
+      showTooltip: true,
     };
 
     beforeEach(() => {
@@ -69,7 +70,7 @@ describe('csv_generator.test.tsx |', () => {
   });
 
 
-  describe('No custom class | >>>', () => {
+  describe('No custom class or tooltip | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
     const props: ICsvGeneratorProps = {
       customClass: undefined,
@@ -86,6 +87,7 @@ describe('csv_generator.test.tsx |', () => {
         { header: 'value', label: 'Value' },
       ],
       fileName: 'test_file',
+      showTooltip: false,
     };
 
     beforeEach(() => {

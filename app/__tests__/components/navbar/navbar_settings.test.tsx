@@ -23,15 +23,19 @@ describe('navbar_settings.test.tsx |', () => {
 
     it('renders something & has correct containers', () => {
       expect(component.find('IconMenu')).to.have.length(1);
-      expect(component.find('Link')).to.have.length(4);
       expect(component.find('MenuItem')).to.have.length(4);
     });
 
-    it('Links have correct "to" props', () => {
-      expect(component.find('Link').at(0).props().to).to.equal(props.settings);
-      expect(component.find('Link').at(1).props().to).to.equal(props.admin);
-      expect(component.find('Link').at(2).props().to).to.equal(props.help);
-      expect(component.find('Link').at(3).props().to).to.equal(props.about);
+    it('Menu Items have correct labels', () => {
+      const menuOneProps: any = component.find('MenuItem').at(0).props();
+      const menuTwoProps: any = component.find('MenuItem').at(1).props();
+      const menuThreeProps: any = component.find('MenuItem').at(2).props();
+      const menuFourProps: any = component.find('MenuItem').at(3).props();
+
+      expect(menuOneProps.primaryText.toLowerCase()).to.equal(props.settings);
+      expect(menuTwoProps.primaryText.toLowerCase()).to.equal(props.admin);
+      expect(menuThreeProps.primaryText.toLowerCase()).to.equal(props.help);
+      expect(menuFourProps.primaryText.toLowerCase()).to.equal(props.about);
     });
   });
 });

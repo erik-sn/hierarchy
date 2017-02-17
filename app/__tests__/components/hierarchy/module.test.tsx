@@ -27,7 +27,12 @@ describe('module.test.tsx |', () => {
 
     it('renders something & has correct containers', () => {
       expect(component.find('Link')).to.have.length(1);
-      expect(component.find('.display__module-item').text()).to.equal(module.label);
+      expect(component.find('.display__module-item').text()).to.contain(module.label);
+    });
+
+    it('renders the description in a tooltip', () => {
+      expect(component.find('.display__module-item-tooltip')).to.have.length(1);
+      expect(component.find('.display__module-item-tooltip').text()).to.equal(module.description);
     });
 
     it('has the host__tab-selected class if it is the active module', () => {

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router';
+import { browserHistory } from 'react-router';
 
 export interface INavbarNavProps {
   to: string;
@@ -9,13 +9,17 @@ export interface INavbarNavProps {
 }
 
 const Nav = ({ active, to, name, handleClick }: INavbarNavProps) => {
-  const isLast = active ? 'navbar__hierarchy-item-last' : '';
+  const lastClass = active ? 'navbar__hierarchy-item-last' : '';
+  const handleNavigate: any = () => browserHistory.push(to.toLowerCase());
   return (
     <div className="navbar__hierarchy-item-parent" onClick={handleClick}>
       <div className="navbar__chain-container" />
-      <Link to={to.toLowerCase()} >
-        <div className={`navbar__hierarchy-item-child ${isLast}`}>{name}</div>
-      </Link>
+        <div
+          onClick={active ? undefined : handleNavigate}
+          className={`navbar__hierarchy-item-child ${lastClass}`}
+        >
+          {name}
+        </div>
     </div>
   );
 };

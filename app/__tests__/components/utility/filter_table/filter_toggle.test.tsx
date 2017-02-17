@@ -22,7 +22,7 @@ describe('filter_table_row.test.tsx |', () => {
     it('renders something & has correct containers', () => {
       expect(component).to.exist;
       expect(component.find('.filter_table__mode-container').length).to.equal(1);
-      expect(component.find('.tooltip__text').length).to.equal(1);
+      expect(component.find('.tooltip').length).to.equal(1);
     });
 
     it('has an all icon when filterAny is true', () => {
