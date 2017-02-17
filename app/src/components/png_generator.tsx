@@ -8,20 +8,37 @@ export interface IPngGeneratorProps {
   customStyle?: {};
   fileName: string;
   target: string;
+  showTooltip?: boolean;
+}
+
+function generateClickHandler(fileName: string, target: string): any {
+  return () => {
+    const svg = document.getElementsByClassName(target)[0].getElementsByTagName('svg')[0];
+    if (!svg) {
+      console.warn(`Could not locate svg to download for target: ${target}`);
+    }
+    saveSvgAsPng(svg, fileName);
+  };
 }
 
 const PngGenerator = (props: IPngGeneratorProps): JSX.Element => {
-  const { fileName, customClass, customStyle, target } = props;
-  const handleClick = () => saveSvgAsPng(document.getElementsByClassName(target)[0], fileName);
+  const { fileName, customClass, customStyle, showTooltip, target } = props;
+  const handleClick = generateClickHandler(fileName, target);
   return (
-    <Image
-      className={`png__container${customClass ? ` ${customClass}` : ''}`}
-      style={customStyle}
-      color="#FFFFFF"
-      height={40}
-      width={40}
-      onClick={handleClick}
-    />
+    <div className="image__container">
+      {showTooltip ? <div className="image__container-tooltip tooltip">
+        Download Image
+      </div>
+      : undefined}
+      <Image
+        className={`png__container${customClass ? ` ${customClass}` : ''}`}
+        style={customStyle}
+        color="#FFFFFF"
+        height={40}
+        width={40}
+        onClick={handleClick}
+      />
+    </div>
   );
 };
 

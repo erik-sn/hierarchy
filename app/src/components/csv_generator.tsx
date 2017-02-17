@@ -57,6 +57,13 @@ class CsvGenerator extends React.Component<ICsvGeneratorProps, {}> {
     }
   }
 
+  public stripCommas(value: any): string {
+    if (typeof value === 'string') {
+      return value.replace(/,/g, '');
+    }
+    return value;
+  }
+
   /**
    * Generate a comma seperated values (CSV) file based on a javascript object. This
    * object needs to be flat - nested objects are not supported.
@@ -73,13 +80,13 @@ class CsvGenerator extends React.Component<ICsvGeneratorProps, {}> {
       content += '\r\n';
     }
 
-    // iterate over data array - each object is a row, each property
-    // is a column
+    // iterate over data array - each object is a row, each property is a column
     for (let i = 0; i < rowData.length; i++) {
       const obj = rowData[i];
       for (let j = 0; j < params.length; j++) {
         const label = params[j].label;
-        content += `${obj[label] !== undefined ? obj[label] : ''},`;
+        // remove all commas in values to .csv file does not get corrupted
+        content += `${obj[label] !== undefined ? this.stripCommas(obj[label]) : ''},`;
       }
       content += '\r\n';
     }

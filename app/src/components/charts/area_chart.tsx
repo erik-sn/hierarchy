@@ -17,10 +17,11 @@ export interface IAreaChartProps {
   fill?: string;
   download?: boolean;
   image?: boolean;
+  imageTarget?: string;
 }
 
 const AreaChartComponent = (props: IAreaChartProps) => {
-  const { chartData, xAxis, domain, lines, padding } = props;
+  const { chartData, xAxis, domain, lines, padding, imageTarget } = props;
   return (
     <ChartContainer {...props} >
       <AreaChart

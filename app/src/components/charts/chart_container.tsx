@@ -10,11 +10,12 @@ export interface IChartContainerProps {
   xAxis: string;
   showDownload: boolean;
   showImage: boolean;
+  imageTarget: string;
   children?: JSX.Element[];
 }
 
 const ChartContainer = ({ chartData, xAxis, showDownload,
-  showImage, children }: IChartContainerProps) => {
+  showImage, children, imageTarget }: IChartContainerProps) => {
   const params = [
     { header: 'X-Axis', label: xAxis },
     { header: 'Value', label: 'value' },
@@ -39,7 +40,8 @@ const ChartContainer = ({ chartData, xAxis, showDownload,
           <Png
             customClass="chart__button"
             fileName="processworkshop_plot"
-            target="recharts-surface"
+            target={imageTarget}
+            showTooltip={true}
           />
         : undefined}
       </div>

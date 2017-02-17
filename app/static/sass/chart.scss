@@ -7,6 +7,8 @@
 }
 
 .chart__button-container {
+  display: flex;
+  flex-direction: row;
   position: absolute;
   top: 0px;
   right: 0px;
@@ -15,13 +17,3 @@
     cursor: pointer;
   }
 }
-
-// .recharts-x-axis {
-//   .recharts-cartesian-axis-tick {
-//   //  transform: rotate(45deg);
-//     transform-origin: 0% 100%;
-//     transform:
-//     rotate(-45deg)
-//     translate(0, 80%);
-//   }
-// }

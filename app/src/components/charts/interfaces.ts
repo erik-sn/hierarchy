@@ -8,6 +8,7 @@ export interface IChartProps {
   lines?: any[];
   bars?: any[];
   showImage?: boolean;
+  imageTarget?: string;
   showDownload?: boolean;
   colors?: string[];
 }
