@@ -8,6 +8,7 @@
 }
 
 .display__module-container {
+  z-index: 2;
   flex: 0 0 auto;
   display: flex;
   flex-direction: row;
@@ -28,14 +29,12 @@
   padding: 5px 65px 5px 15px !important;
   background: $primary;
   margin-right: -25px;
-
-
 }
 
 .display__module-item:hover {
   .tooltip {
     visibility: visible;
-    opacity: 0.80;
+    opacity: 1;
   }
 
 }

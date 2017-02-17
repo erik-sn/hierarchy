@@ -34,6 +34,7 @@ html, body {
 }
 
 .application__content-container {
+  margin-top: 46px;
   display: flex;
   flex: 1 1 auto;
   width: 100%;
@@ -49,7 +50,6 @@ html, body {
   display: flex;
   justify-content: center;
   margin: 0px 15px 15px 15px !important;
-  z-index: 1 !important;
   background: url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860742/grid_dinlrq.svg') !important;
   background-color: $primary !important;
   box-shadow: lighten($primary, 15%) 0px 0px 0px, lighten($primary, 15%) 0px 0px 0px !important;
@@ -112,7 +112,6 @@ div:focus, textarea:focus, input:focus{
 
 
 .tooltip {
-  z-index: 6;
   visibility: hidden;
   opacity: 0;
   position: absolute;
