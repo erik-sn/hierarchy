@@ -10,6 +10,9 @@ $font1: #59A1B6;
 $minWidth: 295px;
 $maxWidth: 1400px;
 
+// collapse levels
+$collapse1: 950px;
+
 html, body {
   height: 100%;
   margin: 0;
@@ -85,22 +88,6 @@ html, body {
   width: 35px !important;
 }
 
-/* tooltips are hidden until their parent is hovered over */
-.tooltip__text {
-  white-space: nowrap;
-  position: absolute;
-  font-size: 0.85rem;
-  text-align: center;
-  color: $secondary;
-  background: $primary;
-  padding: 10px;
-  right: 15px;
-  border: 1px solid $secondary;
-}
-
-.recharts-tooltip-cursor {
-  color: $primary !important;
-}
 
 /* not found page styles */
 .notfound__container {
@@ -118,4 +105,24 @@ html, body {
 div:focus, textarea:focus, input:focus{
   outline: 0 !important;
   outline: none !important;
+}
+
+
+.tooltip {
+  z-index: 6;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  background: $primary;
+  color: $secondary;
+  border: 1px solid $secondary;
+  font-size: 0.8rem;
+  padding: 5px;
+  max-width: 250px;
+  text-transform: none;
+  white-space: normal;
+  margin-top: 25px;
+  text-align: center;
+  border-radius: 2px;
+  transition: visibility 0.25s, opacity 0.35s ease-in-out;
 }

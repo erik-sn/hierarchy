@@ -32,6 +32,7 @@ const ChartContainer = ({ chartData, xAxis, showDownload,
             data={chartData}
             fileName="processworkshop_data"
             params={params}
+            showTooltip
           />
           : undefined}
         {showImage ?

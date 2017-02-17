@@ -92,14 +92,6 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
     return getComponent(activeModule.name, componentProps);
   }
 
-  public renderDescriptionContainer(description: string): JSX.Element {
-    return (
-      <div className="display__description-container">
-        {description}
-      </div>
-    );
-  }
-
   public render(): JSX.Element {
     const { params, departmentDataStore, hierarchy, notFound } = this.props;
     if (notFound) {
@@ -115,14 +107,12 @@ export class Department extends React.Component<IDepartmentProps, IDepartmentSta
         />
       );
     }
-    const description = activeModule ? activeModule.description : '';
     return (
       <div className="display__container">
         <div className="display__module-container">
           {renderModules(activeModule, hierarchy.department, this.setActiveModule)}
         </div>
         <div className="display__content-container" >
-          {description && description.trim() !== '' ? this.renderDescriptionContainer(description) : undefined}
           <div className="display__component-container" >
             {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>

@@ -1,0 +1,15 @@
+@import "style";
+
+.download__container {
+
+  .download__container-tooltip {
+
+  }
+}
+
+.download__container:hover {
+  .download__container-tooltip {
+    visibility: visible;
+    opacity: 0.88;
+  }
+}

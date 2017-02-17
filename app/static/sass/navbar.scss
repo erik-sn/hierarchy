@@ -3,7 +3,7 @@
 
 /* main container for navbar */
 .navbar__container {
-  z-index: 2;
+  z-index: 1;
   height: 46px;
   min-height: 46px;
   width: 100%;
@@ -153,7 +153,7 @@
 Collapse hierarchy to a second row, adjust it's formatting
 to remove skews and other "shiny" formatting things.
 */
-@media (max-width: 950px) {
+@media (max-width: $collapse1) {
 
   .navbar__container {
     height: 85px;

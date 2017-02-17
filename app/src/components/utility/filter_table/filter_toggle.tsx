@@ -9,8 +9,8 @@ export interface IFilterToggleProps {
 
 const FilterToggle = ({ handleClick, filterAny }: IFilterToggleProps): JSX.Element => (
   <div className="filter_table__mode-container" onClick={handleClick} >
+    <div className="tooltip">Toggle Filter Mode</div>
     {filterAny ? <AllIcon /> : <AnyIcon />}
-    <div className="tooltip__text">Toggle Filter Mode</div>
   </div>
 );
 

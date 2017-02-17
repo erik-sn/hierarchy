@@ -28,6 +28,11 @@ const Module = ({ activeModule, module, setActive, hierarchyObject }: IModulePro
         className={`display__module-item ${isActive ? 'host__tab-selected' : 'host__tab'}`}
         onClick={handleClick}
       >
+        {module.description ?
+          <div className="display__module-item-tooltip tooltip">
+            {module.description}
+          </div>
+        : undefined}
         {module.label}
       </div>
     </Link>

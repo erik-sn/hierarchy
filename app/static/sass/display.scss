@@ -14,12 +14,30 @@
   align-content: center;
   color: $secondary;
   max-height: 33px;
+  
+  /**
+  set collapse into menu/list view when in smaller screens
+  This limit is set to be the same as the navbar collapse
+  */
+  @media (max-width: $collapse1) {
+    display: none;
+  }
 }
 
 .display__module-item {
   padding: 5px 65px 5px 15px !important;
   background: $primary;
   margin-right: -25px;
+
+
+}
+
+.display__module-item:hover {
+  .tooltip {
+    visibility: visible;
+    opacity: 0.88;
+  }
+
 }
 
 .display__content-container {
@@ -35,7 +53,7 @@
   height: calc(100vh - 100px);
 
   /* case when in min mode and navbar shifts down */
-  @media (max-width: 950px) {
+  @media (max-width: $collapse1) {
     height: calc(100vh - 135px);
   }
 }

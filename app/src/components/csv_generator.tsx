@@ -14,6 +14,7 @@ export interface ICsvGeneratorProps {
   data: Array<IDictionary<any>>;
   params: IParam[];
   fileName: string;
+  showTooltip: boolean;
 }
 
 class CsvGenerator extends React.Component<ICsvGeneratorProps, {}> {
@@ -86,15 +87,21 @@ class CsvGenerator extends React.Component<ICsvGeneratorProps, {}> {
   }
 
   public render(): JSX.Element {
-    const { customClass, customStyle } = this.props;
+    const { customClass, customStyle, showTooltip } = this.props;
     return (
-      <Download
-        className={`csv__container${customClass ? ` ${customClass}` : ''}`}
-        color="#FFFFFF"
-        type="button"
-        style={customStyle}
-        onClick={this.generateCsv}
-      />
+      <div className="download__container">
+        {showTooltip ? <div className="download__container-tooltip tooltip">
+          Download CSV
+        </div>
+        : undefined}
+        <Download
+          className={`csv__container${customClass ? ` ${customClass}` : ''}`}
+          color="#FFFFFF"
+          type="button"
+          style={customStyle}
+          onClick={this.generateCsv}
+        />
+      </div>
     );
   }
 }

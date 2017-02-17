@@ -70,14 +70,6 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
     return getComponent(activeModule.name, componentProps);
   }
 
-  public renderDescriptionContainer(description: string): JSX.Element {
-    return (
-      <div className="display__description-container">
-        {description}
-      </div>
-    );
-  }
-
   public render() {
     const { activeModule } = this.state;
     const { hierarchy } = this.props;
@@ -88,7 +80,6 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
           {renderModules(activeModule, hierarchy.machine, this.setActiveModule)}
         </div>
         <div className="display__content-container" >
-          {description ? this.renderDescriptionContainer(description) : undefined}
           <div className="display__component-container">
             {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3> : this.renderActiveModule()}
           </div>

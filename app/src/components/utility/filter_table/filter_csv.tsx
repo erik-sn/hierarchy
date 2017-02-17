@@ -22,8 +22,8 @@ const TableCsv = ({ tableData, tableHeaders }: ITableCsvProps) => (
       fileName={`${appConfig.name}_${moment().format('MMDDYY-HHmm')}`}
       data={tableData}
       params={tableHeaders}
+      showTooltip
     />
-    <div className="tooltip__text">Download CSV</div>
   </div>
 );
 

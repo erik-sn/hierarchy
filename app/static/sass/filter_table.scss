@@ -28,6 +28,13 @@
   cursor: pointer;
 }
 
+.filter_table__mode-container:hover {
+  .tooltip {
+    visibility: visible;
+    opacity: 0.88;
+  }
+}
+
 .filter_table__mode-container > svg {
   height: 35px !important;
   width: 35px !important;
@@ -104,22 +111,6 @@
     font-size: 1.25rem !important;
   }
 }
-
-/* icon tooltip support */
-.filter_table__mode-container .tooltip__text {
-  display: none;
-}
-.filter_table__mode-container:hover .tooltip__text {
-  display: block;
-}
-
-.filter_table__csv-container .tooltip__text {
-  display: none;
-}
-.filter_table__csv-container:hover .tooltip__text {
-  display: block;
-}
-
 
 /* column specific classes */
 .filter__table_column-center {
