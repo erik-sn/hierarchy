@@ -65,10 +65,10 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
   /**
    * Given a site, generate a list of MenuItems that contain departmets belonging
    * to that site.
-   * 
+   *
    * @param {ISite} site - site to generate department list for
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public renderDepartmentList(site: ISite): JSX.Element[] {
@@ -88,10 +88,10 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
   /**
    * Given a department, generate a list of MenuItems that contain machines
    * belonging to that department
-   * 
+   *
    * @param {IDepartment} department - department to generate machine list for
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public renderMachineList(department: IDepartment): JSX.Element[] {
@@ -160,7 +160,7 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
    */
   public updateMachine(machine: IMachine): void {
     const updatedMachine = machine;
-    updatedMachine.site =  this.props.site.id;
+    updatedMachine.site = this.props.site.id;
     updatedMachine.department = this.state.department.id;
     console.log(updatedMachine);
     axios.put(`${types.API}/machines/${updatedMachine.id}/`, updatedMachine, types.API_CONFIG)
