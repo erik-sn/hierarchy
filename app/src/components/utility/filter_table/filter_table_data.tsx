@@ -7,8 +7,9 @@ import Row from './filter_table_row';
 
 export interface ITableDataProps {
   finalTableData: Array<IDictionary<string>>;
-  handleRowClick: () => void;
+  handleRowClick?: (row: any, column: number) => void;
   config: IConfig[];
+  height?: number;
 }
 
 /**
@@ -31,7 +32,7 @@ class TableData extends React.Component<ITableDataProps, {}> {
    *
    * @memberOf TableData
    */
-  public generateRows(handleRowClick: () => void): JSX.Element[] {
+  public generateRows(handleRowClick: (row: any, column: number) => void): JSX.Element[] {
     const { finalTableData, config } = this.props;
     return finalTableData.map((data, i) => (
       <Row key={i} rowData={data} config={config} handleClick={handleRowClick} />
@@ -43,7 +44,7 @@ class TableData extends React.Component<ITableDataProps, {}> {
       <div className="filter_table__row-container">
         <Infinite
           className="filter-table-body"
-          containerHeight={window.innerHeight - 300}
+          containerHeight={this.props.height || window.innerHeight - 300}
           elementHeight={22}
         >
           {this.generateRows(this.props.handleRowClick)}

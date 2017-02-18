@@ -17,6 +17,7 @@ import { IHierarchyTier } from '../../../../src/constants/interfaces';
 
 export interface I${componentName}Props {
   parent: IHierarchyTier;
+  departmentDataStore: any;
 }
 
 const ${componentName} = ({ parent }: I${componentName}Props) => (
@@ -51,6 +52,7 @@ describe('${name}.tsx |', () => {
         modules: undefined,
         active: true,
       },
+      departmentDataStore: {},
     };
 
     beforeEach(() => {

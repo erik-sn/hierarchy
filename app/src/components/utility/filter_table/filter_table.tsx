@@ -23,12 +23,13 @@ interface IFilter {
 export interface IFilterTableProps {
   tableData: Array<IDictionary<string>>;
   className?: string;
+  height?: number;
   showFilter?: boolean;
   showCsv?: boolean;
   showResults?: boolean;
   showTotals?: boolean;
   config: IConfig[];
-  handleRowClick?: () => void;
+  handleRowClick?: (row: any, column: number) => void;
 }
 
 export interface IFilterTableState {
@@ -438,7 +439,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
 
   public render(): JSX.Element {
     const { className, config, showFilter, showCsv, showResults,
-      showTotals, handleRowClick } = this.props;
+      showTotals, handleRowClick, height } = this.props;
     const { tableData, filterAny } = this.state;
     const filteredTableData = this.filterTableData(tableData);
     const sortedTableData = this.sortTableData(filteredTableData);
@@ -477,6 +478,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
           finalTableData={sortedTableData}
           config={config}
           handleRowClick={handleRowClick}
+          height={height}
         />
         {showTotals ? <TableTotal tableData={sortedTableData} config={config} /> : undefined}
         {showResults ? <Results ratio={ratio} percent={percent} /> : undefined}

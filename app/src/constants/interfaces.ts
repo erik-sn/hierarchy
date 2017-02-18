@@ -127,6 +127,20 @@ export interface IModule {
   active: boolean;
 }
 
+export interface IReport {
+  name: string;
+  description: string;
+  from: boolean;
+  to: boolean;
+  fromDefault: string;
+  toDefault: string;
+  endpoint: string;
+  options: string[];
+  useEmail: boolean;
+  defaultEmails: string[];
+  useTime: boolean;
+}
+
 // axios
 export interface IAxiosResponse {
   data: Object;
