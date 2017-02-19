@@ -20,6 +20,8 @@ html, body {
   margin: 0;
   font-family: Roboto;
   overflow-y: hidden;
+  background: url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860742/grid_dinlrq.svg') !important;
+  background-color: $primary !important;
 }
 
 #root {
@@ -51,8 +53,7 @@ html, body {
   display: flex;
   justify-content: center;
   margin: 0px 15px 15px 15px !important;
-  background: url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860742/grid_dinlrq.svg') !important;
-  background-color: $primary !important;
+  background-color: transparent !important;
   box-shadow: lighten($primary, 15%) 0px 0px 0px, lighten($primary, 15%) 0px 0px 0px !important;
 
   a {

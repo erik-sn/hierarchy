@@ -58,7 +58,7 @@ export class Application extends React.Component<IApplicationProps, {}> {
 
     let loader;
     if (!user || !user.username || !sites) {
-      loader = <div style={{ marginTop: '20%' }}><Loader scale={3} /></div>;
+      loader = <div style={{ marginTop: '20%' }}><Loader scale={2} /></div>;
     }
 
     let modalComponent;

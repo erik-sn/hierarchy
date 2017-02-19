@@ -7,6 +7,7 @@ export const initialState: IAuth = {
     username: undefined,
     ip: undefined,
     admin: false,
+    email: undefined,
   },
   error: false,
 };

@@ -3959,19 +3959,19 @@ react-infinite@^0.10.0:
     lodash.isfinite "3.2.0"
     object-assign "4.0.1"
 
+react-motion, react-motion@^0.4.5:
+  version "0.4.7"
+  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.4.7.tgz#f77331ec7920bdb0d0cfc37eb6ffa10571bf42c7"
+  dependencies:
+    performance-now "^0.2.0"
+    raf "^3.1.0"
+
 react-motion-ui-pack:
   version "0.10.2"
   resolved "https://registry.yarnpkg.com/react-motion-ui-pack/-/react-motion-ui-pack-0.10.2.tgz#adcf3c4fe280eded93cee04669c60b390d5416a7"
   dependencies:
     get-prefix "^1.0.0"
     react-motion "^0.4.5"
-
-react-motion@^0.4.5:
-  version "0.4.7"
-  resolved "https://registry.yarnpkg.com/react-motion/-/react-motion-0.4.7.tgz#f77331ec7920bdb0d0cfc37eb6ffa10571bf42c7"
-  dependencies:
-    performance-now "^0.2.0"
-    raf "^3.1.0"
 
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"

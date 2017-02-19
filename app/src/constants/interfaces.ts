@@ -17,6 +17,7 @@ export interface IUser {
   id: number;
   username: string;
   ip: string;
+  email: string;
   admin: boolean;
 }
 
