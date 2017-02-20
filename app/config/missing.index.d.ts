@@ -40,6 +40,11 @@ declare module 'username' {
   export = _;
 }
 
+declare module 'react-pdfjs' {
+  const _: any;
+  export = _;
+}
+
 // global variable RollBar
 declare const Rollbar: any;
 

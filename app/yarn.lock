@@ -3083,6 +3083,10 @@ node-dir@^0.1.10:
   dependencies:
     minimatch "^3.0.2"
 
+node-ensure@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/node-ensure/-/node-ensure-0.0.0.tgz#ecae764150de99861ec5c810fd5d096b183932a7"
+
 node-fetch@^1.0.1:
   version "1.6.3"
   resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-1.6.3.tgz#dc234edd6489982d58e8f0db4f695029abcd8c04"
@@ -3483,6 +3487,12 @@ pause-stream@0.0.11:
 pbkdf2-compat@2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/pbkdf2-compat/-/pbkdf2-compat-2.0.1.tgz#b6e0c8fa99494d94e0511575802a59a5c142f288"
+
+pdfjs-dist@^1.5.296:
+  version "1.7.308"
+  resolved "https://registry.yarnpkg.com/pdfjs-dist/-/pdfjs-dist-1.7.308.tgz#4a95b2c3bf2e6ba6aecbfa6d187e6cd7b86573aa"
+  dependencies:
+    node-ensure "^0.0.0"
 
 performance-now@^0.2.0, performance-now@~0.2.0:
   version "0.2.0"
@@ -3972,6 +3982,12 @@ react-motion-ui-pack:
   dependencies:
     get-prefix "^1.0.0"
     react-motion "^0.4.5"
+
+react-pdfjs:
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/react-pdfjs/-/react-pdfjs-1.0.7.tgz#844b36c064b072e4057f9b51e7035ad07e4cf906"
+  dependencies:
+    pdfjs-dist "^1.5.296"
 
 react-proxy@^3.0.0-alpha.0:
   version "3.0.0-alpha.1"

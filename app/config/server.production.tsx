@@ -104,8 +104,6 @@ function renderFullPage(html: string, version: string): string {
     </head>
     <body id="app-body">
       <div id="root">${html}</div>
-      <div id="image-preload1" style="display: none;" ></div>
-      <div id="image-preload2" style="display: none;" ></div>
     </body>
     <script src="/processworkshop/static/bundle.min.${version}.js"></script>
     <script>

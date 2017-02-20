@@ -25,16 +25,28 @@ html, body {
 body {
   background:url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860742/grid_dinlrq.svg');
   background-color: $primary !important;
+  
+  scrollbar-base-color: $secondary;
+  scrollbar-3dlight-color: $tertiary;
+  scrollbar-highlight-color: $primary;
+  scrollbar-track-color: $tertiary;
+  scrollbar-arrow-color: $primary;
+  scrollbar-shadow-color: $tertiary;
 }
 
-/* Pre load images that are displayed on :hover commands */
-#image-preload1 {
-  background:url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860597/host_tab_fill_nrjy2l.svg') no-repeat -9999px -9999px;
- }
-
- #image-preload2 {
-  background:url('https://res.cloudinary.com/dvr87tqip/image/upload/v1487601514/host_small_hover_cfpel5.png') no-repeat -9999px -9999px;
- }
+::-webkit-scrollbar {
+  width: 5px;
+}
+ 
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 6px $tertiary; 
+  border-radius: 3px;
+}
+ 
+::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background: $secondary;
+}
 
 #root {
   height: 100%;

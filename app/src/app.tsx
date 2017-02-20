@@ -10,7 +10,7 @@ import * as promise from 'redux-promise';
 
 import reducers from './reducers';
 import routes from './routes';
-import { detectIE } from './utils/dom';
+import { detectIE, imagePreload } from './utils/dom';
 import runPolyfills from './utils/polyfill';
 
 
@@ -28,7 +28,6 @@ if (!appConfig.hasOwnProperty('hierarchyapi')) {
   throw Error('The base URL for the hierarchy application API must be specified in the application configuration');
 }
 
-
 // require all .scss files for deploy if we are not server rendering
 // process.env.BROWSER is set in webpack.config.ts in development but deleted
 // in the express.js server. This way no .scss files are required while in
@@ -42,6 +41,9 @@ if (process.env.BROWSER) {
 if (detectIE) {
   runPolyfills(); // support for ie11
 }
+
+// preload all images
+imagePreload();
 
 // add redux middleware
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
@@ -59,9 +61,9 @@ const history: any = syncHistoryWithStore(browserHistory, store, {
 
 const muiTheme: any = getMuiTheme({
   palette: {
-    primary1Color: '#0D1313',
-    primary2Color: '#0D1313',
-    primary3Color: '#0D1313',
+    primary1Color: '#11191e',
+    primary2Color: '#11191e',
+    primary3Color: '#11191e',
     accent1Color: '#999',
   },
 });
