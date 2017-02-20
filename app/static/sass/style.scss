@@ -20,9 +20,21 @@ html, body {
   margin: 0;
   font-family: Roboto;
   overflow-y: hidden;
-  background: url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860742/grid_dinlrq.svg') !important;
+}
+
+body {
+  background:url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860742/grid_dinlrq.svg');
   background-color: $primary !important;
 }
+
+/* Pre load images that are displayed on :hover commands */
+#image-preload1 {
+  background:url('https://res.cloudinary.com/dvr87tqip/image/upload/v1486860597/host_tab_fill_nrjy2l.svg') no-repeat -9999px -9999px;
+ }
+
+ #image-preload2 {
+  background:url('https://res.cloudinary.com/dvr87tqip/image/upload/v1487601514/host_small_hover_cfpel5.png') no-repeat -9999px -9999px;
+ }
 
 #root {
   height: 100%;

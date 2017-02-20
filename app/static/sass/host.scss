@@ -16,11 +16,11 @@
 .host__label-small {
   @include host__default;
   width: 150px;
-  background-image: url("https://b.thumbs.redditmedia.com/daOZsA2E0SvASkEZYB-hfgBtBlpgcM6P2NBxBpta5CE.png");
+  background-image: url("https://res.cloudinary.com/dvr87tqip/image/upload/v1487601495/host_small_cxc5vr.png");
 }
 
 .host__label-small:hover {
-  background-image: url("https://b.thumbs.redditmedia.com/f-IZ6Y83scWHx1MSElLDJF-fjzqiLkqH0X6nWRG4rKo.png");
+  background-image: url("https://res.cloudinary.com/dvr87tqip/image/upload/v1487601514/host_small_hover_cfpel5.png");
   border-left: 1px solid #67fffe;
   cursor: pointer;
 }

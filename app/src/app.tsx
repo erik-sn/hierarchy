@@ -10,6 +10,7 @@ import * as promise from 'redux-promise';
 
 import reducers from './reducers';
 import routes from './routes';
+import { detectIE } from './utils/dom';
 import runPolyfills from './utils/polyfill';
 
 
@@ -27,7 +28,6 @@ if (!appConfig.hasOwnProperty('hierarchyapi')) {
   throw Error('The base URL for the hierarchy application API must be specified in the application configuration');
 }
 
-runPolyfills(); // support for ie11
 
 // require all .scss files for deploy if we are not server rendering
 // process.env.BROWSER is set in webpack.config.ts in development but deleted
@@ -37,6 +37,10 @@ if (process.env.BROWSER) {
   const requireAll = (r: any) => r.keys().forEach(r);
   requireAll(require.context('../static/sass/', true, /\.scss$/));
   requireAll(require.context('./components/__custom__', true, /\.scss$/));
+}
+
+if (detectIE) {
+  runPolyfills(); // support for ie11
 }
 
 // add redux middleware

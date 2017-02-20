@@ -42,7 +42,6 @@ export function getComponent(name: string, props: any, directory: string = '__cu
  */
 export function isMomentParameter(list: Array<IDictionary<any>>, parameter: string) {
   const isMoment: boolean = !list.some((listItem) => !moment(listItem[parameter]).isValid());
-  console.log(list, parameter, isMoment);
   return isMoment;
 }
 
