@@ -68,7 +68,12 @@ body {
   min-width: $minWidth;
   max-width: $maxWidth;
 
-  transition: width 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+
+  
+  @media (max-width: $collapse1) {
+    margin-top: 95px;
+  }
 }
 
 .application__content-card {
