@@ -98,7 +98,8 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
     if (!department) {
       return [];
     }
-    return department.machines.map((machine, i) => {
+    const machineSort = (a: IMachine, b: IMachine) => a.name > b.name ? 1 : -1;
+    return department.machines.sort(machineSort).map((machine, i) => {
       const machineItemClick = () => this.setActiveMachine(machine);
       return (
         <MenuItem
