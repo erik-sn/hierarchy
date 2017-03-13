@@ -43,7 +43,6 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
     this.props.change('apiCalls', apiCallIds);
   }
 
-
   /**
    * Add an API call to the list.
    *
@@ -86,7 +85,6 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
     const apiCallIds = apiCalls.map((api) => api.id);
     this.setState({ apiCalls }, () => this.props.change('apiCalls', apiCallIds));
   }
-
 
   /**
    * Generate a list of MenuIems that will go into the list of api calls
@@ -153,6 +151,5 @@ class ApiEdit extends React.Component<IApiEditProps, IApiEditState> {
     );
   }
 }
-
 
 export default ApiEdit;

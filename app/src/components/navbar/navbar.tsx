@@ -17,7 +17,6 @@ import Nav from './navbar_nav';
 import Neighbor from './navbar_neighbor';
 import Settings from './navbar_settings';
 
-
 interface IHierarchy {
   site: ISite;
   department: IDepartment;
@@ -121,9 +120,9 @@ class Navbar extends React.Component<INavbarProps, INavbarState> {
     const machine = hierarchy ? hierarchy.machine : undefined;
     const last = machine || department || site;  // determine depth of hiearchy
 
-    const siteTo = site ? `/${site.code}` : '';
-    const departmentTo = department ? `/${site.code}/${department.name}` : '';
-    const machineTo = machine ? `/${site.code}/${department.name}/${machine.name}` : '';
+    const siteTo = site ? `${config.baseUrl}/${site.code}` : '';
+    const departmentTo = department ? `${config.baseUrl}/${site.code}/${department.name}` : '';
+    const machineTo = machine ? `${config.baseUrl}/${site.code}/${department.name}/${machine.name}` : '';
 
     const siteNeighbors = sites ? sites.map((s) => s.code) : undefined;
     const departmentNeighbors = site ? site.departments.map((dpt) => dpt.name) : undefined;

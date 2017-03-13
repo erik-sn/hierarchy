@@ -8,9 +8,8 @@ import { Field, reduxForm } from 'redux-form';
 
 import { IFormValues, IMachine, IModule, IReduxState, ISite } from '../../../constants/interfaces';
 
-import { renderCheckbox, renderNullField, renderTextField } from '../../../utils/form_renderer';
+import { RenderCheckbox as checkbox, renderNullField, renderTextField } from '../../../utils/form_renderer';
 import ModuleEdit from './module_edit';
-
 
 export interface IMachineFormProps {
   change?: (key: string, value: any) => void;  // redux-form
@@ -23,10 +22,9 @@ export interface IMachineFormProps {
 
 interface IMachineFormErrors { name?: string; type?: string; }
 
-
 /**
  * form component to handle CRUD operations on Machine objects
- * 
+ *
  * @class MachineForm
  * @extends {React.Component<IMachineFormProps, {}>}
  */
@@ -78,12 +76,11 @@ export class MachineForm extends React.Component<IMachineFormProps, {}> {
     );
   }
 
-
   /**
    * helper method to clean JSX, generate cancel button
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf MachineForm
    */
   public renderCancelButton(): JSX.Element {
@@ -114,7 +111,7 @@ export class MachineForm extends React.Component<IMachineFormProps, {}> {
             className="admin__form-field"
             name="active"
             type="checkbox"
-            component={renderCheckbox}
+            component={checkbox}
             label="Active"
           />
           <div style={{ width: '100%', height: '20px' }} />
@@ -141,7 +138,6 @@ export class MachineForm extends React.Component<IMachineFormProps, {}> {
   }
 }
 
-
 /**
  * Initialize the form state. If a machine was passed through props then
  * set that machine into the form. Otherwise use a default configuration
@@ -152,7 +148,6 @@ function mapStateToProps(state: IReduxState, ownProps: IMachineFormProps): IForm
   }
   return { initialValues: { active: true, modules: [], name: '', type: '' } };
 }
-
 
 // Decorate the form component
 const MachineFormDecorated = reduxForm({

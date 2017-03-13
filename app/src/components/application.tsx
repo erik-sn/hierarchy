@@ -12,7 +12,6 @@ import Loader from './loader';
 import Modal from './modal';
 import Navbar from './navbar/navbar';
 
-
 export interface IApplicationProps {
   children: JSX.Element[];
   config: IAppConfig;
@@ -25,7 +24,6 @@ export interface IApplicationProps {
   siteError: boolean;
   sites: ISite[];
 }
-
 
 export class Application extends React.Component<IApplicationProps, {}> {
 
@@ -95,7 +93,6 @@ export class Application extends React.Component<IApplicationProps, {}> {
     );
   }
 }
-
 
 function mapStateToProps(state: IReduxState): {} {
   return {

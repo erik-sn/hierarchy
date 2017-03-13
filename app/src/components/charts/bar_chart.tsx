@@ -23,5 +23,4 @@ const BarChartComponent = (props: IBarChartProps) => (
   </ChartContainer>
 );
 
-
 export default BarChartComponent;

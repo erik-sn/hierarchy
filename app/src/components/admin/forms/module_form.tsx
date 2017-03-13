@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 
 import { IMachine, IModule, IReduxState, ISite } from '../../../constants/interfaces';
-import { renderCheckbox as CheckBox, renderTextField as Text  } from '../../../utils/form_renderer';
-
+import { RenderCheckbox as CheckBox, renderTextField as Text  } from '../../../utils/form_renderer';
 
 export interface IModuleFormProps {
   handleSubmit?: (submitForm: {}) => React.EventHandler<React.FormEvent<HTMLFormElement>>;
@@ -25,7 +24,7 @@ export const FORM_NAME = 'MODULE-CONFIG';
 
 /**
  * Form component to handle CRUD operations on the Module object
- * 
+ *
  * @class ModuleForm
  * @extends {React.Component<IModuleFormProps, {}>}
  */
@@ -77,13 +76,12 @@ export class ModuleForm extends React.Component<IModuleFormProps, {}> {
     change('active', true);
   }
 
-
   /**
    * Buttons to render when the form is for creating
    * a new Module object.
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ModuleForm
    */
   public renderNewFormButtons(): JSX.Element {
@@ -96,7 +94,6 @@ export class ModuleForm extends React.Component<IModuleFormProps, {}> {
       />
     );
   }
-
 
   /**
    * Buttons to render when we are updating a module
@@ -156,12 +153,10 @@ export class ModuleForm extends React.Component<IModuleFormProps, {}> {
   }
 }
 
-
-
 /**
  * Initialize the form from the passed module, or if that does not exist
  * do so from a set of default values.
- * 
+ *
  * @param {IReduxState} state
  * @param {IModuleFormProps} ownProps
  * @returns
@@ -179,4 +174,3 @@ const ModuleFormDecorated = reduxForm({
 })(ModuleForm);
 
 export default connect<{}, {}, IModuleFormProps>(mapStateToProps)(ModuleFormDecorated);
-

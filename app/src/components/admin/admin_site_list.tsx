@@ -10,10 +10,9 @@ import SiteForm from './forms/site_form';
 
 import { ISite } from '../../constants/interfaces';
 
-
 export interface IAdminSiteListProps {
-  fetchHierarchy: Function;
-  navigate: Function;
+  fetchHierarchy: () => void;
+  navigate: (target: string) => void;
   sites: ISite[];
 }
 
@@ -23,10 +22,9 @@ export interface IAdminSiteListState {
   messageShow: boolean;
 }
 
-
 /**
  * Component that lists available sites and allows for creation of new sites
- * 
+ *
  * @class AdminSiteList
  * @extends {React.Component<IAdminSiteListProps, IAdminSiteListState>}
  */
@@ -46,7 +44,7 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
   /**
    * Toggle the showNewForm state which controls the creation forms
    * inside a modal
-   * 
+   *
    * @memberOf AdminSiteList
    */
   public toggleShowNewSiteForm() {
@@ -55,9 +53,9 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
 
   /**
    * Create a site in the database
-   * 
+   *
    * @param {ISite} site - site object to be created
-   * 
+   *
    * @memberOf AdminSiteList
    */
   public createSite(site: ISite) {
@@ -76,9 +74,9 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
 
   /**
    * Render a clean site form inside a Modal
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf AdminSiteList
    */
   public renderNewSiteModal(): JSX.Element {
@@ -95,9 +93,9 @@ class AdminSiteList extends React.Component<IAdminSiteListProps, IAdminSiteListS
   /**
    * Render a list of ListItems, each representing a site
    * object
-   * 
+   *
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf AdminSiteList
    */
   public renderSiteList(): JSX.Element[] {

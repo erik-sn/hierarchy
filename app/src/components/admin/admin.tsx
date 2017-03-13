@@ -60,7 +60,6 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
     this.props.fetchHierarchy('?inactive=true');
   }
 
-
   /**
    * Render the correct menu based on the URL structure
    *

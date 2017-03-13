@@ -33,11 +33,10 @@ export interface IAdminSiteProps {
   splat: string;
 }
 
-
 /**
  * Controller component used for handling edit operations on
  * site objects.
- * 
+ *
  * @class AdminSite
  * @extends {React.Component<IAdminSiteProps, IAdminSiteState>}
  */
@@ -116,7 +115,7 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   /**
    * Close the SnackBar message
-   * 
+   *
    * @memberOf AdminSite
    */
   public handleMessageClose() {
@@ -184,7 +183,7 @@ class AdminSite extends React.Component<IAdminSiteProps, IAdminSiteState> {
 
   /**
    * Navigate to machine configuration url
-   * 
+   *
    * @memberOf AdminSite
    */
   public machineClick() {

@@ -28,4 +28,3 @@ const TableCsv = ({ tableData, tableHeaders }: ITableCsvProps) => (
 );
 
 export default TableCsv;
-

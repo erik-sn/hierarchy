@@ -6,7 +6,7 @@ import { browserHistory } from 'react-router';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 
 import { IFormValues, IModule, IReduxState, ISite } from '../../../constants/interfaces';
-import { renderCheckbox as CheckBox, renderNullField as Null,
+import { RenderCheckbox as CheckBox, renderNullField as Null,
   renderTextField as Text } from '../../../utils/form_renderer';
 import ModuleEdit from './module_edit';
 
@@ -26,7 +26,7 @@ export interface IValidationForm {
 
 /**
  * Form component used for CRUD operations on the Site object
- * 
+ *
  * @class SiteForm
  * @extends {React.Component<ISiteFormProps, {}>}
  */
@@ -38,12 +38,11 @@ export class SiteForm extends React.Component<ISiteFormProps, {}> {
     this.navigateHome = this.navigateHome.bind(this);
   }
 
-
   /**
    * helper function to clean jsx, render the ModuleEdit interface
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf SiteForm
    */
   public renderModuleEdit(): JSX.Element {
@@ -59,17 +58,16 @@ export class SiteForm extends React.Component<ISiteFormProps, {}> {
 
   /**
    * navigate using react-router back to the hierarchy home
-   * 
+   *
    * @memberOf SiteForm
    */
   public navigateHome(): void {
     browserHistory.push('/admin/hierarchy/');
   }
 
-
   /**
    * Reset form back to default values
-   * 
+   *
    * @memberOf SiteForm
    */
   public clearForm(): void {
@@ -139,7 +137,6 @@ export class SiteForm extends React.Component<ISiteFormProps, {}> {
   }
 }
 
-
 /**
  * Initialize the form with the site that was passed through props
  * or a set of default values if it does not exist
@@ -154,7 +151,6 @@ function mapStateToProps(state: IReduxState, ownProps: ISiteFormProps): IFormVal
   }
   return { initialValues: { active: true, modules: [] } };
 }
-
 
 // Decorate the form component
 const SiteFormDecorated = reduxForm({

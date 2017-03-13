@@ -28,7 +28,7 @@ function getBaseValues(config: IConfig[]): IDictionary<any> {
  */
 function updateValues(baseValues: IDictionary<any>, row: IDictionary<string>) {
   const updatedValues = baseValues;
-  for (let key in row) {
+  for (const key in row) {
     if (row.hasOwnProperty(key)) {
       const resultValues = updatedValues[key];
       resultValues.push(row[key]); // add value to results
@@ -104,6 +104,5 @@ const TableTotal = ({ tableData, config }: ITotalProps): JSX.Element => (
     <Row config={config} rowData={getTotalData(config, tableData)} />
   </div>
 );
-
 
 export default TableTotal;

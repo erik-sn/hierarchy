@@ -87,19 +87,18 @@ export class Machine extends React.Component<IMachineProps, IMachineState> {
           {renderModules(activeModule, hierarchy.machine, this.setActiveModule)}
         </div>
         <Transition
-          key={activeModule.id}
+          key={activeModule ? activeModule.id : 1}
           component={'div'} // don't use a wrapping component
           enter={{ opacity: this.generateSpring(1), scale: 1 }}
           leave={{ opacity: this.generateSpring(0), scale: 0.99 }}
         >
           {
-          <div key={activeModule.id + 1} className="display__content-container" >
+          <div key={activeModule ? activeModule.id + 1 : 2} className="display__content-container" >
             <div className="display__component-container" >
               {!activeModule ? <h3 style={{ textAlign: 'center' }}>No Modules Available</h3>
               : this.renderActiveModule()}
             </div>
-          </div>
-          }
+          </div>}
         </Transition>
       </div>
     );

@@ -14,7 +14,6 @@ import Loader from '../loader';
 import Modal from '../modal';
 import ApiForm, { FORM_NAME } from './forms/api_form';
 
-
 export interface IApiCallsProps {
   apiCall?: IApiCall;
   apiCallForm?: IApiCall;
@@ -75,7 +74,6 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     });
   }
 
-
   /**
    * Add an Api Call to the database
    *
@@ -89,7 +87,6 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     .catch(() => this.showMessage(`Error Creating API call: ${apiCall.key}`))
     .then(() => this.resetState());
   }
-
 
   /**
    * Update an Api Call in the database
@@ -105,7 +102,6 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     .then(() => this.resetState());
   }
 
-
   /**
    * Delete an Api Call from the database
    *
@@ -119,7 +115,6 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     .then(() => this.resetState());
   }
 
-
   /**
    * Set the controller back to a default state
    *
@@ -132,12 +127,11 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     });
   }
 
-
   /**
    * Show a message to the user using the snackbar component
-   * 
+   *
    * @param {string} messageText - message to show
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public showMessage(messageText: string): void {
@@ -149,7 +143,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
 
   /**
    * Close the message Snackbar
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public handleMessageClose(): void {
@@ -159,7 +153,7 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
   /**
    * Toggle the state of showNewForm which controls whether
    * or not the Modal containing an ApiForm is rendered
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public toggleShowNewForm(): void {
@@ -169,12 +163,11 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     });
   }
 
-
   /**
    * Set the state of the filter based on user input
-   * 
+   *
    * @param {React.FormEvent<HTMLInputElement>} event
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public handleFilterChange(event: React.FormEvent<HTMLInputElement>): void {
@@ -187,9 +180,9 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
    * Render the update form. This form has the activeApiCall
    * passed as props which will conver the form to be in edit
    * and delete mode rather than create.
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public renderApiCallForm(): JSX.Element {
@@ -203,13 +196,12 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     );
   }
 
-
   /**
    * Render the create form. This form will be rendered inside
    * a modal and have only the create operation.
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ApiCallAdmin
    */
   public renderNewApiCallForm(): JSX.Element {
@@ -222,7 +214,6 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
       </Modal>
     );
   }
-
 
   /**
    * Filter listed api calls based on user input in the
@@ -242,7 +233,6 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
     }
     return apiCalls;
   }
-
 
   /**
    * Generate a list of ListItems that contain the
@@ -314,10 +304,9 @@ export class ApiCallAdmin extends React.Component<IApiCallsProps, IApiCallsState
   }
 }
 
-
 /**
  * Initialize the  form values
- * 
+ *
  * @param {IReduxState} state
  * @returns {*}
  */

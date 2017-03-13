@@ -26,7 +26,7 @@ export interface IMachineAdminState {
 
 /**
  * Controller component that handles operations on the Machine object
- * 
+ *
  * @export
  * @class MachineAdmin
  * @extends {React.Component<IMachineAdminProps, IMachineAdminState>}
@@ -114,9 +114,9 @@ export class MachineAdmin extends React.Component<IMachineAdminProps, IMachineAd
 
   /**
    * Set a department object as the active department
-   * 
+   *
    * @param {IDepartment} department
-   * 
+   *
    * @memberOf MachineAdmin
    */
   public setActiveDepartment(department: IDepartment): void {

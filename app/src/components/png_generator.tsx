@@ -42,5 +42,4 @@ const PngGenerator = (props: IPngGeneratorProps): JSX.Element => {
   );
 };
 
-
 export default PngGenerator;

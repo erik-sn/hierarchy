@@ -26,7 +26,13 @@ const Loader = ({ style, scale, fill }: ILoaderProps): JSX.Element => {
         width="60px"
         height="60px"
         viewBox="0 0 24 30"
-        style={{ enableBackground: 'new 0 0 24 30', opacity: 0.8, transform: `scale(${scale || 1})`, display: 'flex', alignContent: 'center', justifyContent: 'center' }}
+        style={{ enableBackground: 'new 0 0 24 30',
+          opacity: 0.8,
+          transform: `scale(${scale || 1})`,
+          display: 'flex',
+          alignContent: 'center',
+          justifyContent: 'center',
+        }}
       >
         <rect x="0" y="13" width="4" height="5" fill={fill || 'whitesmoke'} >
           <animate

@@ -29,7 +29,7 @@ export interface IModulesState {
 
 /**
  * Controller for operations on Module objects
- * 
+ *
  * @export
  * @class ModuleAdmin
  * @extends {React.Component<IModulesProps, IModulesState>}
@@ -63,7 +63,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Retrieve a list of all modules in the database
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public fetchModules(): void {
@@ -75,7 +75,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Create a module in the database
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public createModule(): void {
@@ -89,7 +89,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Update a module in the database
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public updateModule(): void {
@@ -103,7 +103,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Delete a module from the database
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public deleteModule(): void {
@@ -116,7 +116,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Reset the component back to default state
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public resetState(): void {
@@ -128,9 +128,9 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Show a message inside a Snackbar to the user
-   * 
+   *
    * @param {string} messageText - text to show
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public showMessage(messageText: string): void {
@@ -142,7 +142,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Close the Snackbar message
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public handleMessageClose(): void {
@@ -152,9 +152,9 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
   /**
    * Set the list filter to the value of the user input in the filter
    * TextField
-   * 
+   *
    * @param {React.FormEvent<HTMLInputElement>} event
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public handleModuleFilter(event: React.FormEvent<HTMLInputElement>): void {
@@ -167,9 +167,9 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
   /**
    * Filter the modules stored in state by the user input in the filter
    * field.
-   * 
+   *
    * @returns {IModule[]}
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public filterModules(): IModule[] {
@@ -184,9 +184,9 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
 
   /**
    * Generate a list of ListItems that contain module information.
-   * 
+   *
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public generateModuleList(): JSX.Element[] {
@@ -206,7 +206,7 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
   /**
    * Toggle the state of showNewForm which controls the Modal
    * element
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public toggleShowNewForm(): void {
@@ -219,9 +219,9 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
   /**
    * Render the Create form. This is an empty form rendered
    * inside a Modal object for creation of new module objects.
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public renderNewModuleForm(): JSX.Element {
@@ -240,9 +240,9 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
   /**
    * Render the Edit form. This form is passed the activeModule
    * which is used to set intial values in the form.
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf ModuleAdmin
    */
   public renderUpdateModuleForm(): JSX.Element {
@@ -303,10 +303,9 @@ export class ModuleAdmin extends React.Component<IModulesProps, IModulesState> {
   }
 }
 
-
 /**
  * Initialize the form using Redux state
- * 
+ *
  * @param {IReduxState} state
  * @returns
  */

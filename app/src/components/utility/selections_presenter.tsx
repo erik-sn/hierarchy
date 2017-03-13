@@ -44,5 +44,4 @@ const SelectionsPresenter = ({ value, hintText }: ISelectionsPresenterProps) => 
   );
 };
 
-
 export default SelectionsPresenter;

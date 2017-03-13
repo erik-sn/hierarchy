@@ -35,6 +35,6 @@ const AreaChartComponent = (props: IAreaChartProps) => {
       </AreaChart>
     </ChartContainer>
   );
-}
+};
 
 export default AreaChartComponent;

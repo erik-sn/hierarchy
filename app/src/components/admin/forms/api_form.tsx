@@ -5,7 +5,7 @@ import { browserHistory } from 'react-router';
 import { Field, reduxForm, SubmissionError } from 'redux-form';
 
 import { IApiCall, IModule, IReduxState, ISite } from '../../../constants/interfaces';
-import { renderCheckbox as CheckBox, renderTextField as Text } from '../../../utils/form_renderer';
+import { RenderCheckbox as CheckBox, renderTextField as Text } from '../../../utils/form_renderer';
 
 export const FORM_NAME = 'API-CONFIG';
 
@@ -29,7 +29,7 @@ export interface IValidationForm {
 
 /**
  * Form component that handles CRUD operations on API calls
- * 
+ *
  * @export
  * @class ApiForm
  * @extends {React.Component<IApiFormProps, {}>}
@@ -47,14 +47,13 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
     this.props.reset();  // for initializing form
   }
 
-
   /**
    * When the component receives a new set of props check to see
    * if it contains a different ApiCall. If so, set that api call
-   * into the form. 
-   * 
+   * into the form.
+   *
    * @param {IApiFormProps} nextProps
-   * 
+   *
    * @memberOf ApiForm
    */
   public componentWillReceiveProps(nextProps: IApiFormProps) {
@@ -70,7 +69,7 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
 
   /**
    * handle actions for when the delete button is clicked
-   * 
+   *
    * @memberOf ApiForm
    */
   public handleDelete(): void {
@@ -188,7 +187,6 @@ export class ApiForm extends React.Component<IApiFormProps, {}> {
   }
 }
 
-
 /**
  * Initialize the form with the values of the incoming API call
  *
@@ -209,4 +207,3 @@ const ApiFormDecorated = reduxForm({
 })(ApiForm);
 
 export default connect<{}, {}, IApiFormProps>(mapStateToProps)(ApiFormDecorated);
-

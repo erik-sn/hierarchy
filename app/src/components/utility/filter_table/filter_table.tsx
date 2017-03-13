@@ -19,7 +19,6 @@ interface IFilter {
   filterValue?: string;
 }
 
-
 export interface IFilterTableProps {
   tableData: Array<IDictionary<string>>;
   className?: string;
@@ -139,8 +138,8 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
     let exact: boolean = false;
     let cleanedFilterValue: string = filterValue;
     const ei: number = filterValue.length - 1; // end index
-    if ((filterValue[0] === '"' || filterValue[0] === "'") &&
-        (filterValue[ei] === '"' || filterValue[ei] === "'")) {
+    if ((filterValue[0] === '"' || filterValue[0] === '\'') &&
+        (filterValue[ei] === '"' || filterValue[ei] === '\'')) {
       exact = true;
       cleanedFilterValue = filterValue.replace(/["']/g, '');
     }
@@ -237,7 +236,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    */
   public generateSomeFilter(filterValue: string, exact: boolean): (row: IDictionary<string>) => boolean {
     return (row: IDictionary<string>) => {
-      for (let key in row) {
+      for (const key in row) {
         if (row.hasOwnProperty(key)) {
           const value: string = row[key];
           if (exact && value.toLowerCase() === filterValue) {

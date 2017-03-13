@@ -149,5 +149,4 @@ class DateRange extends React.Component<IDateRangeProps, IDateRangeState> {
   }
 }
 
-
 export default DateRange;

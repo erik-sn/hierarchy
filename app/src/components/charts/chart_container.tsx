@@ -50,4 +50,3 @@ const ChartContainer = ({ chartData, xAxis, showDownload,
 };
 
 export default ChartContainer;
-

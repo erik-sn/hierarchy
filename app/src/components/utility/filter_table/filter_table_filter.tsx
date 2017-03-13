@@ -71,5 +71,4 @@ class Filter extends React.Component<IFilterProps, IFilterState> {
   }
 }
 
-
 export default Filter;

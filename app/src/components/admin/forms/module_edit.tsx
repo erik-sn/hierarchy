@@ -18,13 +18,12 @@ export interface IModuleEditProps {
   modules: IModule[];
 }
 
-
 /**
  * This component represents an interface that allows the user to
  * add or remove existing modules to a parent component. It is
  * designed to be generic in its implementation so any HierarchyTier
  * could potentially use it.
- * 
+ *
  * @class ModuleEdit
  * @extends {React.Component<IModuleEditProps, IModuleEditState>}
  */
@@ -46,7 +45,6 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
       this.props.change('defaultModule', this.props.parentObject.defaultModule.id);
     }
   }
-
 
   /**
    * Add a module to the parent
@@ -147,10 +145,10 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
   /**
    * Generate a list of MenuItems that represent the available
    * modules that are available to add to the parent.
-   * 
+   *
    * @param {IModule[]} modules - available modules
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf ModuleEdit
    */
   public renderModuleListItems(modules: IModule[]): JSX.Element[] {
@@ -187,6 +185,5 @@ class ModuleEdit extends React.Component<IModuleEditProps, IModuleEditState> {
     );
   }
 }
-
 
 export default ModuleEdit;

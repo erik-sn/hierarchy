@@ -24,7 +24,6 @@ export interface IDepartmentState {
   showNewForm: boolean;
 }
 
-
 /**
  * Controller component that handles operations on Department objects
  *
@@ -47,10 +46,10 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   /**
    * Given a site object, render all of its departments into MenuItems
-   * 
+   *
    * @param {ISite} site - site object to retrieve departments from
    * @returns {JSX.Element[]}
-   * 
+   *
    * @memberOf Department
    */
   public renderDepartmentList(site: ISite): JSX.Element[] {
@@ -69,9 +68,9 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   /**
    * Create a department object
-   * 
+   *
    * @param {IDepartment} department
-   * 
+   *
    * @memberOf Department
    */
   public createDepartment(department: IDepartment): void {
@@ -86,9 +85,9 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   /**
    * Update a department object
-   * 
+   *
    * @param {IDepartment} department
-   * 
+   *
    * @memberOf Department
    */
   public updateDepartment(department: IDepartment): void {
@@ -103,7 +102,7 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   /**
    * Reset the component back to default state
-   * 
+   *
    * @memberOf Department
    */
   public resetState(): void {
@@ -112,8 +111,8 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   /**
    * Toggle the showNewForm state which controls whether or not a
-   * Modal containing an empty department form is rendered 
-   * 
+   * Modal containing an empty department form is rendered
+   *
    * @memberOf Department
    */
   public toggleShowNewDepartmentForm(): void {
@@ -123,9 +122,9 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
   /**
    * Render the Create form. This is a a clean department form
    * inside a modal object
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf Department
    */
   public renderNewDepartment(): JSX.Element {
@@ -140,13 +139,13 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
   }
 
   /**
-   * Render the edit form. This is aa department form with values 
-   * corresponding to the parameter department. Rendered inside a 
+   * Render the edit form. This is aa department form with values
+   * corresponding to the parameter department. Rendered inside a
    * Modal
-   * 
+   *
    * @param {IDepartment} department - department to edit/delete
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf Department
    */
   public renderUpdateDepartmentForm(department: IDepartment): JSX.Element {
@@ -164,9 +163,9 @@ class Department extends React.Component<IDepartmentProps, IDepartmentState> {
 
   /**
    * JSX helper method that renders the add button
-   * 
+   *
    * @returns {JSX.Element}
-   * 
+   *
    * @memberOf Department
    */
   public renderAddDepartmentButton(): JSX.Element {

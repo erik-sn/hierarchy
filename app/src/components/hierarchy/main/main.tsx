@@ -12,12 +12,10 @@ interface IHierarchy {
   site: ISite;
 }
 
-
 export interface IMainProps {
   hierarchy: IHierarchy;
   sites: ISite[];
 }
-
 
 const Main = ({ hierarchy, sites }: IMainProps) => {
   if (!hierarchy) {
@@ -55,4 +53,3 @@ const Main = ({ hierarchy, sites }: IMainProps) => {
 };
 
 export default Main;
-

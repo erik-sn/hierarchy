@@ -6,7 +6,6 @@ import ErrorIcon from 'material-ui/svg-icons/alert/error';
 import * as React from 'react';
 import { connect } from 'react-redux';
 
-
 import { hideModal } from '../actions/index';
 
 export interface IModalProps {

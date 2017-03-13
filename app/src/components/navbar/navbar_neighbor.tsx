@@ -7,7 +7,6 @@ export interface INeighborProps {
   hide: (e: React.MouseEvent<{}>) => void;
 }
 
-
 function cleanModuleFromUrl(url: string): string {
   const moduleIndex = url.indexOf('/m/');
   return moduleIndex > 0 ? url.substring(0, moduleIndex) : url;

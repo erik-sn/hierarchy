@@ -1,7 +1,7 @@
 import { IDictionary } from '../../constants/interfaces';
 
 export interface IChartProps {
-  chartData: Array<IDictionary<any>>;
+  chartData: any;
   padding?: IPadding;
   xAxis?: string;
   domain?: number[];
@@ -13,11 +13,9 @@ export interface IChartProps {
   colors?: string[];
 }
 
-
 export interface IPadding {
   left: number;
   right: number;
   top: number;
   bottom: number;
 }
-

@@ -206,7 +206,8 @@ class SelectField extends React.Component<ISelectFieldProps, ISelectFieldState> 
           {children.length > 10 &&
             <TextField
               name="autoComplete"
-              ref={ref => (this.searchTextField = ref)}
+              // tslint:disable-next-line:jsx-no-lambda
+              ref={(ref) => (this.searchTextField = ref)}
               value={this.state.searchText}
               hintText={hintText}
               onChange={this.handleTextFieldAutocompletionFiltering}
@@ -237,6 +238,5 @@ class SelectField extends React.Component<ISelectFieldProps, ISelectFieldState> 
     );
   }
 }
-
 
 export default SelectField;

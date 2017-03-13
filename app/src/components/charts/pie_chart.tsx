@@ -3,7 +3,6 @@ import { Cell, Pie, PieChart, Sector } from 'recharts';
 
 import { IChartProps } from './interfaces';
 
-
 const renderActiveShape = (props: any) => {
   const RADIAN = Math.PI / 180;
   const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle,
@@ -100,7 +99,7 @@ class TwoLevelPieChart extends React.Component<IPieChartProps, IPieChartState> {
             outerRadius={70}
             onClick={this.handleClick}
           >
-            {chartData.map((entry, i) => <Cell key={i} fill={entry['color'] || '#59A1B6'} />)}
+            {chartData.map((entry: any, i: number) => <Cell key={i} fill={entry.color || '#59A1B6'} />)}
           </Pie>
         </PieChart>
       </div>

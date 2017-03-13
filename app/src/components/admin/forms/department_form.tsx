@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form';
 
 import { IApiCall, IDepartment, IFormValues, IModule, IReduxState } from '../../../constants/interfaces';
-import { renderCheckbox, renderNullField, renderTextField } from '../../../utils/form_renderer';
+import { RenderCheckbox as checkbox, renderNullField, renderTextField } from '../../../utils/form_renderer';
 import ApiEdit from './api_edit';
 import ModuleEdit from './module_edit';
 
@@ -24,10 +24,9 @@ export interface IValidationForm {
   name?: string;
 }
 
-
 /**
  * Form to handle CRUD operations on department objects
- * 
+ *
  * @class DepartmentForm
  * @extends {React.Component<IDepartmentFormProps, {}>}
  */
@@ -97,7 +96,7 @@ export class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
               className="admin__form-field"
               name="active"
               type="checkbox"
-              component={renderCheckbox}
+              component={checkbox}
               label="Active"
             />
             <div style={{ width: '100%', height: '20px' }} />
@@ -124,11 +123,10 @@ export class DepartmentForm extends React.Component<IDepartmentFormProps, {}> {
   }
 }
 
-
 /**
  * Initialize the form with values from either the passed Department,
  * or a set of default values.
- * 
+ *
  * @param {IReduxState} state
  * @param {IDepartmentFormProps} ownProps
  * @returns {IFormValues}
@@ -142,7 +140,6 @@ function mapStateToProps(state: IReduxState, ownProps: IDepartmentFormProps): IF
   }
   return { initialValues: { active: true, modules: [] } };
 }
-
 
 // Decorate the form component
 const DepartmentFormDecorated = reduxForm({
