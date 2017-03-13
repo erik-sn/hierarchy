@@ -24,7 +24,7 @@ describe('library.test.tsx >>>', () => {
       expect(wrapper.find('h3').text()).to.equal('There was an error loading this module');
     });
 
-    it('returns an invalid error if component was not found - default __custom__ directory', () => {
+    it('returns an invalid error if component was not found - default __modules__ directory', () => {
       const component: JSX.Element = getComponent('wrong', { parent: { name: 'test' }});
       const wrapper = shallow(component);
       expect(wrapper.find('h3').length).to.equal(1);

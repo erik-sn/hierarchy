@@ -10,7 +10,7 @@ import { IDictionary } from '../constants/interfaces';
  * not the HierarchyTier component's themselves, dynamic requires are
  * essential to the flexibility of the application.
  *
- * By convention these dynamic components are stored in the __custom__
+ * By convention these dynamic components are stored in the __modules__
  * directory, then given a directory with their name. The index of the
  * component must also be given the same name.
  *
@@ -19,7 +19,7 @@ import { IDictionary } from '../constants/interfaces';
  * @param {*} props - properties to pass to the component
  * @returns {JSX.Element}
  */
-export function getComponent(name: string, props: any, directory: string = '__custom__'): JSX.Element {
+export function getComponent(name: string, props: any, directory: string = '__modules__'): JSX.Element {
   try {
     const Component = require(`../components/${directory}/${name}/${name}.tsx`).default;
     return <Component {...props} />;
