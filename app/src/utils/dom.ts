@@ -1,6 +1,5 @@
 import * as axios from 'axios';
 
-
 /**
  * @export
  * @param {*} e
@@ -17,8 +16,6 @@ export default function getBoundingBox(e: any) {
     elementWidth: dropdownRight - dropdownX,
   };
 }
-
-
 
 export function getCookie(name: string): string {
   // add type check for document so test environment can

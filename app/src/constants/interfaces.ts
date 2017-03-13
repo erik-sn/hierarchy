@@ -43,12 +43,11 @@ export interface IHierarchy {
   error: boolean;
 }
 
-
 // root reducer
 export interface IReduxState {
   auth: IAuth;
   hierarchy: IHierarchy;
-  toJS: Function;
+  toJS: () => void;
   form: FormStateMap;
   display: IDisplay;
   departmentStores: Map<number, any>;
@@ -144,7 +143,7 @@ export interface IReport {
 
 // axios
 export interface IAxiosResponse {
-  data: Object;
+  data: any;
 }
 
 /**

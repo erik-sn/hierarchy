@@ -1,26 +1,25 @@
-import * as CopyWebpackPlugin from 'copy-webpack-plugin';
+/* tslint:disable:no-var-requires object-literal-sort-keys */
+import * as autoprefixer from 'autoprefixer';
+import * as promise from 'es6-promise';
 import * as path from 'path';
 import * as webpack from 'webpack';
 
-const autoprefixer = require('autoprefixer');
+promise.polyfill();
 
-module.exports = {
-  // see https://webpack.github.io/docs/configuration.html#devtool
+const configuration: webpack.Configuration = {
   devtool: 'eval',
   entry: [
     'webpack-dev-server/client?http://localhost:3000',
     'webpack/hot/only-dev-server',
     'react-hot-loader/patch',
-    './src/index',
+    './src/index.tsx',
   ],
   output: {
-    // this output is virtual/in memory when using WebpackDevServer
-    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js',
+    path: path.join(__dirname, 'dist'),
     publicPath: '/static/media/',
   },
   plugins: [
-    // enable hot module replacement
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new webpack.DefinePlugin({
@@ -29,34 +28,37 @@ module.exports = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
+    new webpack.LoaderOptionsPlugin({ options: { postcss: [ autoprefixer ] } }),
     new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.test.js$|\.test.ts$|\.test.tsx$/,
-        loader: 'ignore',
-      },
-      {
-        include: path.join(__dirname, '../src'),
-        loader: 'awesome-typescript-loader',
-        test: /\.tsx$|\.ts$/,
+        use: 'ignore-loader',
       },
       {
         test: /\.scss$/,
-        loaders: ['style', 'css', 'postcss', 'sass'],
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+      },
+      {
+        test: /\.tsx$|\.ts$/,
+        use: ['awesome-typescript-loader'],
+        include: path.join(__dirname, '../src'),
       },
       {
         test: /\.json$/,
-        loader: 'json',
+        use: ['json-loader'],
+      },
+      {
+        test: /\.(ico|jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2)(\?.*)?$/,
+        use: ['file-loader'],
       },
     ],
   },
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.ts', '.tsx', '.json'],
+    extensions: ['*', '.ts', '.tsx', '.json', '.', '.js', '.jsx'],  // the js extensions are necessary for webpack
   },
-  postcss: [autoprefixer],
-  // allow for dynamic requires
   externals: {
     'cheerio': 'window',
     'react/addons': true,
@@ -64,3 +66,5 @@ module.exports = {
     'react/lib/ReactContext': true,
   },
 };
+
+export default configuration;

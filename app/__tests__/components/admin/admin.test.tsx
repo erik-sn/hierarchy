@@ -22,7 +22,7 @@ describe('admin.test.tsx |', () => {
         menu: 'hierarchy',
         splat: undefined,
       },
-      user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1' },
+      user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1', email: 'test@email.com' },
     };
 
     beforeEach(() => {
@@ -50,7 +50,7 @@ describe('admin.test.tsx |', () => {
           menu: 'specifications',
           splat: undefined,
         },
-        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1' },
+        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1', email: 'test@email.com' },
       };
       component = shallow(<Admin {...newProps} />);
       expect(component.find('.admin__specifications')).to.have.length(1);
@@ -65,7 +65,7 @@ describe('admin.test.tsx |', () => {
           menu: 'modules',
           splat: undefined,
         },
-        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1' },
+        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1', email: 'test@email.com' },
       };
       component = shallow(<Admin {...newProps} />);
       expect(component.find('Connect(ModuleAdmin)')).to.have.length(1);
@@ -79,7 +79,7 @@ describe('admin.test.tsx |', () => {
           menu: 'apicalls',
           splat: undefined,
         },
-        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1' },
+        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1', email: 'test@email.com' },
       };
       component = shallow(<Admin {...newProps} />);
       expect(component.find('Connect(ApiCallAdmin)')).to.have.length(1);
@@ -93,7 +93,7 @@ describe('admin.test.tsx |', () => {
           menu: '',
           splat: undefined,
         },
-        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1' },
+        user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1', email: 'test@email.com' },
       };
       component = shallow(<Admin {...newProps} />);
       expect(component.find(AdminHierarchy)).to.have.length(1);
@@ -115,7 +115,7 @@ describe('admin.test.tsx |', () => {
         menu: 'modules',
         splat: undefined,
       },
-      user: { id: 1, username: 'test name', admin: false, ip: '127.0.0.1' },
+      user: { id: 1, username: 'test name', admin: false, ip: '127.0.0.1', email: 'test@email.com' },
     };
 
     beforeEach(() => {
@@ -139,7 +139,7 @@ describe('admin.test.tsx |', () => {
         menu: 'modules',
         splat: undefined,
       },
-      user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1' },
+      user: { id: 1, username: 'test name', admin: true, ip: '127.0.0.1', email: 'test@email.com' },
     };
 
     beforeEach(() => {

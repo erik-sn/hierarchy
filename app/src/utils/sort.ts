@@ -20,7 +20,7 @@ export function alphaNumSort(a: string, b: string): number {
   return 0;
 }
 
-export function generateDateSort(param: string = undefined, format: string = undefined): (a: any, b: any) => number {
+export function generateDateSort(param: string, format: string = 'YYYY-MM-DD'): (a: any, b: any) => number {
   const dateSort = (a: any, b: any) => {
     const aDate = param ? moment(a[param], format) : moment(a, format);
     const bDate = param ? moment(b[param], format) : moment(b, format);
@@ -34,7 +34,7 @@ export function generateDateSort(param: string = undefined, format: string = und
   return dateSort;
 }
 
-export function generateNumberSort(param: string = undefined): (a: any, b: any) => number {
+export function generateNumberSort(param: string): (a: any, b: any) => number {
   const numberSort = (a: any, b: any) => {
     const aNumber = param ? a[param] : a;
     const bNumber = param ? b[param] : b;

@@ -6,6 +6,7 @@
     "quotemark": [true, "single", "jsx-double"],
     "object-literal-sort-keys": false,
     "no-var-requires": false,
-    "jsx-no-multiline-js": false
+    "jsx-no-multiline-js": false,
+    "no-bitwise": false
   }
 }

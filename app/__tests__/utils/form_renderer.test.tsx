@@ -5,7 +5,7 @@ import { RadioButton } from 'material-ui/RadioButton';
 import * as React from 'react';
 import * as sinon from 'sinon';
 
-import { renderCheckbox as Checkbox, IDateProps, IFieldProps, renderDateField,
+import { IDateProps, IFieldProps, RenderCheckbox as Checkbox, renderDateField,
   renderRadioGroup, renderSelect, renderTextArea, renderTextField,
   renderTimeField } from '../../src/utils/form_renderer';
 import { mountWithTheme } from '../helper';

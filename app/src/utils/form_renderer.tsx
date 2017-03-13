@@ -80,7 +80,6 @@ export const renderTextField = ({ input, label, meta: { touched, error },
   );
 };
 
-
 export const renderTextArea = ({ input, label, meta: { touched, error },
                                 ...custom }: IFieldProps): JSX.Element => (
   <div className="mui-form-component">
@@ -96,7 +95,6 @@ export const renderTextArea = ({ input, label, meta: { touched, error },
   </div>
 );
 
-
 interface ICheckboxInput {
   checked: boolean;
   onChange: any;
@@ -106,7 +104,7 @@ export interface ICheckboxProps {
   label: string;
 }
 
-export class renderCheckbox extends React.Component<ICheckboxProps, {}> {
+export class RenderCheckbox extends React.Component<ICheckboxProps, {}> {
 
   constructor(props: ICheckboxProps) {
     super(props);
@@ -143,7 +141,7 @@ export const renderSelect = ({ input, label, meta, children }: IFieldProps): JSX
       </SelectField>
     </div>
   );
-}
+};
 
 export const renderRadioGroup = ({ input, children }: IFieldProps): JSX.Element => {
   const handleOnChange = (event: React.FormEvent<HTMLInputElement>, value: string) => input.onChange(value);
@@ -160,7 +158,6 @@ export const renderRadioGroup = ({ input, children }: IFieldProps): JSX.Element 
     </div>
   );
 };
-
 
 export const renderNullField = ({ input }: IFieldProps): JSX.Element => (
   <div className="mui-form-component hidden">

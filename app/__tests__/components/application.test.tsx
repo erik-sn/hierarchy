@@ -23,6 +23,7 @@ describe('application.test.tsx |', () => {
       ip: '0.0.0.0',
       admin: false,
       id: 1,
+      email: 'test@email.com',
     },
     userError: false,
     sites: siteList,
@@ -30,7 +31,7 @@ describe('application.test.tsx |', () => {
     location: { pathname: '/' },
     modal: {
       showModal: false,
-      component: undefined
+      component: undefined,
     },
     config: {
       name: 'hierarchy',
@@ -89,7 +90,6 @@ describe('application.test.tsx |', () => {
     });
   });
 
-
   describe('Site Error | >>>', () => {
     let mountedComponent: ReactWrapper<{}, {}>;
     beforeEach(() => {
@@ -113,7 +113,6 @@ describe('application.test.tsx |', () => {
     });
   });
 
-
   describe('No User Data | >>>', () => {
     let mountedComponent: ReactWrapper<{}, {}>;
     beforeEach(() => {
@@ -122,7 +121,7 @@ describe('application.test.tsx |', () => {
       mountedComponent = mountWithTheme(reduxWrap(
         <Application
           {...defaultProps}
-          user={{ id: -1, username: undefined, ip: undefined, admin: false }}
+          user={{ id: -1, username: undefined, ip: undefined, admin: false, email: 'test@email.com' }}
           fetchAuth={fetchAuth}
           fetchHierarchy={fetchHierarchy}
         />,
@@ -141,7 +140,6 @@ describe('application.test.tsx |', () => {
       expect(mountedComponent.find('.loading__container')).to.have.length(1);
     });
   });
-
 
   describe('User Error | >>>', () => {
     let mountedComponent: ReactWrapper<{}, {}>;

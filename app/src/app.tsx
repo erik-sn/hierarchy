@@ -13,7 +13,6 @@ import routes from './routes';
 import { detectIE, imagePreload } from './utils/dom';
 import runPolyfills from './utils/polyfill';
 
-
 // const useBasename = require('history').useBaseName;
 const appConfig = require('../appconfig.json');
 

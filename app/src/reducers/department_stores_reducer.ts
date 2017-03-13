@@ -5,7 +5,6 @@ import { IAction, IHierarchy } from '../constants/interfaces';
 
 export const initialState = Map({ error: false });
 
-
 export default (state: any = initialState, action: IAction) => {
   switch (action.type) {
     case types.SET_DEPARTMENT_DATA: {

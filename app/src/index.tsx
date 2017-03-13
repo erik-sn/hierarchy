@@ -6,7 +6,6 @@ import * as injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './app';
 import { detectIE } from './utils/dom';
 
-
 injectTapEventPlugin();  // material-ui support
 
 const rootEl: HTMLElement = document.getElementById('root');
@@ -33,7 +32,8 @@ if (module.hot) {
 
 if (detectIE()) {
   // must do this after mount so the body exists
-  const background: string = "url('https://res.cloudinary.com/dvr87tqip/image/upload/v1487600371/grid_dinlrq_lx4syh.png') !important";
+  // tslint:disable-next-line:max-line-length
+  const background: string = 'url(\'https://res.cloudinary.com/dvr87tqip/image/upload/v1487600371/grid_dinlrq_lx4syh.png\') !important';
   const body: any = document.getElementById('app-body');
   body.style.backgroundImage = background;
 }

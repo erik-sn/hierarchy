@@ -29,7 +29,6 @@ export function getComponent(name: string, props: any, directory: string = '__cu
   }
 }
 
-
 /**
  * Iterate over the input list and check whether or not all members
  * of an object are or can be parsed into moment.js objects. If any
@@ -59,7 +58,6 @@ export function isNumberParameter(list: Array<IDictionary<any>>, parameter: stri
   return !list.some((listItem) => isNaN(Number(listItem[parameter])));
 }
 
-
 /**
  * Given a string add commas every 3 digits to add readability. Only add
  * commas if the length (left of the decimal point) is at least the minLength
@@ -78,4 +76,3 @@ export function commafy(inputValue: string, minLength: number = 4): string {
     }
     return str.join('.');
 }
-

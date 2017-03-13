@@ -5,7 +5,6 @@ import * as sinon from 'sinon';
 
 import Dropdown, { INavDropdownProps } from '../../../src/components/navbar/navbar_dropdown';
 
-
 describe('navbar_dropdown.test.tsx |', () => {
   describe('Default | >>>', () => {
     let component: ShallowWrapper<{}, {}>;

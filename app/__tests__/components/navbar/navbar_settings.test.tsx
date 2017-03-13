@@ -6,7 +6,6 @@ import * as sinon from 'sinon';
 import Settings,
   { ISettingsProps } from '../../../src/components/navbar/navbar_settings';
 
-
 describe('navbar_settings.test.tsx |', () => {
   describe('Expected | >>>', () => {
     let component: ShallowWrapper<{}, {}>;

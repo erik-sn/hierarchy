@@ -1,67 +1,65 @@
-import * as CopyWebpackPlugin from 'copy-webpack-plugin';
+/* tslint:disable:no-var-requires object-literal-sort-keys */
+import * as autoprefixer from 'autoprefixer';
+import * as promise from 'es6-promise';
 import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
 import * as path from 'path';
 import * as webpack from 'webpack';
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const appconfig = require('../package.json');
-const autoprefixer = require('autoprefixer');
-require('es6-promise').polyfill();
+promise.polyfill();
 
-
-module.exports = {
-  devtool: 'cheap-module-source-map',
+const configuration: webpack.Configuration = {
+  devtool: 'hidden-source-map',
   entry: [
-    './src/index',
+    './src/index.tsx',
   ],
   output: {
-    path: path.join(__dirname, '../dist'),
     filename: 'bundle.min.' + appconfig.version + '.js',
-    publicPath: '/static/',
+    path: path.join(__dirname, '../dist'),
+    publicPath: '/dist/',
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
-      },
-    }),
-    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false },
-    }),
-    new webpack.optimize.DedupePlugin(),
-    new ExtractTextPlugin('bundle.min.' + appconfig.version + '.css', {
+    new ExtractTextPlugin({
+      filename: '/bundle.min.' + appconfig.version + '.css',
       allChunks: true,
     }),
-    // copy images from the media folder to the dist folder
-    new CopyWebpackPlugin([
-        { context: './static/media/', from: '*' },
-    ]),
-    new BundleAnalyzerPlugin(),
+    new webpack.LoaderOptionsPlugin({ options: { postcss: [ autoprefixer ] } }),
+    new webpack.ContextReplacementPlugin(/moment[\/\\]locale$/, /en/),
+    // new BundleAnalyzerPlugin(),
   ],
   module: {
-    loaders: [
-      {
-        test: /\.test.js$|\.test.ts$|\.test.tsx$/,
-        loader: 'ignore',
-      },
-      {
-        include: path.join(__dirname, '../src'),
-        loader: 'awesome-typescript-loader',
-        test: /\.tsx$|\.ts$/,
-      },
+    rules: [
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!postcss!sass'),
+        use: ExtractTextPlugin.extract({
+          use: ['css-loader', 'postcss-loader', 'sass-loader'],
+        }),
+      },
+      {
+        test: /\.jpe?g$|\.gif$|\.png$/i,
+        use: 'file-loader?name=/img/[name].[ext]',
+      },
+      {
+        test: /\.ts$|\.tsx$/,
+        use: ['awesome-typescript-loader'],
+        include: path.join(__dirname, '../src'),
       },
       {
         test: /\.json$/,
-        loader: 'json',
+        use: 'json-loader',
       },
     ],
   },
   resolve: {
-    extensions: ['', '.webpack.js', '.web.js', '.js', '.ts', '.tsx'],
+    extensions: ['.webpack.js', '.web.js', '.js', '.ts', '.tsx', '.json'],
   },
-  postcss: [autoprefixer],
+  externals: {
+    'cheerio': 'window',
+    'react/addons': true,
+    'react/lib/ExecutionEnvironment': true,
+    'react/lib/ReactContext': true,
+  },
 };
+
+export default configuration;

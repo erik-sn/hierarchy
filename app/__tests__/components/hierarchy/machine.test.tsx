@@ -1,3 +1,4 @@
+// tslint:disable-next-line:no-string-literal
 process.env['TEST'] = true;
 
 import { expect } from 'chai';
@@ -72,7 +73,7 @@ describe('machine.test.tsx |', () => {
 
       instance.setActiveModule(siteList[0].departments[0].machines[0].modules[1]);
       const finalState: any = component.state();
-      expect(finalState.activeModule.name).to.equal('extruder_efficiency');
+      expect(finalState.activeModule.name).to.equal('extruder_waste');
     });
 
     it('same machine, only update url', () => {

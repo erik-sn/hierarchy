@@ -2,7 +2,6 @@ const axios = require('axios');
 
 import types from '../actions/types';
 
-
 export function getApiConfig() {
   const CancelToken: any = axios.CancelToken;
   const axiosSource = CancelToken.source();

@@ -4,7 +4,6 @@ import { IDepartment, IHierarchyItems, IMachine, ISite } from '../constants/inte
 
 const appConfig = require('../../appconfig.json');
 
-
 export function parseSite(siteList: ISite[], siteCode: string): ISite {
   return siteList.find((site) => (
     site.code.toLowerCase() === siteCode.toLowerCase()

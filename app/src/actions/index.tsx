@@ -5,8 +5,7 @@ import Modal from '../components/modal';
 import { IAction } from '../constants/interfaces';
 import types from './types';
 
-
-export function showModal(title: string, message: string, child: JSX.Element = undefined): IAction {
+export function showModal(title: string, message: string, child: JSX.Element = <div />): IAction {
   return {
     payload: {
       showModal: true,
@@ -36,4 +35,3 @@ export function fetchDepartmentData(departmentId: number, url: string, key: stri
     },
   };
 }
-

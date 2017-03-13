@@ -24,6 +24,7 @@ describe('navbar.test.tsx |', () => {
         admin: true,
         username: 'test_user',
         ip: '0.0.0.0',
+        email: 'test@email',
       },
       config: {
         baseUrl: '/',
@@ -78,6 +79,7 @@ describe('navbar.test.tsx |', () => {
         admin: true,
         username: 'test_user',
         ip: '0.0.0.0',
+        email: 'test@email',
       },
       config: {
         baseUrl: '/',
@@ -107,6 +109,7 @@ describe('navbar.test.tsx |', () => {
         admin: true,
         username: 'test_user',
         ip: '0.0.0.0',
+        email: 'test@email',
       },
       config: {
         baseUrl: '/',
@@ -135,6 +138,7 @@ describe('navbar.test.tsx |', () => {
         admin: true,
         username: undefined,
         ip: '0.0.0.0',
+        email: 'test@email',
       },
       config: {
         baseUrl: '/',
@@ -156,7 +160,6 @@ describe('navbar.test.tsx |', () => {
   });
 
   describe('Event Listeners | >>>', () => {
-    let sandbox: sinon.SinonSandbox;
     let component: ShallowWrapper<{}, {}>;
     let mountedComponent: ReactWrapper<{}, {}>;
     const props: INavbarProps = {
@@ -165,6 +168,7 @@ describe('navbar.test.tsx |', () => {
         admin: true,
         username: 'test_user',
         ip: '0.0.0.0',
+        email: 'test@email',
       },
       config: {
         baseUrl: '/',

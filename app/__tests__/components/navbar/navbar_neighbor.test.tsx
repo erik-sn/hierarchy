@@ -5,7 +5,6 @@ import * as sinon from 'sinon';
 
 import Neighbor, { INeighborProps } from '../../../src/components/navbar/navbar_neighbor';
 
-
 describe('navbar_neighbor.test.tsx |', () => {
   describe('Expected | >>>', () => {
     let component: ShallowWrapper<{}, {}>;

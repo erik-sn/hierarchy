@@ -1,7 +1,6 @@
 import types from '../actions/types';
 import { IAction, IHierarchy } from '../constants/interfaces';
 
-
 export const initialState: IHierarchy = {
   sites: undefined,
   error: false,

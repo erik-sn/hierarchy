@@ -5,7 +5,6 @@ import * as sinon from 'sinon';
 
 import Nav, { INavbarNavProps } from '../../../src/components/navbar/navbar_nav';
 
-
 describe('navbar_nav.test.tsx |', () => {
   describe('Not Active | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
@@ -27,7 +26,7 @@ describe('navbar_nav.test.tsx |', () => {
     });
 
     it('contains the nav name inside the child container', () => {
-      expect(component.find('.navbar__hierarchy-item-child').text()).to.equal(props.name)
+      expect(component.find('.navbar__hierarchy-item-child').text()).to.equal(props.name);
     });
 
     it('calls handle click on link click', () => {
