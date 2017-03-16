@@ -117,6 +117,26 @@ export interface IApiCall {
   active: boolean;
 }
 
+export interface IReportOption {
+  name: string;
+}
+
+export interface IReport {
+  id: number;
+  name: string;
+  description: string;
+  useFrom: boolean;
+  fromDefaultLength: number;
+  fromDefaultType: string;
+  useTime: boolean;
+  useTo: boolean;
+  toDefaultLength: number;
+  toDefaultType: string;
+  endpoint: string;
+  useEmail: boolean;
+  options: IReportOption[];
+}
+
 export interface IModule {
   id: number;
   name: string;
@@ -125,20 +145,6 @@ export interface IModule {
   created?: string;
   modified?: string;
   active: boolean;
-}
-
-export interface IReport {
-  name: string;
-  description: string;
-  from: boolean;
-  to: boolean;
-  fromDefault: string;
-  toDefault: string;
-  endpoint: string;
-  options: string[];
-  useEmail: boolean;
-  defaultEmails: string[];
-  useTime: boolean;
 }
 
 // axios

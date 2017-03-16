@@ -64,6 +64,8 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
   constructor(props: IFilterTableProps) {
     super(props);
     const { tableData, config } = props;
+    // create a copy of the input data to work on
+    const copiedTableData = this.copyInputData(tableData);
     this.checkConfig(config);
     this.state = {
       filterText: '',
@@ -73,7 +75,7 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
       sortDirection: undefined,
        // we pass tableData from props to state so that filters can be
        // applied to it
-      tableData: this.cleanTableData(tableData),
+      tableData: this.cleanTableData(copiedTableData),
     };
     this.handleFilterUpdate = this.handleFilterUpdate.bind(this);
     this.handleToggleMode = this.handleToggleMode.bind(this);
@@ -93,7 +95,25 @@ class FilterTable extends React.Component<IFilterTableProps, IFilterTableState> 
    */
   public componentWillReceiveProps(nextProps: IFilterTableProps): void {
     const { tableData } = nextProps;
-    this.setState({ tableData: this.cleanTableData(tableData) });
+    // create a copy of the input data to work on
+    const copiedTableData = this.copyInputData(tableData);
+    this.setState({ tableData: this.cleanTableData(copiedTableData) });
+  }
+
+  /**
+   * If the raw tableData input prop is used it will be mutated during any
+   * internal processing. As part of the searching algorithm we convert all
+   * inputs to strings. This operation would convert the input data that was
+   * passed to a string as well. Therefore we make a copy of the input data
+   * and perform all operations on that copy.
+   *
+   * @param {Array<IDictionary<string>>} tableData - table data passed to the component as props
+   * @returns {Array<IDictionary<string>>} - a copy of the table data
+   *
+   * @memberOf FilterTable
+   */
+  public copyInputData(tableData: Array<IDictionary<string>>): Array<IDictionary<string>> {
+    return tableData.map((row) => Object.assign({}, row));
   }
 
   /**

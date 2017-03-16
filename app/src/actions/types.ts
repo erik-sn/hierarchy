@@ -4,7 +4,7 @@ const config = require('../../appconfig.json');
 
 export default {
   API: config.hierarchyapi,
-  MAP: 'http://10.137.19.200/v1',
+  MAP: 'http://localhost:8000/v1',
   API_CONFIG: {
     timeout: 0,
     withCredentials: true,
