@@ -1,3 +1,3 @@
 [submodule "app/src/components/__modules__"]
 	path = app/src/components/__modules__
-	url = git@github.com:erik-sn/processworkshop.git
+	url = https://github.com/erik-sn/processworkshop.git
