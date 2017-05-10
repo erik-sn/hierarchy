@@ -1,15 +1,17 @@
+import json
+
 from django.contrib.auth.models import User
 from django.contrib.auth import models
 from django.utils.timezone import utc
 from django.db.models import F
 from rest_framework import generics
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
 from rest_framework.permissions import DjangoModelPermissions
-from rest_framework.response import Response
 
 from hierarchyapi import utility
 from hierarchy.serializers import *
-from hierarchy import utils
+from rest_framework.response import Response
 
 """
 Views for Hierarchy
@@ -42,34 +44,6 @@ def auth_view(request):
     return Response({'id': user.id, 'username': user.username, 'ip': ip, 'admin': user.is_staff}, status=200)
 
 
-@api_view(['GET'])
-def refresh_modules(request):
-    """
-    Search for all valid modules within the App directory and save them to the database
-    :param request: HTTP request
-    :return:
-    """
-    # db_modules = Module.objects.all()
-    #
-    # # remove invalid or not found modules
-    # valid_modules = utils.get_valid_modules()
-    # deleted_module_count = 0
-    # for module in db_modules:
-    #     if module.name not in valid_modules:
-    #         module.delete()
-    #         deleted_module_count += 1
-    #
-    # # add modules that are valid but not in database
-    # new_module_count = 0
-    # module_names = [module.name for module in db_modules]
-    # for module_name in valid_modules:
-    #     if module_name not in module_names:
-    #         new_module = Module(name=module_name, active=True, label='TBD', description='')
-    #         new_module.save()
-    #         new_module_count += 1
-    return Response({'new': 0, 'deleted': 0})
-
-
 class ApiCallView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
     """
     View for application modules
@@ -92,38 +66,6 @@ class ApiCallView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics
 
             data = self.get_queryset().filter(active=True) if inactive is None else self.get_queryset()
             serializer = ApiCallSerializer(data, many=True)
-            return Response(serializer.data, 200)
-
-
-class DataView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
-    """
-    View for data object. Intended for use for miscellaneous data entry.
-    Methods supported:
-        GET - from list method below
-        POST - generics
-        PUT/PATCH - generics
-        DELETE - generics
-    """
-    queryset = Data.objects.all()
-    permission_classes = (DjangoModelPermissions,)
-    serializer_class = DataSerializer
-    lookup_field = 'id'
-
-    def get(self, request, *args, **kwargs):
-        if 'id' in kwargs:
-            return self.retrieve(request, *args, **kwargs)
-        else:
-            dates = utility.ParsedDate(request, weeks=4)
-            if not dates.valid:
-                return Response(dates.error, 400)
-
-            machine = request.GET.get('machine', None)
-            name = request.GET.get('name', None)
-
-            data = self.get_queryset().filter(active=True).order_by('-date').filter(date__range=(dates.start, dates.end))
-            data = data.filter(machine__iexact=machine) if machine else data
-            data = data.filter(name__iexact=name) if name else data
-            serializer = DataSerializer(data, many=True)
             return Response(serializer.data, 200)
 
 
@@ -206,7 +148,7 @@ class ModuleView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.
     lookup_field = 'id'
 
     def get_serializer_class(self):
-        if self.request.method in ['PUT']:
+        if self.request.method in ['PUT', 'POST']:
             return ModuleSerializerPost
         return ModuleSerializer
 
@@ -305,7 +247,6 @@ class ProcessLogView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
             return self.retrieve(request, *args, **kwargs)
         else:
             dates = utility.ParsedDate(request, weeks=2)
-            print(dates.end)
             if not dates.valid:
                 return Response(dates.error, 400)
             
@@ -316,7 +257,7 @@ class ProcessLogView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
 
             data = self.queryset.filter(timestamp__range=(dates.start, dates.end))
             data = data.filter(machine__department__id=department) if department else data
-            data = data.filter(machine__iexact=machine) if machine else data
+            data = data.filter(machine__name__iexact=machine) if machine else data
             data = data.filter(userName__icontains=user) if user else data
             data = data.filter(description__icontains=description) if description else data
             for item in data:
@@ -325,7 +266,24 @@ class ProcessLogView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
             return Response(serializer.data, 200)
 
 
-class SetpointView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView, generics.DestroyAPIView):
+class ReportView(generics.ListAPIView, generics.RetrieveAPIView):
+
+    queryset = Report.objects.all().filter(active=True)
+    permission_classes = (DjangoModelPermissions,)
+    serializer_class = ReportSerializer
+    lookup_field = 'id'
+
+    def get(self, request, *args, **kwargs):
+        if 'id' in kwargs:
+            return self.retrieve(request, *args, **kwargs)
+        else:
+            department = kwargs.get('department')
+            data = self.get_queryset().filter(department__id=department)
+            serializer = self.serializer_class(data, many=True)
+            return Response(serializer.data, 200)
+
+
+class SetpointView(generics.ListCreateAPIView, generics.RetrieveAPIView):
     queryset = Setpoint.objects.all().order_by('specName').filter(active__exact=True)
     permission_classes = (DjangoModelPermissions,)
     serializers = (SetpointSerializer)
@@ -336,28 +294,32 @@ class SetpointView(generics.ListCreateAPIView, generics.RetrieveAPIView, generic
             return SetpointBasicSerializer
         return SetpointSerializer
 
+    def post(self, request, *args, **kwargs):
+        data = utility.convert_to_list(JSONParser().parse(request))
+        serializer = SetpointBasicSerializer(data=data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, 201)
+        return Response(serializer.errors, 400)
+
     def get(self, request, *args, **kwargs):
         if 'id' in kwargs:
             return self.retrieve(request, *args, **kwargs)
         else:
-            dates = utility.ParsedDate(request, years=1)
-            if not dates.valid:
-                return Response(dates.error, 400)
-
             specName = request.GET.get('specname', None)
             piTagName = request.GET.get('tagname', None)
             itemName = request.GET.get('itemname', None)
             groupName = request.GET.get('groupname', None)
-            machine_name = request.GET.get('machine', None)
+            machine = request.GET.get('machine', None)
             onSpec = utility.get_url_boolean(request.GET.get('onspec', None))
 
-            data = self.queryset.filter(modified__range=(dates.start, dates.end))
+            data = Setpoint.objects.all().order_by('specName')
             data = data.filter(specName__icontains=specName) if specName else data
             data = data.filter(piTagName__icontains=piTagName) if piTagName else data
             data = data.filter(itemName__icontains=itemName) if itemName else data
             data = data.filter(groupName__icontains=groupName) if groupName else data
-            data = data.filter(machine__name__iexact=machine_name) if machine_name else data
-            data = data.filter(onSpec__exact=onSpec) if onSpec is not None else data
+            data = data.filter(machine__name__iexact=machine) if machine else data
+            data = data.filter(onSpec__exact=onSpec) if onSpec else data
 
             serializer = SetpointSerializer(data, many=True)
             return Response(serializer.data, 200)
@@ -395,7 +357,7 @@ class SiteView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.Up
 
 
 class SpecificationView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView):
-    queryset = Specification.objects.all().order_by('-id')
+    queryset = Specification.objects.all().order_by('-created')
     permission_classes = (DjangoModelPermissions,)
     serializer_class = SpecificationSerializer
     lookup_field = 'id'

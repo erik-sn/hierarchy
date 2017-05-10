@@ -25,23 +25,6 @@ class ApiCall(models.Model):
         db_table = 'hierarchy_apicalls'
 
 
-class Data(models.Model):
-    # TODO refactor this and parts to one object
-    """
-    Generic data entry. Intended for use to hold data produced by mapscripts for later usage
-    """
-    id = models.AutoField(primary_key=True, db_column='id')
-    date = models.DateTimeField(blank=False, null=False, db_column='date')
-    machine = models.TextField(blank=False, null=True, db_column='machine')
-    name = models.TextField(blank=False, null=True, db_column='name')
-    value = models.FloatField(blank=False, null=False, db_column='value')
-    active = models.BooleanField(default=True, db_column='active')
-
-    class Meta:
-        managed = True
-        db_table = 'hierarchy_datapoints'
-
-
 class Department(models.Model):
     """
     Child of site, second level of application hierarchy
@@ -181,22 +164,29 @@ class Setpoint(models.Model):
     Note that the limits are relative plus/minus of "specValue" - not absolute limits
     """
     id = models.AutoField(blank=True, primary_key=True, db_column='id')
-    specName = models.TextField(blank=True, null=True, db_column='specname')
+    specName = models.TextField(blank=False, null=False, db_column='specname')
     piTagName = models.TextField(blank=False, null=False, db_column='pitagname')
     lowLimit = models.TextField(blank=True, null=True, db_column='lowlimit')
     highLimit = models.TextField(blank=True, null=True, db_column='highlimit')
-    percentage = models.NullBooleanField(db_column='percentage')
+    percentage = models.NullBooleanField(blank=False, null=False, db_column='percentage')
     itemName = models.TextField(blank=False, null=False, db_column='itemname')
     groupName = models.TextField(blank=True, null=True, db_column='groupname')
-    machine = models.ForeignKey(Machine, models.DO_NOTHING, db_column='machineid', blank=True, null=True)
+    machine = models.ForeignKey(Machine, models.DO_NOTHING, db_column='machineid', blank=False, null=False)
     created = models.DateTimeField(default=timezone.now, blank=False, null=False, db_column='createdate')
     modified = models.DateTimeField(default=timezone.now, blank=False, null=False, db_column='modifydate')
     specValue = models.TextField(blank=True, null=True, db_column='specvalue')
     piTagValue = models.TextField(blank=True, null=True, db_column='pitagvalue')
     piTagDate = models.DateTimeField(blank=True, null=True, db_column='pitagdate')
-    contains = models.NullBooleanField(db_column='contains')
-    active = models.NullBooleanField(default=True, db_column='active')
+    contains = models.NullBooleanField(blank=False, null=False, db_column='contains')
+    active = models.NullBooleanField(blank=False, null=False, db_column='active')
     onSpec = models.NullBooleanField(db_column='onspec')
+    columnoffset = models.IntegerField(default=1, null=False, blank=False, db_column='column_offset')
+    rowoffset = models.IntegerField(default=0, null=False, blank=False, db_column='row_offset')
+
+    # scripting utilities
+    spec_value_list = None
+    pi_changed = False
+    spec_changed = False
 
     class Meta:
         managed = True
@@ -221,30 +211,39 @@ class Setpoint(models.Model):
             self.onSpec = None
         return self.onSpec
 
-    def clear_spec_value(self):
-        self.specValue = None
 
-    def find_matching_spec_value(self, specification_map):
-        try:
-            for cell in specification_map:
-                if self.contains and self.specName.lower() in cell[0].lower():
-                    self.specValue = self.clean_spec_value(cell[1])
-                elif cell[0].lower() == self.specName.lower():
-                    self.specValue = self.clean_spec_value(cell[1])
-        except TypeError:
-            return None
 
-    def clean_spec_value(self, value):
-        """
-        pull the first integer group from a string and
-        return it.
-        :param value:
-        :return:
-        """
-        if type(value) is str:
-            r = re.compile(r'[^-\d.]+')
-            return float(r.sub(' ', value).split(' ')[0])
-        return value
+class Report(models.Model):
+    id = models.AutoField(primary_key=True, db_column='id')
+    name = models.TextField(blank=False, null=False, db_column='name')
+    description = models.TextField(blank=True, null=False, db_column='description')
+    useTime = models.BooleanField(blank=False, null=False,  db_column='use_time')
+    useFrom = models.BooleanField(blank=False, null=False,  db_column='use_from')
+    # -1 default length means now()
+    fromDefaultLength = models.IntegerField(blank=True, null=False, db_column='from_default_length')
+    fromDefaultType = models.TextField(blank=True, null=False, db_column='from_default_type')
+    useTo = models.BooleanField(blank=False, null=False,  db_column='use_to')
+    # -1 default length means now()
+    toDefaultLength = models.IntegerField(blank=True, null=False, db_column='to_default_length')
+    toDefaultType = models.TextField(blank=True, null=False, db_column='to_default_type')
+    endpoint = models.TextField(blank=False, null=False, db_column='endpoint')
+    useEmail = models.BooleanField(blank=False, null=False,  db_column='use_email')
+    options = models.ManyToManyField('ReportOptions')
+    department = models.ManyToManyField('Department')
+    active = models.BooleanField(blank=False, null=False,  db_column='active')
+
+    class Meta:
+        managed = True
+        db_table = 'hierarchy_report'
+
+
+class ReportOptions(models.Model):
+    id = models.AutoField(primary_key=True, db_column='id')
+    name = models.TextField(blank=False, null=False, db_column='name')
+
+    class Meta:
+        managed = True
+        db_table = 'hierarchy_reportoptions'
 
 
 class Site(models.Model):
@@ -254,7 +253,7 @@ class Site(models.Model):
     location = models.TextField(default='', blank=True, null=True, db_column='location')
     created = models.DateTimeField(default=timezone.now, blank=False, null=False, db_column='createdate')
     modified = models.DateTimeField(default=timezone.now, blank=False, null=False, db_column='modifydate')
-    active = models.BooleanField(blank=False, null=False,  db_column='active')
+    active = models.BooleanField(default=True, blank=False, null=False,  db_column='active')
     directory = models.TextField(default='', blank=True, null=False, db_column='directory')
     latitude = models.TextField(default='', blank=True, null=False, db_column='latitude')
     longitude = models.TextField(default='', blank=True, null=False, db_column='longitude')

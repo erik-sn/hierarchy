@@ -8,7 +8,7 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APIClient
 from autofixture import AutoFixture
 
-from mohawkapi import test_utils
+from hierarchyapi import test_utils
 from hierarchy.models import Position, Site, Department
 from hierarchy.serializers import PositionSerializer
 
@@ -30,8 +30,8 @@ class PositionGet(unittest.TestCase):
         cls.fixture = AutoFixture(Position, field_values={
             'department': test_utils.get_random([cls.department1, cls.department2]),
             'label': test_utils.get_random(['NAME1', 'name1', 'Name2', 'no name match']),
-            'createDate': test_utils.get_random([dt(2016, 9, 5), dt(2016, 9, 1), dt(2016, 8, 5),]),
-            'modifyDate': test_utils.get_random([dt(2016, 9, 6), dt(2016, 9, 2), dt(2016, 8, 6),]),
+            'created': test_utils.get_random([dt(2016, 9, 5), dt(2016, 9, 1), dt(2016, 8, 5),]),
+            'modified': test_utils.get_random([dt(2016, 9, 6), dt(2016, 9, 2), dt(2016, 8, 6),]),
             'active': test_utils.get_random([True, True, True, False]),
         })
         cls.fixture.create(100)
@@ -50,30 +50,30 @@ class PositionGet(unittest.TestCase):
     def test_Position_view_get_unauthenticated(self):
         self.client.force_authenticate(user=None)
         response = self.client.get(reverse('positionview', kwargs={}))
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(response.content, b'{"detail":"Authentication credentials were not provided."}')
+        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.data, {"detail": "Authentication credentials were not provided."})
 
     def test_Position_view_get_one(self):
-        response = self.client.get('/api/v1/hierarchy/positions/{}/'.format(self.first.id))
+        response = self.client.get('/hierarchy/positions/{}/'.format(self.first.id))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['id'], self.first.id)
 
     def test_Position_view_get_all(self):
-        response = self.client.get('/api/v1/hierarchy/positions/')
+        response = self.client.get('/hierarchy/positions/')
         expected = self.query.annotate(siteName=F('department__site__name'), departmentName=F('department__name'))\
             .values('id', 'siteName', 'departmentName', 'label')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), len(expected))
 
     def test_Position_view_get_filter_label(self):
-        response = self.client.get('/api/v1/hierarchy/positions/?label=name1')
+        response = self.client.get('/hierarchy/positions/?label=name1')
         expected = self.query.filter(label__iexact='name1').annotate(siteName=F('department__site__name'), departmentName=F('department__name'))\
             .values('id', 'siteName', 'departmentName', 'label')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(len(response.data), len(expected))
 
     def test_Position_view_get_filter_department(self):
-        response = self.client.get('/api/v1/hierarchy/positions/?department=department1')
+        response = self.client.get('/hierarchy/positions/?department=department1')
         expected = self.query.filter(department__name__iexact='department1').annotate(siteName=F('department__site__name'), departmentName=F('department__name'))\
             .values('id', 'siteName', 'departmentName', 'label')
         self.assertEqual(response.status_code, 200)
@@ -92,11 +92,11 @@ class PositionModify(unittest.TestCase):
         Department(name='department2', site=cls.site1).save()
         cls.department1 = Department.objects.get(name='department1')
         cls.department2 = Department.objects.get(name='department2')
-        Position(department=cls.department1, createDate=dt.now(), modifyDate=dt.now(), label='Position1').save()
-        Position(department=cls.department2, createDate=dt.now(), modifyDate=dt.now(), label='Position2').save()
+        Position(department=cls.department1, created=dt.now(), modified=dt.now(), label='Position1').save()
+        Position(department=cls.department2, created=dt.now(), modified=dt.now(), label='Position2').save()
         cls.update_id = Position.objects.get(label='Position1').id
         cls.delete_id = Position.objects.get(label='Position2').id
-        cls.Position = {'site': cls.site1.id, 'createDate': test_utils.get_timestamp(days=1), 'modifyDate': test_utils.get_timestamp(),
+        cls.Position = {'site': cls.site1.id, 'created': test_utils.get_timestamp(days=1), 'modified': test_utils.get_timestamp(),
                           'label': 'Position3'}
 
     @classmethod
@@ -112,36 +112,36 @@ class PositionModify(unittest.TestCase):
 
     def test_setpoint_view_post(self):
         self.client.force_authenticate(user=self.post)
-        response = self.client.post('/api/v1/hierarchy/positions/', json.dumps(self.Position),
+        response = self.client.post('/hierarchy/positions/', json.dumps(self.Position),
                                     content_type='application/json')
         self.assertEqual(response.status_code, 201)
 
     def test_setpoint_view_put(self):
         self.client.force_authenticate(user=self.post_modify)
-        response = self.client.put('/api/v1/hierarchy/positions/{}/'.format(self.update_id),
+        response = self.client.put('/hierarchy/positions/{}/'.format(self.update_id),
                                    json.dumps(self.Position), content_type='application/json')
         self.assertEqual(response.status_code, 200)
 
     def test_setpoint_view_delete(self):
         self.client.force_authenticate(user=self.post_modify_delete)
-        response = self.client.delete('/api/v1/hierarchy/positions/{}/'.format(self.delete_id))
+        response = self.client.delete('/hierarchy/positions/{}/'.format(self.delete_id))
         self.assertEqual(response.status_code, 204)
 
     def test_setpoint_view_post_no_permission(self):
         self.client.force_authenticate(user=self.no_permission)
-        response = self.client.post('/api/v1/hierarchy/positions/', json.dumps(self.Position),
+        response = self.client.post('/hierarchy/positions/', json.dumps(self.Position),
                                     content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
     def test_setpoint_view_put_no_permission(self):
         self.client.force_authenticate(user=self.no_permission)
-        response = self.client.put('/api/v1/hierarchy/positions/{}/'.format(self.update_id),
+        response = self.client.put('/hierarchy/positions/{}/'.format(self.update_id),
                                    json.dumps(self.Position), content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
     def test_setpoint_view_delete_no_permission(self):
         self.client.force_authenticate(user=self.no_permission)
-        response = self.client.put('/api/v1/hierarchy/positions/{}/'.format(self.delete_id),
+        response = self.client.put('/hierarchy/positions/{}/'.format(self.delete_id),
                                    json.dumps(self.Position), content_type='application/json')
         self.assertEqual(response.status_code, 403)
 
@@ -158,14 +158,14 @@ class TestPositionSerializer(unittest.TestCase):
         Department(name='department3', site=cls.site1).save()
         cls.department1 = Department.objects.get(name='department3')
 
-        cls.Position = {'createDate': test_utils.get_timestamp(days=1), 'modifyDate': test_utils.get_timestamp(),
+        cls.Position = {'created': test_utils.get_timestamp(days=1), 'modified': test_utils.get_timestamp(),
                           'label': 'Position3', 'department': cls.department1.id}
-        cls.Position_malformed = {'createDate': 'bad', 'modifyDate': 'bad', 'department': 'bad', 'label': 1}
-        cls.Position_blank = {'createDate': '', 'modifyDate': '', 'department': '', 'label': ''}
+        cls.Position_malformed = {'created': 'bad', 'modified': 'bad', 'department': 'bad', 'label': 1}
+        cls.Position_blank = {'created': '', 'modified': '', 'department': '', 'label': ''}
         cls.Position_missing = {}
 
-        cls.malformed_checks = ['createDate', 'modifyDate', 'department', ]
-        cls.blank_checks = ['createDate', 'modifyDate', 'label']
+        cls.malformed_checks = ['created', 'modified', 'department', ]
+        cls.blank_checks = ['created', 'modified', 'label']
         cls.missing_checks = ['label']
 
     @classmethod

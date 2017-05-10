@@ -11,16 +11,12 @@ urlpatterns = [
     url(r'^(?i)apicalls/$', views.ApiCallView.as_view(), name='apicallview'),
     url(r'^(?i)apicalls/(?P<id>[0-9]+)/$', views.ApiCallView.as_view(), name='apicallview_id'),
 
-    url(r'^(?i)data/$', views.DataView.as_view(), name='dataview'),
-    url(r'^(?i)data/(?P<id>[0-9]+)/$', views.DataView.as_view(), name='dataview_id'),
-
     url(r'^(?i)departments/$', views.DepartmentView.as_view(), name='departmentview'),
     url(r'^(?i)departments/(?P<id>[0-9]+)/$', views.DepartmentView.as_view(), name='departmentview_id'),
 
     url(r'^(?i)machines/$', views.MachineView.as_view(), name='machineview'),
     url(r'^(?i)machines/(?P<id>[0-9]+)/$', views.MachineView.as_view(), name='machineview_id'),
 
-    url(r'^(?i)modules/refresh/$', views.refresh_modules, name='module_refresh_view'),
     url(r'^(?i)modules/$', views.ModuleView.as_view(), name='moduleview'),
     url(r'^(?i)modules/(?P<id>[0-9]+)/$', views.ModuleView.as_view(), name='moduleview_id'),
 
@@ -32,6 +28,9 @@ urlpatterns = [
 
     url(r'^(?i)processlog/$', views.ProcessLogView.as_view(), name='processlogview'),
     url(r'^(?i)processlog/(?P<id>[0-9]+)/$', views.ProcessLogView.as_view(), name='processlogview_id'),
+
+    url(r'^(?i)reports/department/(?P<department>[0-9]+)/$', views.ReportView.as_view(), name='report_derpartment'),
+    url(r'^(?i)reports/(?P<id>[0-9]+)/$', views.ReportView.as_view(), name='report_id'),
 
     url(r'^(?i)setpoints/$', views.SetpointView.as_view(), name='setpointview'),
     url(r'^(?i)setpoints/(?P<id>[0-9]+)/$', views.SetpointView.as_view(), name='setpointview_id'),

@@ -2,13 +2,6 @@ from rest_framework import serializers
 from hierarchy.models import *
 
 
-class DataSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Data
-        fields = ('id', 'date', 'machine', 'name', 'value')
-
-
 class ApiCallSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -43,7 +36,7 @@ class MachineSerializerPost(serializers.ModelSerializer):
 
     class Meta:
         model = Machine
-        fields = ('name', 'type', 'created', 'modified', 'department', 'defaultModule', 'modules', 'active')
+        fields = ('name', 'type', 'modified', 'department', 'defaultModule', 'modules', 'active')
 
 
 class DepartmentSerializer(serializers.ModelSerializer):
@@ -96,6 +89,22 @@ class PartSerializerPost(serializers.ModelSerializer):
         fields = ('type', 'input1', 'input2', 'input3', 'input4', 'machine', 'position')
 
 
+class ReportOptionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ReportOptions
+        fields = ('name', )
+
+
+class ReportSerializer(serializers.ModelSerializer):
+    options = ReportOptionSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Report
+        fields = ('id', 'name', 'description', 'useFrom', 'useTime', 'fromDefaultLength', 'fromDefaultType', 'useTo',
+                  'toDefaultLength', 'toDefaultType', 'endpoint', 'useEmail', 'options')
+
+
 class SiteSerializerPost(serializers.ModelSerializer):
     class Meta:
         model = Site
@@ -119,14 +128,15 @@ class SetpointSerializer(serializers.ModelSerializer):
         model = Setpoint
         depth = 0
         fields = ('specName', 'piTagName', 'lowLimit', 'highLimit', 'percentage', 'itemName', 'contains', 'groupName',
-                  'machine', 'created', 'modified', 'specValue', 'piTagValue', 'piTagDate','onSpec', 'id',)
+                  'machine', 'created', 'modified', 'specValue', 'piTagValue', 'piTagDate','onSpec', 'id',
+                  'columnoffset', 'rowoffset')
 
 
 class SetpointBasicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Setpoint
-        fields = ('itemName', 'piTagName', 'specValue', 'piTagValue', 'lowLimit', 'highLimit', 'machine', 'percentage',
-                  'contains', 'groupName')
+        fields = ('itemName', 'piTagName', 'specName', 'lowLimit', 'highLimit', 'machine', 'percentage',
+                  'contains', 'groupName', 'machine', 'active', 'columnoffset', 'rowoffset')
 
 
 class SpecificationSerializer(serializers.ModelSerializer):
@@ -152,9 +162,11 @@ class SpecificationSerializerPost(serializers.ModelSerializer):
 class ProcessLogSerializer(serializers.ModelSerializer):
     machineName = serializers.ReadOnlyField()
     timestamp = serializers.DateTimeField(format='iso-8601')
+
     class Meta:
         model = ProcessLog
         fields = ('id', 'timestamp', 'machineName', 'userName', 'description', 'oldValue', 'newValue')
+
 
 class ProcessLogSerializerPost(serializers.ModelSerializer):
 
