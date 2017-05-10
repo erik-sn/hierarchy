@@ -62,5 +62,7 @@ export function buildNavigate(base: string): (target: string) => void {
   if (!base) {
     throw Error('A base string is required');
   }
-  return (target) => browserHistory.push(`${base.toLowerCase()}/${target.toLowerCase()}/`);
+  return (target) => {
+    browserHistory.push(`${base.toLowerCase()}/${target.toLowerCase()}/`)
+  };
 }

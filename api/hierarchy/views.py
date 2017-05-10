@@ -344,6 +344,7 @@ class SiteView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.Up
         return SiteSerializer
 
     def get(self, request, *args, **kwargs):
+        print(request.user)
         if 'id' in kwargs:
             return self.retrieve(request, *args, **kwargs)
         else:

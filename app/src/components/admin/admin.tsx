@@ -71,8 +71,6 @@ export class Admin extends React.Component<IAdminProps, IAdminState> {
     const { fetchHierarchy, params, sites } = this.props;
     const { menu, splat } = params;
     switch (menu) {
-      case 'specifications':
-        return <div className="admin__specifications">specification</div>;
       case 'apicalls':
         return <ApiCalls />;
       case 'modules':

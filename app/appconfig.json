@@ -1,6 +1,6 @@
 {
-  "name": "Process Workshop",
-  "baseUrl": "/processworkshop",
-  "authUrl": "http://10.137.19.200/v1/userinfo/",
-  "hierarchyapi": "http://10.137.19.200/v1/hierarchy"
+  "name": "Hierarchy Example",
+  "baseUrl": "",
+  "authUrl": "http://localhost:8000/hierarchy/auth/",
+  "hierarchyapi": "http://localhost:8000/hierarchy"
 }

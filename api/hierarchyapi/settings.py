@@ -14,7 +14,7 @@ SECRET_KEY = 'mrfo7gb+7k4a0q8%fq4ixs)*(#mr7mineu47funi&xctpr8-%o'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -126,3 +127,9 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     )
 }
+# Cross Origin Resource Sharing https://github.com/ottoyiu/django-cors-headers
+CORS_ORIGIN_WHITELIST = (
+    'localhost:8000',
+    'localhost:3000',
+)
+CORS_ALLOW_CREDENTIALS = True

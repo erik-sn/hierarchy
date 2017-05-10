@@ -9,9 +9,7 @@ export default {
     timeout: 0,
     withCredentials: true,
     responseType: 'json',
-    header: {
-      'X-CSRFToken': getCookie('csrftoken'),
-    },
+    headers: {"X-CSRFToken": getCookie('csrftoken')},
   },
 
   SET_DEPARTMENT_DATA: 'SET_DEPARTMENT_DATA',
