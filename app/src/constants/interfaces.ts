@@ -64,6 +64,14 @@ export interface ILocation {
  * Hierarchy interfaces
  */
 
+
+export interface IBaseModule {
+  module: IModule;
+  parent: IMachine | IDepartment;
+  departmentDataStore: INumDictionary<any>;
+  type: string;
+}
+
 export interface IAppConfig {
   name: string;
   baseUrl: string;
@@ -179,4 +187,8 @@ export interface IFormValues { initialValues: any; }
  */
 export interface IDictionary<T> {
   [key: string]: T;
+}
+
+export interface INumDictionary<T> {
+  [key: number]: T;
 }

@@ -1,10 +1,7 @@
 /* tslint:disable:no-var-requires object-literal-sort-keys */
 import * as autoprefixer from 'autoprefixer';
-import * as promise from 'es6-promise';
 import * as path from 'path';
 import * as webpack from 'webpack';
-
-promise.polyfill();
 
 const configuration: webpack.Configuration = {
   devtool: 'eval',
@@ -42,9 +39,12 @@ const configuration: webpack.Configuration = {
         use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
       },
       {
-        test: /\.tsx$|\.ts$/,
-        use: ['awesome-typescript-loader'],
+        test: /\.ts(x?)$/,
         include: path.join(__dirname, '../src'),
+        use: [
+            { loader: 'react-hot-loader/webpack' },
+            { loader: 'awesome-typescript-loader' }
+        ],
       },
       {
         test: /\.json$/,

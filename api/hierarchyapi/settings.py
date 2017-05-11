@@ -22,6 +22,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     # custom
     'hierarchy',
+    'sample',
 
     # libraries
     'rest_framework',
