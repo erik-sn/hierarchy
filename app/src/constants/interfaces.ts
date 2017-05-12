@@ -1,4 +1,4 @@
-import { Map } from 'immutable';
+import { List, Map } from 'immutable';
 import { FormStateMap } from 'redux-form';
 
 /**
@@ -68,7 +68,7 @@ export interface ILocation {
 export interface IBaseModule {
   module: IModule;
   parent: IMachine | IDepartment;
-  departmentDataStore: INumDictionary<any>;
+  departmentDataStore: Map<string, List<Map<string, any>>>;
   type: string;
 }
 

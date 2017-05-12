@@ -13,14 +13,13 @@ function getComponent(name: string, user: string): string {
  */
 import * as React from 'react';
 
-import { IHierarchyTier } from '../../../../src/constants/interfaces';
+import { IHierarchyTier, IBaseModule } from '../../../../src/constants/interfaces';
 
-export interface I${componentName}Props {
-  parent: IHierarchyTier;
+export interface IProps extends IBaseModule {
   departmentDataStore: any;
 }
 
-const ${componentName} = ({ parent }: I${componentName}Props) => (
+const ${componentName} = ({ parent }: IProps) => (
   <div className="${name}__container" >
     <h3>Hello ${name}</h3>
     <div>Parent: {parent.name}</div>
@@ -41,17 +40,22 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 
 import { IHierarchyTier } from '../../../../src/constants/interfaces';
-import ${componentName}, { I${componentName}Props } from './${name}';
+import ${componentName}, { IProps } from './${name}';
 
 describe('${name}.tsx |', () => {
   describe('Default | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
-    const props: I${componentName}Props = {
+    const props: IProps = {
       parent: {
         name: 'parent',
         modules: undefined,
         active: true,
+        apiCalls: [],
+        machines: [],
+        site: undefined,
       },
+      module: undefined,
+      type: 'department',
       departmentDataStore: {},
     };
 
