@@ -56,7 +56,7 @@ describe('${name}.tsx |', () => {
       },
       module: undefined,
       type: 'department',
-      departmentDataStore: {},
+      departmentDataStore: undefined,
     };
 
     beforeEach(() => {

@@ -85,7 +85,7 @@ body {
   box-shadow: lighten($primary, 15%) 0px 0px 0px, lighten($primary, 15%) 0px 0px 0px !important;
 
   a {
-    color: $primary !important;
+    color: $primary;
   }
 
   div > {

@@ -6,4 +6,4 @@ class SampleDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = SampleData
-        fields = ('created', 'machine', 'module', 'value')
+        fields = ('created', 'machine', 'keyword', 'module', 'value')
