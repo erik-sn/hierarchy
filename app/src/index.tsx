@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { render } from 'react-dom';
+import * as ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 import * as injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -8,26 +8,19 @@ import { detectIE } from './utils/dom';
 
 injectTapEventPlugin();  // material-ui support
 
-const rootEl: HTMLElement = document.getElementById('root');
-render(
-  <AppContainer>
-    <App />
-  </AppContainer>,
-  rootEl,
-);
+const render = (Component: any) => {
+  ReactDOM.render(
+    <AppContainer>
+      <Component />
+    </AppContainer>,
+    document.getElementById('root'),
+  );
+};
+
+render(App);
 
 if (module.hot) {
-  module.hot.accept('./app', () => {
-    // If you use Webpack 2 in ES modules mode, you can
-    // use <App /> here rather than require() a <NextApp />.
-    const NextApp = require('./app').default;
-    render(
-      <AppContainer>
-         <NextApp />
-      </AppContainer>,
-      rootEl,
-    );
-  });
+  module.hot.accept('./app', () => { render(App); });
 }
 
 if (detectIE()) {

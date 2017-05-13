@@ -42,7 +42,7 @@ const renderActiveShape = (props: any) => {
       <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
       <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{value}</text>
       <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
-        {`${(percent * 100).toFixed(2)}%`}
+        {`${(percent * 100).toFixed(1)}%`}
       </text>
     </g>
   );
@@ -50,6 +50,8 @@ const renderActiveShape = (props: any) => {
 
 export interface IPieChartProps extends IChartProps {
   handleClick?: (entry: any) => void;
+  height?: number;
+  width?: number;
 }
 
 export interface IPieChartState {
@@ -85,16 +87,18 @@ class TwoLevelPieChart extends React.Component<IPieChartProps, IPieChartState> {
 
   public render() {
     const { activeIndex } = this.state;
-    const { chartData } = this.props;
+    const { chartData, height, width } = this.props;
     return (
       <div>
-        <PieChart width={400} height={300} onMouseEnter={this.onPieEnter}>
+        <PieChart
+          width={width || 400}
+          height={height || 315}
+          onMouseEnter={this.onPieEnter}
+        >
           <Pie
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
             data={chartData}
-            cx={200}
-            cy={200}
             innerRadius={50}
             outerRadius={70}
             onClick={this.handleClick}

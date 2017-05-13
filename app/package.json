@@ -48,7 +48,7 @@
     "@types/redux-promise": "^0.5.24",
     "@types/redux-thunk": "^2.1.0",
     "@types/sinon": "^1.16.34",
-    "@types/webpack": "^2.2.2",
+    "@types/webpack": "^2.2.15",
     "@types/webpack-dev-server": "^1.12.6",
     "@types/webpack-env": "^1.13.0",
     "autoprefixer": "^6.5.1",
@@ -60,7 +60,7 @@
     "css-loader": "^0.27.3",
     "enzyme": "^2.4.1",
     "es6-promise": "^4.0.5",
-    "extract-text-webpack-plugin": "^1.0.1",
+    "extract-text-webpack-plugin": "^2.1.0",
     "ignore-loader": "^0.1.2",
     "istanbul": "1.0.0-alpha.2",
     "jsdom": "^9.8.0",
@@ -82,9 +82,9 @@
     "typescript-require": "^0.2.9-1",
     "url-loader": "^0.5.8",
     "username": "^2.3.0",
-    "webpack": "2.2.1",
+    "webpack": "^2.5.1",
     "webpack-bundle-analyzer": "^2.3.0",
-    "webpack-dev-server": "2.4.1"
+    "webpack-dev-server": "^2.4.5"
   },
   "dependencies": {
     "axios": "^0.15.2",
@@ -92,7 +92,6 @@
     "enzyme": "^2.7.1",
     "es6-promise": "^4.0.5",
     "express": "^4.13.4",
-    "extract-text-webpack-plugin": "^2.1.0",
     "history": "3.2.1",
     "immutable": "4.0.0-rc.1",
     "lodash": "^4.17.1",

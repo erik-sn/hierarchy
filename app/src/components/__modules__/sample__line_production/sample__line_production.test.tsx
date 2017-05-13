@@ -3,13 +3,13 @@ import { expect } from 'chai';
 import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 
-import { IHierarchyTier } from '../../../../src/constants/interfaces';
-import SampleProduction, { IProps } from './sample__line_production';
+import { IBaseModule, IHierarchyTier } from '../../../../src/constants/interfaces';
+import SampleProduction from './sample__line_production';
 
 describe('sample__production.tsx |', () => {
   describe('Default | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
-    const props: IProps = {
+    const props: IBaseModule = {
       parent: {
         name: 'parent',
         modules: undefined,

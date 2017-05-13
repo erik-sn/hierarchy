@@ -12,7 +12,10 @@ const Loader = ({ style, scale, fill }: ILoaderProps): JSX.Element => {
   if (detectIE()) {
     return (
       <div className="loading__container" style={style} >
-          <img src="https://res.cloudinary.com/dvr87tqip/image/upload/v1487098118/loader.gif" alt="Loading..." />
+          <img
+            src="https://res.cloudinary.com/dvr87tqip/image/upload/v1487098118/loader.gif"
+            alt="Loading..."
+          />
       </div>
     );
   }

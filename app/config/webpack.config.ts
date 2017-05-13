@@ -41,10 +41,7 @@ const configuration: webpack.Configuration = {
       {
         test: /\.ts(x?)$/,
         include: path.join(__dirname, '../src'),
-        use: [
-            { loader: 'react-hot-loader/webpack' },
-            { loader: 'awesome-typescript-loader' }
-        ],
+        use: ['react-hot-loader/webpack', 'awesome-typescript-loader'],
       },
       {
         test: /\.json$/,

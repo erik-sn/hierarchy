@@ -2,4 +2,16 @@
 
 .sample__production__container {
   color: skyblue;
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  margin-left: 10%;
+}
+
+.production__pie {
+  flex: 1 1 auto;
+}
+
+.production__table {
+  flex: 1 1 auto;
 }
