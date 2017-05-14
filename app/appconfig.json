@@ -1,6 +1,6 @@
 {
-  "name": "Hierarchy",
-  "baseUrl": "",
+  "name": "Hierarchy ",
+  "baseUrl": "/hierarchy",
   "authUrl": "",
-  "hierarchyapi": "http://localhost:8000/hierarchy/api"
+  "hierarchyapi": "https://devsandbox.io/hierarchy/api"
 }

@@ -1,13 +1,10 @@
 /* tslint:disable:no-var-requires object-literal-sort-keys */
 import * as autoprefixer from 'autoprefixer';
-import * as promise from 'es6-promise';
 import * as ExtractTextPlugin from 'extract-text-webpack-plugin';
 import * as path from 'path';
 import * as webpack from 'webpack';
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const appconfig = require('../package.json');
-promise.polyfill();
 
 const configuration: webpack.Configuration = {
   devtool: 'hidden-source-map',
@@ -15,13 +12,13 @@ const configuration: webpack.Configuration = {
     './src/index.tsx',
   ],
   output: {
-    filename: 'bundle.min.' + appconfig.version + '.js',
+    filename: 'hierarchy.min.js',
     path: path.join(__dirname, '../dist'),
     publicPath: '/dist/',
   },
   plugins: [
     new ExtractTextPlugin({
-      filename: '/bundle.min.' + appconfig.version + '.css',
+      filename: '/hierarchy.min.css',
       allChunks: true,
     }),
     new webpack.LoaderOptionsPlugin({ options: { postcss: [ autoprefixer ] } }),

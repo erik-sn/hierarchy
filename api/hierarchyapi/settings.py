@@ -132,5 +132,7 @@ REST_FRAMEWORK = {
 CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost:3000',
+    'localhost:3010',
+    'localhost:4010',
 )
 CORS_ALLOW_CREDENTIALS = True
