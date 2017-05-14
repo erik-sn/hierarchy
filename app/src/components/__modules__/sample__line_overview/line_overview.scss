@@ -1,0 +1,70 @@
+/** machine list **/
+.overview__machines {
+  border: 1px solid white;
+  display: flex;
+  flex-direction: row;
+
+  h3 {
+    margin: 10px 20px;
+    white-space: nowrap;
+  }
+}
+
+.overview__machines-header {
+  width: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.line_overview__machines {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  
+  a {
+    color: white !important;
+    text-decoration: none;
+    font-size: 1.2rem;
+    padding: 5px 10px;
+  }
+
+  a:hover {
+    color: #999 !important;
+  }
+}
+
+.overview__pair {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.overview__chart {
+  height: 335px;
+  width: 48%;
+
+  @media(max-width: 800px) {
+    width: 100%;
+  }
+
+  .chart__container {
+    height: 300px;
+    width: 100%;
+  }
+}
+
+.safety__container {
+  flex: 1 1 300px;
+}
+
+.variance__container {
+  flex: 1 1 300px;
+}
+
+.waste__container {
+  flex: 1 1 auto;
+}

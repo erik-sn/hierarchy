@@ -4,9 +4,9 @@ import { shallow, ShallowWrapper } from 'enzyme';
 import * as React from 'react';
 
 import { IBaseModule } from '../../../../src/constants/interfaces';
-import SampleLineEfficiency from './sample__line_efficiency';
+import SampleLineScrap from './sample__line_scrap';
 
-describe('sample__line_efficiency.tsx |', () => {
+describe('sample__line_scrap.tsx |', () => {
   describe('Default | >>>', () => {
     let component: ShallowWrapper<{}, {}>;
     const props: IBaseModule = {
@@ -24,11 +24,11 @@ describe('sample__line_efficiency.tsx |', () => {
     };
 
     beforeEach(() => {
-      component = shallow(<SampleLineEfficiency {...props} />);
+      component = shallow(<SampleLineScrap {...props} />);
     });
 
     it('renders something & has correct containers', () => {
-      expect(component.find('.sample__line_efficiency__container')).to.have.length(1);
+      expect(component.find('.sample__line_scrap__container')).to.have.length(1);
     });
   });
 });

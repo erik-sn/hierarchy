@@ -1,50 +1,23 @@
+
+import { List, Map } from 'immutable';
 import * as moment from 'moment';
 import * as React from 'react';
-import { List, Map } from 'immutable';
 
-import { IHierarchyTier, IBaseModule } from '../../../../src/constants/interfaces';
-import { average, computeStats, IInput, sum } from "../stats";
+import { IBaseModule, IDepartment, IMachine } from '../../../../src/constants/interfaces';
 import AreaChart from '../../charts/area_chart';
-
-export interface IProps extends IBaseModule {
-}
-
-// for efficiency plot
-const line: any = {
-  strokeWidth: 2,
-  type: 'linear',
-  dot: false,
-  dataKey: 'value',
-  fill: '#73BBD0',
-  stroke: 'whitesmoke',
-  isAnimationActive: true,
-};
+import Loader from '../../loader';
+import { areaLine } from '../chart_options';
+import { average, computeStats, IInput, sum } from '../stats';
+import { parseTimeSeries } from '../utils';
 
 
-const SampleLineEfficiency = ({ parent, type, departmentDataStore }: IProps) => {
+
+const SampleLineEfficiency = ({ parent, type, departmentDataStore }: IBaseModule) => {
   if (!departmentDataStore) {
-    return <div>Loading</div>;
+    return <Loader />;
   }
-
-  let efficiency = departmentDataStore.get('procEfficiency').map((e) => (
-    e.set('date', moment(e.get('created')).format('HH:mm'))
-  ));
-
-  if (type === 'machine') {
-    efficiency = efficiency.filter(obj => obj.get('machine') === parent.id);
-  } else {
-    const dateMap = efficiency.reduce((map, cur) => {
-      const date = cur.get('date');
-      if (map.has(date)) {
-        return map.set(date, map.get(date).push(cur.get('value')));
-      } else {
-        return map.set(date, List([cur.get('value')]));
-      }
-    }, Map<string, List<any>>());
-    efficiency = dateMap.map((v, k) => Map({ date: k, value: average(v) })).toList()
-    console.log(efficiency.toJS());
-  }
-
+  const rawEfficiency = departmentDataStore.get('procEfficiency');
+  const efficiency = parseTimeSeries(type, parent, rawEfficiency);
   const { count, avg, stdev } = computeStats(efficiency, 'value');
   return (
     <div className="sample__line_efficiency__container" >
@@ -57,7 +30,7 @@ const SampleLineEfficiency = ({ parent, type, departmentDataStore }: IProps) => 
         <AreaChart
           xAxis="date"
           chartData={efficiency.toJS()}
-          lines={[line]}
+          lines={[areaLine]}
           fill="#59A1B6"
           showDownload
           showImage
@@ -66,6 +39,6 @@ const SampleLineEfficiency = ({ parent, type, departmentDataStore }: IProps) => 
       </div>
     </div>
   );
-}
+};
 
 export default SampleLineEfficiency;

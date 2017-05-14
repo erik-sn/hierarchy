@@ -52,6 +52,8 @@ export interface IPieChartProps extends IChartProps {
   handleClick?: (entry: any) => void;
   height?: number;
   width?: number;
+  innerRadius?: number;
+  outerRadius?: number;
 }
 
 export interface IPieChartState {
@@ -87,7 +89,7 @@ class TwoLevelPieChart extends React.Component<IPieChartProps, IPieChartState> {
 
   public render() {
     const { activeIndex } = this.state;
-    const { chartData, height, width } = this.props;
+    const { chartData, height, innerRadius, outerRadius, width } = this.props;
     return (
       <div>
         <PieChart
@@ -99,8 +101,8 @@ class TwoLevelPieChart extends React.Component<IPieChartProps, IPieChartState> {
             activeIndex={activeIndex}
             activeShape={renderActiveShape}
             data={chartData}
-            innerRadius={50}
-            outerRadius={70}
+            innerRadius={innerRadius || 50}
+            outerRadius={outerRadius || 70}
             onClick={this.handleClick}
           >
             {chartData.map((entry: any, i: number) => <Cell key={i} fill={entry.color || '#59A1B6'} />)}

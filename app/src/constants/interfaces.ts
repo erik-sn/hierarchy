@@ -68,7 +68,7 @@ export interface ILocation {
 export interface IBaseModule {
   module: IModule;
   parent: IMachine | IDepartment;
-  departmentDataStore: Map<string, List<Map<string, any>>>;
+  departmentDataStore: Map<string, any>;
   type: string;
 }
 
