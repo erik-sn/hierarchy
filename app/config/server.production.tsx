@@ -20,7 +20,7 @@ import routes from '../src/routes';
 declare var global: any;
 global.navigator = { userAgent: 'all' };
 const app = express(); // delcare application
-const PORT = process.env.PORT || 3010;
+const PORT = process.env.PORT || 3006;
 
 // material-ui theme
 const muiTheme = getMuiTheme({
