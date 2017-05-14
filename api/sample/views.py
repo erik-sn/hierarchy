@@ -118,6 +118,9 @@ overview = {
 
 }
 
-@api_view(['GET'])
-def get_processing_overview(request):
-    return Response(overview)
+class OverviewView(APIView):
+    permission_classes = (permissions.AllowAny, )
+    queryset = SampleData.objects.none()
+
+    def get(self, request, *args, **kwargs):
+        return Response(overview)

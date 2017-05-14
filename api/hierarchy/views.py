@@ -30,8 +30,13 @@ request parameters.
 @api_view(['GET'])
 def auth_view(request):
     """
-    Return the request's username and IP address - depending on windows authentication
-    set up
+    Return the request's username and IP address. This implementation
+    depends on the USER meta variable being set by Windows Authentication
+    and IIS.
+
+    A custom implementation of this API can possibly require overwriting this
+    method or replacing it with your own.
+
     :param request: HTTP request
     :return:
     """

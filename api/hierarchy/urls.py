@@ -7,7 +7,6 @@ urlpatterns = [
 
     url(r'^(?i)auth/$', views.auth_view, name='authview'),
 
-
     url(r'^(?i)apicalls/$', views.ApiCallView.as_view(), name='apicallview'),
     url(r'^(?i)apicalls/(?P<id>[0-9]+)/$', views.ApiCallView.as_view(), name='apicallview_id'),
 
