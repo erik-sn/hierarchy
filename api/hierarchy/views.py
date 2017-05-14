@@ -30,7 +30,8 @@ request parameters.
 @api_view(['GET'])
 def auth_view(request):
     """
-    Return the request's username and IP address
+    Return the request's username and IP address - depending on windows authentication
+    set up
     :param request: HTTP request
     :return:
     """

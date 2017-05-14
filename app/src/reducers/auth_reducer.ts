@@ -25,6 +25,11 @@ export default (state: IAuth = initialState, action: IAction) => {
         ...state,
         user: action.payload.data,
       };
+    case types.FETCH_AUTH_GUEST:
+      return {
+        ...state,
+        user: action.payload,
+      };
     default:
       return state;
   }

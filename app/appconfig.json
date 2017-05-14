@@ -1,6 +1,6 @@
 {
   "name": "Hierarchy",
   "baseUrl": "",
-  "authUrl": "http://localhost:8000/hierarchy/api/auth/",
+  "authUrl": "",
   "hierarchyapi": "http://localhost:8000/hierarchy/api"
 }
