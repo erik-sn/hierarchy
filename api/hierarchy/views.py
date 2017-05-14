@@ -7,7 +7,7 @@ from django.db.models import F
 from rest_framework import generics
 from rest_framework.decorators import api_view
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import DjangoModelPermissions
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
 
 from hierarchyapi import utility
 from hierarchy.serializers import *
@@ -55,7 +55,7 @@ class ApiCallView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics
         DELETE - generics
     """
     queryset = ApiCall.objects.all().order_by('id')
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     serializer_class = ApiCallSerializer
     lookup_field = 'id'
 
@@ -80,7 +80,7 @@ class DepartmentView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
         DELETE - generics
     """
     queryset = Department.objects.all().order_by('name')
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     lookup_field = 'id'
 
     def get_serializer_class(self):
@@ -112,7 +112,7 @@ class MachineView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics
         DELETE - generics
     """
     queryset = Machine.objects.all().order_by('name')
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     lookup_field = 'id'
 
     def get_serializer_class(self):
@@ -145,7 +145,7 @@ class ModuleView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.
         DELETE - generics
     """
     queryset = Module.objects.all().order_by('name')
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     lookup_field = 'id'
 
     def get_serializer_class(self):
@@ -175,7 +175,7 @@ class PartView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.Up
         DELETE - generics
     """
     queryset = Part.objects.all()
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     lookup_field = 'id'
 
     def get_serializer_class(self):
@@ -207,7 +207,7 @@ class PositionView(generics.ListCreateAPIView, generics.RetrieveAPIView, generic
         DELETE - generics
     """
     queryset = Position.objects.all()
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     serializer_class = PositionSerializer
     lookup_field = 'id'
 
@@ -234,7 +234,7 @@ class ProcessLogView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
         GET - from list method below
     """
     queryset = ProcessLog.objects.all().order_by('-id')
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     serializer_class = ProcessLogSerializer
     lookup_field = 'id'
 
@@ -270,7 +270,7 @@ class ProcessLogView(generics.ListCreateAPIView, generics.RetrieveAPIView, gener
 class ReportView(generics.ListAPIView, generics.RetrieveAPIView):
 
     queryset = Report.objects.all().filter(active=True)
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     serializer_class = ReportSerializer
     lookup_field = 'id'
 
@@ -286,7 +286,7 @@ class ReportView(generics.ListAPIView, generics.RetrieveAPIView):
 
 class SetpointView(generics.ListCreateAPIView, generics.RetrieveAPIView):
     queryset = Setpoint.objects.all().order_by('specName').filter(active__exact=True)
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     serializers = (SetpointSerializer)
     lookup_field = 'id'
 
@@ -336,7 +336,7 @@ class SiteView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.Up
         DELETE - generics
     """
     queryset = Site.objects.all().order_by('name')
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     lookup_field = 'id'
 
     def get_serializer_class(self):
@@ -360,7 +360,7 @@ class SiteView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.Up
 
 class SpecificationView(generics.ListCreateAPIView, generics.RetrieveAPIView, generics.UpdateAPIView):
     queryset = Specification.objects.all().order_by('-created')
-    permission_classes = (DjangoModelPermissions,)
+    permission_classes = (DjangoModelPermissionsOrAnonReadOnly,)
     serializer_class = SpecificationSerializer
     lookup_field = 'id'
 
