@@ -5,9 +5,9 @@ from django.contrib.auth import models
 from django.utils.timezone import utc
 from django.db.models import F
 from rest_framework import generics
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.parsers import JSONParser
-from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly
+from rest_framework.permissions import DjangoModelPermissionsOrAnonReadOnly, AllowAny
 
 from hierarchyapi import utility
 from hierarchy.serializers import *
@@ -28,6 +28,7 @@ request parameters.
 
 
 @api_view(['GET'])
+@permission_classes((AllowAny, ))
 def auth_view(request):
     """
     Return the request's username and IP address. This implementation
