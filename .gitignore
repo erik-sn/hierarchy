@@ -1,6 +1,7 @@
 app/node_modules
 app/coverage
-app/dist
+# app/dist
+app/**/*test.js
 app/*.log*
 app/appconfig.json
 
